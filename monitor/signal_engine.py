@@ -117,17 +117,51 @@ def score_signal(row: pd.Series, ticker: str) -> dict:
     elif ret5d > 5:
         warnings_list.append(f'买前5日已涨{ret5d:.1f}%，注意追高风险')
 
-    # 计算参考止盈止损
+    # 计算参考止盈止损 + 建议买入价
     price = row.get('close', 0)
     atr   = row.get('atr14', price * 0.05)
+    
+    # 止盈止损
     tp_price = round(price * (1 + STRATEGY['take_profit']), 2)
     sl_price = round(price * (1 + STRATEGY['stop_loss']), 2)
     rr_ratio = STRATEGY['take_profit'] / abs(STRATEGY['stop_loss'])
+    
+    # 建议买入价（根据回调深度和RSI位置）
+    ma20 = row.get('ma20', price)
+    ma50 = row.get('ma50', price)
+    bb_lower = ma20 - 2 * (ma20 * 0.02)  # 估算布林下轨
+    
+    if rsi < 25:
+        # 极度超卖，建议立即入场
+        suggest_price = round(price * 1.005, 2)  # +0.5% 追一点
+        suggest_note = "极度超卖，建议市价入场"
+    elif rsi < 35 and bb < 0.2:
+        # 深度回调，建议现价或略低
+        suggest_price = round(price * 0.995, 2)  # -0.5% 挂单
+        suggest_note = "深度回调，可挂单略低于现价"
+    elif price < ma20 * 0.98:
+        # 在MA20下方，建议等回踩MA20
+        suggest_price = round(ma20 * 0.995, 2)
+        suggest_note = f"等待回踩MA20 (${ma20:.2f}) 附近"
+    elif price < ma50 * 0.98:
+        # 在MA50下方，建议等回踩MA50
+        suggest_price = round(ma50 * 0.995, 2)
+        suggest_note = f"等待回踩MA50 (${ma50:.2f}) 附近"
+    else:
+        # 正常回调，建议现价
+        suggest_price = round(price * 0.99, 2)
+        suggest_note = "回调中，可挂单略低于现价"
+    
+    # 重新计算基于建议价的止盈止损
+    tp_price_suggest = round(suggest_price * (1 + STRATEGY['take_profit']), 2)
+    sl_price_suggest = round(suggest_price * (1 + STRATEGY['stop_loss']), 2)
 
     return {
         'ticker':    ticker,
         'score':     score,
         'price':     round(price, 2),
+        'suggest_price': suggest_price,
+        'suggest_note': suggest_note,
         'rsi14':     round(rsi, 1),
         'bb_pct':    round(bb, 3),
         'macd_hist': round(macd_h, 4),
@@ -135,8 +169,8 @@ def score_signal(row: pd.Series, ticker: str) -> dict:
         'above_ma50':  bool(above50),
         'vol_ratio':   round(vol_r, 2),
         'ret_5d':      round(ret5d, 1),
-        'tp_price':    tp_price,
-        'sl_price':    sl_price,
+        'tp_price':    tp_price_suggest,
+        'sl_price':    sl_price_suggest,
         'rr_ratio':    round(rr_ratio, 2),
         'details':     details,
         'warnings':    warnings_list,
