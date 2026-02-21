@@ -4,8 +4,11 @@
 
 # ── 股票池（等待女王填充）──
 WATCHLIST = [
-    # 粘贴你的股票列表到这里，例如：
-    # 'NBIS', 'OKLO', 'RKLB', 'PLTR', ...
+    # 来源：格格list信号文档（44条记录去重，排除港股1347）
+    'ADEA', 'ASTS', 'CLS',  'EOSE', 'GDX',  'GOOG', 'GS',
+    'HL',   'IBKR', 'INTC', 'IREN', 'ISSC', 'JNJ',  'LLY',
+    'LPTH', 'MRNA', 'NEM',  'OSS',  'PL',   'POET', 'QQQ',
+    'RKLB', 'RTX',  'TSLA', 'UAMY', 'UUUU', 'XME',  'ZETA',
 ]
 
 # ── 策略参数（基于逆向工程结果）──
