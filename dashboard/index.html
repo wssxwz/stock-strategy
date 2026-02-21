@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎯 股票信号追踪平台</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --accent: #3b82f6;
+      --success: #22c55e;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 20px;
+      line-height: 1.6;
+    }
+    .container { max-width: 1400px; margin: 0 auto; }
+    
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #334155;
+    }
+    h1 { font-size: 28px; font-weight: 700; }
+    .stats {
+      display: flex;
+      gap: 20px;
+    }
+    .stat-card {
+      background: var(--card);
+      padding: 15px 25px;
+      border-radius: 12px;
+      text-align: center;
+    }
+    .stat-value { font-size: 24px; font-weight: 700; color: var(--accent); }
+    .stat-label { font-size: 13px; color: var(--muted); }
+    
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .tab {
+      padding: 10px 20px;
+      background: var(--card);
+      border: none;
+      border-radius: 8px;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    .tab:hover { background: #334155; }
+    .tab.active {
+      background: var(--accent);
+      font-weight: 600;
+    }
+    
+    /* Signal Cards */
+    .signals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 20px;
+    }
+    .signal-card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 20px;
+      border-left: 4px solid var(--accent);
+      transition: transform 0.2s;
+    }
+    .signal-card:hover { transform: translateY(-2px); }
+    .signal-card.buy { border-left-color: var(--success); }
+    .signal-card.exit { border-left-color: var(--danger); }
+    .signal-card.hold { border-left-color: var(--warning); }
+    
+    .signal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .ticker {
+      font-size: 24px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .score {
+      background: var(--accent);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .score.high { background: var(--success); }
+    .score.medium { background: var(--warning); }
+    
+    .signal-details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      font-size: 14px;
+    }
+    .detail-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #334155;
+    }
+    .detail-label { color: var(--muted); }
+    .detail-value { font-weight: 600; }
+    .detail-value.green { color: var(--success); }
+    .detail-value.red { color: var(--danger); }
+    
+    .signal-time {
+      margin-top: 15px;
+      font-size: 12px;
+      color: var(--muted);
+      text-align: right;
+    }
+    
+    /* Actions */
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    .btn {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+    .btn-primary:hover { background: #2563eb; }
+    .btn-success {
+      background: var(--success);
+      color: white;
+    }
+    .btn-success:hover { background: #16a34a; }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid #475569;
+      color: var(--text);
+    }
+    .btn-outline:hover { border-color: var(--accent); }
+    
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal.show { display: flex; }
+    .modal-content {
+      background: var(--card);
+      padding: 30px;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 500px;
+    }
+    .modal-header {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 10px;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+    
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+    .empty-state h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+    
+    /* Filters */
+    .filters {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .filter-group label {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .filter-group select, .filter-group input {
+      padding: 8px 12px;
+      background: var(--card);
+      border: 1px solid #334155;
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🎯 股票信号追踪平台</h1>
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-value" id="totalSignals">0</div>
+          <div class="stat-label">总信号</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="activePositions">0</div>
+          <div class="stat-label">持仓中</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="winRate">--%</div>
+          <div class="stat-label">胜率</div>
+        </div>
+      </div>
+    </header>
+    
+    <div class="tabs">
+      <button class="tab active" data-tab="signals">📊 信号列表</button>
+      <button class="tab" data-tab="positions">💼 我的持仓</button>
+      <button class="tab" data-tab="history">📜 历史记录</button>
+      <button class="tab" data-tab="import">📥 导入信号</button>
+    </div>
+    
+    <!-- 信号列表 -->
+    <div id="signals-tab" class="tab-content">
+      <div class="filters">
+        <div class="filter-group">
+          <label>类型:</label>
+          <select id="filterType">
+            <option value="all">全部</option>
+            <option value="buy">买入</option>
+            <option value="exit">卖出</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>最小评分:</label>
+          <input type="number" id="filterScore" min="0" max="100" value="0" style="width: 80px;">
+        </div>
+        <div class="filter-group">
+          <label>搜索:</label>
+          <input type="text" id="filterSearch" placeholder="股票代码...">
+        </div>
+      </div>
+      <div class="signals-grid" id="signalsGrid"></div>
+    </div>
+    
+    <!-- 我的持仓 -->
+    <div id="positions-tab" class="tab-content" style="display: none;">
+      <div class="signals-grid" id="positionsGrid"></div>
+    </div>
+    
+    <!-- 历史记录 -->
+    <div id="history-tab" class="tab-content" style="display: none;">
+      <div class="signals-grid" id="historyGrid"></div>
+    </div>
+    
+    <!-- 导入信号 -->
+    <div id="import-tab" class="tab-content" style="display: none;">
+      <div class="modal-content" style="width: 100%; max-width: 800px;">
+        <h2 style="margin-bottom: 20px;">📥 导入 Telegram 推送信号</h2>
+        <p style="color: var(--muted); margin-bottom: 20px;">
+          把 Telegram 收到的信号消息粘贴到下面，自动解析并保存
+        </p>
+        <textarea id="importText" style="width: 100%; height: 200px; padding: 15px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: var(--text); font-family: monospace; font-size: 13px;" placeholder="粘贴信号内容..."></textarea>
+        <button class="btn btn-primary" onclick="parseAndImport()" style="margin-top: 15px; width: 100%;">
+          解析并导入
+        </button>
+        <div id="importResult" style="margin-top: 20px; padding: 15px; background: #0f172a; border-radius: 8px; display: none;"></div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 开仓弹窗 -->
+  <div class="modal" id="positionModal">
+    <div class="modal-content">
+      <div class="modal-header">💼 记录开仓</div>
+      <form id="positionForm">
+        <input type="hidden" id="posTicker">
+        <div class="form-row">
+          <div class="form-group">
+            <label>股票代码</label>
+            <input type="text" id="displayTicker" disabled style="background: #334155;">
+          </div>
+          <div class="form-group">
+            <label>开仓价格</label>
+            <input type="number" step="0.01" id="posPrice" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>止盈目标</label>
+            <input type="number" step="0.01" id="posTP" required>
+          </div>
+          <div class="form-group">
+            <label>止损位</label>
+            <input type="number" step="0.01" id="posSL" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>备注</label>
+          <input type="text" id="posNote" placeholder="可选">
+        </div>
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+          <button type="submit" class="btn btn-success" style="flex: 1;">确认开仓</button>
+          <button type="button" class="btn btn-outline" onclick="closeModal()" style="flex: 1;">取消</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <script>
+    // ── 数据存储 ──
+    let signals = JSON.parse(localStorage.getItem('signals') || '[]');
+    let positions = JSON.parse(localStorage.getItem('positions') || '[]');
+    
+    // ── 初始化 ──
+    function init() {
+      renderSignals();
+      renderPositions();
+      renderHistory();
+      updateStats();
+      setupTabs();
+      setupFilters();
+      setupForm();
+    }
+    
+    // ── Tab 切换 ──
+    function setupTabs() {
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+          tab.classList.add('active');
+          document.getElementById(tab.dataset.tab + '-tab').style.display = 'block';
+        });
+      });
+    }
+    
+    // ── 渲染信号 ──
+    function renderSignals(filtered = null) {
+      const grid = document.getElementById('signalsGrid');
+      const data = filtered || signals.filter(s => s.type === 'buy' && !s.archived);
+      
+      if (data.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state" style="grid-column: 1/-1;">
+            <h3>📭 暂无信号</h3>
+            <p>导入 Telegram 推送或等待新信号</p>
+          </div>
+        `;
+        return;
+      }
+      
+      grid.innerHTML = data.map(s => createSignalCard(s)).join('');
+    }
+    
+    // ── 创建信号卡片 ──
+    function createSignalCard(s) {
+      const typeClass = s.type === 'buy' ? 'buy' : (s.type === 'exit' ? 'exit' : 'hold');
+      const scoreClass = s.score >= 85 ? 'high' : (s.score >= 70 ? 'medium' : '');
+      const typeLabel = s.type === 'buy' ? '买入' : (s.type === 'exit' ? '卖出' : '持仓');
+      
+      return `
+        <div class="signal-card ${typeClass}">
+          <div class="signal-header">
+            <div class="ticker">
+              ${s.ticker}
+              <span class="score ${scoreClass}">${s.score}分</span>
+            </div>
+            <span style="font-size: 12px; color: var(--muted);">${typeLabel}</span>
+          </div>
+          <div class="signal-details">
+            ${s.suggest_price ? `
+            <div class="detail-item">
+              <span class="detail-label">建议买入</span>
+              <span class="detail-value">$${s.suggest_price}</span>
+            </div>
+            ` : ''}
+            <div class="detail-item">
+              <span class="detail-label">当前价</span>
+              <span class="detail-value">$${s.price}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">RSI</span>
+              <span class="detail-value">${s.rsi14}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">BB%</span>
+              <span class="detail-value">${s.bb_pct}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">止盈</span>
+              <span class="detail-value green">$${s.tp_price}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">止损</span>
+              <span class="detail-value red">$${s.sl_price}</span>
+            </div>
+          </div>
+          ${s.type === 'buy' && !s.position_taken ? `
+          <div class="actions">
+            <button class="btn btn-success" onclick="openPositionModal('${s.ticker}', ${s.suggest_price || s.price}, ${s.tp_price}, ${s.sl_price})">
+              ✅ 已开仓
+            </button>
+            <button class="btn btn-outline" onclick="archiveSignal('${s.id}')">
+              忽略
+            </button>
+          </div>
+          ` : ''}
+          <div class="signal-time">🕐 ${s.time}</div>
+        </div>
+      `;
+    }
+    
+    // ── 渲染持仓 ──
+    function renderPositions() {
+      const grid = document.getElementById('positionsGrid');
+      const active = positions.filter(p => !p.closed);
+      
+      if (active.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state" style="grid-column: 1/-1;">
+            <h3>💼 暂无持仓</h3>
+            <p>从信号卡片点击"已开仓"记录你的交易</p>
+          </div>
+        `;
+        return;
+      }
+      
+      grid.innerHTML = active.map(p => {
+        const ret = ((p.current_price - p.entry_price) / p.entry_price * 100) || 0;
+        const retClass = ret >= 0 ? 'green' : 'red';
+        return `
+          <div class="signal-card hold">
+            <div class="signal-header">
+              <div class="ticker">${p.ticker}</div>
+              <span class="detail-value ${retClass}">${ret >= 0 ? '+' : ''}${ret.toFixed(2)}%</span>
+            </div>
+            <div class="signal-details">
+              <div class="detail-item">
+                <span class="detail-label">开仓价</span>
+                <span class="detail-value">$${p.entry_price}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">当前价</span>
+                <span class="detail-value">$${p.current_price}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">止盈</span>
+                <span class="detail-value green">$${p.tp}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">止损</span>
+                <span class="detail-value red">$${p.sl}</span>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="btn btn-outline" onclick="closePosition('${p.id}', 'win')">止盈出场</button>
+              <button class="btn btn-outline" onclick="closePosition('${p.id}', 'loss')">止损出场</button>
+            </div>
+            <div class="signal-time">🕐 开仓：${p.entry_time}</div>
+          </div>
+        `;
+      }).join('');
+    }
+    
+    // ── 渲染历史 ──
+    function renderHistory() {
+      const grid = document.getElementById('historyGrid');
+      const closed = positions.filter(p => p.closed);
+      
+      if (closed.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state" style="grid-column: 1/-1;">
+            <h3>📜 暂无历史记录</h3>
+            <p>完成交易后会显示在这里</p>
+          </div>
+        `;
+        return;
+      }
+      
+      grid.innerHTML = closed.map(p => {
+        const ret = ((p.exit_price - p.entry_price) / p.entry_price * 100);
+        const retClass = ret >= 0 ? 'green' : 'red';
+        return `
+          <div class="signal-card ${p.exit_type === 'win' ? 'buy' : 'exit'}">
+            <div class="signal-header">
+              <div class="ticker">${p.ticker}</div>
+              <span class="detail-value ${retClass}">${ret >= 0 ? '+' : ''}${ret.toFixed(2)}%</span>
+            </div>
+            <div class="signal-details">
+              <div class="detail-item">
+                <span class="detail-label">开仓价</span>
+                <span class="detail-value">$${p.entry_price}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">出场价</span>
+                <span class="detail-value">$${p.exit_price}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">盈亏</span>
+                <span class="detail-value ${retClass}">${ret >= 0 ? '+' : ''}${ret.toFixed(2)}%</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">出场类型</span>
+                <span class="detail-value">${p.exit_type === 'win' ? '🎯 止盈' : '🛡️ 止损'}</span>
+              </div>
+            </div>
+            <div class="signal-time">🕐 ${p.exit_time}</div>
+          </div>
+        `;
+      }).join('');
+    }
+    
+    // ── 统计更新 ──
+    function updateStats() {
+      document.getElementById('totalSignals').textContent = signals.length;
+      document.getElementById('activePositions').textContent = positions.filter(p => !p.closed).length;
+      
+      const closed = positions.filter(p => p.closed);
+      if (closed.length > 0) {
+        const wins = closed.filter(p => p.exit_type === 'win').length;
+        document.getElementById('winRate').textContent = Math.round(wins / closed.length * 100) + '%';
+      }
+    }
+    
+    // ── 开仓弹窗 ──
+    function openPositionModal(ticker, price, tp, sl) {
+      document.getElementById('posTicker').value = ticker;
+      document.getElementById('displayTicker').value = ticker;
+      document.getElementById('posPrice').value = price;
+      document.getElementById('posTP').value = tp;
+      document.getElementById('posSL').value = sl;
+      document.getElementById('positionModal').classList.add('show');
+    }
+    
+    function closeModal() {
+      document.getElementById('positionModal').classList.remove('show');
+    }
+    
+    function setupForm() {
+      document.getElementById('positionForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const ticker = document.getElementById('posTicker').value;
+        const position = {
+          id: 'pos_' + Date.now(),
+          ticker: ticker,
+          entry_price: parseFloat(document.getElementById('posPrice').value),
+          tp: parseFloat(document.getElementById('posTP').value),
+          sl: parseFloat(document.getElementById('posSL').value),
+          current_price: parseFloat(document.getElementById('posPrice').value),
+          entry_time: new Date().toLocaleString('zh-CN'),
+          note: document.getElementById('posNote').value,
+          closed: false
+        };
+        positions.push(position);
+        localStorage.setItem('positions', JSON.stringify(positions));
+        
+        // 标记信号已开仓
+        const sig = signals.find(s => s.ticker === ticker && !s.archived);
+        if (sig) {
+          sig.position_taken = true;
+          localStorage.setItem('signals', JSON.stringify(signals));
+        }
+        
+        closeModal();
+        renderPositions();
+        updateStats();
+        renderSignals();
+        alert(`✅ 已记录 ${ticker} 开仓！`);
+      });
+    }
+    
+    // ── 平仓 ──
+    window.closePosition = function(id, type) {
+      const pos = positions.find(p => p.id === id);
+      if (!pos) return;
+      
+      const exitPrice = prompt(`输入出场价格 (当前参考：$${pos.current_price}):`, pos.current_price);
+      if (!exitPrice) return;
+      
+      pos.closed = true;
+      pos.exit_price = parseFloat(exitPrice);
+      pos.exit_type = type;
+      pos.exit_time = new Date().toLocaleString('zh-CN');
+      
+      localStorage.setItem('positions', JSON.stringify(positions));
+      renderPositions();
+      renderHistory();
+      updateStats();
+    };
+    
+    // ── 归档信号 ──
+    window.archiveSignal = function(id) {
+      const sig = signals.find(s => s.id === id);
+      if (sig) {
+        sig.archived = true;
+        localStorage.setItem('signals', JSON.stringify(signals));
+        renderSignals();
+      }
+    };
+    
+    // ── 导入解析 ──
+    window.parseAndImport = function() {
+      const text = document.getElementById('importText').value;
+      const resultDiv = document.getElementById('importResult');
+      
+      // 解析买入信号
+      const tickerMatch = text.match(/\*\*([A-Z]+)\*\*/);
+      const scoreMatch = text.match(/评分：(\d+)\/100/);
+      const priceMatch = text.match(/当前价：\$([\d.]+)/);
+      const suggestMatch = text.match(/建议买入：\$([\d.]+)/);
+      const rsiMatch = text.match(/RSI14: ([\d.]+)/);
+      const bbMatch = text.match(/BB%: ([\d.]+)/);
+      const tpMatch = text.match(/止盈：\$([\d.]+)/);
+      const slMatch = text.match(/止损：\$([\d.]+)/);
+      const timeMatch = text.match(/时间：([\d\-: ]+)/);
+      
+      if (!tickerMatch || !scoreMatch) {
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = '❌ 无法解析信号，请检查格式';
+        return;
+      }
+      
+      const signal = {
+        id: 'sig_' + Date.now(),
+        type: 'buy',
+        ticker: tickerMatch[1],
+        score: parseInt(scoreMatch[1]),
+        price: priceMatch ? parseFloat(priceMatch[1]) : 0,
+        suggest_price: suggestMatch ? parseFloat(suggestMatch[1]) : null,
+        rsi14: rsiMatch ? parseFloat(rsiMatch[1]) : 0,
+        bb_pct: bbMatch ? parseFloat(bbMatch[1]) : 0,
+        tp_price: tpMatch ? parseFloat(tpMatch[1]) : 0,
+        sl_price: slMatch ? parseFloat(slMatch[1]) : 0,
+        time: timeMatch ? timeMatch[1].trim() : new Date().toLocaleString('zh-CN'),
+        archived: false,
+        position_taken: false
+      };
+      
+      signals.unshift(signal);
+      localStorage.setItem('signals', JSON.stringify(signals));
+      
+      resultDiv.style.display = 'block';
+      resultDiv.innerHTML = `✅ 成功导入 <strong>${signal.ticker}</strong> (评分：${signal.score})`;
+      document.getElementById('importText').value = '';
+      
+      renderSignals();
+      updateStats();
+    };
+    
+    // ── 过滤器 ──
+    function setupFilters() {
+      document.getElementById('filterType').addEventListener('change', applyFilters);
+      document.getElementById('filterScore').addEventListener('input', applyFilters);
+      document.getElementById('filterSearch').addEventListener('input', applyFilters);
+    }
+    
+    function applyFilters() {
+      const type = document.getElementById('filterType').value;
+      const minScore = parseInt(document.getElementById('filterScore').value) || 0;
+      const search = document.getElementById('filterSearch').value.toLowerCase();
+      
+      let filtered = signals.filter(s => !s.archived);
+      
+      if (type !== 'all') {
+        filtered = filtered.filter(s => s.type === type);
+      }
+      if (minScore > 0) {
+        filtered = filtered.filter(s => s.score >= minScore);
+      }
+      if (search) {
+        filtered = filtered.filter(s => s.ticker.toLowerCase().includes(search));
+      }
+      
+      renderSignals(filtered);
+    }
+    
+    // ── 启动 ──
+    init();
+  </script>
+</body>
+</html>
