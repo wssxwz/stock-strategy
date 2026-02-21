@@ -1,0 +1,177 @@
+"""
+策略回测模块
+用还原出的规则在历史数据上验证胜率/收益
+规则：RPS≥80(近似) + MA200上方 + RSI14<45 + 5日回调<-3% → 买入
+出场：止盈+13% / 止损-8%（基于实际信号中位数）
+"""
+import sys, warnings
+warnings.filterwarnings('ignore')
+sys.path.insert(0, 'src')
+
+import yfinance as yf
+import pandas as pd
+import numpy as np
+from analyzer.indicators import add_all_indicators, add_crossover_signals
+
+
+# ── 策略参数（从逆向工程还原）──
+TAKE_PROFIT  = 0.13   # +13%
+STOP_LOSS    = -0.08  # -8%
+HOLD_MAX     = 30     # 最大持仓天数（超时平仓）
+RSI_ENTRY    = 45     # RSI买入阈值
+RET5_ENTRY   = -0.03  # 5日跌幅超过-3%才买
+RET1Y_MIN    = 0.20   # 近似RPS：1年涨幅>20%
+
+
+def backtest_ticker(ticker: str, start: str = '2023-01-01', end: str = None) -> pd.DataFrame:
+    """单只股票回测"""
+    hist = yf.Ticker(ticker).history(start=start, end=end, auto_adjust=True)
+    if len(hist) < 100:
+        return pd.DataFrame()
+
+    hist.index = hist.index.tz_localize(None)
+    hist.columns = [c.lower() for c in hist.columns]
+    hist = add_all_indicators(hist)
+    hist = add_crossover_signals(hist)
+
+    trades = []
+    in_trade = False
+    entry_idx = None
+
+    for i in range(50, len(hist)):
+        row = hist.iloc[i]
+
+        if not in_trade:
+            # ── 买入条件 ──
+            rsi   = row.get('rsi14', 99)
+            above200 = row.get('above_ma200', 0)
+            above50  = row.get('above_ma50', 0)
+            ret5  = row.get('ret_5d', 0)
+            macd_h = row.get('macd_hist', 0)
+
+            # 近似RPS：用近1年涨幅
+            start_close = hist['close'].iloc[max(0, i-252)]
+            ret_1y = (row['close'] - start_close) / start_close
+
+            buy_signal = (
+                above200 == 1 and
+                rsi < RSI_ENTRY and
+                ret5 < RET5_ENTRY and
+                ret_1y > RET1Y_MIN and
+                macd_h < 0
+            )
+
+            if buy_signal:
+                in_trade = True
+                entry_idx = i
+                entry_price = row['close']
+                entry_date  = hist.index[i]
+                entry_rsi   = rsi
+                entry_ret5  = ret5 * 100
+                entry_ret1y = ret_1y * 100
+
+        else:
+            # ── 出场条件 ──
+            days_held = i - entry_idx
+            current_ret = (hist.iloc[i]['close'] - entry_price) / entry_price
+
+            exit_reason = None
+            exit_price  = hist.iloc[i]['close']
+
+            if current_ret >= TAKE_PROFIT:
+                exit_reason = '止盈'
+            elif current_ret <= STOP_LOSS:
+                exit_reason = '止损'
+            elif days_held >= HOLD_MAX:
+                exit_reason = '超时'
+
+            if exit_reason:
+                trades.append({
+                    'ticker':     ticker,
+                    'entry_date': entry_date,
+                    'exit_date':  hist.index[i],
+                    'entry_price':round(entry_price, 2),
+                    'exit_price': round(exit_price, 2),
+                    'return_pct': round(current_ret * 100, 2),
+                    'hold_days':  days_held,
+                    'exit_reason':exit_reason,
+                    'entry_rsi':  round(entry_rsi, 1),
+                    'entry_ret5': round(entry_ret5, 1),
+                    'entry_ret1y':round(entry_ret1y, 1),
+                    'is_win':     current_ret > 0,
+                })
+                in_trade = False
+
+    return pd.DataFrame(trades)
+
+
+def run_backtest(tickers: list, start='2023-01-01') -> dict:
+    """多股票批量回测"""
+    all_trades = []
+    print(f"\n🔁 开始回测 {len(tickers)} 只股票 (from {start})")
+    print("=" * 60)
+
+    for ticker in tickers:
+        try:
+            trades = backtest_ticker(ticker, start=start)
+            if len(trades):
+                all_trades.append(trades)
+                wins = trades[trades['is_win']]
+                lose = trades[~trades['is_win']]
+                wr = len(wins)/len(trades)*100
+                avg_r = trades['return_pct'].mean()
+                print(f"  {ticker:<6} {len(trades):>3}笔  胜率{wr:>5.1f}%  均收益{avg_r:>+6.2f}%  "
+                      f"盈{wins['return_pct'].mean():>+5.1f}%/亏{lose['return_pct'].mean():>+5.1f}%")
+        except Exception as e:
+            print(f"  {ticker}: ✗ {e}")
+
+    if not all_trades:
+        print("无回测结果")
+        return {}
+
+    df = pd.concat(all_trades, ignore_index=True)
+    df.to_csv('data/processed/backtest_results.csv', index=False)
+
+    wins = df[df['is_win']]
+    lose = df[~df['is_win']]
+
+    summary = {
+        'total_trades': len(df),
+        'win_trades':   len(wins),
+        'loss_trades':  len(lose),
+        'win_rate':     round(len(wins)/len(df)*100, 1),
+        'avg_return':   round(df['return_pct'].mean(), 2),
+        'avg_win':      round(wins['return_pct'].mean(), 2),
+        'avg_loss':     round(lose['return_pct'].mean(), 2),
+        'profit_factor':round(wins['return_pct'].sum() / abs(lose['return_pct'].sum()), 2),
+        'avg_hold':     round(df['hold_days'].mean(), 1),
+        'exit_dist':    df['exit_reason'].value_counts().to_dict(),
+        'annual_trades':round(len(df) / ((pd.Timestamp.now() - pd.Timestamp(start)).days / 365), 0),
+    }
+
+    print(f"\n{'='*60}")
+    print(f"📊 回测汇总 ({start} ~ 今日)")
+    print(f"{'='*60}")
+    print(f"  总交易笔数: {summary['total_trades']}")
+    print(f"  胜率:       {summary['win_rate']}%")
+    print(f"  平均收益:   {summary['avg_return']:+.2f}%/笔")
+    print(f"  平均盈利:   {summary['avg_win']:+.2f}%  平均亏损: {summary['avg_loss']:+.2f}%")
+    print(f"  盈亏比:     {summary['avg_win']/abs(summary['avg_loss']):.2f}:1")
+    print(f"  利润因子:   {summary['profit_factor']}")
+    print(f"  平均持仓:   {summary['avg_hold']}天")
+    print(f"  出场分布:   {summary['exit_dist']}")
+    print(f"  年化交易频次:{summary['annual_trades']:.0f}笔/年")
+    print(f"\n  已保存: data/processed/backtest_results.csv")
+
+    return summary, df
+
+
+if __name__ == '__main__':
+    # 用历史信号里出现过的股票回测
+    TICKERS = [
+        'OSS','JNJ','PL','MRNA','NEM','RTX','ISSC','LPTH','CLS',
+        'ADEA','GDX','RKLB','ASTS','INTC','XME','HL',
+        'NVDA','META','AMZN','GOOG','TSLA','PLTR','APP',
+        'GS','IBKR','CELH','CRWD','AXON','NET','DDOG',
+    ]
+    summary, trades = run_backtest(TICKERS, start='2022-01-01')
