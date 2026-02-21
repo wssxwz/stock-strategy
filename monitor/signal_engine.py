@@ -1,0 +1,237 @@
+"""
+信号引擎：扫描股票池，计算买入信号评分
+"""
+import sys, warnings
+warnings.filterwarnings('ignore')
+sys.path.insert(0, '..')
+sys.path.insert(0, '../src')
+
+import yfinance as yf
+import pandas as pd
+import numpy as np
+from analyzer.indicators import add_all_indicators, add_crossover_signals
+from datetime import datetime
+from config import WATCHLIST, STRATEGY
+
+
+def get_1h_data(ticker: str, days: int = 59) -> pd.DataFrame:
+    """拉取1小时K线"""
+    from datetime import timedelta
+    end = datetime.now()
+    start = end - timedelta(days=days)
+    df = yf.Ticker(ticker).history(
+        start=start.strftime('%Y-%m-%d'),
+        end=end.strftime('%Y-%m-%d'),
+        interval='1h', auto_adjust=True
+    )
+    if df.empty:
+        return df
+    df.index = df.index.tz_localize(None) if df.index.tzinfo else df.index
+    df.columns = [c.lower() for c in df.columns]
+    return add_all_indicators(df)
+
+
+def score_signal(row: pd.Series, ticker: str) -> dict:
+    """
+    对单根K线打分，返回信号评分和详情
+    满分100分，≥70分发通知
+    """
+    score = 0
+    details = []
+    warnings_list = []
+
+    rsi    = row.get('rsi14', 99)
+    bb     = row.get('bb_pct20', 0.5)
+    macd_h = row.get('macd_hist', 0)
+    vol_r  = row.get('vol_ratio', 1)
+    above200 = row.get('above_ma200', 0)
+    above50  = row.get('above_ma50', 0)
+    above20  = row.get('above_ma20', 0)
+    ret5d    = row.get('ret_5d', 0) * 100
+    kdj_k    = row.get('kdj_k', 50)
+    kdj_j    = row.get('kdj_j', 50)
+
+    # ── 1. MA趋势（30分）──
+    if above200:
+        score += 30
+        details.append('✅ MA200上方（长期趋势向上）')
+    elif above50:
+        score += 15
+        details.append('⚠️ MA50上方但MA200下方（中期趋势）')
+        warnings_list.append('未在MA200上方，风险偏高')
+    else:
+        details.append('❌ MA200/MA50均在上方（下降趋势）')
+        warnings_list.append('趋势破位，慎入')
+
+    # ── 2. RSI超卖（30分）──
+    if rsi < 25:
+        score += 30
+        details.append(f'✅ RSI极度超卖 = {rsi:.1f}')
+    elif rsi < 32:
+        score += 25
+        details.append(f'✅ RSI超卖 = {rsi:.1f}')
+    elif rsi < 40:
+        score += 15
+        details.append(f'⚠️ RSI偏低 = {rsi:.1f}')
+    elif rsi < 50:
+        score += 5
+        details.append(f'⚠️ RSI中性 = {rsi:.1f}')
+    else:
+        details.append(f'❌ RSI偏高 = {rsi:.1f}（未回调）')
+
+    # ── 3. 布林带位置（20分）──
+    if bb < 0.10:
+        score += 20
+        details.append(f'✅ 触碰布林下轨 BB% = {bb:.3f}')
+    elif bb < 0.20:
+        score += 15
+        details.append(f'✅ 接近布林下轨 BB% = {bb:.3f}')
+    elif bb < 0.35:
+        score += 8
+        details.append(f'⚠️ 布林中下区 BB% = {bb:.3f}')
+    else:
+        details.append(f'❌ 布林偏高 BB% = {bb:.3f}')
+
+    # ── 4. MACD负区（10分）──
+    if macd_h < 0:
+        score += 10
+        details.append(f'✅ MACD负区 = {macd_h:.3f}（回调中）')
+    else:
+        details.append(f'❌ MACD正区 = {macd_h:.3f}（动能向上，非回调低点）')
+
+    # ── 5. 量比加分（5分）──
+    if 0.5 < vol_r < 1.5:
+        score += 5
+        details.append(f'✅ 量比正常 = {vol_r:.2f}')
+    elif vol_r > 2:
+        score += 3
+        details.append(f'⚠️ 量比偏大 = {vol_r:.2f}（放量，需关注方向）')
+
+    # ── 6. 回调幅度加分（5分）──
+    if ret5d < -10:
+        score += 5
+        details.append(f'✅ 深度回调 5日={ret5d:.1f}%')
+    elif ret5d < -5:
+        score += 3
+        details.append(f'✅ 回调 5日={ret5d:.1f}%')
+    elif ret5d > 5:
+        warnings_list.append(f'买前5日已涨{ret5d:.1f}%，注意追高风险')
+
+    # 计算参考止盈止损
+    price = row.get('close', 0)
+    atr   = row.get('atr14', price * 0.05)
+    tp_price = round(price * (1 + STRATEGY['take_profit']), 2)
+    sl_price = round(price * (1 + STRATEGY['stop_loss']), 2)
+    rr_ratio = STRATEGY['take_profit'] / abs(STRATEGY['stop_loss'])
+
+    return {
+        'ticker':    ticker,
+        'score':     score,
+        'price':     round(price, 2),
+        'rsi14':     round(rsi, 1),
+        'bb_pct':    round(bb, 3),
+        'macd_hist': round(macd_h, 4),
+        'above_ma200': bool(above200),
+        'above_ma50':  bool(above50),
+        'vol_ratio':   round(vol_r, 2),
+        'ret_5d':      round(ret5d, 1),
+        'tp_price':    tp_price,
+        'sl_price':    sl_price,
+        'rr_ratio':    round(rr_ratio, 2),
+        'details':     details,
+        'warnings':    warnings_list,
+        'scan_time':   datetime.now().strftime('%Y-%m-%d %H:%M'),
+    }
+
+
+def format_signal_message(sig: dict) -> str:
+    """格式化 Telegram 通知消息"""
+    score = sig['score']
+    ticker = sig['ticker']
+
+    # 评分 → emoji
+    if score >= 85:
+        level = '🔥 强烈信号'
+        emoji = '🚀'
+    elif score >= 70:
+        level = '✅ 买入信号'
+        emoji = '🎯'
+    else:
+        level = '⚠️ 关注信号'
+        emoji = '👀'
+
+    ma_status = '✅ MA200上方' if sig['above_ma200'] else ('⚠️ MA50上方' if sig['above_ma50'] else '❌ 均线下方')
+
+    msg = f"""{emoji} **{ticker}** — {level}
+━━━━━━━━━━━━━━━━━━
+📊 评分: {score}/100
+💰 当前价: ${sig['price']}
+⏰ 时间: {sig['scan_time']} (北京)
+
+📈 技术指标:
+  RSI14: {sig['rsi14']}  |  BB%: {sig['bb_pct']}
+  MACD柱: {sig['macd_hist']}  |  量比: {sig['vol_ratio']}
+  趋势: {ma_status}
+  5日涨跌: {sig['ret_5d']:+.1f}%
+
+🎯 参考出场:
+  止盈: ${sig['tp_price']} (+13%)
+  止损: ${sig['sl_price']} (-8%)
+  盈亏比: {sig['rr_ratio']}:1"""
+
+    if sig['warnings']:
+        msg += '\n\n⚠️ 风险提示:\n' + '\n'.join(f'  • {w}' for w in sig['warnings'])
+
+    msg += '\n\n_仅供参考，请结合基本面和市场环境判断_'
+    return msg
+
+
+def run_scan(watchlist: list = None) -> list:
+    """执行一次完整扫描，返回所有触发信号"""
+    if watchlist is None:
+        watchlist = WATCHLIST
+
+    if not watchlist:
+        print("⚠️  股票池为空，请在 config.py 的 WATCHLIST 中添加股票")
+        return []
+
+    print(f"\n🔍 扫描 {len(watchlist)} 只股票 — {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    signals = []
+    errors  = []
+
+    for ticker in watchlist:
+        try:
+            df = get_1h_data(ticker)
+            if len(df) < 30:
+                errors.append(f"{ticker}: 数据不足")
+                continue
+
+            row = df.iloc[-1]
+            sig = score_signal(row, ticker)
+
+            status = f"  {ticker:<6} 评分={sig['score']:>3}  RSI={sig['rsi14']:>5.1f}  BB%={sig['bb_pct']:>6.3f}  MA200={'✅' if sig['above_ma200'] else '❌'}"
+            if sig['score'] >= 70:
+                status += ' ← 🔔 触发!'
+            print(status)
+
+            if sig['score'] >= 70:
+                signals.append(sig)
+
+        except Exception as e:
+            errors.append(f"{ticker}: {e}")
+
+    print(f"\n  ✅ 扫描完成  触发信号: {len(signals)} 只  错误: {len(errors)} 只")
+    if errors:
+        for e in errors[:5]:
+            print(f"  ✗ {e}")
+
+    return signals
+
+
+if __name__ == '__main__':
+    sigs = run_scan()
+    if sigs:
+        print(f"\n{'='*60}")
+        print("📨 待发送信号:")
+        for s in sigs:
+            print(f"\n{format_signal_message(s)}")
