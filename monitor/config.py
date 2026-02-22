@@ -2,8 +2,15 @@
 监控系统配置文件
 """
 
-# ── 股票池（等待女王填充）──
+# ── 股票池 ──
 WATCHLIST = [
+    # ★ Tier1 核心持仓（优先级最高）
+    'TSLA', 'GOOGL', 'NVDA', 'META',
+    # ★ Tier2 重点关注（关注板块精选）
+    'RKLB', 'ASTS', 'PLTR', 'AMD', 'AVGO', 'LLY', 'AMZN',
+    'MSFT', 'AAPL', 'CRWD', 'NOW', 'DDOG', 'NEM', 'GDX',
+    # 板块ETF（板块强弱信号）
+    'XLK', 'SOXX', 'XLE', 'XLV', 'XLY', 'TLT', 'GLD',
     # S&P 500 股票池（501只，来源：格格list CSV，排除BRK.B/BF.B）
     'IDXX', 'MLM', 'BEN', 'EMN', 'FFIV', 'WSM', 'TSN', 'SMCI',
     'IR', 'RMD', 'APH', 'TTD', 'TPR', 'PCG', 'MPWR', 'NEM',

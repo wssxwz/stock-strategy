@@ -1,6 +1,6 @@
 {
   "morning_brief": {
-    "generated_at": "2026-02-22T17:20:26.181025",
+    "generated_at": "2026-02-22T17:34:16.071110",
     "indices": {
       "SPY": {
         "price": 689.43,
@@ -109,7 +109,7 @@
       }
     }
   },
-  "updated_at": "2026-02-22T17:21:13.335363",
+  "updated_at": "2026-02-22T17:34:30.307809",
   "deep_analysis": {
     "generated_at": "2026-02-22T17:20:53.443038",
     "market_mood": "\u591a\u5934",

@@ -117,6 +117,25 @@ def score_signal(row: pd.Series, ticker: str) -> dict:
     elif ret5d > 5:
         warnings_list.append(f'买前5日已涨{ret5d:.1f}%，注意追高风险')
 
+    # ── 7. 知识库加权（最多+15分）──
+    kb_bonus = 0
+    kb_tag = ''
+    try:
+        import sys, os
+        sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../jobs'))
+        import kb as knowledge_base
+        kb_bonus = knowledge_base.score_bonus(ticker)
+        if kb_bonus >= 15:
+            kb_tag = '⭐ 核心持仓'
+            details.append(f'⭐ 核心持仓加权 +{kb_bonus}分')
+        elif kb_bonus > 0:
+            kb_tag = '🎯 重点关注'
+            details.append(f'🎯 重点关注加权 +{kb_bonus}分')
+    except Exception:
+        pass
+    score += kb_bonus
+    score = min(score, 100)
+
     # 计算参考止盈止损 + 建议买入价
     price = row.get('close', 0)
     atr   = row.get('atr14', price * 0.05)
@@ -159,6 +178,7 @@ def score_signal(row: pd.Series, ticker: str) -> dict:
     return {
         'ticker':    ticker,
         'score':     score,
+        'kb_tag':    kb_tag,
         'price':     round(price, 2),
         'suggest_price': suggest_price,
         'suggest_note': suggest_note,
@@ -196,9 +216,10 @@ def format_signal_message(sig: dict) -> str:
 
     ma_status = '✅ MA200上方' if sig['above_ma200'] else ('⚠️ MA50上方' if sig['above_ma50'] else '❌ 均线下方')
 
+    kb_tag_str = f"  {sig.get('kb_tag', '')}\n" if sig.get('kb_tag') else ''
     msg = f"""{emoji} **{ticker}** — {level}
 ━━━━━━━━━━━━━━━━━━
-📊 评分: {score}/100
+{kb_tag_str}📊 评分: {score}/100
 💰 当前价: ${sig['price']}
 ⏰ 时间: {sig['scan_time']} (北京)
 

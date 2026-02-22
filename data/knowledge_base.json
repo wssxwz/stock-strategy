@@ -1,0 +1,96 @@
+{
+  "version": "1.0",
+  "updated_at": "2026-02-22",
+  "owner": "女王",
+
+  "focus_sectors": {
+    "priority": [
+      {"name": "科技",        "etf": "XLK",  "keywords": ["AAPL","MSFT","GOOGL","META","NVDA","TSLA"]},
+      {"name": "半导体&算力", "etf": "SOXX", "keywords": ["NVDA","AMD","AVGO","QCOM","INTC","AMAT","LRCX","KLAC","MU"]},
+      {"name": "AI概念",      "etf": "AIQ",  "keywords": ["NVDA","MSFT","GOOGL","META","PLTR","CRM","NOW","DDOG"]},
+      {"name": "能源",        "etf": "XLE",  "keywords": ["XOM","CVX","COP","EOG","SLB","HAL","OXY","FANG"]},
+      {"name": "太空",        "etf": "UFO",  "keywords": ["RKLB","ASTS","PL","SPCE","LMT","RTX","NOC","GD"]},
+      {"name": "降息受益",    "etf": "TLT",  "keywords": ["XLRE","XLU","TLT","IEF","GLD","NEM","REITs"]},
+      {"name": "消费股",      "etf": "XLY",  "keywords": ["AMZN","TSLA","MCD","SBUX","NKE","TGT","COST","WMT"]},
+      {"name": "医药",        "etf": "XLV",  "keywords": ["LLY","JNJ","ABBV","MRK","PFE","AMGN","GILD","MRNA"]}
+    ],
+    "ignore": ["农业","邮政","传统零售","固定电话"]
+  },
+
+  "core_holdings": {
+    "description": "核心重仓股，优先监控，信号权重x1.5",
+    "stocks": [
+      {"ticker": "TSLA", "name": "特斯拉",  "sector": "科技/消费/AI", "priority": 1},
+      {"ticker": "GOOGL","name": "谷歌",    "sector": "科技/AI/广告",  "priority": 1},
+      {"ticker": "NVDA", "name": "英伟达",  "sector": "半导体/AI算力", "priority": 1},
+      {"ticker": "META", "name": "Meta",    "sector": "科技/AI/社交",  "priority": 1}
+    ]
+  },
+
+  "risk_profile": {
+    "max_drawdown_pct": 50,
+    "max_single_position_pct": 20,
+    "max_total_exposure_pct": 80,
+    "preferred_holding_period": "中线 (1周~3个月)",
+    "timeframe": "1h信号, 日线趋势",
+    "stop_loss_pct": -8,
+    "take_profit_pct": 13,
+    "rr_ratio": 1.625
+  },
+
+  "sector_etf_map": {
+    "科技":        ["XLK",  "QQQ"],
+    "半导体&算力": ["SOXX", "SMH"],
+    "AI概念":      ["AIQ",  "BOTZ"],
+    "能源":        ["XLE",  "XOP"],
+    "太空":        ["UFO",  "ARKX"],
+    "降息受益":    ["TLT",  "GLD", "XLRE", "XLU"],
+    "消费股":      ["XLY",  "XLP"],
+    "医药":        ["XLV",  "IBB"]
+  },
+
+  "trading_rules": {
+    "buy_conditions": [
+      "MA200上方（趋势向上）",
+      "RSI < 45（回调充分）",
+      "MACD在负区（动能减弱，即将反转）",
+      "BB% < 0.3（靠近布林下轨）",
+      "5日回调 > 3%（有实质性回调）",
+      "属于重点关注板块"
+    ],
+    "avoid_conditions": [
+      "MA200下方不做多",
+      "RSI > 70 不追高",
+      "财报前1天谨慎（避免踩雷）",
+      "VIX > 30 降低仓位"
+    ],
+    "exit_rules": {
+      "take_profit": "+13%",
+      "stop_loss": "-8%",
+      "trailing_stop": "盈利超5%后，止损上移至成本价"
+    }
+  },
+
+  "macro_attention": {
+    "key_events": [
+      "美联储FOMC会议（降息节奏影响整体仓位）",
+      "CPI/PCE数据（通胀数据影响降息预期）",
+      "非农就业数据（影响美联储决策）",
+      "英伟达/Meta/谷歌/特斯拉财报（核心持仓必看）",
+      "地缘政治事件（影响能源/国防板块）"
+    ],
+    "rate_cut_beneficiaries": [
+      "XLRE（房地产）","XLU（公用事业）",
+      "TLT（长债）","GLD（黄金）","NEM（黄金矿企）"
+    ]
+  },
+
+  "watchlist_priority": {
+    "tier1_core": ["TSLA","GOOGL","NVDA","META"],
+    "tier2_focus": [
+      "RKLB","ASTS","PLTR","AMD","AVGO","LLY","AMZN",
+      "MSFT","AAPL","CRWD","NOW","DDOG","NEM","GDX"
+    ],
+    "tier3_sp500": "其余S&P500成分股（信号扫描池）"
+  }
+}

@@ -11,6 +11,9 @@ from market_data import (
     get_batch_quotes, get_fear_greed, get_sector_performance,
     INDICES, COMMODITIES, FOREX, save_daily_data
 )
+import sys, os
+sys.path.insert(0, os.path.dirname(__file__))
+import kb
 from datetime import datetime
 import json
 
@@ -89,6 +92,16 @@ def generate_morning_brief() -> str:
         lines.append("  ···")
         for etf, d in bottom3:
             lines.append(f"  🩸 {d['name']}  {fmt_pct(d['change_pct'])}")
+
+    # 核心持仓快照
+    core = kb.get_core_holdings()
+    core_quotes = get_batch_quotes(core)
+    if core_quotes:
+        lines.append("\n⭐ **核心持仓动态**")
+        for t in core:
+            if t in core_quotes:
+                q = core_quotes[t]
+                lines.append(f"  {arrow(q['change_pct'])} {t}  {fmt_pct(q['change_pct'])}")
 
     # 今日重要提示占位（deep_analysis 会补充）
     lines.append("\n📋 **今日重点关注**")
