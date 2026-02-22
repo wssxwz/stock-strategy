@@ -102,6 +102,14 @@ def main():
         output_lines.append(f"BUY_SIGNAL:{sig['ticker']}:{sig['score']}")
         output_lines.append(msg)
         output_lines.append("---END---")
+        # 自动保存到 Dashboard signals.json
+        try:
+            import sys as _sys
+            _sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../dashboard'))
+            from export_signals import add_buy_signal
+            add_buy_signal(sig)
+        except Exception as _e:
+            print(f"  [Dashboard同步失败] {_e}")
 
     save_state(state)
 
