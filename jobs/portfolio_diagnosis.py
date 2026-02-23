@@ -1,18 +1,21 @@
 """
-持仓诊断分析引擎
-分析每只持仓股票的：技术面、基本面、分析师目标价、持仓合理性
-生成 diagnosis.json 供 Dashboard 读取
+持仓诊断分析引擎 v2 - 分层评估体系
+
+Layer 1: 趋势过滤（硬性门槛）→ 决定"能不能加仓"
+Layer 2: 质量评分 → 决定"值得多少仓位"
+
+数据时效性标注：所有基本面数据都标注"截至日期"
 """
 import warnings
 warnings.filterwarnings('ignore')
 import yfinance as yf
 import json, os
-from datetime import datetime
+from datetime import datetime, timedelta
 
 OUTPUT_FILE  = os.path.join(os.path.dirname(__file__), '../dashboard/diagnosis.json')
 ROOT_OUTPUT  = os.path.join(os.path.dirname(__file__), '../diagnosis.json')
 
-# 持仓数据（与 app.js 保持一致）
+# 持仓数据
 POSITIONS = [
     {'ticker':'TSLA','name':'特斯拉',          'shares':32, 'cost':228.06},
     {'ticker':'META','name':'Meta Platforms',  'shares':15, 'cost':639.088},
@@ -33,38 +36,303 @@ POSITIONS = [
     {'ticker':'IONQ','name':'IonQ Inc',        'shares':20, 'cost':45.00},
 ]
 
+# ─────────────────────────────────────────────────────────────
+# Layer 1: 趋势过滤（硬性门槛）
+# ─────────────────────────────────────────────────────────────
+
+TREND_THRESHOLDS = {
+    'healthy':    -5,   # >-5% 趋势健康
+    'weak':       -10,  # -5%~-10% 趋势转弱
+    'broken':     -20,  # -10%~-20% 趋势破位
+    'critical':   -99,  # <-20% 严重破位
+}
+
+def assess_trend_filter(tech: dict, spy_hist=None, stock_hist=None) -> dict:
+    """
+    Layer 1: 趋势过滤
+    
+    返回：
+    - can_add: 是否允许加仓
+    - can_hold: 是否值得持有
+    - trend_status: 趋势状态
+    - reasons: 原因列表
+    """
+    reasons = []
+    can_add = True
+    can_hold = True
+    
+    vs_ma200 = tech.get('vs_ma200')
+    vs_ma50 = tech.get('vs_ma50')
+    vs_ma20 = tech.get('vs_ma20')
+    rsi = tech.get('rsi', 50)
+    
+    # MA200 偏离度（核心指标）
+    if vs_ma200 is not None:
+        if vs_ma200 < TREND_THRESHOLDS['critical']:
+            can_add = False
+            can_hold = False
+            reasons.append(f"❌ MA200 下方{abs(vs_ma200):.1f}%，趋势严重破位")
+        elif vs_ma200 < TREND_THRESHOLDS['broken']:
+            can_add = False
+            reasons.append(f"⚠️ MA200 下方{abs(vs_ma200):.1f}%，趋势破位，禁止加仓")
+        elif vs_ma200 < TREND_THRESHOLDS['weak']:
+            can_add = False
+            reasons.append(f"⚠️ MA200 下方{abs(vs_ma200):.1f}%，趋势转弱，暂不加仓")
+        else:
+            reasons.append(f"✅ MA200 上方{vs_ma200:.1f}%，趋势健康")
+    
+    # MA50 偏离度（中期趋势）
+    if vs_ma50 is not None and vs_ma50 < -15:
+        can_add = False
+        reasons.append(f"⚠️ MA50 下方{abs(vs_ma50):.1f}%，中期趋势偏弱")
+    
+    # RSI 极端值
+    if rsi > 75:
+        can_add = False
+        reasons.append(f"⚠️ RSI={rsi:.0f} 超买区，追高风险")
+    elif rsi < 20:
+        reasons.append(f"✅ RSI={rsi:.0f} 超卖区，可能反弹")
+    
+    # 相对强度（vs SPY）
+    if spy_hist is not None and stock_hist is not None:
+        try:
+            spy_ret = spy_hist['Close'].pct_change(20).iloc[-1]
+            stock_ret = stock_hist['Close'].pct_change(20).iloc[-1]
+            rel_strength = (stock_ret - spy_ret) * 100
+            
+            if rel_strength < -15:
+                can_add = False
+                reasons.append(f"❌ 20 日跑输大盘{abs(rel_strength):.1f}%，相对强度弱")
+            elif rel_strength < -5:
+                reasons.append(f"⚠️ 20 日跑输大盘{abs(rel_strength):.1f}%")
+            elif rel_strength > 5:
+                reasons.append(f"✅ 20 日跑赢大盘{rel_strength:.1f}%")
+        except:
+            pass
+    
+    # 成交量确认（量比）
+    vol_ratio = tech.get('vol_ratio')
+    if vol_ratio is not None:
+        if vol_ratio < 0.5:
+            reasons.append(f"⚠️ 量比{vol_ratio:.2f}，流动性萎缩")
+        elif vol_ratio > 2.0:
+            reasons.append(f"✅ 量比{vol_ratio:.2f}，资金活跃")
+    
+    trend_status = 'critical' if not can_hold else ('broken' if not can_add else ('weak' if any('⚠️' in r for r in reasons) else 'healthy'))
+    
+    return {
+        'can_add': can_add,
+        'can_hold': can_hold,
+        'trend_status': trend_status,
+        'reasons': reasons,
+    }
+
+
+# ─────────────────────────────────────────────────────────────
+# Layer 2: 质量评分（决定仓位）
+# ─────────────────────────────────────────────────────────────
+
+def calc_quality_score(pos: dict, tech: dict, fund: dict, analyst: dict) -> dict:
+    """
+    Layer 2: 质量评分
+    
+    权重分配（总分 100）：
+    - 技术面：40 分（实时，短线最重要）
+    - 基本面：35 分（季度，但反映质量）
+    - 分析师：15 分（参考）
+    - 相对强度：10 分（动量）
+    """
+    score = 0
+    details = []
+    
+    # ── 技术面（40 分）────────────────────────────────
+    tech_score = 0
+    
+    # RSI 位置（10 分）
+    rsi = tech.get('rsi', 50)
+    if 25 <= rsi <= 45:
+        tech_score += 10
+        details.append("RSI 低位，反弹潜力")
+    elif 45 < rsi <= 55:
+        tech_score += 5
+        details.append("RSI 中性")
+    elif rsi > 70:
+        tech_score -= 5
+        details.append("RSI 超买，回调风险")
+    elif rsi < 25:
+        tech_score += 8
+        details.append("RSI 超卖，可能反弹")
+    
+    # MACD 动能（10 分）
+    macd_bull = tech.get('macd', 0) > tech.get('macd_sig', 0)
+    if macd_bull:
+        tech_score += 10
+        details.append("MACD 金叉，动能向上")
+    else:
+        tech_score -= 5
+        details.append("MACD 死叉，动能偏弱")
+    
+    # 价格位置（10 分）
+    vs_ma200 = tech.get('vs_ma200')
+    if vs_ma200 is not None:
+        if vs_ma200 > 5:
+            tech_score += 10
+        elif vs_ma200 > 0:
+            tech_score += 5
+        elif vs_ma200 > -10:
+            tech_score -= 5
+        else:
+            tech_score -= 10
+    
+    # 52 周位置（10 分）
+    off_hi = tech.get('off_hi', 0)
+    if off_hi > -20:
+        tech_score += 10
+        details.append("接近 52 周高位，强势")
+    elif off_hi > -40:
+        tech_score += 5
+        details.append("52 周中位")
+    else:
+        tech_score -= 5
+        details.append("远离 52 周高位，弱势")
+    
+    score += tech_score
+    details.append(f"技术面小计：{tech_score}/40")
+    
+    # ── 基本面（35 分）───────────────────────────────
+    fund_score = 0
+    
+    # 营收增长（15 分）
+    rev_growth = fund.get('rev_growth')
+    if rev_growth is not None:
+        if rev_growth > 0.3:
+            fund_score += 15
+            details.append(f"营收高增长 +{rev_growth*100:.0f}%")
+        elif rev_growth > 0.1:
+            fund_score += 10
+            details.append(f"营收稳健增长 +{rev_growth*100:.0f}%")
+        elif rev_growth > 0:
+            fund_score += 5
+            details.append(f"营收微增 +{rev_growth*100:.0f}%")
+        else:
+            fund_score -= 10
+            details.append(f"营收下滑 {rev_growth*100:.0f}%")
+    
+    # 毛利率（10 分）
+    gm = fund.get('gross_margin')
+    if gm is not None:
+        if gm > 0.7:
+            fund_score += 10
+            details.append(f"毛利率{gm*100:.0f}%，护城河深")
+        elif gm > 0.5:
+            fund_score += 7
+            details.append(f"毛利率{gm*100:.0f}%，良好")
+        elif gm > 0.3:
+            fund_score += 3
+        else:
+            fund_score -= 5
+    
+    # 盈利质量（10 分）- 如有数据
+    op_margin = fund.get('op_margin')
+    if op_margin is not None:
+        if op_margin > 0.2:
+            fund_score += 10
+            details.append(f"经营利润率{op_margin*100:.0f}%")
+        elif op_margin > 0.1:
+            fund_score += 5
+        elif op_margin < 0:
+            fund_score -= 5
+            details.append("经营亏损")
+    
+    score += fund_score
+    details.append(f"基本面小计：{fund_score}/35")
+    
+    # ── 分析师（15 分）───────────────────────────────
+    analyst_score = 0
+    
+    rec = analyst.get('recommendation', '').lower()
+    upside = analyst.get('upside', 0) or 0
+    
+    if rec in ['strong_buy']:
+        analyst_score += 10
+    elif rec in ['buy']:
+        analyst_score += 7
+    elif rec in ['hold']:
+        analyst_score += 3
+    elif rec in ['sell', 'strong_sell']:
+        analyst_score -= 5
+    
+    if upside > 30:
+        analyst_score += 5
+    elif upside > 15:
+        analyst_score += 3
+    elif upside < -10:
+        analyst_score -= 5
+    
+    score += analyst_score
+    details.append(f"分析师小计：{analyst_score}/15")
+    
+    # ── 相对强度（10 分）─────────────────────────────
+    rel_strength = tech.get('rel_strength', 0)
+    if rel_strength is not None:
+        if rel_strength > 10:
+            score += 10
+            details.append(f"相对强度强 +{rel_strength:.1f}%")
+        elif rel_strength > 0:
+            score += 5
+        elif rel_strength < -10:
+            score -= 5
+            details.append(f"相对强度弱 {rel_strength:.1f}%")
+    
+    details.append(f"相对强度：{rel_strength if rel_strength else 'N/A'}")
+    
+    # 最终分数（0-100）
+    final_score = max(0, min(100, 50 + score))  # 基准 50 分
+    
+    return {
+        'score': round(final_score, 1),
+        'tech_score': tech_score,
+        'fund_score': fund_score,
+        'analyst_score': analyst_score,
+        'details': details,
+    }
+
+
+# ─────────────────────────────────────────────────────────────
+# 技术分析
+# ─────────────────────────────────────────────────────────────
 
 def calc_rsi(close, period=14):
     delta = close.diff()
-    gain  = delta.clip(lower=0).rolling(period).mean()
-    loss  = (-delta.clip(upper=0)).rolling(period).mean()
-    rs    = gain / loss
+    gain = delta.clip(lower=0).rolling(period).mean()
+    loss = (-delta.clip(upper=0)).rolling(period).mean()
+    rs = gain / loss
     return (100 - 100 / (1 + rs)).iloc[-1]
 
 
 def calc_macd(close):
     ema12 = close.ewm(span=12).mean()
     ema26 = close.ewm(span=26).mean()
-    macd  = ema12 - ema26
-    signal= macd.ewm(span=9).mean()
+    macd = ema12 - ema26
+    signal = macd.ewm(span=9).mean()
     return macd.iloc[-1], signal.iloc[-1]
 
 
 def analyze_ticker(pos: dict) -> dict:
     ticker = pos['ticker']
-    cost   = pos['cost']
+    cost = pos['cost']
     shares = pos['shares']
     print(f"  分析 {ticker}...")
 
     result = {
         'ticker': ticker,
-        'name':   pos['name'],
-        'cost':   cost,
+        'name': pos['name'],
+        'cost': cost,
         'shares': shares,
     }
 
     try:
-        tk   = yf.Ticker(ticker)
+        tk = yf.Ticker(ticker)
         info = tk.info
         hist = tk.history(period='1y', interval='1d')
 
@@ -75,252 +343,196 @@ def analyze_ticker(pos: dict) -> dict:
         close = hist['Close']
         price = float(close.iloc[-1])
         pnl_pct = (price - cost) / cost * 100
+        volume = hist['Volume']
 
-        result['price']   = round(price, 2)
+        result['price'] = round(price, 2)
         result['pnl_pct'] = round(pnl_pct, 2)
+        result['updated_at'] = datetime.now().strftime('%Y-%m-%d %H:%M')
 
-        # ── 技术分析 ──────────────────────────────────
-        ma20  = float(close.rolling(20).mean().iloc[-1])
-        ma50  = float(close.rolling(50).mean().iloc[-1]) if len(close) >= 50  else None
+        # ── 技术指标 ──────────────────────────────────
+        ma20 = float(close.rolling(20).mean().iloc[-1])
+        ma50 = float(close.rolling(50).mean().iloc[-1]) if len(close) >= 50 else None
         ma200 = float(close.rolling(200).mean().iloc[-1]) if len(close) >= 200 else None
-        rsi   = float(calc_rsi(close))
+        rsi = float(calc_rsi(close))
         macd_val, macd_sig = calc_macd(close)
+        
+        # 成交量：20 日平均 vs 今日
+        vol_20avg = volume.rolling(20).mean().iloc[-1]
+        vol_today = volume.iloc[-1]
+        vol_ratio = vol_today / vol_20avg if vol_20avg > 0 else 1.0
 
-        # 52周高低：rolling 末值可能为 NaN（数据不足/停牌），需兜底
+        # 52 周高低
         hi52 = float(close.rolling(252).max().iloc[-1]) if len(close) >= 252 else float(close.max())
         lo52 = float(close.rolling(252).min().iloc[-1]) if len(close) >= 252 else float(close.min())
-        if hi52 != hi52 or hi52 == 0:  # NaN
-            hi52 = price
-        if lo52 != lo52 or lo52 == 0:
-            lo52 = price
         off_hi = (price - hi52) / hi52 * 100
 
         tech = {
-            'price':   round(price, 2),
-            'ma20':    round(ma20, 2),
-            'ma50':    round(ma50, 2)  if ma50  else None,
-            'ma200':   round(ma200, 2) if ma200 else None,
-            'rsi':     round(rsi, 1),
-            'macd':    round(float(macd_val), 3),
-            'macd_sig':round(float(macd_sig), 3),
-            'hi52':    round(hi52, 2),
-            'lo52':    round(lo52, 2),
-            'off_hi':  round(off_hi, 1),
+            'price': round(price, 2),
+            'ma20': round(ma20, 2),
+            'ma50': round(ma50, 2) if ma50 else None,
+            'ma200': round(ma200, 2) if ma200 else None,
+            'rsi': round(rsi, 1),
+            'macd': round(float(macd_val), 3),
+            'macd_sig': round(float(macd_sig), 3),
+            'hi52': round(hi52, 2),
+            'lo52': round(lo52, 2),
+            'off_hi': round(off_hi, 1),
             'vs_ma20': round((price/ma20 - 1)*100, 1),
-            'vs_ma50': round((price/ma50 - 1)*100, 1) if ma50  else None,
-            'vs_ma200':round((price/ma200- 1)*100, 1) if ma200 else None,
+            'vs_ma50': round((price/ma50 - 1)*100, 1) if ma50 else None,
+            'vs_ma200': round((price/ma200 - 1)*100, 1) if ma200 else None,
+            'vol_ratio': round(vol_ratio, 2),
         }
-
-        # 技术信号判断
-        tech_signals = []
-        if rsi < 30:   tech_signals.append({'type':'bullish','text':'RSI超卖(<30)，可能反弹'})
-        elif rsi > 70: tech_signals.append({'type':'bearish','text':'RSI超买(>70)，注意回调'})
-        elif rsi < 45: tech_signals.append({'type':'neutral','text':f'RSI={rsi:.0f}，处于低位区间'})
-
-        if ma200 and price > ma200: tech_signals.append({'type':'bullish','text':'价格在MA200上方，长期趋势向上'})
-        elif ma200: tech_signals.append({'type':'bearish','text':'价格在MA200下方，长期趋势偏空'})
-
-        if ma50 and price < ma50 * 0.9: tech_signals.append({'type':'bearish','text':f'价格大幅低于MA50（-{abs(tech["vs_ma50"]):.1f}%），趋势偏弱'})
-        if float(macd_val) > float(macd_sig): tech_signals.append({'type':'bullish','text':'MACD金叉，短期动能向上'})
-        else: tech_signals.append({'type':'bearish','text':'MACD死叉，短期动能偏弱'})
-
-        tech['signals'] = tech_signals
         result['tech'] = tech
 
-        # ── 基本面 ────────────────────────────────────
+        # ── 基本面（标注时效）───────────────────────────
         fund = {
-            'forward_pe':     info.get('forwardPE'),
-            'trailing_pe':    info.get('trailingPE'),
-            'pb':             info.get('priceToBook'),
-            'ps':             info.get('priceToSalesTrailing12Months'),
-            'rev_growth':     info.get('revenueGrowth'),
-            'eps_growth':     info.get('earningsGrowth'),
-            'gross_margin':   info.get('grossMargins'),
-            'op_margin':      info.get('operatingMargins'),
-            'roe':            info.get('returnOnEquity'),
-            'debt_equity':    info.get('debtToEquity'),
-            'beta':           info.get('beta'),
-            'market_cap':     info.get('marketCap'),
-            'sector':         info.get('sector',''),
-            'industry':       info.get('industry',''),
+            'forward_pe': info.get('forwardPE'),
+            'trailing_pe': info.get('trailingPE'),
+            'pb': info.get('priceToBook'),
+            'ps': info.get('priceToSalesTrailing12Months'),
+            'rev_growth': info.get('revenueGrowth'),
+            'eps_growth': info.get('earningsGrowth'),
+            'gross_margin': info.get('grossMargins'),
+            'op_margin': info.get('operatingMargins'),
+            'roe': info.get('returnOnEquity'),
+            'debt_equity': info.get('debtToEquity'),
+            'beta': info.get('beta'),
+            'market_cap': info.get('marketCap'),
+            'sector': info.get('sector', ''),
+            'industry': info.get('industry', ''),
+            # 时效标注
+            'data_note': '基本面数据来自最新财报（可能滞后 1-3 个月）',
         }
-        fund_signals = []
-        if fund['rev_growth'] and fund['rev_growth'] > 0.2:
-            fund_signals.append({'type':'bullish','text':f'营收同比增长{fund["rev_growth"]*100:.0f}%，成长性强'})
-        elif fund['rev_growth'] and fund['rev_growth'] < 0:
-            fund_signals.append({'type':'bearish','text':f'营收同比下滑{fund["rev_growth"]*100:.0f}%，增长承压'})
-
-        if fund['gross_margin'] and fund['gross_margin'] > 0.6:
-            fund_signals.append({'type':'bullish','text':f'毛利率{fund["gross_margin"]*100:.0f}%，护城河深厚'})
-
-        if fund['beta'] and fund['beta'] > 1.5:
-            fund_signals.append({'type':'neutral','text':f'Beta={fund["beta"]:.2f}，高波动性，适合短线但风险大'})
-
-        fund['signals'] = fund_signals
         result['fund'] = fund
 
-        # ── 分析师目标价 ──────────────────────────────
+        # ── 分析师（标注时效）──────────────────────────
         analyst = {
-            'recommendation': info.get('recommendationKey',''),
-            'num_analysts':   info.get('numberOfAnalystOpinions'),
-            'target_mean':    info.get('targetMeanPrice'),
-            'target_high':    info.get('targetHighPrice'),
-            'target_low':     info.get('targetLowPrice'),
+            'recommendation': info.get('recommendationKey', ''),
+            'num_analysts': info.get('numberOfAnalystOpinions'),
+            'target_mean': info.get('targetMeanPrice'),
+            'target_high': info.get('targetHighPrice'),
+            'target_low': info.get('targetLowPrice'),
+            'data_note': '分析师评级可能滞后数天到数周',
         }
         if analyst['target_mean'] and price:
             analyst['upside'] = round((analyst['target_mean'] - price) / price * 100, 1)
         result['analyst'] = analyst
 
-        # ── 持仓诊断 ──────────────────────────────────
-        diagnosis = diagnose_position(pos, tech, fund, analyst, pnl_pct)
-        result['diagnosis'] = diagnosis
+        # ── Layer 1: 趋势过滤 ─────────────────────────
+        trend = assess_trend_filter(tech)
+        result['trend'] = trend
+
+        # ── Layer 2: 质量评分 ─────────────────────────
+        quality = calc_quality_score(pos, tech, fund, analyst)
+        result['quality'] = quality
+
+        # ── 综合建议（结合两层）────────────────────────
+        if not trend['can_hold']:
+            action = 'exit'
+            action_text = '建议止损/离场'
+            action_color = 'bearish'
+        elif not trend['can_add']:
+            if quality['score'] >= 60:
+                action = 'hold'
+                action_text = '观望持有（趋势弱但质量尚可）'
+                action_color = 'neutral'
+            else:
+                action = 'reduce'
+                action_text = '考虑减仓（趋势弱 + 质量一般）'
+                action_color = 'caution'
+        else:
+            # 趋势健康，看质量决定
+            if quality['score'] >= 70:
+                action = 'hold_or_add'
+                action_text = '持有/可加仓'
+                action_color = 'bullish'
+            elif quality['score'] >= 50:
+                action = 'hold'
+                action_text = '持有'
+                action_color = 'neutral'
+            else:
+                action = 'reduce'
+                action_text = '考虑减仓'
+                action_color = 'caution'
+
+        # 诊断信号
+        signals = []
+        signals.extend([{'type': 'info', 'text': r} for r in trend['reasons']])
+        signals.extend([{'type': 'info', 'text': d} for d in quality['details'] if ':' in d])
+        
+        # 盈亏提醒
+        if pnl_pct < -25:
+            signals.append({'type': 'warning', 'text': f'⚠️ 已亏损{pnl_pct:.1f}%，评估是否止损'})
+        if pnl_pct > 50:
+            signals.append({'type': 'caution', 'text': f'✨ 已盈利{pnl_pct:.1f}%，考虑分批止盈'})
+
+        result['diagnosis'] = {
+            'score': quality['score'],
+            'action': action,
+            'action_text': action_text,
+            'action_color': action_color,
+            'trend_status': trend['trend_status'],
+            'can_add': trend['can_add'],
+            'can_hold': trend['can_hold'],
+            'signals': signals,
+        }
 
     except Exception as e:
         result['error'] = str(e)
-        print(f"    ⚠️ {ticker} 分析失败: {e}")
+        print(f"    ⚠️ {ticker} 分析失败：{e}")
 
     return result
 
 
-def diagnose_position(pos, tech, fund, analyst, pnl_pct):
-    """生成持仓综合诊断"""
-    ticker = pos['ticker']
-    cost   = pos['cost']
-    signals= []
-    action = 'hold'  # hold / add / reduce / exit
-    score  = 50      # 0-100，越高越值得持有
-
-    # 技术面评分
-    rsi = tech.get('rsi', 50)
-    vs_ma200 = tech.get('vs_ma200')
-    macd_bull = tech.get('macd', 0) > tech.get('macd_sig', 0)
-
-    if vs_ma200 and vs_ma200 > 0: score += 10
-    else: score -= 10
-
-    if rsi < 35:  score += 10
-    elif rsi > 65: score -= 10
-
-    if macd_bull: score += 5
-    else: score -= 5
-
-    # 基本面评分
-    rev_growth = fund.get('rev_growth') or 0
-    gm = fund.get('gross_margin') or 0
-    if rev_growth > 0.3: score += 15
-    elif rev_growth > 0.1: score += 8
-    elif rev_growth < 0: score -= 15
-
-    if gm > 0.6: score += 8
-    elif gm < 0.2: score -= 5
-
-    # 分析师评分
-    rec = analyst.get('recommendation','').lower()
-    upside = analyst.get('upside', 0) or 0
-    if rec in ['strong_buy','buy']: score += 10
-    elif rec in ['sell','strong_sell']: score -= 15
-    if upside > 20: score += 10
-    elif upside < -10: score -= 10
-
-    # 持仓盈亏处理
-    if pnl_pct < -25:
-        signals.append({'type':'warning','text':f'⚠️ 已亏损{pnl_pct:.1f}%，需评估是否触发止损（建议 -8% 止损线）'})
-        score -= 15
-    if pnl_pct > 50:
-        signals.append({'type':'caution','text':f'✨ 已盈利{pnl_pct:.1f}%，可考虑分批止盈，锁定部分利润'})
-
-    # 得出行动建议
-    score = max(0, min(100, score))
-    if score >= 70:
-        action = 'hold_or_add'
-        action_text = '持有/可加仓'
-        action_color = 'bullish'
-    elif score >= 50:
-        action = 'hold'
-        action_text = '观望持有'
-        action_color = 'neutral'
-    elif score >= 35:
-        action = 'reduce'
-        action_text = '考虑减仓'
-        action_color = 'caution'
-    else:
-        action = 'exit'
-        action_text = '建议止损/离场'
-        action_color = 'bearish'
-
-    # 技术面小结
-    ma200_txt = ''
-    if vs_ma200 is not None:
-        if vs_ma200 > 0:
-            ma200_txt = f'价格高于MA200 +{vs_ma200:.1f}%，长线趋势健康'
-        else:
-            ma200_txt = f'价格低于MA200 {vs_ma200:.1f}%，长线趋势偏空'
-
-    summary = {
-        'score':        score,
-        'action':       action,
-        'action_text':  action_text,
-        'action_color': action_color,
-        'tech_summary': ma200_txt,
-        'rsi_summary':  f'RSI={rsi:.0f}（{"超卖" if rsi<30 else "低位" if rsi<45 else "中性" if rsi<55 else "高位" if rsi<70 else "超买"}）',
-        'analyst_summary': f'分析师：{_rec_zh(rec)}，{analyst.get("num_analysts",0)}人覆盖，均价目标${analyst.get("target_mean","--")}（空间{upside:+.1f}%）' if analyst.get('target_mean') else '',
-        'signals': signals,
-    }
-    return summary
-
-
 def _rec_zh(rec):
-    return {'strong_buy':'强烈买入','buy':'买入','hold':'持有',
-            'underperform':'低配','sell':'卖出','strong_sell':'强烈卖出'}.get(rec, rec)
+    return {'strong_buy': '强烈买入', 'buy': '买入', 'hold': '持有',
+            'underperform': '低配', 'sell': '卖出', 'strong_sell': '强烈卖出'}.get(rec, rec)
 
 
 def generate_portfolio_overview(results: list) -> dict:
     """整体持仓健康度分析"""
-    valid  = [r for r in results if 'diagnosis' in r]
+    valid = [r for r in results if 'diagnosis' in r]
     scores = [r['diagnosis']['score'] for r in valid]
     avg_score = sum(scores) / len(scores) if scores else 50
 
-    # 按行动分类统计
+    # 按行动分类
     actions = {}
     for r in valid:
         a = r['diagnosis']['action']
         actions[a] = actions.get(a, 0) + 1
 
-    # 整体持仓集中度风险
-    total_cost = sum(r['cost'] * r['shares'] for r in results)
-    concentration = []
-    for r in results:
-        w = r['cost'] * r['shares'] / total_cost * 100 if total_cost else 0
-        if w > 15:
-            concentration.append(f"{r['ticker']} 仓位占比{w:.0f}%，集中度偏高")
+    # 趋势状态分布
+    trend_dist = {}
+    for r in valid:
+        t = r.get('trend', {}).get('trend_status', 'unknown')
+        trend_dist[t] = trend_dist.get(t, 0) + 1
 
-    # 宏观建议
-    macro_advice = []
-    exit_count  = actions.get('exit', 0)
-    reduce_count= actions.get('reduce', 0)
-    if exit_count >= 3:
-        macro_advice.append('⚠️ 多只持仓技术面已破位，整体市场偏空，建议降低总仓位')
-    if reduce_count >= 5:
-        macro_advice.append('📉 超过半数持仓建议减仓，市场承压，保持耐心等待信号')
-    if avg_score >= 65:
-        macro_advice.append('✅ 整体持仓质量良好，可维持当前配置，关注信号入场机会')
-
-    if not macro_advice:
-        macro_advice.append('📊 持仓结构分化，建议聚焦优质高分个股，适当剪除弱势仓位')
+    # 健康度标签
+    if avg_score >= 70:
+        health_label = '健康'
+        health_color = 'bullish'
+    elif avg_score >= 50:
+        health_label = '中性'
+        health_color = 'neutral'
+    else:
+        health_label = '偏弱'
+        health_color = 'bearish'
 
     return {
-        'avg_score':     round(avg_score, 1),
-        'total_count':   len(results),
-        'actions':       actions,
-        'concentration': concentration,
-        'macro_advice':  macro_advice,
-        'health_label':  '优秀' if avg_score>=70 else '良好' if avg_score>=55 else '一般' if avg_score>=40 else '偏弱',
-        'health_color':  'bullish' if avg_score>=70 else 'neutral' if avg_score>=55 else 'bearish',
+        'avg_score': round(avg_score, 1),
+        'health_label': health_label,
+        'health_color': health_color,
+        'total_count': len(valid),
+        'actions': actions,
+        'trend_distribution': trend_dist,
+        'generated_at': datetime.now().isoformat(),
     }
 
 
 def run():
-    print("🔍 开始持仓诊断分析...")
+    print(f"📊 持仓诊断 v2 - {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    print(f"  共 {len(POSITIONS)} 只持仓...\n")
+
     results = []
     for pos in POSITIONS:
         r = analyze_ticker(pos)
@@ -330,35 +542,21 @@ def run():
 
     output = {
         'generated_at': datetime.now().isoformat(),
-        'overview':     overview,
-        'stocks':       results,
+        'version': '2.0',
+        'overview': overview,
+        'stocks': results,
     }
 
-    for path in [OUTPUT_FILE, ROOT_OUTPUT]:
-        os.makedirs(os.path.dirname(path), exist_ok=True)
-        with open(path, 'w') as f:
-            json.dump(output, f, indent=2, default=str)
-    print(f"✅ 诊断报告已生成: {len(results)} 只股票")
-    return output
+    with open(OUTPUT_FILE, 'w') as f:
+        json.dump(output, f, indent=2, ensure_ascii=False, default=str)
+    with open(ROOT_OUTPUT, 'w') as f:
+        json.dump(output, f, indent=2, ensure_ascii=False, default=str)
+
+    print(f"\n✅ 诊断完成：{overview['total_count']}只，平均健康度{overview['avg_score']:.1f}（{overview['health_label']}）")
+    print(f"   趋势分布：{overview['trend_distribution']}")
+    print(f"   行动建议：{overview['actions']}")
+    print(f"   已保存：{OUTPUT_FILE}")
 
 
 if __name__ == '__main__':
     run()
-    # 自动 push 到 GitHub Pages
-    import subprocess, os as _os
-    repo = _os.path.join(_os.path.dirname(__file__), '..')
-    try:
-        files = [
-            'dashboard/diagnosis.json', 'diagnosis.json',
-            'dashboard/core_holdings.json', 'core_holdings.json',  # 同步价格
-        ]
-        subprocess.run(['git','add'] + files, cwd=repo, check=True, capture_output=True)
-        subprocess.run(['git','commit','-m','auto: 盘中更新诊断+持仓价格'],
-                       cwd=repo, check=True, capture_output=True)
-        subprocess.run(['git','push'], cwd=repo, check=True, capture_output=True)
-        print("🚀 已推送到 GitHub Pages")
-    except subprocess.CalledProcessError as e:
-        if b'nothing to commit' in (e.stdout or b'') + (e.stderr or b''):
-            print("  (无变更，跳过 push)")
-        else:
-            print(f"  push 失败: {e.stderr.decode() if e.stderr else e}")
