@@ -500,6 +500,7 @@ function showPositionsContent() {
   document.getElementById('pos-content').style.display = 'block';
   initSessionUI();
   renderPositionsTab();
+  loadDiagnosis();   // 诊断分析在解锁后加载
 }
 
 // ── 持仓初始数据 ──────────────────────────────────────
@@ -707,9 +708,6 @@ function renderPositionsTab() {
 
 // ── Tab 3: 我的持仓 ───────────────────────────────────
 function renderPositions() {
-  // 诊断分析：无需 PIN，直接加载
-  loadDiagnosis();
-
   // PIN 保护：检查是否已解锁
   if (isUnlocked()) {
     showPositionsContent();

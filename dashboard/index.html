@@ -380,26 +380,6 @@ textarea{width:100%;height:180px;padding:12px;background:#0f172a;border:1px soli
 
   <!-- Tab: 我的持仓 -->
   <div class="tab-panel" id="panel-positions">
-    <!-- 诊断分析区块（无需登录，公开展示）-->
-    <div class="diag-section" id="diag-section">
-      <div class="diag-header">
-        <div>
-          <div class="diag-title">🔍 持仓诊断分析</div>
-          <div class="diag-sub" id="diag-updated">加载中...</div>
-        </div>
-        <div style="display:flex;gap:8px;align-items:center">
-          <div class="diag-health-badge" id="diag-health-badge"></div>
-          <button class="btn-outline" style="padding:6px 12px;font-size:12px" id="diag-toggle-btn" onclick="toggleDiagDetail()">个股详情 ▼</button>
-        </div>
-      </div>
-      <div id="diag-overview-row" style="display:flex;gap:12px;flex-wrap:wrap;margin:14px 0 10px"></div>
-      <div id="diag-macro" style="margin-bottom:10px"></div>
-      <div id="diag-detail" style="display:none">
-        <div style="font-size:12px;color:var(--muted);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)">个股诊断评分（点击展开详情）</div>
-        <div id="diag-stocks-list"></div>
-      </div>
-    </div>
-
     <!-- 锁屏层 -->
     <div id="pos-lock-screen">
       <div class="lock-box">
