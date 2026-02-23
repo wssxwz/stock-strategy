@@ -102,12 +102,22 @@ def main():
         output_lines.append(f"BUY_SIGNAL:{sig['ticker']}:{sig['score']}")
         output_lines.append(msg)
         output_lines.append("---END---")
-        # 自动保存到 Dashboard signals.json
+        # 自动保存到 Dashboard signals.json + push_history.json（原文一致）
         try:
             import sys as _sys
             _sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../dashboard'))
             from export_signals import add_buy_signal
             add_buy_signal(sig)
+
+            # 追加 push_history（raw=Telegram原文）
+            from export_push_history import append_push_history
+            append_push_history(
+                type_='buy_signal',
+                title=f"买入信号 {sig['ticker']} ({sig['score']})",
+                summary=f"{sig.get('kb_tag','')}📊 {sig['ticker']} 评分{sig['score']}｜现价${sig['price']}｜RSI{sig.get('rsi14','--')}｜BB% {sig.get('bb_pct','--')}｜TP ${sig.get('tp_price','--')}｜SL ${sig.get('sl_price','--')}",
+                raw=msg,
+                time=sig.get('scan_time')
+            )
         except Exception as _e:
             print(f"  [Dashboard同步失败] {_e}")
 

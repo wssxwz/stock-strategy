@@ -36,7 +36,47 @@ def build_content(sig: dict) -> str:
     return "\n".join(lines)
 
 
+def load_hist(path: str):
+    if os.path.exists(path):
+        try:
+            with open(path, 'r') as f:
+                return json.load(f)
+        except Exception:
+            return []
+    return []
+
+
+def save_hist(hist: list):
+    for path in [OUT_DASH, OUT_ROOT]:
+        with open(path, 'w') as f:
+            json.dump(hist, f, ensure_ascii=False, indent=2)
+
+
+def append_push_history(type_: str, title: str, summary: str, raw: str, time: str = None):
+    """追加一条推送历史（供 monitor 侧调用）"""
+    hist = load_hist(OUT_DASH)
+    if not isinstance(hist, list):
+        hist = []
+
+    rid = f"ph_{datetime.now().timestamp()}"
+    item = {
+        'id': rid,
+        'type': type_,
+        'title': title,
+        'summary': summary,
+        'content': summary,
+        'raw': raw,
+        'time': time or datetime.now().strftime('%Y-%m-%d %H:%M'),
+    }
+    hist.insert(0, item)
+    if len(hist) > 800:
+        hist = hist[:800]
+    save_hist(hist)
+    return item
+
+
 def run():
+    """从 signals.json 重建 push_history（摘要版）"""
     if not os.path.exists(SIGNALS):
         data = []
     else:
@@ -55,18 +95,13 @@ def run():
             'type': 'buy_signal',
             'title': title,
             'summary': summary,
-            'content': summary,   # 兼容旧字段
-            'raw': None,          # 预留：未来写入 Telegram 原文
+            'content': summary,
+            'raw': None,
             'time': t,
         })
 
-    # 最新在前
     hist = list(reversed(hist))
-
-    for path in [OUT_DASH, OUT_ROOT]:
-        with open(path, 'w') as f:
-            json.dump(hist, f, ensure_ascii=False, indent=2)
-
+    save_hist(hist)
     print(f"✅ push_history 已生成: {len(hist)}")
 
 
