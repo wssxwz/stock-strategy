@@ -131,6 +131,35 @@ textarea{width:100%;height:180px;padding:12px;background:#0f172a;border:1px soli
 /* ── 空状态 ── */
 .empty-msg{text-align:center;padding:48px 20px;color:var(--muted);font-size:14px}
 
+/* ── 经济日历 Banner ── */
+.cal-banner{background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:22px;overflow:hidden}
+.cal-banner-header{display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid var(--border)}
+.cal-banner-title{font-size:15px;font-weight:700}
+.cal-banner-sub{font-size:12px;color:var(--muted);flex:1}
+.cal-toggle{background:none;border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer}
+.cal-toggle:hover{border-color:var(--accent);color:var(--accent)}
+.cal-scroll{overflow-x:auto;padding:16px 20px}
+.cal-days{display:flex;gap:14px;min-width:max-content}
+.cal-day{background:#0f172a;border-radius:10px;padding:12px 14px;min-width:170px;max-width:220px}
+.cal-day.today{border:1px solid var(--accent)}
+.cal-day-label{font-size:12px;font-weight:700;color:var(--accent);margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.cal-day-label .today-tag{background:var(--accent);color:#fff;border-radius:4px;padding:1px 6px;font-size:10px}
+.cal-ev{display:flex;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);align-items:flex-start}
+.cal-ev:last-child{border:none}
+.cal-ev-emoji{font-size:15px;flex-shrink:0;margin-top:1px}
+.cal-ev-body{flex:1;min-width:0}
+.cal-ev-name{font-size:13px;font-weight:600;line-height:1.3}
+.cal-ev-note{font-size:11px;color:var(--muted);margin-top:2px}
+.cal-ev-tag{font-size:10px;font-weight:700;padding:1px 6px;border-radius:4px;display:inline-block;margin-top:3px}
+.cal-ev-tag.core{background:rgba(245,158,11,.2);color:var(--gold)}
+.cal-ev-tag.watch{background:rgba(59,130,246,.2);color:var(--accent)}
+.cal-ev-tag.macro{background:rgba(139,92,246,.2);color:#a78bfa}
+.cal-ev-tag.fomc{background:rgba(239,68,68,.2);color:var(--red)}
+.imp5{border-left:3px solid var(--red)}
+.imp4{border-left:3px solid var(--gold)}
+.imp3{border-left:3px solid var(--border)}
+.cal-hidden .cal-scroll{display:none}
+
 /* ── 周报 ── */
 .weekly-item{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;cursor:pointer;transition:.15s}
 .weekly-item:hover{border-color:var(--accent)}
@@ -189,6 +218,22 @@ textarea{width:100%;height:180px;padding:12px;background:#0f172a;border:1px soli
 
   <!-- Tab: 今日概览 -->
   <div class="tab-panel" id="panel-overview">
+
+    <!-- 经济日历 — 本周重要事件 -->
+    <div class="cal-banner" id="cal-banner">
+      <div class="cal-banner-header">
+        <span class="cal-banner-title">📅 本周重要事件</span>
+        <span class="cal-banner-sub" id="cal-sub">加载中...</span>
+        <button class="cal-toggle" onclick="toggleCalendar()">收起 ▲</button>
+      </div>
+      <div class="cal-scroll" id="cal-scroll">
+        <!-- 按日期分列 -->
+        <div class="cal-days" id="cal-days">
+          <div class="empty-msg" style="padding:20px">加载中...</div>
+        </div>
+      </div>
+    </div>
+
     <div class="core-grid" id="core-holdings"></div>
     <div class="overview-grid">
       <div class="card">

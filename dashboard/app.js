@@ -443,6 +443,104 @@ function initTradeForm() {
   });
 }
 
+// ── 经济日历 ──────────────────────────────────────────
+let calCollapsed = false;
+
+window.toggleCalendar = function() {
+  calCollapsed = !calCollapsed;
+  const banner = document.getElementById('cal-banner');
+  const btn    = banner.querySelector('.cal-toggle');
+  banner.classList.toggle('cal-hidden', calCollapsed);
+  btn.textContent = calCollapsed ? '展开 ▼' : '收起 ▲';
+};
+
+async function renderCalendar() {
+  const daysEl = document.getElementById('cal-days');
+  const subEl  = document.getElementById('cal-sub');
+
+  // 先从 localStorage 取缓存
+  let cal = null;
+  try {
+    const cached = localStorage.getItem('calendar_cache');
+    if (cached) {
+      const obj = JSON.parse(cached);
+      // 超过6小时则重新加载
+      if (Date.now() - obj._ts < 6 * 3600 * 1000) cal = obj;
+    }
+  } catch(e) {}
+
+  // 没缓存则从 JSON 文件加载
+  if (!cal) {
+    try {
+      const res = await fetch('./calendar.json?_=' + Date.now());
+      if (res.ok) {
+        cal = await res.json();
+        cal._ts = Date.now();
+        localStorage.setItem('calendar_cache', JSON.stringify(cal));
+      }
+    } catch(e) {}
+  }
+
+  if (!cal || !cal.by_date) {
+    daysEl.innerHTML = '<div class="empty-msg" style="padding:16px">暂无日历数据</div>';
+    subEl.textContent = '';
+    return;
+  }
+
+  // 取接下来10天
+  const todayStr = new Date().toISOString().slice(0,10);
+  const dates = Object.keys(cal.by_date)
+    .filter(d => d >= todayStr)
+    .sort()
+    .slice(0, 12);
+
+  subEl.textContent = `${cal.this_week?.length||0} 件本周事件 · 更新于 ${cal.generated_at?.slice(0,10)||'--'}`;
+
+  if (!dates.length) {
+    daysEl.innerHTML = '<div class="empty-msg" style="padding:16px">本周暂无重要事件</div>';
+    return;
+  }
+
+  const dayNames = ['周日','周一','周二','周三','周四','周五','周六'];
+
+  daysEl.innerHTML = dates.map(d => {
+    const events = cal.by_date[d] || [];
+    const dt    = new Date(d + 'T12:00:00');
+    const isToday = d === todayStr;
+    const dayLabel = `${d.slice(5)} ${dayNames[dt.getDay()]}`;
+
+    const evHtml = events.map(ev => {
+      const imp    = ev.importance >= 5 ? 'imp5' : ev.importance >= 4 ? 'imp4' : 'imp3';
+      let tagHtml  = '';
+      if (ev.tag === '⭐ 核心持仓')   tagHtml = '<span class="cal-ev-tag core">⭐ 持仓</span>';
+      else if (ev.tag === '🎯 重点关注') tagHtml = '<span class="cal-ev-tag watch">🎯 关注</span>';
+      else if (ev.category === 'fomc')  tagHtml = '<span class="cal-ev-tag fomc">🏦 FOMC</span>';
+      else if (ev.category === 'macro') tagHtml = '<span class="cal-ev-tag macro">📊 宏观</span>';
+
+      const noteText = ev.eps_range
+        ? `预期EPS: ${ev.eps_range}`
+        : (ev.note || '');
+
+      return `<div class="cal-ev ${imp}">
+        <div class="cal-ev-emoji">${ev.emoji||'📌'}</div>
+        <div class="cal-ev-body">
+          <div class="cal-ev-name">${ev.event}</div>
+          ${noteText ? `<div class="cal-ev-note">${noteText}</div>` : ''}
+          ${tagHtml}
+        </div>
+      </div>`;
+    }).join('');
+
+    return `<div class="cal-day${isToday?' today':''}">
+      <div class="cal-day-label">
+        <span>${dayLabel}</span>
+        ${isToday ? '<span class="today-tag">今天</span>' : ''}
+      </div>
+      ${evHtml || '<div style="font-size:12px;color:var(--muted);padding:4px 0">无重要事件</div>'}
+    </div>`;
+  }).join('');
+}
+
 // ── 统计更新 ─────────────────────────────────────────
 function updateStats() {
   const signals   = DB.signals();
@@ -462,6 +560,7 @@ function init() {
   initSignalFilters();
   initTradeForm();
   renderOverview();
+  renderCalendar();   // 首页日历
   updateStats();
 }
 document.addEventListener('DOMContentLoaded', init);

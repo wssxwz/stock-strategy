@@ -103,6 +103,22 @@ def generate_morning_brief() -> str:
                 q = core_quotes[t]
                 lines.append(f"  {arrow(q['change_pct'])} {t}  {fmt_pct(q['change_pct'])}")
 
+    # 本周重要事件提醒（从 calendar.json 读取）
+    try:
+        from calendar_data import build_calendar
+        from datetime import date, timedelta
+        cal = build_calendar(weeks_ahead=1)
+        today_str = date.today().isoformat()
+        upcoming  = [ev for ev in cal.get('this_week', []) if ev['date'] >= today_str]
+        imp5      = [ev for ev in upcoming if ev.get('importance', 0) >= 5]
+        if imp5:
+            lines.append("\n🗓️ **本周重要事件**")
+            for ev in imp5[:4]:
+                tag = f" [{ev.get('tag','')}]" if ev.get('tag') else ''
+                lines.append(f"  {ev['emoji']} {ev['date'][5:]} {ev['event']}{tag}")
+    except Exception:
+        pass
+
     # 今日重要提示占位（deep_analysis 会补充）
     lines.append("\n📋 **今日重点关注**")
     lines.append("  → 详细策略分析 8:10 推送")
@@ -128,6 +144,14 @@ def generate_morning_brief() -> str:
 
 
 if __name__ == '__main__':
+    # 同步更新经济日历（每天早上刷新）
+    try:
+        from calendar_data import run as update_calendar
+        print("更新经济日历...")
+        update_calendar()
+    except Exception as e:
+        print(f"  日历更新失败: {e}")
+
     print("生成早盘摘要...")
     msg = generate_morning_brief()
     print("\n" + "="*50)

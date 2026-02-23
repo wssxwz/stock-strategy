@@ -1,6 +1,6 @@
 {
   "morning_brief": {
-    "generated_at": "2026-02-23T07:50:04.840878",
+    "generated_at": "2026-02-23T12:06:51.695217",
     "indices": {
       "SPY": {
         "price": 689.43,
@@ -25,28 +25,28 @@
     },
     "commodities": {
       "GC=F": {
-        "price": 5171.1,
-        "change_pct": 2.21,
-        "change": 111.8
+        "price": 5188.6,
+        "change_pct": 2.56,
+        "change": 129.3
       },
       "CL=F": {
-        "price": 65.94,
-        "change_pct": -0.68,
-        "change": -0.45
+        "price": 65.72,
+        "change_pct": -1.01,
+        "change": -0.67
       },
       "SI=F": {
-        "price": 86.46,
-        "change_pct": 5.08,
-        "change": 4.18
+        "price": 87.08,
+        "change_pct": 5.83,
+        "change": 4.8
       },
       "NG=F": {
-        "price": 3.11,
-        "change_pct": 2.0,
-        "change": 0.06
+        "price": 3.09,
+        "change_pct": 1.35,
+        "change": 0.04
       }
     },
     "fear_greed": {
-      "value": 9,
+      "value": 5,
       "label": "Extreme Fear",
       "label_zh": "\u6781\u5ea6\u6050\u60e7",
       "emoji": "\ud83d\ude31"
@@ -109,7 +109,7 @@
       }
     }
   },
-  "updated_at": "2026-02-23T08:10:11.439861",
+  "updated_at": "2026-02-23T12:07:15.518385",
   "deep_analysis": {
     "generated_at": "2026-02-23T08:10:04.528831",
     "market_mood": "\u591a\u5934",
