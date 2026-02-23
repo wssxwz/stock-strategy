@@ -61,6 +61,26 @@ KNOWN_MACRO_EVENTS_2026 = [
 ]
 
 
+def get_earnings_timing(info: dict) -> str:
+    """根据 earningsTimestamp 判断盘前/盘后/未知"""
+    ts = info.get('earningsTimestamp')
+    if not ts:
+        return ''
+    try:
+        import pytz
+        et_tz = pytz.timezone('America/New_York')
+        dt_et = datetime.fromtimestamp(ts, tz=pytz.utc).astimezone(et_tz)
+        h = dt_et.hour
+        if h < 9 or (h == 9 and dt_et.minute < 30):
+            return 'BMO'   # Before Market Open 盘前
+        elif h >= 16:
+            return 'AMC'   # After Market Close 盘后
+        else:
+            return 'BMO'   # 少数情况盘中，当盘前处理
+    except Exception:
+        return ''
+
+
 def get_earnings_calendar(weeks_ahead: int = 6) -> list:
     """从 yfinance 拉取未来N周的财报日历"""
     today = date.today()
@@ -72,7 +92,8 @@ def get_earnings_calendar(weeks_ahead: int = 6) -> list:
 
     for ticker in WATCHLIST_ALL:
         try:
-            cal = yf.Ticker(ticker).calendar
+            tk  = yf.Ticker(ticker)
+            cal = tk.calendar
             earnings_dates = cal.get('Earnings Date', [])
             if not earnings_dates:
                 continue
@@ -86,32 +107,48 @@ def get_earnings_calendar(weeks_ahead: int = 6) -> list:
                 continue
             seen.add(key)
 
-            eps_avg = cal.get('Earnings Average')
+            # 盘前/盘后
+            try:
+                info   = tk.info
+                timing = get_earnings_timing(info)
+            except Exception:
+                timing = ''
+
+            timing_zh  = {'BMO': '盘前📈', 'AMC': '盘后🌙', '': '时间待定'}.get(timing, '')
+            timing_tag = f" [{timing_zh}]" if timing_zh else ''
+
+            eps_avg  = cal.get('Earnings Average')
             eps_high = cal.get('Earnings High')
             eps_low  = cal.get('Earnings Low')
 
-            is_tier1 = ticker in TIER1
-            is_tier2 = ticker in TIER2
+            is_tier1   = ticker in TIER1
+            is_tier2   = ticker in TIER2
             importance = 5 if is_tier1 else (4 if is_tier2 else 3)
 
             tag = ''
             if is_tier1:   tag = '⭐ 核心持仓'
             elif is_tier2: tag = '🎯 重点关注'
 
+            note_parts = []
+            if eps_avg:    note_parts.append(f"EPS预期 ${eps_avg:.2f}")
+            if timing_zh:  note_parts.append(timing_zh)
+
             events.append({
                 'date':       str(ed),
-                'event':      f"{ticker} 财报",
+                'event':      f"{ticker} 财报{timing_tag}",
                 'ticker':     ticker,
                 'category':   'earnings',
                 'importance': importance,
                 'impact':     'neutral',
                 'emoji':      '📋',
                 'tag':        tag,
+                'timing':     timing,
+                'timing_zh':  timing_zh,
                 'eps_est':    round(eps_avg, 3) if eps_avg else None,
                 'eps_range':  f"${eps_low:.2f}~${eps_high:.2f}" if eps_low and eps_high else None,
-                'note':       f"EPS预期 ${eps_avg:.2f}" if eps_avg else '',
+                'note':       ' · '.join(note_parts),
             })
-        except Exception as e:
+        except Exception:
             pass
 
     return sorted(events, key=lambda x: x['date'])
