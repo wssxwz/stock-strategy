@@ -1,0 +1,134 @@
+{
+  "morning_brief": {
+    "generated_at": "2026-02-23T07:50:04.840878",
+    "indices": {
+      "SPY": {
+        "price": 689.43,
+        "change_pct": 0.72,
+        "change": 4.95
+      },
+      "QQQ": {
+        "price": 608.81,
+        "change_pct": 0.88,
+        "change": 5.34
+      },
+      "DIA": {
+        "price": 496.08,
+        "change_pct": 0.47,
+        "change": 2.31
+      },
+      "IWM": {
+        "price": 264.61,
+        "change_pct": 0.0,
+        "change": 0.01
+      }
+    },
+    "commodities": {
+      "GC=F": {
+        "price": 5171.1,
+        "change_pct": 2.21,
+        "change": 111.8
+      },
+      "CL=F": {
+        "price": 65.94,
+        "change_pct": -0.68,
+        "change": -0.45
+      },
+      "SI=F": {
+        "price": 86.46,
+        "change_pct": 5.08,
+        "change": 4.18
+      },
+      "NG=F": {
+        "price": 3.11,
+        "change_pct": 2.0,
+        "change": 0.06
+      }
+    },
+    "fear_greed": {
+      "value": 9,
+      "label": "Extreme Fear",
+      "label_zh": "\u6781\u5ea6\u6050\u60e7",
+      "emoji": "\ud83d\ude31"
+    },
+    "sectors": {
+      "XLC": {
+        "name": "\u901a\u4fe1",
+        "change_pct": 1.44,
+        "price": 116.8
+      },
+      "XLY": {
+        "name": "\u975e\u5fc5\u9700\u6d88\u8d39",
+        "change_pct": 1.04,
+        "price": 117.45
+      },
+      "XLRE": {
+        "name": "\u623f\u5730\u4ea7",
+        "change_pct": 0.83,
+        "price": 43.56
+      },
+      "XLF": {
+        "name": "\u91d1\u878d",
+        "change_pct": 0.65,
+        "price": 52.49
+      },
+      "XLI": {
+        "name": "\u5de5\u4e1a",
+        "change_pct": 0.5,
+        "price": 177.23
+      },
+      "XLK": {
+        "name": "\u79d1\u6280",
+        "change_pct": 0.48,
+        "price": 140.88
+      },
+      "XLU": {
+        "name": "\u516c\u7528\u4e8b\u4e1a",
+        "change_pct": 0.48,
+        "price": 46.33
+      },
+      "XLP": {
+        "name": "\u5fc5\u9700\u6d88\u8d39",
+        "change_pct": 0.25,
+        "price": 87.89
+      },
+      "XLB": {
+        "name": "\u6750\u6599",
+        "change_pct": 0.25,
+        "price": 52.96
+      },
+      "XLV": {
+        "name": "\u533b\u7597",
+        "change_pct": -0.28,
+        "price": 156.82
+      },
+      "XLE": {
+        "name": "\u80fd\u6e90",
+        "change_pct": -0.54,
+        "price": 54.88
+      }
+    }
+  },
+  "updated_at": "2026-02-23T08:10:11.439861",
+  "deep_analysis": {
+    "generated_at": "2026-02-23T08:10:04.528831",
+    "market_mood": "\u591a\u5934",
+    "fear_greed": {
+      "value": 5,
+      "label": "Extreme Fear",
+      "label_zh": "\u6781\u5ea6\u6050\u60e7",
+      "emoji": "\ud83d\ude31"
+    },
+    "advice": {
+      "market_mood": "\u591a\u5934",
+      "advices": [
+        "\ud83d\udc8e \u5e02\u573a\u6781\u5ea6\u6050\u60e7\uff0c\u5386\u53f2\u4e0a\u662f\u8f83\u597d\u7684\u4e70\u5165\u7a97\u53e3\uff0c\u53ef\u9010\u6b65\u52a0\u4ed3",
+        "\ud83c\udfc6 \u6700\u5f3a\u677f\u5757\uff1a\u901a\u4fe1 (+1.4%)\uff0c\u53ef\u5173\u6ce8\u76f8\u5173\u4e2a\u80a1",
+        "\ud83d\ude80 \u6574\u4f53\u591a\u5934\u8d8b\u52bf\uff0c\u6301\u4ed3\u4e3a\u4e3b\uff0c\u4fe1\u53f7\u89e6\u53d1\u53ef\u52a0\u4ed3"
+      ],
+      "risks": [],
+      "fg_value": 5,
+      "fg_label_zh": "\u6781\u5ea6\u6050\u60e7"
+    }
+  }
+}

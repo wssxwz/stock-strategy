@@ -131,6 +131,23 @@ textarea{width:100%;height:180px;padding:12px;background:#0f172a;border:1px soli
 /* ── 空状态 ── */
 .empty-msg{text-align:center;padding:48px 20px;color:var(--muted);font-size:14px}
 
+/* ── 周报 ── */
+.weekly-item{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;cursor:pointer;transition:.15s}
+.weekly-item:hover{border-color:var(--accent)}
+.weekly-item.active{border-color:var(--accent);background:#1e3a5f}
+.wr-section{margin-bottom:22px}
+.wr-section-title{font-size:14px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.wr-item{font-size:14px;padding:8px 0;border-bottom:1px solid var(--border);line-height:1.5;color:#cbd5e1}
+.wr-item:last-child{border:none}
+.mood-badge-wr{padding:8px 20px;border-radius:30px;font-weight:700;font-size:16px}
+.mood-badge-wr.bullish{background:#1a4731;color:var(--green)}
+.mood-badge-wr.bearish{background:#4a1919;color:var(--red)}
+.mood-badge-wr.neutral{background:#3a3000;color:var(--gold)}
+.badge.bullish{background:rgba(34,197,94,.15);color:var(--green)}
+.badge.bearish{background:rgba(239,68,68,.15);color:var(--red)}
+.badge.neutral{background:rgba(245,158,11,.15);color:var(--gold)}
+.badge.warning{background:rgba(245,158,11,.15);color:var(--gold)}
+
 /* ── 持仓部分标题 ── */
 .sub-title{font-size:15px;font-weight:600;margin:24px 0 14px;color:var(--muted)}
 
@@ -163,6 +180,7 @@ textarea{width:100%;height:180px;padding:12px;background:#0f172a;border:1px soli
   <button class="tab-btn" data-tab="signals">📡 信号列表</button>
   <button class="tab-btn" data-tab="positions">💼 我的持仓</button>
   <button class="tab-btn" data-tab="history">📜 推送历史</button>
+  <button class="tab-btn" data-tab="weekly">📅 周末总结</button>
   <button class="tab-btn" data-tab="settings">⚙️ 设置</button>
 </div>
 
@@ -211,6 +229,20 @@ textarea{width:100%;height:180px;padding:12px;background:#0f172a;border:1px soli
   <!-- Tab: 推送历史 -->
   <div class="tab-panel" id="panel-history">
     <div id="history-list"><div class="empty-msg">暂无推送历史</div></div>
+  </div>
+
+  <!-- Tab: 周末总结 -->
+  <div class="tab-panel" id="panel-weekly">
+    <!-- 历史周报列表（左） + 当前内容（右） -->
+    <div style="display:grid;grid-template-columns:220px 1fr;gap:20px">
+      <div>
+        <div class="card-title" style="margin-bottom:12px">📋 历史周报</div>
+        <div id="weekly-list" style="display:flex;flex-direction:column;gap:8px"></div>
+      </div>
+      <div class="card" id="weekly-content">
+        <div class="empty-msg">← 选择一份周报查看</div>
+      </div>
+    </div>
   </div>
 
   <!-- Tab: 设置 -->

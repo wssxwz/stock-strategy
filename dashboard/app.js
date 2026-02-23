@@ -43,6 +43,7 @@ function renderTab(tab) {
   if (tab==='signals')   renderSignals();
   if (tab==='positions') renderPositions();
   if (tab==='history')   renderHistory();
+  if (tab==='weekly')    renderWeekly();
   if (tab==='settings')  renderSettings();
 }
 
@@ -263,7 +264,106 @@ function renderHistory() {
     </div>`).join('');
 }
 
-// ── Tab 5: 设置 & 导入 ────────────────────────────────
+// ── Tab 5: 周末总结 ───────────────────────────────────
+async function renderWeekly() {
+  // 优先从 localStorage，其次从同域 JSON 文件加载
+  let reports = DB.get('weekly_reports', []);
+  if (!reports.length) {
+    try {
+      const res = await fetch('./weekly_reports.json?_=' + Date.now());
+      if (res.ok) {
+        reports = await res.json();
+        DB.set('weekly_reports', reports);
+      }
+    } catch(e) {}
+  }
+  const list    = document.getElementById('weekly-list');
+  const content = document.getElementById('weekly-content');
+
+  if (!reports.length) {
+    list.innerHTML = '<div style="font-size:13px;color:var(--muted)">暂无周报</div>';
+    content.innerHTML = '<div class="empty-msg">每周一自动生成，也可手动导入</div>';
+    return;
+  }
+
+  list.innerHTML = reports.map((r,i) => `
+    <div class="weekly-item ${i===0?'active':''}" onclick="showWeekly(${i})" id="witem-${i}">
+      <div style="font-weight:600;font-size:13px">${r.week_label||r.date}</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px">${r.generated_at?.slice(0,10)||''}</div>
+    </div>`).join('');
+
+  showWeekly(0);
+}
+
+window.showWeekly = function(idx) {
+  const reports = DB.get('weekly_reports', []);
+  const r = reports[idx];
+  if (!r) return;
+
+  document.querySelectorAll('.weekly-item').forEach((el,i) =>
+    el.classList.toggle('active', i===idx));
+
+  const content = document.getElementById('weekly-content');
+
+  // 解析结构化周报字段
+  const sectionHTML = (icon, title, items) => items&&items.length ? `
+    <div class="wr-section">
+      <div class="wr-section-title">${icon} ${title}</div>
+      ${items.map(it=>`<div class="wr-item">${it}</div>`).join('')}
+    </div>` : '';
+
+  const events  = r.weekend_events || [];
+  const outlook = r.market_outlook  || {};
+  const stocks  = r.core_stocks     || [];
+  const risks   = r.risks           || [];
+  const strategy= r.strategy        || [];
+
+  content.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <div>
+        <div style="font-size:20px;font-weight:700">${r.week_label||r.date} 周末市场总结</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px">生成于 ${r.generated_at?.slice(0,16)||''}</div>
+      </div>
+      <div class="mood-badge-wr ${outlook.mood_class||''}">${outlook.mood_emoji||''} ${outlook.mood||'--'}</div>
+    </div>
+
+    ${sectionHTML('🗞️','周末重大事件', events.map(e=>`
+      <div style="display:flex;gap:10px;align-items:flex-start">
+        <span style="font-size:16px;flex-shrink:0">${e.emoji||'📌'}</span>
+        <div>
+          <div style="font-weight:600;font-size:14px">${e.title}</div>
+          <div style="font-size:13px;color:var(--muted);margin-top:2px">${e.detail}</div>
+          <div class="badge ${e.impact_class||'neutral'}" style="margin-top:4px">${e.impact}</div>
+        </div>
+      </div>`))}
+
+    ${sectionHTML('📊','今晚开盘预判', outlook.items||[])}
+
+    ${stocks.length?`
+    <div class="wr-section">
+      <div class="wr-section-title">⭐ 核心持仓判断</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+        ${stocks.map(s=>`
+          <div style="background:#0f172a;border-radius:10px;padding:14px">
+            <div style="font-size:18px;font-weight:800;margin-bottom:6px">${s.ticker}</div>
+            <div class="badge ${s.outlook_class}" style="margin-bottom:8px">${s.outlook}</div>
+            <div style="font-size:12px;color:var(--muted)">${s.reason}</div>
+          </div>`).join('')}
+      </div>
+    </div>`:''}
+
+    ${sectionHTML('🎯','本周操作策略', strategy)}
+    ${sectionHTML('⚠️','主要风险提示', risks)}
+
+    ${r.raw_content?`
+    <details style="margin-top:20px">
+      <summary style="cursor:pointer;color:var(--muted);font-size:13px">查看原文</summary>
+      <pre style="margin-top:12px;white-space:pre-wrap;font-size:13px;color:#cbd5e1;line-height:1.6">${r.raw_content}</pre>
+    </details>`:''}
+  `;
+};
+
+// ── Tab 6: 设置 & 导入 ────────────────────────────────
 function renderSettings() {}
 
 window.parseAndImport = function() {
