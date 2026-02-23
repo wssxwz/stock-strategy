@@ -2,15 +2,41 @@
 监控系统配置文件
 """
 
-# ── 股票池 ──
-WATCHLIST = [
-    # ★ Tier1 核心持仓（优先级最高）
-    'TSLA', 'GOOGL', 'NVDA', 'META',
-    # ★ Tier2 重点关注（关注板块精选）
-    'RKLB', 'ASTS', 'PLTR', 'AMD', 'AVGO', 'LLY', 'AMZN',
-    'MSFT', 'AAPL', 'CRWD', 'NOW', 'DDOG', 'NEM', 'GDX',
-    # 板块ETF（板块强弱信号）
-    'XLK', 'SOXX', 'XLE', 'XLV', 'XLY', 'TLT', 'GLD',
+# ── 股票池（分层管理）────────────────────────────────────────────
+#
+# 为什么要分层？
+#   混合 500+ 只一起扫，信号质量严重不均：
+#   - TSLA 信号的参考价值 ≠ BALL(Ball Corp) 的信号价值
+#   - 每次全量扫描耗时长且 API 失败率高
+#   策略：日常扫 Tier1+Tier2（30 只，高质量），全量留给周末批量运行
+#
+# 默认 WATCHLIST 为 Tier1 + Tier2（约 30 只）
+# 全量扫描在 full_scan.py 里用 WATCHLIST_FULL
+
+WATCHLIST_TIER1 = [
+    # 核心持仓：最高优先级，每次必扫
+    'TSLA', 'META', 'CRWD', 'PANW', 'ORCL',
+    'RKLB', 'OKLO', 'SOUN', 'SNOW', 'ARM',
+    'AMD',  'NNE',  'SOFI', 'DXYZ', 'ASTS', 'IONQ',
+]
+
+WATCHLIST_TIER2 = [
+    # 重点关注：高质量机会股
+    'GOOGL', 'NVDA', 'MSFT', 'AAPL', 'AMZN',
+    'PLTR',  'AVGO', 'LLY',  'NOW',  'DDOG',
+    'NEM',   'GDX',  'COIN', 'MSTR', 'ANET',
+]
+
+WATCHLIST_ETF = [
+    # 板块 ETF：用于判断板块强弱（不发买入信号，仅观察）
+    'SPY', 'QQQ', 'XLK', 'SOXX', 'XLE', 'XLV', 'TLT', 'GLD',
+]
+
+# 默认 WATCHLIST = Tier1 + Tier2（日常扫描用）
+WATCHLIST = WATCHLIST_TIER1 + WATCHLIST_TIER2
+
+# 全量扫描（周末/特殊时期用）
+WATCHLIST_FULL = WATCHLIST + [
     # S&P 500 股票池（501只，来源：格格list CSV，排除BRK.B/BF.B）
     'IDXX', 'MLM', 'BEN', 'EMN', 'FFIV', 'WSM', 'TSN', 'SMCI',
     'IR', 'RMD', 'APH', 'TTD', 'TPR', 'PCG', 'MPWR', 'NEM',
@@ -75,7 +101,7 @@ WATCHLIST = [
     'EXE', 'BA', 'DHR', 'DOW', 'IEX', 'TER', 'AMZN', 'FICO',
     'APTV', 'TECH', 'STX', 'WBD', 'BLDR', 'LW', 'CHD', 'DXCM',
     'WAT', 'PARA', 'KHC', 'LYB', 'ON',
-]
+]  # end WATCHLIST_FULL
 
 # ── 策略参数（基于逆向工程结果）──
 STRATEGY = {

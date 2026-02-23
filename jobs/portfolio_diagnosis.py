@@ -132,6 +132,37 @@ def assess_trend_filter(tech: dict, spy_hist=None, stock_hist=None) -> dict:
 # Layer 2: 质量评分（决定仓位）
 # ─────────────────────────────────────────────────────────────
 
+def calc_trailing_stop(cost: float, current_price: float, pnl_pct: float) -> tuple:
+    """
+    动态止损追踪（P1 改造）
+    
+    为什么需要？
+      固定 -8% 止损在入场后就不再变动，导致：
+      - 盈利 +30% 后股价回落，最终可能白忙一场
+      - NBIS 从 $31 涨到 $100，靠直觉卖出而非系统信号
+      
+    规则（短线偏保守）：
+      盈利 >50%：止损上移至当前价 -10%（锁定大部分利润）
+      盈利 >30%：止损上移至成本 +10%（至少赚 10%）
+      盈利 >15%：止损上移至成本（保本）
+      盈利 >0%：原始止损 -8%
+      亏损：原始止损 -8%（已在外部提醒）
+    """
+    if pnl_pct > 50:
+        stop = current_price * 0.90
+        note = f'移动止损：当前价-10%（锁定大部分利润，盈利{pnl_pct:.0f}%）'
+    elif pnl_pct > 30:
+        stop = cost * 1.10
+        note = f'止损上移至成本+10%（保超额利润，盈利{pnl_pct:.0f}%）'
+    elif pnl_pct > 15:
+        stop = cost * 1.00
+        note = f'止损上移至成本价（保本，盈利{pnl_pct:.0f}%）'
+    else:
+        stop = cost * 0.92
+        note = f'原始止损 -8%（成本 ${cost:.2f}）'
+    return stop, note
+
+
 def calc_quality_score(pos: dict, tech: dict, fund: dict, analyst: dict) -> dict:
     """
     Layer 2: 质量评分
@@ -422,17 +453,40 @@ def analyze_ticker(pos: dict) -> dict:
         trend = assess_trend_filter(tech)
         result['trend'] = trend
 
-        # ── Layer 2: 质量评分 ─────────────────────────
+            # ── Layer 2: 质量评分 ─────────────────────────
         quality = calc_quality_score(pos, tech, fund, analyst)
+
+        # ── P1: 趋势乘数（消除乐观偏差）────────────────
+        # 原来：tech + fund 可互相抵消 → 趋势再差也高分
+        # 现在：最终分 = 质量分 × 趋势乘数 → 趋势破位必然拉低总分
+        trend_multiplier = {
+            'healthy': 1.00,   # 趋势健康：不折扣
+            'weak':    0.75,   # 趋势转弱：打七五折
+            'broken':  0.50,   # 趋势破位：打五折
+            'critical':0.25,   # 严重破位：打二五折
+        }.get(trend['trend_status'], 0.75)
+
+        adjusted_score = round(quality['score'] * trend_multiplier, 1)
+        quality['raw_score'] = quality['score']
+        quality['trend_multiplier'] = trend_multiplier
+        quality['score'] = adjusted_score
         result['quality'] = quality
 
-        # ── 综合建议（结合两层）────────────────────────
+        # ── P1: 动态止损追踪 ─────────────────────────
+        trailing_stop_price, trailing_stop_note = calc_trailing_stop(
+            cost, price, pnl_pct)
+        result['trailing_stop'] = {
+            'price': round(trailing_stop_price, 2),
+            'note': trailing_stop_note,
+        }
+
+        # ── 综合建议（结合两层，用 adjusted_score）────
         if not trend['can_hold']:
             action = 'exit'
             action_text = '建议止损/离场'
             action_color = 'bearish'
         elif not trend['can_add']:
-            if quality['score'] >= 60:
+            if adjusted_score >= 55:
                 action = 'hold'
                 action_text = '观望持有（趋势弱但质量尚可）'
                 action_color = 'neutral'
@@ -442,11 +496,11 @@ def analyze_ticker(pos: dict) -> dict:
                 action_color = 'caution'
         else:
             # 趋势健康，看质量决定
-            if quality['score'] >= 70:
+            if adjusted_score >= 70:
                 action = 'hold_or_add'
                 action_text = '持有/可加仓'
                 action_color = 'bullish'
-            elif quality['score'] >= 50:
+            elif adjusted_score >= 50:
                 action = 'hold'
                 action_text = '持有'
                 action_color = 'neutral'
@@ -490,7 +544,7 @@ def _rec_zh(rec):
 
 
 def generate_portfolio_overview(results: list) -> dict:
-    """整体持仓健康度分析"""
+    """整体持仓健康度分析（P1/P2 改造：乘法评分 + 板块集中度）"""
     valid = [r for r in results if 'diagnosis' in r]
     scores = [r['diagnosis']['score'] for r in valid]
     avg_score = sum(scores) / len(scores) if scores else 50
@@ -507,11 +561,45 @@ def generate_portfolio_overview(results: list) -> dict:
         t = r.get('trend', {}).get('trend_status', 'unknown')
         trend_dist[t] = trend_dist.get(t, 0) + 1
 
-    # 健康度标签
-    if avg_score >= 70:
+    # ── P2: 板块集中度风险 ──────────────────────────────
+    sector_map = {}
+    for r in valid:
+        sector = r.get('fund', {}).get('sector', '未知')
+        if not sector:
+            sector = '未知'
+        sector_map[r['ticker']] = sector
+
+    from collections import Counter
+    sector_counts = Counter(sector_map.values())
+    total = len(valid) or 1
+    concentration_warnings = []
+    for sector, cnt in sector_counts.most_common():
+        pct = cnt / total * 100
+        if pct > 50:
+            concentration_warnings.append(
+                f'🚨 {sector} 板块占比 {pct:.0f}%，风险极度集中，建议对冲或减仓')
+        elif pct > 35:
+            concentration_warnings.append(
+                f'⚠️ {sector} 板块占比 {pct:.0f}%，集中度偏高')
+
+    # ── P2: 动态止损提醒（全仓汇总）─────────────────────
+    trailing_alerts = []
+    for r in valid:
+        ts = r.get('trailing_stop', {})
+        pnl = r.get('pnl_pct', 0)
+        if pnl > 15 and ts.get('price'):
+            trailing_alerts.append({
+                'ticker': r['ticker'],
+                'trailing_stop': ts['price'],
+                'note': ts.get('note', ''),
+                'pnl_pct': pnl,
+            })
+
+    # 健康度标签（基于乘法后的评分，更严格）
+    if avg_score >= 65:
         health_label = '健康'
         health_color = 'bullish'
-    elif avg_score >= 50:
+    elif avg_score >= 45:
         health_label = '中性'
         health_color = 'neutral'
     else:
@@ -525,6 +613,9 @@ def generate_portfolio_overview(results: list) -> dict:
         'total_count': len(valid),
         'actions': actions,
         'trend_distribution': trend_dist,
+        'sector_distribution': dict(sector_counts),
+        'concentration_warnings': concentration_warnings,
+        'trailing_stop_alerts': trailing_alerts,
         'generated_at': datetime.now().isoformat(),
     }
 

@@ -14,6 +14,7 @@ from fast_scan import phase1_filter, phase2_score
 from portfolio import load_portfolio, check_positions, format_exit_alert
 from signal_engine import format_signal_message
 from config import WATCHLIST, NOTIFY
+from market_regime import get_market_regime, regime_header
 
 STATE_FILE = os.path.join(os.path.dirname(__file__), '.monitor_state.json')
 
@@ -78,14 +79,34 @@ def main():
         print("[持仓检查] 无持仓记录，跳过")
 
     # ════════════════════════════════════
-    # 第二部分：扫描买入信号
+    # 第二部分：市场环境识别
+    # ════════════════════════════════════
+    regime = get_market_regime()
+    effective_min_score = regime['min_score']
+    print(f"\n[市场环境] {regime['detail']}")
+    print(f"[信号阈值] score≥{effective_min_score}（{'正常' if regime['regime']=='bull' else '已上调'}）")
+
+    if not regime['signal_allowed']:
+        print(f"\n⛔ 当前为{regime['regime_zh']}模式，暂停买入信号扫描")
+        save_state(state)
+        return
+
+    # ════════════════════════════════════
+    # 第三部分：扫描买入信号
     # ════════════════════════════════════
     print(f"\n[买入扫描] 开始扫描 {len(WATCHLIST)} 只股票...")
     candidates = phase1_filter(WATCHLIST)
-    buy_signals = phase2_score(candidates) if candidates else []
+    # phase2_score 后按动态阈值过滤
+    buy_signals_raw = phase2_score(candidates) if candidates else []
+    buy_signals = [s for s in buy_signals_raw if s['score'] >= effective_min_score]
+    print(f"[信号过滤] 原始触发 {len(buy_signals_raw)} 只 → 达到阈值 {len(buy_signals)} 只")
 
     new_buy = []
     for sig in buy_signals:
+        # 附加市场环境信息到信号
+        sig['market_regime']   = regime['regime']
+        sig['market_regime_zh']= regime['regime_zh']
+        sig['effective_score_threshold'] = effective_min_score
         key = signal_key(sig)
         if key not in state['sent_signals']:
             new_buy.append(sig)
@@ -98,7 +119,7 @@ def main():
     batch_raw = "\n\n".join([format_signal_message(sig) for sig in new_buy])
     if new_buy:
         batch_title = f"📣 全市场扫描信号（{datetime.now().strftime('%Y-%m-%d %H:%M')} 北京）"
-        batch_summary = f"✅ 买入 {len(new_buy)} / 卖出 0｜强趋势 {sum(1 for s in new_buy if s['score']>=85)} 只"
+        batch_summary = f"✅ 买入 {len(new_buy)} / 卖出 0｜强趋势 {sum(1 for s in new_buy if s['score']>=85)} 只｜{regime['regime_zh']}模式"
     
     for sig in new_buy:
         msg = format_signal_message(sig)

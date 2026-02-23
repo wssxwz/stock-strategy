@@ -15,7 +15,7 @@ import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 from analyzer.indicators import add_all_indicators
-from signal_engine import score_signal, format_signal_message
+from signal_engine import score_signal, check_stabilization, format_signal_message
 from config import WATCHLIST, NOTIFY
 
 STATE_FILE = os.path.join(os.path.dirname(__file__), '.monitor_state.json')
@@ -128,7 +128,14 @@ def phase2_score(candidates: list) -> list:
             row = df.iloc[-1]
             sig = score_signal(row, ticker)
 
-            status = f"    {ticker:<6} 评分={sig['score']:>3}  RSI={sig['rsi14']:>5.1f}  BB%={sig['bb_pct']:>6.3f}  MA200={'✅' if sig['above_ma200'] else '❌'}"
+            # ── P0: 企稳确认（有完整 df，做全量检查）────────────
+            stab = check_stabilization(df)
+            sig['score'] = min(100, sig['score'] + stab['score_bonus'])
+            sig['stabilization'] = stab
+            # 把企稳信号插入 details 最前面
+            sig['details'] = stab['signals'] + sig.get('details', [])
+
+            status = f"    {ticker:<6} 评分={sig['score']:>3}  RSI={sig['rsi14']:>5.1f}  BB%={sig['bb_pct']:>6.3f}  MA200={'✅' if sig['above_ma200'] else '❌'}  企稳={'✅' if stab['confirmed'] else '⚠️'}"
             if sig['score'] >= NOTIFY['min_score']:
                 status += f"  ← 🔔 信号触发!"
             print(status)

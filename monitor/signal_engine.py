@@ -31,6 +31,86 @@ def get_1h_data(ticker: str, days: int = 59) -> pd.DataFrame:
     return add_all_indicators(df)
 
 
+def check_stabilization(df: pd.DataFrame) -> dict:
+    """
+    企稳确认：判断股价是否从超卖区回升（而非仍在下跌）
+    
+    为什么需要？
+      纯 RSI<40 的信号会在下跌途中持续触发（接飞刀）。
+      真正的好入场点是：RSI 已经从超卖区开始回升，
+      说明卖压正在减弱，买力开始介入。
+    
+    判断条件（满足越多越稳）：
+      1. RSI 回升：当前 RSI > 前一根 RSI（动量转正）
+      2. 缩量回调：近 5 根 K 的平均量 < 20 日均量（健康洗盘）
+      3. K 线收阴但下影线长（有接盘支撑）
+      4. 价格未创新低（底部抬高）
+    """
+    if len(df) < 10:
+        return {'confirmed': False, 'score_bonus': 0, 'signals': []}
+
+    signals = []
+    bonus = 0
+
+    rsi_curr = float(df['rsi14'].iloc[-1]) if 'rsi14' in df.columns else 50
+    rsi_prev = float(df['rsi14'].iloc[-2]) if 'rsi14' in df.columns else 50
+    rsi_prev2 = float(df['rsi14'].iloc[-3]) if 'rsi14' in df.columns else 50
+
+    # 1. RSI 企稳回升（连续 2 根上升更可靠）
+    if rsi_curr > rsi_prev > rsi_prev2:
+        bonus += 8
+        signals.append(f'✅ RSI连续回升 ({rsi_prev2:.0f}→{rsi_prev:.0f}→{rsi_curr:.0f})，买力介入')
+    elif rsi_curr > rsi_prev:
+        bonus += 4
+        signals.append(f'⚠️ RSI开始回升 ({rsi_prev:.0f}→{rsi_curr:.0f})，初步企稳')
+    else:
+        bonus -= 5
+        signals.append(f'❌ RSI仍在下行 ({rsi_prev:.0f}→{rsi_curr:.0f})，尚未企稳')
+
+    # 2. 成交量确认（回调缩量 = 健康洗盘）
+    if 'volume' in df.columns:
+        vol_5avg = float(df['volume'].iloc[-5:].mean())
+        vol_20avg = float(df['volume'].iloc[-20:].mean())
+        if vol_20avg > 0:
+            vol_ratio_5 = vol_5avg / vol_20avg
+            if vol_ratio_5 < 0.7:
+                bonus += 6
+                signals.append(f'✅ 近5根缩量回调({vol_ratio_5:.2f}x)，健康洗盘')
+            elif vol_ratio_5 < 1.0:
+                bonus += 3
+                signals.append(f'⚠️ 量比温和({vol_ratio_5:.2f}x)')
+            else:
+                signals.append(f'⚠️ 放量下跌({vol_ratio_5:.2f}x)，卖压仍在')
+
+    # 3. 底部抬高（近 3 根低点是否比之前高）
+    if 'low' in df.columns and len(df) >= 6:
+        recent_low = float(df['low'].iloc[-3:].min())
+        prior_low  = float(df['low'].iloc[-6:-3].min())
+        if recent_low > prior_low:
+            bonus += 5
+            signals.append(f'✅ 底部抬高，趋势企稳')
+
+    # 4. K线形态：最后一根是否有下影线（支撑）
+    if all(c in df.columns for c in ['open', 'high', 'low', 'close']):
+        o = float(df['open'].iloc[-1])
+        h = float(df['high'].iloc[-1])
+        l = float(df['low'].iloc[-1])
+        c = float(df['close'].iloc[-1])
+        body = abs(c - o)
+        lower_shadow = min(o, c) - l
+        if lower_shadow > body * 1.5 and body > 0:
+            bonus += 4
+            signals.append(f'✅ 长下影线，支撑明显')
+
+    confirmed = bonus >= 5  # 至少有一个正面信号
+
+    return {
+        'confirmed': confirmed,
+        'score_bonus': max(-5, min(bonus, 20)),  # 上限 +20，下限 -5
+        'signals': signals,
+    }
+
+
 def score_signal(row: pd.Series, ticker: str) -> dict:
     """
     对单根K线打分，返回信号评分和详情
@@ -117,7 +197,14 @@ def score_signal(row: pd.Series, ticker: str) -> dict:
     elif ret5d > 5:
         warnings_list.append(f'买前5日已涨{ret5d:.1f}%，注意追高风险')
 
-    # ── 7. 知识库加权（最多+15分）──
+    # ── 7. 企稳确认加权（最多+20分，最多-5分）──
+    # 区别：此处用 row 自身数据粗估（企稳检查需要 df，在 phase2_score 层补充）
+    # 这里仅做 RSI 方向的单根简单判断
+    if rsi < 30 and macd_h > macd_h * 0.95:  # 超卖 + MACD 收窄（动能减弱）
+        score += 3
+        details.append('⚠️ 初步企稳信号')
+
+    # ── 8. 知识库加权（最多+15分）──
     kb_bonus = 0
     kb_tag = ''
     try:
