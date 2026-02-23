@@ -730,8 +730,14 @@ function renderPositions() {
   }
   const active = DB.positions().filter(p=>!p.closed);
   const closed = DB.positions().filter(p=>p.closed);
-  const grid   = document.getElementById('positions-grid');
+
+  // 兼容旧版 DOM：positions-grid 在 v2 已移除
+  const grid   = document.getElementById('positions-grid') || document.getElementById('pos-table');
   const hgrid  = document.getElementById('closed-grid');
+  if (!grid || !hgrid) {
+    console.warn('[positions] missing containers', {grid:!!grid, hgrid:!!hgrid});
+    return;
+  }
 
   // 活跃持仓
   grid.innerHTML = active.length ? active.map(p => {
