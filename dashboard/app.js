@@ -143,7 +143,6 @@ function renderDiagnosis(data) {
   const stocks = [...(data.stocks||[])].sort((a,b) =>
     (b.diagnosis?.score||0) - (a.diagnosis?.score||0));
 
-  const listEl = document.getElementById('diag-stocks-list');
   listEl.innerHTML = stocks.map((s, idx) => {
     const diag = s.diagnosis || {};
     const tech = s.tech || {};
