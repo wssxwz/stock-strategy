@@ -548,9 +548,20 @@ const FUTU_POSITIONS_INIT = [
   {ticker:'SOFI',name:'SoFi Technologies',shares:150,cost:24.693,price:18.66, pnl:-905.00, pnlPct:-24.43,type:'stock'},
   {ticker:'DXYZ',name:'Destiny Tech100', shares:100,cost:30.100, price:27.71, pnl:-239.00, pnlPct:-7.94, type:'stock'},
   {ticker:'ASTS',name:'AST SpaceMobile', shares:30, cost:97.000, price:78.81, pnl:-545.70, pnlPct:-18.75,type:'stock'},
-  {ticker:'NBIS',name:'NEBIUS',          shares:15, cost:31.810, price:94.92, pnl:946.65,  pnlPct:198.40,type:'stock'},
   {ticker:'IONQ',name:'IonQ Inc',        shares:20, cost:45.000, price:31.25, pnl:-275.00, pnlPct:-30.56,type:'stock'},
   {ticker:'NFLX',name:'NFLX CALL 260320 85',shares:2,cost:4.200,price:1.29,  pnl:-582.00, pnlPct:-69.29,type:'options',expiry:'2026-03-20',strike:85},
+];
+
+// ── 已平仓记录（手动维护）──────────────────────────────
+const CLOSED_TRADES = [
+  {
+    ticker: 'NBIS', name: 'NEBIUS',
+    shares: 15, cost: 31.810, exit_price: 100.00,
+    pnl: 1022.85,
+    pnlPct: 214.37,
+    exit_date: '2026-02-24', exit_type: 'win',
+    note: '止盈出场 +$100',
+  },
 ];
 
 function loadPrivatePositions() {
@@ -731,7 +742,32 @@ function renderPositionsTab() {
             <div class="pos-bar" style="width:${barW}px;background:${barC}"></div>
           </div></td></tr>`;
       }).join('')}</tbody>
-    </table></div>`;
+    </table></div>
+    ${CLOSED_TRADES.length ? `
+    <div style="margin-top:28px">
+      <div style="font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.05em;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,.08)">
+        📋 已平仓记录（${CLOSED_TRADES.length}笔）
+      </div>
+      <div class="pos-table-wrap"><table class="pos-table-el">
+        <thead><tr><th>标的</th><th>成本</th><th>出场价</th><th>数量</th><th>盈亏额</th><th>盈亏%</th><th>日期</th></tr></thead>
+        <tbody>${CLOSED_TRADES.map(p => {
+          const isUp=p.pnlPct>=0, cls=isUp?'pos-pnl-up':'pos-pnl-dn', sign=isUp?'+':'';
+          return `<tr style="opacity:.75">
+            <td><div class="pos-ticker-cell">
+              <span class="pos-ticker-name">${p.ticker}</span>
+              <span class="pos-ticker-sub">${p.name}</span>
+              <span class="pos-options-tag" style="background:${isUp?'rgba(16,185,129,.2)':'rgba(239,68,68,.2)'}">${p.exit_type==='win'?'🎯 止盈':'🛡️ 止损'}</span>
+            </div></td>
+            <td style="color:var(--muted)">$${p.cost}</td>
+            <td>$${p.exit_price.toFixed(2)}</td>
+            <td>${p.shares}</td>
+            <td class="${cls}">${sign}$${Math.abs(p.pnl).toFixed(2)}</td>
+            <td class="${cls}">${sign}${p.pnlPct.toFixed(2)}%</td>
+            <td style="color:var(--muted);font-size:12px">${p.exit_date}</td>
+          </tr>`;
+        }).join('')}</tbody>
+      </table></div>
+    </div>` : ''}`;
 }
 
 // ── Tab 3: 我的持仓 ───────────────────────────────────
