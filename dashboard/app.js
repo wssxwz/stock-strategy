@@ -150,12 +150,27 @@ function renderDiagnosis(data) {
     <div class="diag-stat-lbl">平均评分</div>
   </div>`;
 
-  // 宏观建议
-  macroEl.innerHTML = (ov.macro_advice || []).map(a =>
-    `<div class="diag-macro-item">${a}</div>`
-  ).join('') + (ov.concentration||[]).map(c =>
-    `<div class="diag-macro-item" style="color:var(--gold)">⚠️ ${c}</div>`
-  ).join('');
+  // 宏观建议 + 板块集中度 + 动态止损提醒
+  const macroItems = [];
+
+  // 板块集中度警告（P2）
+  (ov.concentration_warnings || ov.concentration || []).forEach(c =>
+    macroItems.push(`<div class="diag-macro-item" style="color:var(--red)">${c}</div>`)
+  );
+
+  // 动态止损提醒（P1）
+  (ov.trailing_stop_alerts || []).forEach(t =>
+    macroItems.push(`<div class="diag-macro-item" style="color:var(--gold)">
+      🎯 <b>${t.ticker}</b> 动态止损建议：${t.note}（盈利 +${t.pnl_pct?.toFixed(0)||'--'}%）
+    </div>`)
+  );
+
+  // 普通宏观建议
+  (ov.macro_advice || []).forEach(a =>
+    macroItems.push(`<div class="diag-macro-item">${a}</div>`)
+  );
+
+  macroEl.innerHTML = macroItems.join('') || '<div class="diag-macro-item" style="color:var(--muted)">暂无宏观建议</div>';
 
   // 个股列表（按评分排序）
   const stocks = [...(data.stocks||[])].sort((a,b) =>
@@ -192,6 +207,16 @@ function renderDiagnosis(data) {
           <div><span style="color:var(--muted);font-size:11px">Beta</span><br><b>${fund.beta?.toFixed(2)||'--'}</b></div>
         </div>
         ${allSignals.map(sig => `<div class="diag-signal ${sig.type||'neutral'}">${sig.text}</div>`).join('')}
+        ${s.trailing_stop?.price ? `
+        <div style="margin-top:10px;padding:8px 10px;background:rgba(245,158,11,.12);border-radius:6px;border-left:3px solid var(--gold)">
+          <span style="font-size:11px;font-weight:700;color:var(--gold)">🎯 动态止损建议</span>
+          <div style="font-size:12px;color:#e2e8f0;margin-top:3px">${s.trailing_stop.note}</div>
+          <div style="font-size:12px;color:var(--gold);font-weight:700;margin-top:2px">止损位：$${s.trailing_stop.price}</div>
+        </div>` : ''}
+        ${s.quality?.trend_multiplier && s.quality.trend_multiplier < 1 ? `
+        <div style="margin-top:6px;padding:6px 10px;background:rgba(239,68,68,.1);border-radius:6px;font-size:11px;color:var(--red)">
+          ⚠️ 趋势乘数 ×${s.quality.trend_multiplier}（趋势破位折扣）· 原始质量分 ${s.quality.raw_score} → 调整后 ${s.quality.score}
+        </div>` : ''}
       </div>`;
 
     return `

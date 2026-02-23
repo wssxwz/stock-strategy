@@ -14,7 +14,7 @@ from fast_scan import phase1_filter, phase2_score
 from portfolio import load_portfolio, check_positions, format_exit_alert
 from signal_engine import format_signal_message
 from config import WATCHLIST, NOTIFY
-from market_regime import get_market_regime, regime_header
+from market_regime import get_market_regime, regime_header, get_score_threshold
 
 STATE_FILE = os.path.join(os.path.dirname(__file__), '.monitor_state.json')
 
@@ -96,9 +96,14 @@ def main():
     # ════════════════════════════════════
     print(f"\n[买入扫描] 开始扫描 {len(WATCHLIST)} 只股票...")
     candidates = phase1_filter(WATCHLIST)
-    # phase2_score 后按动态阈值过滤
+    # phase2_score 后按动态阈值过滤（P3：按股票类型细化阈值）
     buy_signals_raw = phase2_score(candidates) if candidates else []
-    buy_signals = [s for s in buy_signals_raw if s['score'] >= effective_min_score]
+    buy_signals = []
+    for s in buy_signals_raw:
+        ticker_threshold = get_score_threshold(s['ticker'], regime)
+        s['score_threshold'] = ticker_threshold  # 记录该股实际阈值
+        if s['score'] >= ticker_threshold:
+            buy_signals.append(s)
     print(f"[信号过滤] 原始触发 {len(buy_signals_raw)} 只 → 达到阈值 {len(buy_signals)} 只")
 
     new_buy = []

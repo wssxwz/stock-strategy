@@ -181,6 +181,36 @@ def get_market_regime(use_cache: bool = True) -> dict:
     return result
 
 
+def get_score_threshold(ticker: str, regime: dict) -> int:
+    """
+    P3 结论：按市场环境 × 股票类型动态设置信号阈值
+    
+    回测结论（1H / 730天）：
+    - 牛市 + 质量股：胜率 47%，期望 +2.0%  → 阈值 70（可接受）
+    - 牛市 + 投机股：胜率 42%，期望 +2.7%  → 阈值 80（高波动，需更强信号）
+    - 震荡 + 所有：  胜率 52%，期望 +4.6%  → 阈值 80（比牛市更赚，但需过滤噪音）
+    - 熊市 + 所有：  胜率 0%（样本少）      → 阈值 90（防接飞刀）
+    - 恐慌：         停发信号               → 不适用
+    """
+    try:
+        from config import SPECULATIVE_TICKERS, QUALITY_TICKERS
+    except ImportError:
+        return regime['min_score']
+
+    r = regime['regime']
+    base = regime['min_score']
+
+    if r == 'bull':
+        # 投机股在牛市也需要更高门槛
+        if ticker in SPECULATIVE_TICKERS:
+            return max(base, 80)
+        return base  # 质量股维持 70
+    elif r == 'neutral':
+        return max(base, 80)  # 震荡期提高到 80
+    else:
+        return base  # bear/panic 已在 regime 层处理
+
+
 def regime_header(r: dict) -> str:
     """生成推送消息里的市场环境标题行"""
     emoji = {'bull': '🐂', 'neutral': '⚠️', 'bear': '🐻', 'panic': '🚨'}.get(r['regime'], '📊')

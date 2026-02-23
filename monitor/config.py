@@ -27,6 +27,20 @@ WATCHLIST_TIER2 = [
     'NEM',   'GDX',  'COIN', 'MSTR', 'ANET',
 ]
 
+# P3 回测结论：高波动投机股需要更高的入场门槛
+# 牛市中这类股的胜率只有 42%（vs 质量股 47%），期望值差异显著
+# 在 market_regime.py 中用此列表做分类阈值调整
+SPECULATIVE_TICKERS = {
+    'OKLO', 'SOUN', 'DXYZ', 'NNE', 'ASTS', 'IONQ', 'RKLB',
+    'MSTR', 'COIN',  # 高波动加密相关
+}
+
+QUALITY_TICKERS = {
+    'TSLA', 'META', 'CRWD', 'PANW', 'ORCL', 'SNOW',
+    'AMD', 'NVDA', 'GOOGL', 'MSFT', 'AAPL', 'AMZN',
+    'AVGO', 'LLY', 'NOW', 'DDOG', 'PLTR', 'SOFI',
+}
+
 WATCHLIST_ETF = [
     # 板块 ETF：用于判断板块强弱（不发买入信号，仅观察）
     'SPY', 'QQQ', 'XLK', 'SOXX', 'XLE', 'XLV', 'TLT', 'GLD',
