@@ -14,7 +14,13 @@ DASHBOARD_DIR = os.path.join(os.path.dirname(__file__), '../dashboard')
 OUTPUT_FILE   = os.path.join(DASHBOARD_DIR, 'core_holdings.json')
 ROOT_OUTPUT   = os.path.join(os.path.dirname(__file__), '../core_holdings.json')
 
-CORE_TICKERS = ['TSLA', 'GOOGL', 'NVDA', 'META']
+CORE_TICKERS = [
+    # Tier 1 核心持仓
+    'TSLA','META','CRWD','PANW','ORCL','RKLB','OKLO','SOUN','SNOW',
+    'ARM','AMD','NNE','SOFI','DXYZ','ASTS','NBIS','IONQ',
+    # 常用参考
+    'GOOGL','NVDA',
+]
 
 
 def get_core_snapshot() -> dict:

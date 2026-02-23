@@ -2,48 +2,213 @@
   "tickers": {
     "TSLA": {
       "ticker": "TSLA",
-      "price": 411.82,
-      "change": 0.11,
-      "change_pct": 0.03,
-      "date": "2026-02-20",
-      "volume": 57843900,
+      "price": 398.31,
+      "change": -13.51,
+      "change_pct": -3.28,
+      "date": "2026-02-23",
+      "volume": 31810461,
       "high_52w": 498.83,
       "low_52w": 214.25,
-      "off_high": -17.4
-    },
-    "GOOGL": {
-      "ticker": "GOOGL",
-      "price": 314.98,
-      "change": 12.13,
-      "change_pct": 4.01,
-      "date": "2026-02-20",
-      "volume": 53180700,
-      "high_52w": 349.0,
-      "low_52w": 140.53,
-      "off_high": -9.7
-    },
-    "NVDA": {
-      "ticker": "NVDA",
-      "price": 189.82,
-      "change": 1.92,
-      "change_pct": 1.02,
-      "date": "2026-02-20",
-      "volume": 178143900,
-      "high_52w": 212.19,
-      "low_52w": 86.62,
-      "off_high": -10.5
+      "off_high": -20.2
     },
     "META": {
       "ticker": "META",
-      "price": 655.66,
-      "change": 10.88,
-      "change_pct": 1.69,
-      "date": "2026-02-20",
-      "volume": 14166900,
+      "price": 642.68,
+      "change": -12.98,
+      "change_pct": -1.98,
+      "date": "2026-02-23",
+      "volume": 3805823,
       "high_52w": 796.25,
       "low_52w": 479.8,
-      "off_high": -17.7
+      "off_high": -19.3
+    },
+    "CRWD": {
+      "ticker": "CRWD",
+      "price": 351.51,
+      "change": -37.09,
+      "change_pct": -9.54,
+      "date": "2026-02-23",
+      "volume": 8410969,
+      "high_52w": 566.9,
+      "low_52w": 298.0,
+      "off_high": -38.0
+    },
+    "PANW": {
+      "ticker": "PANW",
+      "price": 145.48,
+      "change": -3.22,
+      "change_pct": -2.17,
+      "date": "2026-02-23",
+      "volume": 10773260,
+      "high_52w": 223.61,
+      "low_52w": 144.15,
+      "off_high": -34.9
+    },
+    "ORCL": {
+      "ticker": "ORCL",
+      "price": 139.27,
+      "change": -8.81,
+      "change_pct": -5.95,
+      "date": "2026-02-23",
+      "volume": 18427526,
+      "high_52w": 345.72,
+      "low_52w": 118.86,
+      "off_high": -59.7
+    },
+    "RKLB": {
+      "ticker": "RKLB",
+      "price": 69.61,
+      "change": -1.25,
+      "change_pct": -1.77,
+      "date": "2026-02-23",
+      "volume": 6738025,
+      "high_52w": 99.58,
+      "low_52w": 14.71,
+      "off_high": -30.1
+    },
+    "OKLO": {
+      "ticker": "OKLO",
+      "price": 61.37,
+      "change": -2.46,
+      "change_pct": -3.85,
+      "date": "2026-02-23",
+      "volume": 3079836,
+      "high_52w": 193.84,
+      "low_52w": 17.42,
+      "off_high": -68.3
+    },
+    "SOUN": {
+      "ticker": "SOUN",
+      "price": 7.64,
+      "change": -0.18,
+      "change_pct": -2.37,
+      "date": "2026-02-23",
+      "volume": 12035042,
+      "high_52w": 22.17,
+      "low_52w": 6.52,
+      "off_high": -65.6
+    },
+    "SNOW": {
+      "ticker": "SNOW",
+      "price": 157.26,
+      "change": -15.24,
+      "change_pct": -8.83,
+      "date": "2026-02-23",
+      "volume": 5470385,
+      "high_52w": 280.67,
+      "low_52w": 120.1,
+      "off_high": -44.0
+    },
+    "ARM": {
+      "ticker": "ARM",
+      "price": 123.0,
+      "change": -2.58,
+      "change_pct": -2.05,
+      "date": "2026-02-23",
+      "volume": 1634296,
+      "high_52w": 183.16,
+      "low_52w": 80.0,
+      "off_high": -32.8
+    },
+    "AMD": {
+      "ticker": "AMD",
+      "price": 196.7,
+      "change": -3.45,
+      "change_pct": -1.72,
+      "date": "2026-02-23",
+      "volume": 14389535,
+      "high_52w": 267.08,
+      "low_52w": 76.48,
+      "off_high": -26.4
+    },
+    "NNE": {
+      "ticker": "NNE",
+      "price": 23.84,
+      "change": -0.76,
+      "change_pct": -3.09,
+      "date": "2026-02-23",
+      "volume": 579396,
+      "high_52w": 60.87,
+      "low_52w": 17.26,
+      "off_high": -60.8
+    },
+    "SOFI": {
+      "ticker": "SOFI",
+      "price": 18.01,
+      "change": -1.01,
+      "change_pct": -5.33,
+      "date": "2026-02-23",
+      "volume": 49432841,
+      "high_52w": 32.73,
+      "low_52w": 8.6,
+      "off_high": -45.0
+    },
+    "DXYZ": {
+      "ticker": "DXYZ",
+      "price": 26.78,
+      "change": -1.32,
+      "change_pct": -4.7,
+      "date": "2026-02-23",
+      "volume": 705198,
+      "high_52w": 50.5,
+      "low_52w": 19.71,
+      "off_high": -47.0
+    },
+    "ASTS": {
+      "ticker": "ASTS",
+      "price": 84.07,
+      "change": 3.87,
+      "change_pct": 4.82,
+      "date": "2026-02-23",
+      "volume": 6261937,
+      "high_52w": 129.89,
+      "low_52w": 18.22,
+      "off_high": -35.3
+    },
+    "NBIS": {
+      "ticker": "NBIS",
+      "price": 97.74,
+      "change": -0.18,
+      "change_pct": -0.19,
+      "date": "2026-02-23",
+      "volume": 4970187,
+      "high_52w": 141.1,
+      "low_52w": 18.31,
+      "off_high": -30.7
+    },
+    "IONQ": {
+      "ticker": "IONQ",
+      "price": 30.42,
+      "change": -1.48,
+      "change_pct": -4.64,
+      "date": "2026-02-23",
+      "volume": 6882944,
+      "high_52w": 84.64,
+      "low_52w": 17.88,
+      "off_high": -64.1
+    },
+    "GOOGL": {
+      "ticker": "GOOGL",
+      "price": 313.95,
+      "change": -1.03,
+      "change_pct": -0.33,
+      "date": "2026-02-23",
+      "volume": 15579403,
+      "high_52w": 349.0,
+      "low_52w": 140.53,
+      "off_high": -10.0
+    },
+    "NVDA": {
+      "ticker": "NVDA",
+      "price": 191.05,
+      "change": 1.23,
+      "change_pct": 0.65,
+      "date": "2026-02-23",
+      "volume": 91267421,
+      "high_52w": 212.19,
+      "low_52w": 86.62,
+      "off_high": -10.0
     }
   },
-  "generated_at": "2026-02-23T13:46:06.351716"
+  "generated_at": "2026-02-24T01:25:46.209743"
 }
