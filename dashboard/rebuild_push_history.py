@@ -315,26 +315,36 @@ def run():
     signals = parse_signals(RAW_MSG)
     print(f"解析到 {len(signals)} 个信号")
 
-    hist = []
-    for i, s in enumerate(signals):
-        hist.append({
-            'id': f"hist_{s['ticker']}_{s['time'].replace(' ','_').replace(':','')}",
-            'type': 'buy_signal',
-            'title': f"买入信号 {s['ticker']} ({s['score']})",
-            'summary': s['summary'],
-            'content': s['summary'],
-            'raw': s['raw'],
-            'time': s['time'],
-        })
+    # 提取批次标题（从原文第一行）
+    first_line = RAW_MSG.strip().split('\n')[0]
+    batch_title = first_line  # 📣 全市场扫描信号（2026-02-23 23:07 北京）
 
-    # 最新在前
-    hist = list(reversed(hist))
+    # 统计
+    buy_count = len(signals)
+    strong_count = sum(1 for s in signals if s['score'] >= 85)
+
+    # 摘要：一行显示批次信息
+    batch_summary = f"✅ 买入 {buy_count} / 卖出 0｜强趋势 {strong_count} 只｜{signals[0]['time'] if signals else ''}"
+
+    # 合并成 1 条记录
+    hist = [{
+        'id': f"batch_{signals[0]['time'].replace(' ','_').replace(':','')}" if signals else f"batch_{datetime.now().strftime('%Y%m%d_%H%M')}",
+        'type': 'buy_signal_batch',
+        'title': batch_title,
+        'summary': batch_summary,
+        'content': batch_summary,
+        'raw': RAW_MSG.strip(),
+        'time': signals[0]['time'] if signals else datetime.now().strftime('%Y-%m-%d %H:%M'),
+        'signal_count': buy_count,
+        'strong_count': strong_count,
+        'signals': [{'ticker': s['ticker'], 'score': s['score'], 'summary': s['summary']} for s in signals],
+    }]
 
     base = os.path.dirname(__file__)
     for path in [os.path.join(base, 'push_history.json'), os.path.join(base, '..', 'push_history.json')]:
         with open(path, 'w') as f:
             json.dump(hist, f, ensure_ascii=False, indent=2)
-    print(f"✅ push_history.json 已重建：{len(hist)} 条")
+    print(f"✅ push_history.json 已重建：1 条批次记录（含 {buy_count} 个信号）")
 
 
 if __name__ == '__main__':
