@@ -235,6 +235,37 @@ textarea{width:100%;height:180px;padding:12px;background:#0f172a;border:1px soli
 .pos-bar{height:4px;border-radius:2px;min-width:4px}
 .pos-options-tag{font-size:10px;background:rgba(245,158,11,.15);color:var(--gold);padding:2px 6px;border-radius:4px;display:inline-block;margin-top:2px}
 
+/* ── 持仓诊断 ── */
+.diag-section{background:linear-gradient(135deg,#1e293b,#0f2040);border:1px solid #334155;border-radius:14px;padding:20px;margin-bottom:20px}
+.diag-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px}
+.diag-title{font-size:16px;font-weight:700;margin-bottom:4px}
+.diag-sub{font-size:12px;color:var(--muted)}
+.diag-health-badge{padding:6px 16px;border-radius:20px;font-size:13px;font-weight:700}
+.diag-health-badge.bullish{background:rgba(34,197,94,.2);color:var(--green);border:1px solid var(--green)}
+.diag-health-badge.neutral{background:rgba(245,158,11,.2);color:var(--gold);border:1px solid var(--gold)}
+.diag-health-badge.bearish{background:rgba(239,68,68,.2);color:var(--red);border:1px solid var(--red)}
+.diag-stat{background:rgba(255,255,255,.05);border-radius:10px;padding:10px 16px;text-align:center;min-width:80px}
+.diag-stat-val{font-size:20px;font-weight:700}
+.diag-stat-lbl{font-size:11px;color:var(--muted);margin-top:2px}
+.diag-macro-item{font-size:13px;padding:8px 12px;border-radius:8px;margin-bottom:6px;background:rgba(255,255,255,.04)}
+.diag-stock-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:.15s}
+.diag-stock-row:hover{background:rgba(255,255,255,.03);padding-left:6px}
+.diag-stock-row:last-child{border:none}
+.diag-score-ring{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0}
+.diag-action-tag{padding:3px 8px;border-radius:5px;font-size:11px;font-weight:700;flex-shrink:0}
+.diag-action-tag.bullish{background:rgba(34,197,94,.2);color:var(--green)}
+.diag-action-tag.neutral{background:rgba(245,158,11,.2);color:var(--gold)}
+.diag-action-tag.caution{background:rgba(245,158,11,.3);color:#fb923c}
+.diag-action-tag.bearish{background:rgba(239,68,68,.2);color:var(--red)}
+.diag-stock-detail{background:#0f172a;border-radius:10px;padding:14px;margin:4px 0 10px 56px;font-size:13px;display:none}
+.diag-signal{padding:5px 0;border-bottom:1px solid var(--border);color:#cbd5e1;line-height:1.5}
+.diag-signal:last-child{border:none}
+.diag-signal.bullish::before{content:'✅ '}
+.diag-signal.bearish::before{content:'🔻 '}
+.diag-signal.warning::before{content:'⚠️ '}
+.diag-signal.caution::before{content:'💡 '}
+.diag-signal.neutral::before{content:'📊 '}
+
 /* ── 时段筛选按钮 ── */
 .session-btns{display:flex;gap:4px}
 .session-btn{padding:5px 12px;background:#0f172a;border:1px solid var(--border);border-radius:6px;color:var(--muted);font-size:12px;font-weight:600;cursor:pointer;transition:.15s}
@@ -381,6 +412,26 @@ textarea{width:100%;height:180px;padding:12px;background:#0f172a;border:1px soli
 
     <!-- 持仓内容层（解锁后显示）-->
     <div id="pos-content" style="display:none">
+      <!-- 诊断分析区块 -->
+      <div class="diag-section" id="diag-section">
+        <div class="diag-header">
+          <div>
+            <div class="diag-title">🔍 持仓诊断分析</div>
+            <div class="diag-sub" id="diag-updated">加载中...</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <div class="diag-health-badge" id="diag-health-badge"></div>
+            <button class="btn-outline" style="padding:6px 12px;font-size:12px" id="diag-toggle-btn" onclick="toggleDiagDetail()">个股详情 ▼</button>
+          </div>
+        </div>
+        <div id="diag-overview-row" style="display:flex;gap:12px;flex-wrap:wrap;margin:14px 0 10px"></div>
+        <div id="diag-macro" style="margin-bottom:10px"></div>
+        <div id="diag-detail" style="display:none">
+          <div style="font-size:12px;color:var(--muted);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)">个股诊断评分（点击展开详情）</div>
+          <div id="diag-stocks-list"></div>
+        </div>
+      </div>
+
       <!-- 账户概览 -->
       <div class="pos-header">
         <div class="pos-account-info">

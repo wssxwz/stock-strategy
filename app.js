@@ -48,6 +48,135 @@ function renderTab(tab) {
 }
 
 // ── Tab 1: 今日概览 ───────────────────────────────────
+
+// ── 持仓诊断 ──────────────────────────────────────────
+let diagData = null;
+let diagDetailOpen = false;
+
+window.toggleDiagDetail = function() {
+  diagDetailOpen = !diagDetailOpen;
+  document.getElementById('diag-detail').style.display = diagDetailOpen ? 'block' : 'none';
+  document.getElementById('diag-toggle-btn').textContent = diagDetailOpen ? '收起 ▲' : '个股详情 ▼';
+};
+
+async function loadDiagnosis() {
+  try {
+    const res = await fetch('./diagnosis.json?_=' + Date.now());
+    if (!res.ok) return;
+    diagData = await res.json();
+    renderDiagnosis(diagData);
+  } catch(e) {
+    document.getElementById('diag-updated').textContent = '诊断数据未生成，点击下方刷新';
+  }
+}
+
+function renderDiagnosis(data) {
+  if (!data) return;
+  const ov = data.overview;
+  const genTime = data.generated_at?.slice(0,16).replace('T',' ') || '--';
+
+  // 健康度标签
+  const badge = document.getElementById('diag-health-badge');
+  badge.className = 'diag-health-badge ' + ov.health_color;
+  badge.textContent = `持仓健康度：${ov.health_label} ${ov.avg_score}/100`;
+
+  document.getElementById('diag-updated').textContent = `分析于 ${genTime} · ${ov.total_count} 只持仓`;
+
+  // 行动分布统计
+  const ac = ov.actions || {};
+  const ovRow = document.getElementById('diag-overview-row');
+  const actionMap = {
+    hold_or_add: {label:'持有/加仓', color:'var(--green)'},
+    hold:        {label:'观望持有',  color:'var(--gold)'},
+    reduce:      {label:'考虑减仓',  color:'#fb923c'},
+    exit:        {label:'建议离场',  color:'var(--red)'},
+  };
+  ovRow.innerHTML = Object.entries(ac).map(([k,v]) => {
+    const m = actionMap[k] || {label:k, color:'var(--muted)'};
+    return `<div class="diag-stat">
+      <div class="diag-stat-val" style="color:${m.color}">${v}</div>
+      <div class="diag-stat-lbl">${m.label}</div>
+    </div>`;
+  }).join('') + `<div class="diag-stat">
+    <div class="diag-stat-val">${ov.avg_score}</div>
+    <div class="diag-stat-lbl">平均评分</div>
+  </div>`;
+
+  // 宏观建议
+  const macroEl = document.getElementById('diag-macro');
+  macroEl.innerHTML = (ov.macro_advice || []).map(a =>
+    `<div class="diag-macro-item">${a}</div>`
+  ).join('') + (ov.concentration||[]).map(c =>
+    `<div class="diag-macro-item" style="color:var(--gold)">⚠️ ${c}</div>`
+  ).join('');
+
+  // 个股列表（按评分排序）
+  const stocks = [...(data.stocks||[])].sort((a,b) =>
+    (b.diagnosis?.score||0) - (a.diagnosis?.score||0));
+
+  const listEl = document.getElementById('diag-stocks-list');
+  listEl.innerHTML = stocks.map((s, idx) => {
+    const diag = s.diagnosis || {};
+    const tech = s.tech || {};
+    const fund = s.fund || {};
+    const analyst = s.analyst || {};
+    const score = diag.score ?? '--';
+    const scoreColor = score >= 70 ? 'var(--green)' : score >= 50 ? 'var(--gold)' : 'var(--red)';
+    const scoreBg    = score >= 70 ? 'rgba(34,197,94,.15)' : score >= 50 ? 'rgba(245,158,11,.15)' : 'rgba(239,68,68,.15)';
+    const actionCls  = diag.action_color || 'neutral';
+
+    // 所有信号合并
+    const allSignals = [
+      ...(tech.signals||[]),
+      ...(fund.signals||[]),
+      ...(diag.signals||[]),
+    ];
+
+    const upside = analyst.upside;
+    const upsideStr = upside != null ? ` 目标价空间 ${upside > 0 ? '+' : ''}${upside}%` : '';
+
+    const detailHtml = `
+      <div class="diag-stock-detail" id="diag-detail-${idx}">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px">
+          <div><span style="color:var(--muted);font-size:11px">RSI</span><br><b>${tech.rsi||'--'}</b></div>
+          <div><span style="color:var(--muted);font-size:11px">vs MA200</span><br><b>${tech.vs_ma200 != null ? (tech.vs_ma200 > 0 ? '+' : '')+tech.vs_ma200+'%' : '--'}</b></div>
+          <div><span style="color:var(--muted);font-size:11px">营收增速</span><br><b>${fund.rev_growth != null ? (fund.rev_growth*100).toFixed(0)+'%' : '--'}</b></div>
+          <div><span style="color:var(--muted);font-size:11px">目标价</span><br><b>${analyst.target_mean ? '$'+analyst.target_mean : '--'}</b></div>
+          <div><span style="color:var(--muted);font-size:11px">分析师</span><br><b>${analyst.num_analysts||0}人 ${analyst.recommendation||'--'}</b></div>
+          <div><span style="color:var(--muted);font-size:11px">Beta</span><br><b>${fund.beta?.toFixed(2)||'--'}</b></div>
+        </div>
+        ${allSignals.map(sig => `<div class="diag-signal ${sig.type||'neutral'}">${sig.text}</div>`).join('')}
+      </div>`;
+
+    return `
+      <div class="diag-stock-row" onclick="toggleDiagStock(${idx})">
+        <div class="diag-score-ring" style="background:${scoreBg};color:${scoreColor}">${score}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:700;font-size:14px">${s.ticker} <span style="font-size:12px;color:var(--muted);font-weight:400">${s.name}</span></div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">${diag.rsi_summary||''} ${diag.tech_summary ? '· '+diag.tech_summary : ''}</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <div class="diag-action-tag ${actionCls}">${diag.action_text||'--'}</div>
+          ${upsideStr ? `<div style="font-size:11px;color:var(--muted);margin-top:4px">${upsideStr}</div>` : ''}
+        </div>
+      </div>
+      ${detailHtml}`;
+  }).join('');
+}
+
+window.toggleDiagStock = function(idx) {
+  const el = document.getElementById('diag-detail-'+idx);
+  if (!el) return;
+  const open = el.style.display === 'block';
+  el.style.display = open ? 'none' : 'block';
+};
+
+window.refreshDiagnosis = async function() {
+  document.getElementById('diag-updated').textContent = '重新加载...';
+  localStorage.removeItem('diag_cache');
+  await loadDiagnosis();
+};
+
 async function loadCoreHoldings() {
   // 从缓存或 JSON 文件获取核心持仓数据
   let snap = null;
@@ -353,6 +482,7 @@ function showPositionsContent() {
   document.getElementById('pos-content').style.display = 'block';
   initSessionUI();
   renderPositionsTab();
+  loadDiagnosis();   // 加载诊断分析
 }
 
 // ── 持仓初始数据 ──────────────────────────────────────
