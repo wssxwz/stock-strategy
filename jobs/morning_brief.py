@@ -159,6 +159,14 @@ if __name__ == '__main__':
     except Exception as e:
         print(f"  核心持仓快照更新失败: {e}")
 
+    # 更新持仓诊断分析
+    try:
+        from portfolio_diagnosis import run as update_diagnosis
+        print("更新持仓诊断分析...")
+        update_diagnosis()
+    except Exception as e:
+        print(f"  持仓诊断更新失败: {e}")
+
     print("生成早盘摘要...")
     msg = generate_morning_brief()
     print("\n" + "="*50)
