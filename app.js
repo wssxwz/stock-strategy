@@ -351,6 +351,7 @@ window.lockPositions = function() {
 function showPositionsContent() {
   document.getElementById('pos-lock-screen').style.display = 'none';
   document.getElementById('pos-content').style.display = 'block';
+  initSessionUI();
   renderPositionsTab();
 }
 
@@ -406,11 +407,110 @@ window.syncPosFromYF = async function() {
   setTimeout(()=>{ btn.textContent='🔄 刷新价格'; btn.disabled=false; }, 3000);
 };
 
+
+// ── 市场时段 ──────────────────────────────────────────
+// 北京时间对应美东时段（夏令时 UTC+8 - UTC-4 = 12h差）
+// 盘前: 北京 20:30~22:30（夏）/ 21:30~23:30（冬）
+// 盘中: 北京 22:30~05:00（夏）/ 23:30~06:00（冬）
+// 盘后: 北京 05:00~09:00（夏）/ 06:00~10:00（冬）
+// 其余: 休市
+
+function getCurrentSession() {
+  // 判断当前是否夏令时（美东 EDT: 3月第2周日 ~ 11月第1周日）
+  const now  = new Date();
+  const year = now.getFullYear();
+  // 夏令时开始（3月第2个周日）
+  const dstStart = new Date(year, 2, 1);
+  dstStart.setDate(1 + (7 - dstStart.getDay() + 0) % 7 + 7); // 第2个周日
+  // 夏令时结束（11月第1个周日）
+  const dstEnd = new Date(year, 10, 1);
+  dstEnd.setDate(1 + (7 - dstEnd.getDay()) % 7);
+  const isDST = now >= dstStart && now < dstEnd;
+
+  // 北京时间 hour + minute
+  const bjH = now.getHours(), bjM = now.getMinutes();
+  const bjTotal = bjH * 60 + bjM; // 分钟数
+
+  if (isDST) {
+    // 夏令时 (UTC-4, 北京+12h)
+    if (bjTotal >= 20*60+30 && bjTotal < 22*60+30) return 'pre';    // 盘前
+    if (bjTotal >= 22*60+30 || bjTotal < 5*60)      return 'market'; // 盘中 (跨午夜)
+    if (bjTotal >= 5*60 && bjTotal < 9*60)           return 'after';  // 盘后
+  } else {
+    // 冬令时 (UTC-5, 北京+13h)
+    if (bjTotal >= 21*60+30 && bjTotal < 23*60+30) return 'pre';
+    if (bjTotal >= 23*60+30 || bjTotal < 6*60)      return 'market';
+    if (bjTotal >= 6*60 && bjTotal < 10*60)          return 'after';
+  }
+  return 'closed'; // 休市
+}
+
+function getSessionLabel(session) {
+  return {pre:'盘前📈', market:'盘中🔔', after:'盘后🌙', closed:'休市💤'}[session] || '';
+}
+
+// 判断股票是否属于某时段「重点关注」
+// 思路：
+//   盘前/盘后 → 有财报的股票、期权（时效性强）
+//   盘中 → 全部
+function matchSession(pos, session, calCache) {
+  if (session === 'all' || session === 'market') return true;
+
+  // 找该股是否近3天内有财报
+  let hasNearEarnings = false;
+  if (calCache) {
+    const details = calCache.earnings_details?.[pos.ticker];
+    if (details?.earnings_date) {
+      const diff = (new Date(details.earnings_date) - new Date()) / 86400000;
+      hasNearEarnings = diff >= -1 && diff <= 3; // 前1天到后3天
+    }
+  }
+
+  if (session === 'pre' || session === 'after') {
+    // 期权强制显示（时效性最强）
+    if (pos.type === 'options') return true;
+    // 有近期财报
+    if (hasNearEarnings) return true;
+    // 高波动股（pnlPct 绝对值超过 20%）
+    if (Math.abs(pos.pnlPct) > 20) return true;
+    return false;
+  }
+  return true;
+}
+
+let currentSessionFilter = 'all';
+
+window.setSessionFilter = function(session) {
+  currentSessionFilter = session;
+  document.querySelectorAll('.session-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.session === session);
+  });
+  renderPositionsTab();
+};
+
+function initSessionUI() {
+  const cur = getCurrentSession();
+  const label = document.getElementById('session-now-label');
+  if (label) label.textContent = '当前: ' + getSessionLabel(cur);
+  // 给当前时段按钮加高亮边框
+  document.querySelectorAll('.session-btn').forEach(btn => {
+    btn.classList.toggle('now-highlight', btn.dataset.session === cur);
+  });
+}
+
 function renderPositionsTab() {
   const positions = loadPrivatePositions();
   const sortBy  = document.getElementById('pos-sort')?.value  || 'pnl_pct';
   const filterBy= document.getElementById('pos-filter')?.value|| 'all';
-  let list = positions.filter(p => filterBy==='profit'?p.pnl>=0 : filterBy==='loss'?p.pnl<0 : true);
+  // 读取日历缓存（用于判断近期财报）
+  let calCache = null;
+  try { const c = localStorage.getItem('calendar_cache'); if(c) calCache = JSON.parse(c); } catch(e){}
+
+  let list = positions.filter(p => {
+    const pnlOk = filterBy==='profit'?p.pnl>=0 : filterBy==='loss'?p.pnl<0 : true;
+    const sessionOk = matchSession(p, currentSessionFilter, calCache);
+    return pnlOk && sessionOk;
+  });
   list.sort((a,b) => sortBy==='pnl_pct'?b.pnlPct-a.pnlPct : sortBy==='pnl_abs'?b.pnl-a.pnl :
     sortBy==='market_val'?(b.price*b.shares)-(a.price*a.shares) : a.ticker.localeCompare(b.ticker));
 
@@ -964,6 +1064,7 @@ function init() {
   renderOverview();
   renderCalendar();        // 首页日历
   loadMarketSnapshot();    // 市场快照
+  initSessionUI();         // 时段标签初始化
   updateStats();
 }
 document.addEventListener('DOMContentLoaded', init);

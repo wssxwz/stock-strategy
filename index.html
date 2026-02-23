@@ -235,6 +235,14 @@ textarea{width:100%;height:180px;padding:12px;background:#0f172a;border:1px soli
 .pos-bar{height:4px;border-radius:2px;min-width:4px}
 .pos-options-tag{font-size:10px;background:rgba(245,158,11,.15);color:var(--gold);padding:2px 6px;border-radius:4px;display:inline-block;margin-top:2px}
 
+/* ── 时段筛选按钮 ── */
+.session-btns{display:flex;gap:4px}
+.session-btn{padding:5px 12px;background:#0f172a;border:1px solid var(--border);border-radius:6px;color:var(--muted);font-size:12px;font-weight:600;cursor:pointer;transition:.15s}
+.session-btn:hover{border-color:var(--accent);color:var(--accent)}
+.session-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.session-btn.now-highlight{border-color:var(--gold);color:var(--gold)} /* 当前时段高亮 */
+.session-btn.now-highlight.active{background:var(--gold);color:#000}
+
 @media(max-width:600px){
   .core-grid{grid-template-columns:repeat(2,1fr)}
   .stats-row{gap:8px}
@@ -386,7 +394,7 @@ textarea{width:100%;height:180px;padding:12px;background:#0f172a;border:1px soli
       </div>
 
       <!-- 排序/过滤 -->
-      <div class="filters" style="margin-bottom:16px">
+      <div class="filters" style="margin-bottom:16px;flex-wrap:wrap;gap:10px">
         <span class="filter-label">排序:</span>
         <select id="pos-sort" onchange="renderPositionsTab()">
           <option value="pnl_pct">盈亏%</option>
@@ -394,12 +402,20 @@ textarea{width:100%;height:180px;padding:12px;background:#0f172a;border:1px soli
           <option value="market_val">市值</option>
           <option value="ticker">代码</option>
         </select>
-        <span class="filter-label">筛选:</span>
+        <span class="filter-label">持仓:</span>
         <select id="pos-filter" onchange="renderPositionsTab()">
           <option value="all">全部</option>
           <option value="profit">盈利</option>
           <option value="loss">亏损</option>
         </select>
+        <span class="filter-label">时段:</span>
+        <div class="session-btns" id="session-btns">
+          <button class="session-btn active" data-session="all"    onclick="setSessionFilter('all')">全部</button>
+          <button class="session-btn"        data-session="pre"    onclick="setSessionFilter('pre')">盘前</button>
+          <button class="session-btn"        data-session="market" onclick="setSessionFilter('market')">盘中</button>
+          <button class="session-btn"        data-session="after"  onclick="setSessionFilter('after')">盘后</button>
+        </div>
+        <span id="session-now-label" style="font-size:12px;color:var(--muted)"></span>
       </div>
 
       <!-- 持仓列表 -->
