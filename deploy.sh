@@ -11,6 +11,7 @@ cp dashboard/weekly_reports.json weekly_reports.json 2>/dev/null || true
 cp dashboard/signals.json        signals.json        2>/dev/null || true
 cp dashboard/diagnosis.json      diagnosis.json      2>/dev/null || true
 cp dashboard/core_holdings.json  core_holdings.json  2>/dev/null || true
+cp dashboard/push_history.json   push_history.json   2>/dev/null || true
 
 MSG=${1:-"update: dashboard sync"}
 echo "🚀 提交推送: $MSG"
