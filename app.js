@@ -62,14 +62,16 @@ window.toggleDiagDetail = function() {
 let diagRefreshTimer = null;
 
 async function loadDiagnosis() {
+  const url = './diagnosis.json?_=' + Date.now();
   try {
-    const res = await fetch('./diagnosis.json?_=' + Date.now());
-    if (!res.ok) return;
+    const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
     diagData = await res.json();
     renderDiagnosis(diagData);
   } catch(e) {
+    console.error('[diagnosis] load failed:', e, 'url=', url);
     const el = document.getElementById('diag-updated');
-    if (el) el.textContent = '诊断数据加载失败';
+    if (el) el.textContent = '诊断数据加载失败（可在浏览器控制台查看错误）';
   }
   // 盘中：每小时自动刷新；其他时段：不自动刷新
   scheduleDiagRefresh();
@@ -93,12 +95,23 @@ function renderDiagnosis(data) {
   const ov = data.overview;
   const genTime = data.generated_at?.slice(0,16).replace('T',' ') || '--';
 
-  // 健康度标签
   const badge = document.getElementById('diag-health-badge');
+  const updatedEl = document.getElementById('diag-updated');
+  const ovRow = document.getElementById('diag-overview-row');
+  const macroEl = document.getElementById('diag-macro');
+  const listEl = document.getElementById('diag-stocks-list');
+
+  // 如果还没解锁 / DOM 尚未渲染，直接跳过（避免 JS 报错导致后续逻辑中断）
+  if (!badge || !updatedEl || !ovRow || !macroEl || !listEl) {
+    console.warn('[diagnosis] DOM not ready for render');
+    return;
+  }
+
+  // 健康度标签
   badge.className = 'diag-health-badge ' + ov.health_color;
   badge.textContent = `持仓健康度：${ov.health_label} ${ov.avg_score}/100`;
 
-  document.getElementById('diag-updated').textContent = `分析于 ${genTime} · ${ov.total_count} 只持仓`;
+  updatedEl.textContent = `分析于 ${genTime} · ${ov.total_count} 只持仓`;
 
   // 行动分布统计
   const ac = ov.actions || {};
