@@ -94,7 +94,7 @@ STRATEGY = {
     'stop_loss_strong':  -0.08,  # 强趋势仍用 -8%（不收紧，避免被扫）
 
     # 强趋势判定阈值（越保守越少触发）
-    'strong_trend_min_score': 85  # 评分>=85 视为强趋势信号
+    'strong_trend_min_score': 85,  # 评分>=85 视为强趋势信号
 
     # 扫描频率
     'scan_interval_min': 60,  # 每60分钟扫描一次

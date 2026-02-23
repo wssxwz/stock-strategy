@@ -829,24 +829,29 @@ function renderHistory() {
     groups[date].push(h);
   });
 
-  const typeIcon  = {morning_brief:'🌅',deep_analysis:'📊',buy_signal:'🎯',evening_review:'🌙',exit_alert:'🛡️'};
-  const typeLabel = {morning_brief:'早盘摘要',deep_analysis:'深度早报',buy_signal:'买入信号',evening_review:'收盘复盘',exit_alert:'出场提醒'};
+  const typeIcon  = {morning_brief:'🌅',deep_analysis:'📊',buy_signal:'🎯',buy_signal_batch:'📣',evening_review:'🌙',exit_alert:'🛡️'};
+  const typeLabel = {morning_brief:'早盘摘要',deep_analysis:'深度早报',buy_signal:'买入信号',buy_signal_batch:'批量扫描',evening_review:'收盘复盘',exit_alert:'出场提醒'};
 
   container.innerHTML = Object.entries(groups).map(([date, items]) => `
     <div class="hist-group">
       <div class="hist-date">${date}</div>
-      ${items.map(h=>`
+      ${items.map(h=>{
+        const isBatch = h.type === 'buy_signal_batch';
+        const badge = isBatch && h.signal_count ? `<span class="badge" style="margin-left:8px;font-size:11px;background:var(--gold);color:#000">📊 ${h.signal_count}只</span>` : '';
+        const strongBadge = isBatch && h.strong_count ? `<span class="badge" style="margin-left:4px;font-size:11px;background:#ef4444;color:#fff">🔥 ${h.strong_count}强</span>` : '';
+        return `
         <div class="hist-item" onclick="toggleExpand(this)">
           <div class="hist-left">
             <span class="hist-icon">${typeIcon[h.type]||'📌'}</span>
             <div>
-              <div class="hist-title">${typeLabel[h.type]||h.title}</div>
-              <div class="timeline-preview">${(h.summary||h.content||'').slice(0,80)}...</div>
+              <div class="hist-title">${typeLabel[h.type]||h.title}${badge}${strongBadge}</div>
+              <div class="timeline-preview">${(h.summary||h.content||'').slice(0,100)}...</div>
               <pre class="timeline-full" style="display:none;white-space:pre-wrap;font-family:inherit;font-size:13px;margin-top:8px;color:#cbd5e1">${h.raw || h.content || ''}</pre>
             </div>
           </div>
           <div class="hist-time">${h.time.slice(-8)||''}</div>
-        </div>`).join('')}
+        </div>`;
+      }).join('')}
     </div>`).join('');
 }
 
