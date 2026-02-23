@@ -94,6 +94,12 @@ def main():
                 'price': sig['price'], 'time': datetime.now().isoformat()
             }
 
+    # 批量推送历史写入（一次扫描=1 条批次记录）
+    batch_raw = "\n\n".join([format_signal_message(sig) for sig in new_buy])
+    if new_buy:
+        batch_title = f"📣 全市场扫描信号（{datetime.now().strftime('%Y-%m-%d %H:%M')} 北京）"
+        batch_summary = f"✅ 买入 {len(new_buy)} / 卖出 0｜强趋势 {sum(1 for s in new_buy if s['score']>=85)} 只"
+    
     for sig in new_buy:
         msg = format_signal_message(sig)
         print(f"\nBUY_SIGNAL:{sig['ticker']}:{sig['score']}")
@@ -102,24 +108,32 @@ def main():
         output_lines.append(f"BUY_SIGNAL:{sig['ticker']}:{sig['score']}")
         output_lines.append(msg)
         output_lines.append("---END---")
-        # 自动保存到 Dashboard signals.json + push_history.json（原文一致）
+        # 自动保存到 Dashboard signals.json
         try:
             import sys as _sys
             _sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../dashboard'))
             from export_signals import add_buy_signal
             add_buy_signal(sig)
-
-            # 追加 push_history（raw=Telegram原文）
+        except Exception as _e:
+            print(f"  [Dashboard 同步失败] {_e}")
+    
+    # 整批写入 push_history（1 条记录）
+    if new_buy:
+        try:
+            import sys as _sys
+            _sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../dashboard'))
             from export_push_history import append_push_history
             append_push_history(
-                type_='buy_signal',
-                title=f"买入信号 {sig['ticker']} ({sig['score']})",
-                summary=f"{sig.get('kb_tag','')}📊 {sig['ticker']} 评分{sig['score']}｜现价${sig['price']}｜RSI{sig.get('rsi14','--')}｜BB% {sig.get('bb_pct','--')}｜TP ${sig.get('tp_price','--')}｜SL ${sig.get('sl_price','--')}",
-                raw=msg,
-                time=sig.get('scan_time')
+                type_='buy_signal_batch',
+                title=batch_title,
+                summary=batch_summary,
+                raw=batch_raw,
+                time=datetime.now().strftime('%Y-%m-%d %H:%M'),
+                signal_count=len(new_buy),
+                strong_count=sum(1 for s in new_buy if s['score']>=85),
             )
         except Exception as _e:
-            print(f"  [Dashboard同步失败] {_e}")
+            print(f"  [推送历史同步失败] {_e}")
 
     save_state(state)
 
