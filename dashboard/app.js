@@ -297,8 +297,172 @@ function applySignalFilters() {
   });
 }
 
+// ── PIN 系统 ────────────────────────────────────────────
+let pinBuffer = '';
+const PIN_KEY  = 'pos_pin_hash';
+const POS_KEY  = 'private_positions';
+const LOCK_KEY = 'pos_unlocked_until';
+const PIN_LOCK_MINUTES = 30;
+
+function hashPin(pin) {
+  let h = 0;
+  for (let i = 0; i < pin.length; i++) { h = ((h << 5) - h) + pin.charCodeAt(i); h |= 0; }
+  return 'ph_' + Math.abs(h).toString(36) + '_' + pin.length;
+}
+function isPinSet() { return !!localStorage.getItem(PIN_KEY); }
+function isUnlocked() { return Date.now() < parseInt(localStorage.getItem(LOCK_KEY)||'0'); }
+
+window.pinInput = function(d) {
+  if (pinBuffer.length >= 4) return;
+  pinBuffer += d; updatePinDots();
+  if (pinBuffer.length === 4) setTimeout(pinConfirm, 200);
+};
+window.pinClear = function() { pinBuffer = pinBuffer.slice(0,-1); updatePinDots(); };
+function updatePinDots() {
+  document.querySelectorAll('#pin-dots span').forEach((el,i) => el.classList.toggle('filled', i < pinBuffer.length));
+}
+window.pinConfirm = function() {
+  if (!pinBuffer.length) return;
+  const stored = localStorage.getItem(PIN_KEY);
+  if (!stored) { document.getElementById('pin-msg').textContent='请先设置 PIN 码'; pinBuffer=''; updatePinDots(); return; }
+  if (hashPin(pinBuffer) === stored) {
+    localStorage.setItem(LOCK_KEY, Date.now() + PIN_LOCK_MINUTES*60*1000);
+    showPositionsContent();
+  } else {
+    document.getElementById('pin-msg').textContent='❌ PIN 错误，请重试'; pinBuffer=''; updatePinDots();
+  }
+};
+window.showPinSetup = function() {
+  const pin1 = prompt('设置4位数字 PIN（首次设置）:');
+  if (!pin1 || !/^\d{4}$/.test(pin1)) { alert('PIN 必须是4位数字'); return; }
+  const pin2 = prompt('再次确认 PIN:');
+  if (pin1 !== pin2) { alert('两次输入不一致'); return; }
+  localStorage.setItem(PIN_KEY, hashPin(pin1));
+  localStorage.setItem(LOCK_KEY, Date.now() + PIN_LOCK_MINUTES*60*1000);
+  alert('✅ PIN 设置成功！');
+  showPositionsContent();
+};
+window.lockPositions = function() {
+  localStorage.removeItem(LOCK_KEY);
+  document.getElementById('pos-content').style.display = 'none';
+  document.getElementById('pos-lock-screen').style.display = 'flex';
+  pinBuffer=''; updatePinDots();
+};
+function showPositionsContent() {
+  document.getElementById('pos-lock-screen').style.display = 'none';
+  document.getElementById('pos-content').style.display = 'block';
+  renderPositionsTab();
+}
+
+// ── 持仓初始数据 ──────────────────────────────────────
+const FUTU_POSITIONS_INIT = [
+  {ticker:'TSLA',name:'特斯拉',          shares:32, cost:228.060,price:407.16,pnl:5731.20, pnlPct:78.53, type:'stock'},
+  {ticker:'META',name:'Meta Platforms',  shares:15, cost:639.088,price:647.77,pnl:130.23,  pnlPct:1.36,  type:'stock'},
+  {ticker:'CRWD',name:'CrowdStrike',     shares:22, cost:463.636,price:383.57,pnl:-1761.46,pnlPct:-17.27,type:'stock'},
+  {ticker:'PANW',name:'Palo Alto Net.',  shares:56, cost:183.857,price:147.99,pnl:-2008.56,pnlPct:-19.51,type:'stock'},
+  {ticker:'ORCL',name:'甲骨文',           shares:33, cost:186.333,price:146.11,pnl:-1327.37,pnlPct:-21.59,type:'stock'},
+  {ticker:'RKLB',name:'Rocket Lab',      shares:65, cost:84.923, price:69.03, pnl:-1033.05,pnlPct:-18.71,type:'stock'},
+  {ticker:'OKLO',name:'Oklo Inc',        shares:65, cost:85.108, price:62.10, pnl:-1495.50,pnlPct:-27.03,type:'stock'},
+  {ticker:'SOUN',name:'SoundHound AI',   shares:450,cost:11.556, price:7.65,  pnl:-1757.50,pnlPct:-33.80,type:'stock'},
+  {ticker:'SNOW',name:'Snowflake',       shares:20, cost:217.300,price:170.30,pnl:-940.00, pnlPct:-21.63,type:'stock'},
+  {ticker:'ARM', name:'Arm Holdings',    shares:25, cost:120.000,price:123.35,pnl:83.75,   pnlPct:2.79,  type:'stock'},
+  {ticker:'AMD', name:'美国超微公司',      shares:15, cost:194.533,price:197.14,pnl:39.10,   pnlPct:1.34,  type:'stock'},
+  {ticker:'NNE', name:'NANO Nuclear',    shares:120,cost:30.000, price:24.15, pnl:-702.00, pnlPct:-19.50,type:'stock'},
+  {ticker:'SOFI',name:'SoFi Technologies',shares:150,cost:24.693,price:18.66, pnl:-905.00, pnlPct:-24.43,type:'stock'},
+  {ticker:'DXYZ',name:'Destiny Tech100', shares:100,cost:30.100, price:27.71, pnl:-239.00, pnlPct:-7.94, type:'stock'},
+  {ticker:'ASTS',name:'AST SpaceMobile', shares:30, cost:97.000, price:78.81, pnl:-545.70, pnlPct:-18.75,type:'stock'},
+  {ticker:'NBIS',name:'NEBIUS',          shares:15, cost:31.810, price:94.92, pnl:946.65,  pnlPct:198.40,type:'stock'},
+  {ticker:'IONQ',name:'IonQ Inc',        shares:20, cost:45.000, price:31.25, pnl:-275.00, pnlPct:-30.56,type:'stock'},
+  {ticker:'NFLX',name:'NFLX CALL 260320 85',shares:2,cost:4.200,price:1.29,  pnl:-582.00, pnlPct:-69.29,type:'options',expiry:'2026-03-20',strike:85},
+];
+
+function loadPrivatePositions() {
+  const s = localStorage.getItem(POS_KEY);
+  if (s) { try { return JSON.parse(s); } catch(e){} }
+  localStorage.setItem(POS_KEY, JSON.stringify(FUTU_POSITIONS_INIT));
+  return FUTU_POSITIONS_INIT;
+}
+function savePrivatePositions(p) { localStorage.setItem(POS_KEY, JSON.stringify(p)); }
+
+window.syncPosFromYF = async function() {
+  const btn = event.target; btn.textContent='⏳ 同步中...'; btn.disabled=true;
+  try {
+    const res = await fetch('./core_holdings.json?_='+Date.now());
+    if (!res.ok) throw new Error();
+    const snap = await res.json();
+    const positions = loadPrivatePositions(); let updated=0;
+    positions.forEach(p => {
+      const yf = snap.tickers?.[p.ticker];
+      if (yf?.price) {
+        p.price  = yf.price;
+        p.pnl    = Math.round((yf.price - p.cost)*p.shares*100)/100;
+        p.pnlPct = Math.round((yf.price - p.cost)/p.cost*10000)/100;
+        p.lastSync = yf.date; updated++;
+      }
+    });
+    savePrivatePositions(positions); renderPositionsTab();
+    btn.textContent=`✅ 已同步 ${updated} 只`;
+  } catch(e) { btn.textContent='❌ 同步失败'; }
+  setTimeout(()=>{ btn.textContent='🔄 刷新价格'; btn.disabled=false; }, 3000);
+};
+
+function renderPositionsTab() {
+  const positions = loadPrivatePositions();
+  const sortBy  = document.getElementById('pos-sort')?.value  || 'pnl_pct';
+  const filterBy= document.getElementById('pos-filter')?.value|| 'all';
+  let list = positions.filter(p => filterBy==='profit'?p.pnl>=0 : filterBy==='loss'?p.pnl<0 : true);
+  list.sort((a,b) => sortBy==='pnl_pct'?b.pnlPct-a.pnlPct : sortBy==='pnl_abs'?b.pnl-a.pnl :
+    sortBy==='market_val'?(b.price*b.shares)-(a.price*a.shares) : a.ticker.localeCompare(b.ticker));
+
+  const totalPnl   = positions.reduce((s,p)=>s+p.pnl,0);
+  const totalMktVal= positions.reduce((s,p)=>s+p.price*p.shares,0);
+  const totalCost  = positions.reduce((s,p)=>s+p.cost*p.shares,0);
+  const totalPnlPct= totalCost ? totalPnl/totalCost*100 : 0;
+  const winCount   = positions.filter(p=>p.pnl>=0).length;
+  const pnlColor   = totalPnl>=0 ? 'var(--green)' : 'var(--red)';
+
+  document.getElementById('pos-summary').innerHTML = `
+    <div class="pos-stat"><div class="pos-stat-val" style="color:${pnlColor}">${totalPnl>=0?'+':''}$${Math.abs(totalPnl).toFixed(0)}</div><div class="pos-stat-lbl">总盈亏</div></div>
+    <div class="pos-stat"><div class="pos-stat-val" style="color:${pnlColor}">${totalPnlPct>=0?'+':''}${totalPnlPct.toFixed(2)}%</div><div class="pos-stat-lbl">综合盈亏率</div></div>
+    <div class="pos-stat"><div class="pos-stat-val">$${totalMktVal.toFixed(0)}</div><div class="pos-stat-lbl">持仓市值</div></div>
+    <div class="pos-stat"><div class="pos-stat-val">${positions.length} 只 · ${winCount}盈 ${positions.length-winCount}亏</div><div class="pos-stat-lbl">持仓数</div></div>`;
+
+  const maxAbsPct = Math.max(...positions.map(p=>Math.abs(p.pnlPct)), 1);
+
+  document.getElementById('pos-table').innerHTML = `
+    <div class="pos-table-wrap"><table class="pos-table-el">
+      <thead><tr><th>标的</th><th>现价</th><th>成本</th><th>数量</th><th>市值</th><th>盈亏额</th><th>盈亏%</th></tr></thead>
+      <tbody>${list.map(p => {
+        const isUp=p.pnl>=0, cls=isUp?'pos-pnl-up':'pos-pnl-dn', sign=isUp?'+':'';
+        const barW=Math.round(Math.abs(p.pnlPct)/maxAbsPct*60), barC=isUp?'var(--green)':'var(--red)';
+        return `<tr>
+          <td><div class="pos-ticker-cell">
+            <span class="pos-ticker-name">${p.ticker}</span>
+            <span class="pos-ticker-sub">${p.name}</span>
+            ${p.type==='options'?`<span class="pos-options-tag">期权 到期${p.expiry?.slice(5)||''}</span>`:''}
+          </div></td>
+          <td>$${p.price}</td>
+          <td style="color:var(--muted)">$${p.cost}</td>
+          <td>${p.shares}</td>
+          <td>$${(p.price*p.shares).toFixed(0)}</td>
+          <td class="${cls}">${sign}$${Math.abs(p.pnl).toFixed(2)}</td>
+          <td><div class="pos-bar-wrap" style="justify-content:flex-end">
+            <span class="${cls}">${sign}${p.pnlPct.toFixed(2)}%</span>
+            <div class="pos-bar" style="width:${barW}px;background:${barC}"></div>
+          </div></td></tr>`;
+      }).join('')}</tbody>
+    </table></div>`;
+}
+
 // ── Tab 3: 我的持仓 ───────────────────────────────────
 function renderPositions() {
+  // PIN 保护：检查是否已解锁
+  if (isUnlocked()) {
+    showPositionsContent();
+  } else {
+    document.getElementById('pos-lock-screen').style.display = 'flex';
+    document.getElementById('pos-content').style.display = 'none';
+  }
   const active = DB.positions().filter(p=>!p.closed);
   const closed = DB.positions().filter(p=>p.closed);
   const grid   = document.getElementById('positions-grid');
