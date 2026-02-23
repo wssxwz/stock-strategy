@@ -26,6 +26,24 @@ function pushHistory(type, title, content) {
 }
 
 // ── Tab 切换 ─────────────────────────────────────────
+async function loadPushHistoryFromServer() {
+  // 用于“开放平台”模式：把服务端/Pages 上的 push_history.json 拉到本地展示
+  // 注意：本地仍会继续记录（localStorage push_history）
+  try {
+    const res = await fetch('./push_history.json?_=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) return;
+    const serverHist = await res.json();
+    if (!Array.isArray(serverHist) || !serverHist.length) return;
+
+    const local = DB.history();
+    const seen = new Set(local.map(x => x.id));
+    const merged = [...serverHist.filter(x => x && x.id && !seen.has(x.id)), ...local];
+    DB.saveHistory(merged.slice(0, 800));
+  } catch(e) {
+    // 静默
+  }
+}
+
 function initTabs() {
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -823,8 +841,8 @@ function renderHistory() {
             <span class="hist-icon">${typeIcon[h.type]||'📌'}</span>
             <div>
               <div class="hist-title">${typeLabel[h.type]||h.title}</div>
-              <div class="timeline-preview">${h.content.slice(0,60)}...</div>
-              <pre class="timeline-full" style="display:none;white-space:pre-wrap;font-family:inherit;font-size:13px;margin-top:8px;color:#cbd5e1">${h.content}</pre>
+              <div class="timeline-preview">${(h.summary||h.content||'').slice(0,80)}...</div>
+              <pre class="timeline-full" style="display:none;white-space:pre-wrap;font-family:inherit;font-size:13px;margin-top:8px;color:#cbd5e1">${h.raw || h.content || ''}</pre>
             </div>
           </div>
           <div class="hist-time">${h.time.slice(-8)||''}</div>
@@ -1225,10 +1243,11 @@ function updateStats() {
 }
 
 // ── 初始化 ────────────────────────────────────────────
-function init() {
+async function init() {
   initTabs();
   initSignalFilters();
   initTradeForm();
+  await loadPushHistoryFromServer();
   renderOverview();
   renderCalendar();        // 首页日历
   loadMarketSnapshot();    // 市场快照

@@ -86,8 +86,13 @@ def analyze_ticker(pos: dict) -> dict:
         rsi   = float(calc_rsi(close))
         macd_val, macd_sig = calc_macd(close)
 
-        hi52 = float(close.rolling(252).max().iloc[-1]) if len(close) >= 50 else price
-        lo52 = float(close.rolling(252).min().iloc[-1]) if len(close) >= 50 else price
+        # 52周高低：rolling 末值可能为 NaN（数据不足/停牌），需兜底
+        hi52 = float(close.rolling(252).max().iloc[-1]) if len(close) >= 252 else float(close.max())
+        lo52 = float(close.rolling(252).min().iloc[-1]) if len(close) >= 252 else float(close.min())
+        if hi52 != hi52 or hi52 == 0:  # NaN
+            hi52 = price
+        if lo52 != lo52 or lo52 == 0:
+            lo52 = price
         off_hi = (price - hi52) / hi52 * 100
 
         tech = {
