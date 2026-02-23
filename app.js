@@ -115,7 +115,6 @@ function renderDiagnosis(data) {
 
   // 行动分布统计
   const ac = ov.actions || {};
-  const ovRow = document.getElementById('diag-overview-row');
   const actionMap = {
     hold_or_add: {label:'持有/加仓', color:'var(--green)'},
     hold:        {label:'观望持有',  color:'var(--gold)'},
