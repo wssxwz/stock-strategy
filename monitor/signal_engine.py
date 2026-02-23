@@ -140,10 +140,18 @@ def score_signal(row: pd.Series, ticker: str) -> dict:
     price = row.get('close', 0)
     atr   = row.get('atr14', price * 0.05)
     
-    # 止盈止损
-    tp_price = round(price * (1 + STRATEGY['take_profit']), 2)
-    sl_price = round(price * (1 + STRATEGY['stop_loss']), 2)
-    rr_ratio = STRATEGY['take_profit'] / abs(STRATEGY['stop_loss'])
+    # 止盈止损（方案B：强趋势用更大的止盈目标）
+    is_strong = score >= STRATEGY.get('strong_trend_min_score', 85)
+    tp_pct = STRATEGY['take_profit_strong'] if is_strong else STRATEGY['take_profit']
+    sl_pct = STRATEGY['stop_loss_strong']  if is_strong else STRATEGY['stop_loss']
+
+    tp_price = round(price * (1 + tp_pct), 2)
+    sl_price = round(price * (1 + sl_pct), 2)
+    rr_ratio = tp_pct / abs(sl_pct)
+
+    tp_label = f"+{int(tp_pct*100)}%" if float(tp_pct*100).is_integer() else f"+{tp_pct*100:.0f}%"
+    sl_label = f"{int(sl_pct*100)}%" if float(sl_pct*100).is_integer() else f"{sl_pct*100:.0f}%"
+    mode_label = '强趋势' if is_strong else '普通'
     
     # 建议买入价（根据回调深度和RSI位置）
     ma20 = row.get('ma20', price)
@@ -171,9 +179,9 @@ def score_signal(row: pd.Series, ticker: str) -> dict:
         suggest_price = round(price * 0.99, 2)
         suggest_note = "回调中，可挂单略低于现价"
     
-    # 重新计算基于建议价的止盈止损
-    tp_price_suggest = round(suggest_price * (1 + STRATEGY['take_profit']), 2)
-    sl_price_suggest = round(suggest_price * (1 + STRATEGY['stop_loss']), 2)
+    # 重新计算基于建议价的止盈止损（使用同一套强趋势参数）
+    tp_price_suggest = round(suggest_price * (1 + tp_pct), 2)
+    sl_price_suggest = round(suggest_price * (1 + sl_pct), 2)
 
     return {
         'ticker':    ticker,
@@ -192,6 +200,9 @@ def score_signal(row: pd.Series, ticker: str) -> dict:
         'tp_price':    tp_price_suggest,
         'sl_price':    sl_price_suggest,
         'rr_ratio':    round(rr_ratio, 2),
+        'tp_label':    f"{mode_label} {tp_label}",
+        'sl_label':    f"{mode_label} {sl_label}",
+        'risk_mode':   'strong' if is_strong else 'normal',
         'details':     details,
         'warnings':    warnings_list,
         'scan_time':   datetime.now().strftime('%Y-%m-%d %H:%M'),
@@ -230,8 +241,8 @@ def format_signal_message(sig: dict) -> str:
   5日涨跌: {sig['ret_5d']:+.1f}%
 
 🎯 参考出场:
-  止盈: ${sig['tp_price']} (+13%)
-  止损: ${sig['sl_price']} (-8%)
+  止盈: ${sig['tp_price']} ({sig.get('tp_label','')})
+  止损: ${sig['sl_price']} ({sig.get('sl_label','')})
   盈亏比: {sig['rr_ratio']}:1"""
 
     if sig['warnings']:

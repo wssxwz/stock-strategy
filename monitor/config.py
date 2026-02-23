@@ -86,8 +86,15 @@ STRATEGY = {
     'require_macd_neg':True,  # 是否要求MACD柱为负
 
     # 出场参考（仅供通知，不自动下单）
-    'take_profit':     0.13,  # 参考止盈 +13%
-    'stop_loss':      -0.08,  # 参考止损 -8%
+    'take_profit':     0.13,  # 普通信号参考止盈 +13%
+    'stop_loss':      -0.08,  # 普通信号参考止损 -8%
+
+    # 强趋势模式（方案B）：只对强趋势信号上调目标，提高盈亏比
+    'take_profit_strong': 0.20,  # 强趋势止盈 +20%（RR≈2.5）
+    'stop_loss_strong':  -0.08,  # 强趋势仍用 -8%（不收紧，避免被扫）
+
+    # 强趋势判定阈值（越保守越少触发）
+    'strong_trend_min_score': 85  # 评分>=85 视为强趋势信号
 
     # 扫描频率
     'scan_interval_min': 60,  # 每60分钟扫描一次
