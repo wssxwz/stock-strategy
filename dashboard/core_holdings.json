@@ -1,0 +1,49 @@
+{
+  "tickers": {
+    "TSLA": {
+      "ticker": "TSLA",
+      "price": 411.82,
+      "change": 0.11,
+      "change_pct": 0.03,
+      "date": "2026-02-20",
+      "volume": 57843900,
+      "high_52w": 498.83,
+      "low_52w": 214.25,
+      "off_high": -17.4
+    },
+    "GOOGL": {
+      "ticker": "GOOGL",
+      "price": 314.98,
+      "change": 12.13,
+      "change_pct": 4.01,
+      "date": "2026-02-20",
+      "volume": 53180700,
+      "high_52w": 349.0,
+      "low_52w": 140.53,
+      "off_high": -9.7
+    },
+    "NVDA": {
+      "ticker": "NVDA",
+      "price": 189.82,
+      "change": 1.92,
+      "change_pct": 1.02,
+      "date": "2026-02-20",
+      "volume": 178143900,
+      "high_52w": 212.19,
+      "low_52w": 86.62,
+      "off_high": -10.5
+    },
+    "META": {
+      "ticker": "META",
+      "price": 655.66,
+      "change": 10.88,
+      "change_pct": 1.69,
+      "date": "2026-02-20",
+      "volume": 14166900,
+      "high_52w": 796.25,
+      "low_52w": 479.8,
+      "off_high": -17.7
+    }
+  },
+  "generated_at": "2026-02-23T13:46:06.351716"
+}

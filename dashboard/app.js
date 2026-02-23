@@ -48,6 +48,80 @@ function renderTab(tab) {
 }
 
 // ── Tab 1: 今日概览 ───────────────────────────────────
+async function loadCoreHoldings() {
+  // 从缓存或 JSON 文件获取核心持仓数据
+  let snap = null;
+  try {
+    const cached = localStorage.getItem('core_holdings_cache');
+    if (cached) {
+      const obj = JSON.parse(cached);
+      // 超过1小时才刷新（盘中数据变化快）
+      if (Date.now() - obj._ts < 3600 * 1000) snap = obj;
+    }
+  } catch(e) {}
+
+  if (!snap) {
+    try {
+      const res = await fetch('./core_holdings.json?_=' + Date.now());
+      if (res.ok) {
+        snap = await res.json();
+        snap._ts = Date.now();
+        localStorage.setItem('core_holdings_cache', JSON.stringify(snap));
+      }
+    } catch(e) {}
+  }
+
+  // 日历数据里找财报日期
+  let earnMap = {};
+  try {
+    const calCached = localStorage.getItem('calendar_cache');
+    if (calCached) {
+      const cal = JSON.parse(calCached);
+      (cal.core_earnings||[]).forEach(ev => { earnMap[ev.ticker] = ev.date; });
+    }
+  } catch(e) {}
+
+  const cores = ['TSLA','GOOGL','NVDA','META'];
+  cores.forEach(t => {
+    const card = document.getElementById(`core-card-${t}`);
+    if (!card) return;
+
+    const d = snap?.tickers?.[t];
+    const earnDate = earnMap[t];
+    const earnLabel = earnDate ? `📋 财报 ${earnDate.slice(5)}` : '';
+
+    if (!d) {
+      card.innerHTML = `
+        <div class="core-ticker">${t}</div>
+        <div class="core-placeholder">数据加载中</div>
+        ${earnLabel ? `<div class="core-earn">${earnLabel}</div>` : ''}`;
+      return;
+    }
+
+    const isUp  = d.change_pct >= 0;
+    const color = isUp ? 'var(--green)' : 'var(--red)';
+    const arrow = isUp ? '▲' : '▼';
+    const sign  = isUp ? '+' : '';
+
+    // 距 52 周高点
+    const offHtml = d.off_high
+      ? `<div class="core-meta">距52W高 ${d.off_high > 0 ? '+' : ''}${d.off_high}%</div>`
+      : '';
+
+    card.innerHTML = `
+      <div class="core-ticker-row">
+        <span class="core-ticker">${t}</span>
+        <span class="core-date">${d.date?.slice(5)||''}</span>
+      </div>
+      <div class="core-price-big" style="color:${color}">$${d.price}</div>
+      <div class="core-change" style="color:${color}">${arrow} ${sign}${d.change_pct.toFixed(2)}%
+        <span style="font-size:11px;opacity:.7">${sign}$${Math.abs(d.change).toFixed(2)}</span>
+      </div>
+      ${offHtml}
+      ${earnLabel ? `<div class="core-earn">${earnLabel}</div>` : ''}`;
+  });
+}
+
 async function loadMarketSnapshot() {
   // 从 data/daily/YYYY-MM-DD.json 加载今日市场数据
   const now = new Date();
@@ -124,28 +198,17 @@ function renderOverview() {
   document.getElementById('stat-positions').textContent = activePosi;
   document.getElementById('stat-winrate').textContent   = winRate;
 
-  // 核心持仓卡片（从信号或日历数据中读取）
+  // 核心持仓卡片 — 先渲染占位，异步加载价格
   const cores = ['TSLA','GOOGL','NVDA','META'];
-  // 尝试从缓存的日历里找财报日期
-  let calCache = null;
-  try { calCache = JSON.parse(localStorage.getItem('calendar_cache')); } catch(e){}
-  const earnMap = {};
-  if (calCache && calCache.core_earnings) {
-    calCache.core_earnings.forEach(ev => { earnMap[ev.ticker] = ev.date; });
-  }
-  const coreHtml = cores.map(t => {
-    const sig = signals.filter(s=>s.ticker===t).sort((a,b)=>b.time>a.time?1:-1)[0];
-    const earnDate = earnMap[t];
-    const earnLabel = earnDate ? `📋 财报 ${earnDate.slice(5)}` : '';
-    return `<div class="core-card">
+  document.getElementById('core-holdings').innerHTML = cores.map(t =>
+    `<div class="core-card" id="core-card-${t}">
       <div class="core-ticker">${t}</div>
-      ${sig
-        ? `<div class="core-price">$${sig.price}</div><div class="core-score">评分 ${sig.score} · ${sig.signal_type==='buy'?'📈买入':'📉卖出'}</div>`
-        : `<div class="core-placeholder">持仓中</div>`}
-      ${earnLabel ? `<div class="core-score" style="color:var(--gold);margin-top:4px">${earnLabel}</div>` : ''}
-    </div>`;
-  }).join('');
-  document.getElementById('core-holdings').innerHTML = coreHtml;
+      <div class="core-price" style="color:var(--muted);font-size:14px">加载中...</div>
+    </div>`
+  ).join('');
+
+  // 异步加载核心持仓价格数据
+  loadCoreHoldings();
 
   // 今日推送时间线
   const todayHist = hist.filter(h=>h.time&&h.time.startsWith(today().replace(/-/g,'/')||today()));

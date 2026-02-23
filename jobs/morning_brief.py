@@ -152,6 +152,13 @@ if __name__ == '__main__':
     except Exception as e:
         print(f"  日历更新失败: {e}")
 
+    # 更新核心持仓快照
+    try:
+        from core_snapshot import run as update_core
+        update_core()
+    except Exception as e:
+        print(f"  核心持仓快照更新失败: {e}")
+
     print("生成早盘摘要...")
     msg = generate_morning_brief()
     print("\n" + "="*50)
