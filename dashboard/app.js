@@ -48,6 +48,67 @@ function renderTab(tab) {
 }
 
 // ── Tab 1: 今日概览 ───────────────────────────────────
+async function loadMarketSnapshot() {
+  // 从 data/daily/YYYY-MM-DD.json 加载今日市场数据
+  const now = new Date();
+  const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  // 尝试今天，若无则尝试昨天
+  const dates = [dateStr];
+  const prev = new Date(now); prev.setDate(now.getDate()-1);
+  dates.push(`${prev.getFullYear()}-${String(prev.getMonth()+1).padStart(2,'0')}-${String(prev.getDate()).padStart(2,'0')}`);
+
+  for (const d of dates) {
+    try {
+      const res = await fetch(`./data/daily/${d}.json?_=` + Date.now());
+      if (!res.ok) continue;
+      const data = await res.json();
+      const mb = data.morning_brief || data.deep_analysis || {};
+      if (!mb.indices) continue;
+
+      const snap = document.getElementById('mkt-snapshot');
+      snap.style.display = 'grid';
+
+      // 指数
+      const idxNames = {SPY:'标普500',QQQ:'纳斯达克',DIA:'道琼斯',IWM:'罗素2000'};
+      document.getElementById('mkt-indices').innerHTML = Object.entries(mb.indices||{})
+        .filter(([k])=>idxNames[k])
+        .map(([k,v])=>`<div class="mkt-row">
+          <span class="mkt-name">${idxNames[k]||k}</span>
+          <span class="mkt-val ${v.change_pct>=0?'up':'dn'}">${v.change_pct>=0?'+':''}${v.change_pct.toFixed(2)}%</span>
+        </div>`).join('');
+
+      // 大宗商品
+      const cmdNames = {'GC=F':'黄金','CL=F':'原油','SI=F':'白银','NG=F':'天然气'};
+      document.getElementById('mkt-commodities').innerHTML = Object.entries(mb.commodities||{})
+        .map(([k,v])=>`<div class="mkt-row">
+          <span class="mkt-name">${cmdNames[k]||k}</span>
+          <span class="mkt-val ${v.change_pct>=0?'up':'dn'}">${v.change_pct>=0?'+':''}${v.change_pct.toFixed(2)}%</span>
+        </div>`).join('');
+
+      // 板块 top3 + bottom3
+      const secs = Object.entries(mb.sectors||{}).sort((a,b)=>b[1].change_pct-a[1].change_pct);
+      const top3 = secs.slice(0,3), bot3 = secs.slice(-3);
+      document.getElementById('mkt-sectors').innerHTML =
+        [...top3.map(([k,v])=>`<div class="mkt-row">
+          <span class="mkt-name">💪 ${v.name||k}</span>
+          <span class="mkt-val up">+${v.change_pct.toFixed(2)}%</span></div>`),
+         `<div style="font-size:11px;color:var(--muted);padding:3px 0;text-align:center">···</div>`,
+         ...bot3.map(([k,v])=>`<div class="mkt-row">
+          <span class="mkt-name">🩸 ${v.name||k}</span>
+          <span class="mkt-val dn">${v.change_pct.toFixed(2)}%</span></div>`)
+        ].join('');
+
+      // 恐惧贪婪
+      const fg = mb.fear_greed || {};
+      document.getElementById('mkt-fg-emoji').textContent = fg.emoji || '😐';
+      document.getElementById('mkt-fg-label').textContent = fg.label_zh || fg.label || '--';
+      document.getElementById('mkt-fg-val').textContent = fg.value ? `${fg.value}/100 · 恐惧贪婪指数` : '恐惧贪婪指数';
+
+      return; // 成功则返回
+    } catch(e) {}
+  }
+}
+
 function renderOverview() {
   const signals   = DB.signals();
   const positions = DB.positions();
@@ -63,13 +124,25 @@ function renderOverview() {
   document.getElementById('stat-positions').textContent = activePosi;
   document.getElementById('stat-winrate').textContent   = winRate;
 
-  // 核心持仓动态（从最近信号里找，没有就占位）
+  // 核心持仓卡片（从信号或日历数据中读取）
   const cores = ['TSLA','GOOGL','NVDA','META'];
+  // 尝试从缓存的日历里找财报日期
+  let calCache = null;
+  try { calCache = JSON.parse(localStorage.getItem('calendar_cache')); } catch(e){}
+  const earnMap = {};
+  if (calCache && calCache.core_earnings) {
+    calCache.core_earnings.forEach(ev => { earnMap[ev.ticker] = ev.date; });
+  }
   const coreHtml = cores.map(t => {
-    const sig = signals.find(s=>s.ticker===t);
+    const sig = signals.filter(s=>s.ticker===t).sort((a,b)=>b.time>a.time?1:-1)[0];
+    const earnDate = earnMap[t];
+    const earnLabel = earnDate ? `📋 财报 ${earnDate.slice(5)}` : '';
     return `<div class="core-card">
       <div class="core-ticker">${t}</div>
-      ${sig ? `<div class="core-price">$${sig.price}</div><div class="core-score">评分 ${sig.score}</div>` : '<div class="core-placeholder">等待信号</div>'}
+      ${sig
+        ? `<div class="core-price">$${sig.price}</div><div class="core-score">评分 ${sig.score} · ${sig.signal_type==='buy'?'📈买入':'📉卖出'}</div>`
+        : `<div class="core-placeholder">持仓中</div>`}
+      ${earnLabel ? `<div class="core-score" style="color:var(--gold);margin-top:4px">${earnLabel}</div>` : ''}
     </div>`;
   }).join('');
   document.getElementById('core-holdings').innerHTML = coreHtml;
@@ -487,12 +560,16 @@ async function renderCalendar() {
     return;
   }
 
-  // 取接下来10天
-  const todayStr = new Date().toISOString().slice(0,10);
+  // 使用本地时间（北京时间），避免 UTC 偏移导致日期差1天
+  const now = new Date();
+  const todayStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  // 取从今天起（含今天-1天容错）未来有事件的最多14天
+  const yesterday = new Date(now); yesterday.setDate(now.getDate()-1);
+  const yStr = `${yesterday.getFullYear()}-${String(yesterday.getMonth()+1).padStart(2,'0')}-${String(yesterday.getDate()).padStart(2,'0')}`;
   const dates = Object.keys(cal.by_date)
-    .filter(d => d >= todayStr)
+    .filter(d => d >= yStr)
     .sort()
-    .slice(0, 12);
+    .slice(0, 14);
 
   subEl.textContent = `${cal.this_week?.length||0} 件本周事件 · 更新于 ${cal.generated_at?.slice(0,10)||'--'}`;
 
@@ -560,7 +637,8 @@ function init() {
   initSignalFilters();
   initTradeForm();
   renderOverview();
-  renderCalendar();   // 首页日历
+  renderCalendar();        // 首页日历
+  loadMarketSnapshot();    // 市场快照
   updateStats();
 }
 document.addEventListener('DOMContentLoaded', init);

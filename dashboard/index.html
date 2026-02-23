@@ -131,6 +131,17 @@ textarea{width:100%;height:180px;padding:12px;background:#0f172a;border:1px soli
 /* ── 空状态 ── */
 .empty-msg{text-align:center;padding:48px 20px;color:var(--muted);font-size:14px}
 
+/* ── 市场快照 ── */
+.mkt-snapshot{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.mkt-card .mkt-row{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;border-bottom:1px solid var(--border)}
+.mkt-card .mkt-row:last-child{border:none}
+.mkt-name{color:var(--muted)}
+.mkt-val{font-weight:600}
+.mkt-val.up{color:var(--green)}
+.mkt-val.dn{color:var(--red)}
+@media(max-width:900px){.mkt-snapshot{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:500px){.mkt-snapshot{grid-template-columns:1fr}}
+
 /* ── 经济日历 Banner ── */
 .cal-banner{background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:22px;overflow:hidden}
 .cal-banner-header{display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid var(--border)}
@@ -231,6 +242,27 @@ textarea{width:100%;height:180px;padding:12px;background:#0f172a;border:1px soli
         <div class="cal-days" id="cal-days">
           <div class="empty-msg" style="padding:20px">加载中...</div>
         </div>
+      </div>
+    </div>
+
+    <!-- 市场快照 -->
+    <div class="mkt-snapshot" id="mkt-snapshot" style="display:none">
+      <div class="card mkt-card">
+        <div class="card-title">📊 昨夜收盘</div>
+        <div id="mkt-indices"></div>
+      </div>
+      <div class="card mkt-card">
+        <div class="card-title">🛢️ 大宗商品</div>
+        <div id="mkt-commodities"></div>
+      </div>
+      <div class="card mkt-card">
+        <div class="card-title">🗂️ 板块强弱</div>
+        <div id="mkt-sectors"></div>
+      </div>
+      <div class="card mkt-card" style="text-align:center;display:flex;flex-direction:column;justify-content:center">
+        <div id="mkt-fg-emoji" style="font-size:36px;margin-bottom:8px">😐</div>
+        <div id="mkt-fg-label" style="font-size:15px;font-weight:700">--</div>
+        <div id="mkt-fg-val" style="font-size:13px;color:var(--muted);margin-top:4px">恐惧贪婪指数</div>
       </div>
     </div>
 
