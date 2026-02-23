@@ -133,7 +133,6 @@ function renderDiagnosis(data) {
   </div>`;
 
   // 宏观建议
-  const macroEl = document.getElementById('diag-macro');
   macroEl.innerHTML = (ov.macro_advice || []).map(a =>
     `<div class="diag-macro-item">${a}</div>`
   ).join('') + (ov.concentration||[]).map(c =>
