@@ -1,20 +1,20 @@
 {
-  "generated_at": "2026-02-23T22:03:54.373420",
+  "generated_at": "2026-02-23T23:02:09.966181",
   "overview": {
-    "avg_score": 70.1,
+    "avg_score": 67.2,
     "total_count": 17,
     "actions": {
-      "reduce": 2,
-      "hold_or_add": 10,
-      "exit": 1,
-      "hold": 4
+      "reduce": 1,
+      "hold_or_add": 8,
+      "exit": 2,
+      "hold": 6
     },
     "concentration": [],
     "macro_advice": [
       "\u2705 \u6574\u4f53\u6301\u4ed3\u8d28\u91cf\u826f\u597d\uff0c\u53ef\u7ef4\u6301\u5f53\u524d\u914d\u7f6e\uff0c\u5173\u6ce8\u4fe1\u53f7\u5165\u573a\u673a\u4f1a"
     ],
-    "health_label": "\u4f18\u79c0",
-    "health_color": "bullish"
+    "health_label": "\u826f\u597d",
+    "health_color": "neutral"
   },
   "stocks": [
     {
@@ -22,22 +22,22 @@
       "name": "\u7279\u65af\u62c9",
       "cost": 228.06,
       "shares": 32,
-      "price": 411.82,
-      "pnl_pct": 80.58,
+      "price": 403.85,
+      "pnl_pct": 77.08,
       "tech": {
-        "price": 411.82,
-        "ma20": 420.12,
-        "ma50": 440.94,
-        "ma200": 387.74,
-        "rsi": 39.0,
-        "macd": -7.139,
-        "macd_sig": -7.355,
-        "hi52": NaN,
-        "lo52": NaN,
-        "off_hi": NaN,
-        "vs_ma20": -2.0,
-        "vs_ma50": -6.6,
-        "vs_ma200": 6.2,
+        "price": 403.85,
+        "ma20": 417.86,
+        "ma50": 440.11,
+        "ma200": 388.38,
+        "rsi": 39.2,
+        "macd": -7.594,
+        "macd_sig": -7.403,
+        "hi52": 489.88,
+        "lo52": 221.86,
+        "off_hi": -17.6,
+        "vs_ma20": -3.4,
+        "vs_ma50": -8.2,
+        "vs_ma200": 4.0,
         "signals": [
           {
             "type": "neutral",
@@ -48,16 +48,16 @@
             "text": "\u4ef7\u683c\u5728MA200\u4e0a\u65b9\uff0c\u957f\u671f\u8d8b\u52bf\u5411\u4e0a"
           },
           {
-            "type": "bullish",
-            "text": "MACD\u91d1\u53c9\uff0c\u77ed\u671f\u52a8\u80fd\u5411\u4e0a"
+            "type": "bearish",
+            "text": "MACD\u6b7b\u53c9\uff0c\u77ed\u671f\u52a8\u80fd\u504f\u5f31"
           }
         ]
       },
       "fund": {
-        "forward_pe": 146.85199,
-        "trailing_pe": 384.87848,
-        "pb": 18.807144,
-        "ps": 16.29627,
+        "forward_pe": 144.02777,
+        "trailing_pe": 377.47662,
+        "pb": 18.44545,
+        "ps": 15.982864,
         "rev_growth": -0.031,
         "eps_growth": -0.606,
         "gross_margin": 0.18027,
@@ -65,7 +65,7 @@
         "roe": 0.049250003,
         "debt_equity": 17.763,
         "beta": 1.887,
-        "market_cap": 1545326559232,
+        "market_cap": 1515607162880,
         "sector": "Consumer Cyclical",
         "industry": "Auto Manufacturers",
         "signals": [
@@ -85,20 +85,20 @@
         "target_mean": 421.729,
         "target_high": 600.0,
         "target_low": 125.0,
-        "upside": 2.4
+        "upside": 4.4
       },
       "diagnosis": {
-        "score": 45,
+        "score": 35,
         "action": "reduce",
         "action_text": "\u8003\u8651\u51cf\u4ed3",
         "action_color": "caution",
-        "tech_summary": "\u4ef7\u683c\u9ad8\u4e8eMA200 +6.2%\uff0c\u957f\u7ebf\u8d8b\u52bf\u5065\u5eb7",
+        "tech_summary": "\u4ef7\u683c\u9ad8\u4e8eMA200 +4.0%\uff0c\u957f\u7ebf\u8d8b\u52bf\u5065\u5eb7",
         "rsi_summary": "RSI=39\uff08\u4f4e\u4f4d\uff09",
-        "analyst_summary": "\u5206\u6790\u5e08\uff1a\u6301\u6709\uff0c40\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$421.729\uff08\u7a7a\u95f4+2.4%\uff09",
+        "analyst_summary": "\u5206\u6790\u5e08\uff1a\u6301\u6709\uff0c40\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$421.729\uff08\u7a7a\u95f4+4.4%\uff09",
         "signals": [
           {
             "type": "caution",
-            "text": "\u2728 \u5df2\u76c8\u522980.6%\uff0c\u53ef\u8003\u8651\u5206\u6279\u6b62\u76c8\uff0c\u9501\u5b9a\u90e8\u5206\u5229\u6da6"
+            "text": "\u2728 \u5df2\u76c8\u522977.1%\uff0c\u53ef\u8003\u8651\u5206\u6279\u6b62\u76c8\uff0c\u9501\u5b9a\u90e8\u5206\u5229\u6da6"
           }
         ]
       }
@@ -108,22 +108,22 @@
       "name": "Meta Platforms",
       "cost": 639.088,
       "shares": 15,
-      "price": 655.66,
-      "pnl_pct": 2.59,
+      "price": 650.18,
+      "pnl_pct": 1.74,
       "tech": {
-        "price": 655.66,
-        "ma20": 670.78,
-        "ma50": 656.98,
-        "ma200": 689.45,
-        "rsi": 26.1,
-        "macd": -2.742,
-        "macd_sig": 1.19,
-        "hi52": NaN,
-        "lo52": NaN,
-        "off_hi": NaN,
-        "vs_ma20": -2.3,
-        "vs_ma50": -0.2,
-        "vs_ma200": -4.9,
+        "price": 650.18,
+        "ma20": 670.35,
+        "ma50": 656.85,
+        "ma200": 689.77,
+        "rsi": 27.1,
+        "macd": -3.016,
+        "macd_sig": 0.349,
+        "hi52": 788.82,
+        "lo52": 483.57,
+        "off_hi": -17.6,
+        "vs_ma20": -3.0,
+        "vs_ma50": -1.0,
+        "vs_ma200": -5.7,
         "signals": [
           {
             "type": "bullish",
@@ -140,10 +140,10 @@
         ]
       },
       "fund": {
-        "forward_pe": 18.321434,
-        "trailing_pe": 27.936089,
-        "pb": 7.635762,
-        "ps": 8.25278,
+        "forward_pe": 18.172497,
+        "trailing_pe": 27.708992,
+        "pb": 7.57369,
+        "ps": 8.187454,
         "rev_growth": 0.238,
         "eps_growth": 0.107,
         "gross_margin": 0.81999,
@@ -151,7 +151,7 @@
         "roe": 0.30238,
         "debt_equity": 39.164,
         "beta": 1.284,
-        "market_cap": 1658528202752,
+        "market_cap": 1645045874688,
         "sector": "Communication Services",
         "industry": "Internet Content & Information",
         "signals": [
@@ -171,16 +171,16 @@
         "target_mean": 861.301,
         "target_high": 1144.0,
         "target_low": 700.0,
-        "upside": 31.4
+        "upside": 32.5
       },
       "diagnosis": {
         "score": 81,
         "action": "hold_or_add",
         "action_text": "\u6301\u6709/\u53ef\u52a0\u4ed3",
         "action_color": "bullish",
-        "tech_summary": "\u4ef7\u683c\u4f4e\u4e8eMA200 -4.9%\uff0c\u957f\u7ebf\u8d8b\u52bf\u504f\u7a7a",
-        "rsi_summary": "RSI=26\uff08\u8d85\u5356\uff09",
-        "analyst_summary": "\u5206\u6790\u5e08\uff1a\u5f3a\u70c8\u4e70\u5165\uff0c59\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$861.301\uff08\u7a7a\u95f4+31.4%\uff09",
+        "tech_summary": "\u4ef7\u683c\u4f4e\u4e8eMA200 -5.7%\uff0c\u957f\u7ebf\u8d8b\u52bf\u504f\u7a7a",
+        "rsi_summary": "RSI=27\uff08\u8d85\u5356\uff09",
+        "analyst_summary": "\u5206\u6790\u5e08\uff1a\u5f3a\u70c8\u4e70\u5165\uff0c59\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$861.301\uff08\u7a7a\u95f4+32.5%\uff09",
         "signals": []
       }
     },
@@ -189,26 +189,26 @@
       "name": "CrowdStrike",
       "cost": 463.636,
       "shares": 22,
-      "price": 388.6,
-      "pnl_pct": -16.18,
+      "price": 364.62,
+      "pnl_pct": -21.36,
       "tech": {
-        "price": 388.6,
-        "ma20": 426.03,
-        "ma50": 455.09,
-        "ma200": 471.34,
-        "rsi": 35.5,
-        "macd": -14.441,
-        "macd_sig": -14.753,
-        "hi52": NaN,
-        "lo52": NaN,
-        "off_hi": NaN,
-        "vs_ma20": -8.8,
-        "vs_ma50": -14.6,
-        "vs_ma200": -17.6,
+        "price": 364.62,
+        "ma20": 421.63,
+        "ma50": 452.02,
+        "ma200": 470.94,
+        "rsi": 31.8,
+        "macd": -17.42,
+        "macd_sig": -15.287,
+        "hi52": 557.53,
+        "lo52": 308.86,
+        "off_hi": -34.6,
+        "vs_ma20": -13.5,
+        "vs_ma50": -19.3,
+        "vs_ma200": -22.6,
         "signals": [
           {
             "type": "neutral",
-            "text": "RSI=35\uff0c\u5904\u4e8e\u4f4e\u4f4d\u533a\u95f4"
+            "text": "RSI=32\uff0c\u5904\u4e8e\u4f4e\u4f4d\u533a\u95f4"
           },
           {
             "type": "bearish",
@@ -216,19 +216,19 @@
           },
           {
             "type": "bearish",
-            "text": "\u4ef7\u683c\u5927\u5e45\u4f4e\u4e8eMA50\uff08-14.6%\uff09\uff0c\u8d8b\u52bf\u504f\u5f31"
+            "text": "\u4ef7\u683c\u5927\u5e45\u4f4e\u4e8eMA50\uff08-19.3%\uff09\uff0c\u8d8b\u52bf\u504f\u5f31"
           },
           {
-            "type": "bullish",
-            "text": "MACD\u91d1\u53c9\uff0c\u77ed\u671f\u52a8\u80fd\u5411\u4e0a"
+            "type": "bearish",
+            "text": "MACD\u6b7b\u53c9\uff0c\u77ed\u671f\u52a8\u80fd\u504f\u5f31"
           }
         ]
       },
       "fund": {
-        "forward_pe": 80.25775,
+        "forward_pe": 75.34646,
         "trailing_pe": null,
-        "pb": 24.388102,
-        "ps": 21.45933,
+        "pb": 22.895695,
+        "ps": 20.154984,
         "rev_growth": 0.222,
         "eps_growth": null,
         "gross_margin": 0.74277,
@@ -236,7 +236,7 @@
         "roe": -0.088149995,
         "debt_equity": 20.154,
         "beta": 1.034,
-        "market_cap": 97965449216,
+        "market_cap": 91970551808,
         "sector": "Technology",
         "industry": "Software - Infrastructure",
         "signals": [
@@ -253,19 +253,19 @@
       "analyst": {
         "recommendation": "buy",
         "num_analysts": 47,
-        "target_mean": 545.6153,
+        "target_mean": 543.06213,
         "target_high": 706.0,
         "target_low": 353.0,
-        "upside": 40.4
+        "upside": 48.9
       },
       "diagnosis": {
         "score": 81,
         "action": "hold_or_add",
         "action_text": "\u6301\u6709/\u53ef\u52a0\u4ed3",
         "action_color": "bullish",
-        "tech_summary": "\u4ef7\u683c\u4f4e\u4e8eMA200 -17.6%\uff0c\u957f\u7ebf\u8d8b\u52bf\u504f\u7a7a",
-        "rsi_summary": "RSI=36\uff08\u4f4e\u4f4d\uff09",
-        "analyst_summary": "\u5206\u6790\u5e08\uff1a\u4e70\u5165\uff0c47\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$545.6153\uff08\u7a7a\u95f4+40.4%\uff09",
+        "tech_summary": "\u4ef7\u683c\u4f4e\u4e8eMA200 -22.6%\uff0c\u957f\u7ebf\u8d8b\u52bf\u504f\u7a7a",
+        "rsi_summary": "RSI=32\uff08\u4f4e\u4f4d\uff09",
+        "analyst_summary": "\u5206\u6790\u5e08\uff1a\u4e70\u5165\uff0c47\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$543.06213\uff08\u7a7a\u95f4+48.9%\uff09",
         "signals": []
       }
     },
@@ -274,22 +274,22 @@
       "name": "Palo Alto Net.",
       "cost": 183.857,
       "shares": 56,
-      "price": 148.7,
-      "pnl_pct": -19.12,
+      "price": 146.84,
+      "pnl_pct": -20.13,
       "tech": {
-        "price": 148.7,
-        "ma20": 167.47,
-        "ma50": 179.49,
-        "ma200": 192.59,
-        "rsi": 26.4,
-        "macd": -8.045,
-        "macd_sig": -6.703,
-        "hi52": NaN,
-        "lo52": NaN,
-        "off_hi": NaN,
-        "vs_ma20": -11.2,
-        "vs_ma50": -17.2,
-        "vs_ma200": -22.8,
+        "price": 146.84,
+        "ma20": 165.8,
+        "ma50": 178.53,
+        "ma200": 192.38,
+        "rsi": 26.3,
+        "macd": -8.551,
+        "macd_sig": -7.072,
+        "hi52": 221.38,
+        "lo52": 146.84,
+        "off_hi": -33.7,
+        "vs_ma20": -11.4,
+        "vs_ma50": -17.8,
+        "vs_ma200": -23.7,
         "signals": [
           {
             "type": "bullish",
@@ -301,7 +301,7 @@
           },
           {
             "type": "bearish",
-            "text": "\u4ef7\u683c\u5927\u5e45\u4f4e\u4e8eMA50\uff08-17.2%\uff09\uff0c\u8d8b\u52bf\u504f\u5f31"
+            "text": "\u4ef7\u683c\u5927\u5e45\u4f4e\u4e8eMA50\uff08-17.8%\uff09\uff0c\u8d8b\u52bf\u504f\u5f31"
           },
           {
             "type": "bearish",
@@ -310,10 +310,10 @@
         ]
       },
       "fund": {
-        "forward_pe": 37.323547,
-        "trailing_pe": 94.11392,
-        "pb": 11.129406,
-        "ps": 12.145417,
+        "forward_pe": 36.85669,
+        "trailing_pe": 92.93671,
+        "pb": 10.990195,
+        "ps": 12.0016575,
         "rev_growth": 0.149,
         "eps_growth": 0.605,
         "gross_margin": 0.73502,
@@ -321,7 +321,7 @@
         "roe": 0.16259001,
         "debt_equity": 4.887,
         "beta": 0.75,
-        "market_cap": 120160681984,
+        "market_cap": 118657662976,
         "sector": "Technology",
         "industry": "Software - Infrastructure",
         "signals": [
@@ -337,16 +337,16 @@
         "target_mean": 209.61064,
         "target_high": 265.0,
         "target_low": 114.0,
-        "upside": 41.0
+        "upside": 42.7
       },
       "diagnosis": {
         "score": 81,
         "action": "hold_or_add",
         "action_text": "\u6301\u6709/\u53ef\u52a0\u4ed3",
         "action_color": "bullish",
-        "tech_summary": "\u4ef7\u683c\u4f4e\u4e8eMA200 -22.8%\uff0c\u957f\u7ebf\u8d8b\u52bf\u504f\u7a7a",
+        "tech_summary": "\u4ef7\u683c\u4f4e\u4e8eMA200 -23.7%\uff0c\u957f\u7ebf\u8d8b\u52bf\u504f\u7a7a",
         "rsi_summary": "RSI=26\uff08\u8d85\u5356\uff09",
-        "analyst_summary": "\u5206\u6790\u5e08\uff1a\u4e70\u5165\uff0c47\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$209.61064\uff08\u7a7a\u95f4+41.0%\uff09",
+        "analyst_summary": "\u5206\u6790\u5e08\uff1a\u4e70\u5165\uff0c47\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$209.61064\uff08\u7a7a\u95f4+42.7%\uff09",
         "signals": []
       }
     },
@@ -355,26 +355,26 @@
       "name": "\u7532\u9aa8\u6587",
       "cost": 186.333,
       "shares": 33,
-      "price": 148.08,
-      "pnl_pct": -20.53,
+      "price": 142.21,
+      "pnl_pct": -23.68,
       "tech": {
-        "price": 148.08,
-        "ma20": 159.33,
-        "ma50": 179.73,
-        "ma200": 219.93,
-        "rsi": 39.1,
-        "macd": -8.5,
-        "macd_sig": -9.547,
-        "hi52": NaN,
-        "lo52": NaN,
-        "off_hi": NaN,
-        "vs_ma20": -7.1,
-        "vs_ma50": -17.6,
-        "vs_ma200": -32.7,
+        "price": 142.21,
+        "ma20": 157.58,
+        "ma50": 178.15,
+        "ma200": 219.91,
+        "rsi": 38.4,
+        "macd": -8.988,
+        "macd_sig": -9.435,
+        "hi52": 326.9,
+        "lo52": 122.02,
+        "off_hi": -56.5,
+        "vs_ma20": -9.8,
+        "vs_ma50": -20.2,
+        "vs_ma200": -35.3,
         "signals": [
           {
             "type": "neutral",
-            "text": "RSI=39\uff0c\u5904\u4e8e\u4f4e\u4f4d\u533a\u95f4"
+            "text": "RSI=38\uff0c\u5904\u4e8e\u4f4e\u4f4d\u533a\u95f4"
           },
           {
             "type": "bearish",
@@ -382,7 +382,7 @@
           },
           {
             "type": "bearish",
-            "text": "\u4ef7\u683c\u5927\u5e45\u4f4e\u4e8eMA50\uff08-17.6%\uff09\uff0c\u8d8b\u52bf\u504f\u5f31"
+            "text": "\u4ef7\u683c\u5927\u5e45\u4f4e\u4e8eMA50\uff08-20.2%\uff09\uff0c\u8d8b\u52bf\u504f\u5f31"
           },
           {
             "type": "bullish",
@@ -391,10 +391,10 @@
         ]
       },
       "fund": {
-        "forward_pe": 18.734936,
-        "trailing_pe": 27.834585,
-        "pb": 14.204316,
-        "ps": 6.9751444,
+        "forward_pe": 17.99227,
+        "trailing_pe": 26.731203,
+        "pb": 13.641248,
+        "ps": 6.6981735,
         "rev_growth": 0.142,
         "eps_growth": 0.909,
         "gross_margin": 0.68543,
@@ -402,7 +402,7 @@
         "roe": 0.69026,
         "debt_equity": 432.511,
         "beta": 1.633,
-        "market_cap": 425595404288,
+        "market_cap": 408724504576,
         "sector": "Technology",
         "industry": "Software - Infrastructure",
         "signals": [
@@ -422,16 +422,16 @@
         "target_mean": 272.89,
         "target_high": 400.0,
         "target_low": 155.0,
-        "upside": 84.3
+        "upside": 91.9
       },
       "diagnosis": {
         "score": 81,
         "action": "hold_or_add",
         "action_text": "\u6301\u6709/\u53ef\u52a0\u4ed3",
         "action_color": "bullish",
-        "tech_summary": "\u4ef7\u683c\u4f4e\u4e8eMA200 -32.7%\uff0c\u957f\u7ebf\u8d8b\u52bf\u504f\u7a7a",
-        "rsi_summary": "RSI=39\uff08\u4f4e\u4f4d\uff09",
-        "analyst_summary": "\u5206\u6790\u5e08\uff1a\u4e70\u5165\uff0c37\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$272.89\uff08\u7a7a\u95f4+84.3%\uff09",
+        "tech_summary": "\u4ef7\u683c\u4f4e\u4e8eMA200 -35.3%\uff0c\u957f\u7ebf\u8d8b\u52bf\u504f\u7a7a",
+        "rsi_summary": "RSI=38\uff08\u4f4e\u4f4d\uff09",
+        "analyst_summary": "\u5206\u6790\u5e08\uff1a\u4e70\u5165\uff0c37\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$272.89\uff08\u7a7a\u95f4+91.9%\uff09",
         "signals": []
       }
     },
@@ -440,27 +440,23 @@
       "name": "Rocket Lab",
       "cost": 84.923,
       "shares": 65,
-      "price": 70.86,
-      "pnl_pct": -16.56,
+      "price": 70.68,
+      "pnl_pct": -16.77,
       "tech": {
-        "price": 70.86,
-        "ma20": 76.03,
-        "ma50": 75.5,
-        "ma200": 51.69,
-        "rsi": 42.8,
-        "macd": -1.868,
-        "macd_sig": -1.302,
-        "hi52": NaN,
-        "lo52": NaN,
-        "off_hi": NaN,
-        "vs_ma20": -6.8,
-        "vs_ma50": -6.2,
-        "vs_ma200": 37.1,
+        "price": 70.68,
+        "ma20": 75.12,
+        "ma50": 75.85,
+        "ma200": 51.93,
+        "rsi": 47.0,
+        "macd": -1.926,
+        "macd_sig": -1.427,
+        "hi52": 96.3,
+        "lo52": 16.37,
+        "off_hi": -26.6,
+        "vs_ma20": -5.9,
+        "vs_ma50": -6.8,
+        "vs_ma200": 36.1,
         "signals": [
-          {
-            "type": "neutral",
-            "text": "RSI=43\uff0c\u5904\u4e8e\u4f4e\u4f4d\u533a\u95f4"
-          },
           {
             "type": "bullish",
             "text": "\u4ef7\u683c\u5728MA200\u4e0a\u65b9\uff0c\u957f\u671f\u8d8b\u52bf\u5411\u4e0a"
@@ -472,10 +468,10 @@
         ]
       },
       "fund": {
-        "forward_pe": -454.23077,
+        "forward_pe": -453.0769,
         "trailing_pe": null,
-        "pb": 27.454473,
-        "ps": 68.25596,
+        "pb": 27.384733,
+        "ps": 68.10184,
         "rev_growth": 0.48,
         "eps_growth": null,
         "gross_margin": 0.31695998,
@@ -483,7 +479,7 @@
         "roe": -0.2324,
         "debt_equity": 40.33,
         "beta": 2.182,
-        "market_cap": 37850316800,
+        "market_cap": 37754167296,
         "sector": "Industrials",
         "industry": "Aerospace & Defense",
         "signals": [
@@ -503,16 +499,16 @@
         "target_mean": 83.9625,
         "target_high": 120.0,
         "target_low": 55.0,
-        "upside": 18.5
+        "upside": 18.8
       },
       "diagnosis": {
         "score": 80,
         "action": "hold_or_add",
         "action_text": "\u6301\u6709/\u53ef\u52a0\u4ed3",
         "action_color": "bullish",
-        "tech_summary": "\u4ef7\u683c\u9ad8\u4e8eMA200 +37.1%\uff0c\u957f\u7ebf\u8d8b\u52bf\u5065\u5eb7",
-        "rsi_summary": "RSI=43\uff08\u4f4e\u4f4d\uff09",
-        "analyst_summary": "\u5206\u6790\u5e08\uff1a\u4e70\u5165\uff0c12\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$83.9625\uff08\u7a7a\u95f4+18.5%\uff09",
+        "tech_summary": "\u4ef7\u683c\u9ad8\u4e8eMA200 +36.1%\uff0c\u957f\u7ebf\u8d8b\u52bf\u5065\u5eb7",
+        "rsi_summary": "RSI=47\uff08\u4e2d\u6027\uff09",
+        "analyst_summary": "\u5206\u6790\u5e08\uff1a\u4e70\u5165\uff0c12\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$83.9625\uff08\u7a7a\u95f4+18.8%\uff09",
         "signals": []
       }
     },
@@ -521,26 +517,26 @@
       "name": "Oklo Inc",
       "cost": 85.108,
       "shares": 65,
-      "price": 63.83,
-      "pnl_pct": -25.0,
+      "price": 62.17,
+      "pnl_pct": -26.96,
       "tech": {
-        "price": 63.83,
-        "ma20": 73.76,
-        "ma50": 82.62,
-        "ma200": 83.9,
-        "rsi": 36.5,
-        "macd": -6.063,
-        "macd_sig": -5.758,
-        "hi52": NaN,
-        "lo52": NaN,
-        "off_hi": NaN,
-        "vs_ma20": -13.5,
-        "vs_ma50": -22.7,
-        "vs_ma200": -23.9,
+        "price": 62.17,
+        "ma20": 72.49,
+        "ma50": 81.78,
+        "ma200": 84.07,
+        "rsi": 39.4,
+        "macd": -6.174,
+        "macd_sig": -5.841,
+        "hi52": 174.14,
+        "lo52": 19.8,
+        "off_hi": -64.3,
+        "vs_ma20": -14.2,
+        "vs_ma50": -24.0,
+        "vs_ma200": -26.1,
         "signals": [
           {
             "type": "neutral",
-            "text": "RSI=36\uff0c\u5904\u4e8e\u4f4e\u4f4d\u533a\u95f4"
+            "text": "RSI=39\uff0c\u5904\u4e8e\u4f4e\u4f4d\u533a\u95f4"
           },
           {
             "type": "bearish",
@@ -548,7 +544,7 @@
           },
           {
             "type": "bearish",
-            "text": "\u4ef7\u683c\u5927\u5e45\u4f4e\u4e8eMA50\uff08-22.7%\uff09\uff0c\u8d8b\u52bf\u504f\u5f31"
+            "text": "\u4ef7\u683c\u5927\u5e45\u4f4e\u4e8eMA50\uff08-24.0%\uff09\uff0c\u8d8b\u52bf\u504f\u5f31"
           },
           {
             "type": "bearish",
@@ -557,9 +553,9 @@
         ]
       },
       "fund": {
-        "forward_pe": -96.28904,
+        "forward_pe": -93.77734,
         "trailing_pe": null,
-        "pb": 8.269206,
+        "pb": 8.053505,
         "ps": null,
         "rev_growth": null,
         "eps_growth": null,
@@ -568,7 +564,7 @@
         "roe": -0.10425,
         "debt_equity": 0.138,
         "beta": 0.774,
-        "market_cap": 9973251072,
+        "market_cap": 9713099776,
         "sector": "Utilities",
         "industry": "Utilities - Independent Power Producers",
         "signals": []
@@ -576,23 +572,23 @@
       "analyst": {
         "recommendation": "none",
         "num_analysts": 17,
-        "target_mean": 115.89176,
+        "target_mean": 112.12706,
         "target_high": 175.0,
         "target_low": 14.0,
-        "upside": 81.6
+        "upside": 80.4
       },
       "diagnosis": {
         "score": 25,
         "action": "exit",
         "action_text": "\u5efa\u8bae\u6b62\u635f/\u79bb\u573a",
         "action_color": "bearish",
-        "tech_summary": "\u4ef7\u683c\u4f4e\u4e8eMA200 -23.9%\uff0c\u957f\u7ebf\u8d8b\u52bf\u504f\u7a7a",
-        "rsi_summary": "RSI=36\uff08\u4f4e\u4f4d\uff09",
-        "analyst_summary": "\u5206\u6790\u5e08\uff1anone\uff0c17\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$115.89176\uff08\u7a7a\u95f4+81.6%\uff09",
+        "tech_summary": "\u4ef7\u683c\u4f4e\u4e8eMA200 -26.1%\uff0c\u957f\u7ebf\u8d8b\u52bf\u504f\u7a7a",
+        "rsi_summary": "RSI=39\uff08\u4f4e\u4f4d\uff09",
+        "analyst_summary": "\u5206\u6790\u5e08\uff1anone\uff0c17\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$112.12706\uff08\u7a7a\u95f4+80.4%\uff09",
         "signals": [
           {
             "type": "warning",
-            "text": "\u26a0\ufe0f \u5df2\u4e8f\u635f-25.0%\uff0c\u9700\u8bc4\u4f30\u662f\u5426\u89e6\u53d1\u6b62\u635f\uff08\u5efa\u8bae -8% \u6b62\u635f\u7ebf\uff09"
+            "text": "\u26a0\ufe0f \u5df2\u4e8f\u635f-27.0%\uff0c\u9700\u8bc4\u4f30\u662f\u5426\u89e6\u53d1\u6b62\u635f\uff08\u5efa\u8bae -8% \u6b62\u635f\u7ebf\uff09"
           }
         ]
       }
@@ -602,26 +598,26 @@
       "name": "SoundHound AI",
       "cost": 11.556,
       "shares": 450,
-      "price": 7.82,
-      "pnl_pct": -32.33,
+      "price": 7.7,
+      "pnl_pct": -33.37,
       "tech": {
-        "price": 7.82,
-        "ma20": 8.42,
-        "ma50": 10.01,
-        "ma200": 12.37,
-        "rsi": 43.0,
-        "macd": -0.777,
-        "macd_sig": -0.809,
-        "hi52": NaN,
-        "lo52": NaN,
-        "off_hi": NaN,
-        "vs_ma20": -7.2,
-        "vs_ma50": -21.9,
-        "vs_ma200": -36.8,
+        "price": 7.7,
+        "ma20": 8.29,
+        "ma50": 9.91,
+        "ma200": 12.36,
+        "rsi": 42.3,
+        "macd": -0.744,
+        "macd_sig": -0.796,
+        "hi52": 21.4,
+        "lo52": 7.18,
+        "off_hi": -64.0,
+        "vs_ma20": -7.1,
+        "vs_ma50": -22.3,
+        "vs_ma200": -37.7,
         "signals": [
           {
             "type": "neutral",
-            "text": "RSI=43\uff0c\u5904\u4e8e\u4f4e\u4f4d\u533a\u95f4"
+            "text": "RSI=42\uff0c\u5904\u4e8e\u4f4e\u4f4d\u533a\u95f4"
           },
           {
             "type": "bearish",
@@ -629,7 +625,7 @@
           },
           {
             "type": "bearish",
-            "text": "\u4ef7\u683c\u5927\u5e45\u4f4e\u4e8eMA50\uff08-21.9%\uff09\uff0c\u8d8b\u52bf\u504f\u5f31"
+            "text": "\u4ef7\u683c\u5927\u5e45\u4f4e\u4e8eMA50\uff08-22.3%\uff09\uff0c\u8d8b\u52bf\u504f\u5f31"
           },
           {
             "type": "bullish",
@@ -638,10 +634,10 @@
         ]
       },
       "fund": {
-        "forward_pe": -101.99557,
+        "forward_pe": -100.426506,
         "trailing_pe": null,
-        "pb": 8.205667,
-        "ps": 22.13653,
+        "pb": 8.079433,
+        "ps": 21.79599,
         "rev_growth": 0.676,
         "eps_growth": null,
         "gross_margin": 0.39745998,
@@ -649,7 +645,7 @@
         "roe": -0.89946,
         "debt_equity": 1.208,
         "beta": 2.876,
-        "market_cap": 3285149696,
+        "market_cap": 3234612224,
         "sector": "Technology",
         "industry": "Software - Application",
         "signals": [
@@ -669,20 +665,20 @@
         "target_mean": 16.3125,
         "target_high": 26.0,
         "target_low": 11.0,
-        "upside": 108.6
+        "upside": 111.9
       },
       "diagnosis": {
         "score": 55,
         "action": "hold",
         "action_text": "\u89c2\u671b\u6301\u6709",
         "action_color": "neutral",
-        "tech_summary": "\u4ef7\u683c\u4f4e\u4e8eMA200 -36.8%\uff0c\u957f\u7ebf\u8d8b\u52bf\u504f\u7a7a",
-        "rsi_summary": "RSI=43\uff08\u4f4e\u4f4d\uff09",
-        "analyst_summary": "\u5206\u6790\u5e08\uff1anone\uff0c8\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$16.3125\uff08\u7a7a\u95f4+108.6%\uff09",
+        "tech_summary": "\u4ef7\u683c\u4f4e\u4e8eMA200 -37.7%\uff0c\u957f\u7ebf\u8d8b\u52bf\u504f\u7a7a",
+        "rsi_summary": "RSI=42\uff08\u4f4e\u4f4d\uff09",
+        "analyst_summary": "\u5206\u6790\u5e08\uff1anone\uff0c8\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$16.3125\uff08\u7a7a\u95f4+111.9%\uff09",
         "signals": [
           {
             "type": "warning",
-            "text": "\u26a0\ufe0f \u5df2\u4e8f\u635f-32.3%\uff0c\u9700\u8bc4\u4f30\u662f\u5426\u89e6\u53d1\u6b62\u635f\uff08\u5efa\u8bae -8% \u6b62\u635f\u7ebf\uff09"
+            "text": "\u26a0\ufe0f \u5df2\u4e8f\u635f-33.4%\uff0c\u9700\u8bc4\u4f30\u662f\u5426\u89e6\u53d1\u6b62\u635f\uff08\u5efa\u8bae -8% \u6b62\u635f\u7ebf\uff09"
           }
         ]
       }
@@ -692,26 +688,26 @@
       "name": "Snowflake",
       "cost": 217.3,
       "shares": 20,
-      "price": 172.5,
-      "pnl_pct": -20.62,
+      "price": 162.46,
+      "pnl_pct": -25.24,
       "tech": {
-        "price": 172.5,
-        "ma20": 184.68,
-        "ma50": 205.18,
-        "ma200": 218.58,
-        "rsi": 39.6,
-        "macd": -9.811,
-        "macd_sig": -10.825,
-        "hi52": NaN,
-        "lo52": NaN,
-        "off_hi": NaN,
-        "vs_ma20": -6.6,
-        "vs_ma50": -15.9,
-        "vs_ma200": -21.1,
+        "price": 162.46,
+        "ma20": 182.32,
+        "ma50": 203.98,
+        "ma200": 218.55,
+        "rsi": 36.6,
+        "macd": -10.402,
+        "macd_sig": -10.74,
+        "hi52": 277.14,
+        "lo52": 130.53,
+        "off_hi": -41.4,
+        "vs_ma20": -10.9,
+        "vs_ma50": -20.4,
+        "vs_ma200": -25.7,
         "signals": [
           {
             "type": "neutral",
-            "text": "RSI=40\uff0c\u5904\u4e8e\u4f4e\u4f4d\u533a\u95f4"
+            "text": "RSI=37\uff0c\u5904\u4e8e\u4f4e\u4f4d\u533a\u95f4"
           },
           {
             "type": "bearish",
@@ -719,7 +715,7 @@
           },
           {
             "type": "bearish",
-            "text": "\u4ef7\u683c\u5927\u5e45\u4f4e\u4e8eMA50\uff08-15.9%\uff09\uff0c\u8d8b\u52bf\u504f\u5f31"
+            "text": "\u4ef7\u683c\u5927\u5e45\u4f4e\u4e8eMA50\uff08-20.4%\uff09\uff0c\u8d8b\u52bf\u504f\u5f31"
           },
           {
             "type": "bullish",
@@ -728,10 +724,10 @@
         ]
       },
       "fund": {
-        "forward_pe": 106.17998,
+        "forward_pe": 99.99692,
         "trailing_pe": null,
-        "pb": 27.666399,
-        "ps": 13.456404,
+        "pb": 26.055332,
+        "ps": 12.666182,
         "rev_growth": 0.287,
         "eps_growth": null,
         "gross_margin": 0.67243,
@@ -739,7 +735,7 @@
         "roe": -0.53093,
         "debt_equity": 125.912,
         "beta": 1.147,
-        "market_cap": 59029499904,
+        "market_cap": 55592099840,
         "sector": "Technology",
         "industry": "Software - Application",
         "signals": [
@@ -759,17 +755,22 @@
         "target_mean": 271.71744,
         "target_high": 500.0,
         "target_low": 170.0,
-        "upside": 57.5
+        "upside": 67.3
       },
       "diagnosis": {
-        "score": 81,
-        "action": "hold_or_add",
-        "action_text": "\u6301\u6709/\u53ef\u52a0\u4ed3",
-        "action_color": "bullish",
-        "tech_summary": "\u4ef7\u683c\u4f4e\u4e8eMA200 -21.1%\uff0c\u957f\u7ebf\u8d8b\u52bf\u504f\u7a7a",
-        "rsi_summary": "RSI=40\uff08\u4f4e\u4f4d\uff09",
-        "analyst_summary": "\u5206\u6790\u5e08\uff1a\u4e70\u5165\uff0c47\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$271.71744\uff08\u7a7a\u95f4+57.5%\uff09",
-        "signals": []
+        "score": 66,
+        "action": "hold",
+        "action_text": "\u89c2\u671b\u6301\u6709",
+        "action_color": "neutral",
+        "tech_summary": "\u4ef7\u683c\u4f4e\u4e8eMA200 -25.7%\uff0c\u957f\u7ebf\u8d8b\u52bf\u504f\u7a7a",
+        "rsi_summary": "RSI=37\uff08\u4f4e\u4f4d\uff09",
+        "analyst_summary": "\u5206\u6790\u5e08\uff1a\u4e70\u5165\uff0c47\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$271.71744\uff08\u7a7a\u95f4+67.3%\uff09",
+        "signals": [
+          {
+            "type": "warning",
+            "text": "\u26a0\ufe0f \u5df2\u4e8f\u635f-25.2%\uff0c\u9700\u8bc4\u4f30\u662f\u5426\u89e6\u53d1\u6b62\u635f\uff08\u5efa\u8bae -8% \u6b62\u635f\u7ebf\uff09"
+          }
+        ]
       }
     },
     {
@@ -777,22 +778,22 @@
       "name": "Arm Holdings",
       "cost": 120.0,
       "shares": 25,
-      "price": 125.58,
-      "pnl_pct": 4.65,
+      "price": 126.46,
+      "pnl_pct": 5.38,
       "tech": {
-        "price": 125.58,
-        "ma20": 117.52,
-        "ma50": 116.57,
-        "ma200": 138.56,
-        "rsi": 78.2,
-        "macd": 3.275,
-        "macd_sig": 1.774,
-        "hi52": NaN,
-        "lo52": NaN,
-        "off_hi": NaN,
-        "vs_ma20": 6.9,
-        "vs_ma50": 7.7,
-        "vs_ma200": -9.4,
+        "price": 126.46,
+        "ma20": 118.04,
+        "ma50": 116.26,
+        "ma200": 138.58,
+        "rsi": 77.8,
+        "macd": 3.34,
+        "macd_sig": 2.087,
+        "hi52": 178.62,
+        "lo52": 85.82,
+        "off_hi": -29.2,
+        "vs_ma20": 7.1,
+        "vs_ma50": 8.8,
+        "vs_ma200": -8.7,
         "signals": [
           {
             "type": "bearish",
@@ -809,10 +810,10 @@
         ]
       },
       "fund": {
-        "forward_pe": 58.190342,
-        "trailing_pe": 167.44,
-        "pb": 17.102003,
-        "ps": 28.55187,
+        "forward_pe": 58.595795,
+        "trailing_pe": 168.60667,
+        "pb": 17.221163,
+        "ps": 28.75081,
         "rev_growth": 0.263,
         "eps_growth": -0.123,
         "gross_margin": 0.97495,
@@ -820,7 +821,7 @@
         "roe": 0.112679996,
         "debt_equity": 5.912,
         "beta": 4.374,
-        "market_cap": 133365784576,
+        "market_cap": 134295035904,
         "sector": "Technology",
         "industry": "Semiconductors",
         "signals": [
@@ -844,16 +845,16 @@
         "target_mean": 147.5483,
         "target_high": 201.0,
         "target_low": 80.0,
-        "upside": 17.5
+        "upside": 16.7
       },
       "diagnosis": {
         "score": 61,
         "action": "hold",
         "action_text": "\u89c2\u671b\u6301\u6709",
         "action_color": "neutral",
-        "tech_summary": "\u4ef7\u683c\u4f4e\u4e8eMA200 -9.4%\uff0c\u957f\u7ebf\u8d8b\u52bf\u504f\u7a7a",
+        "tech_summary": "\u4ef7\u683c\u4f4e\u4e8eMA200 -8.7%\uff0c\u957f\u7ebf\u8d8b\u52bf\u504f\u7a7a",
         "rsi_summary": "RSI=78\uff08\u8d85\u4e70\uff09",
-        "analyst_summary": "\u5206\u6790\u5e08\uff1a\u4e70\u5165\uff0c35\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$147.5483\uff08\u7a7a\u95f4+17.5%\uff09",
+        "analyst_summary": "\u5206\u6790\u5e08\uff1a\u4e70\u5165\uff0c35\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$147.5483\uff08\u7a7a\u95f4+16.7%\uff09",
         "signals": []
       }
     },
@@ -862,26 +863,26 @@
       "name": "\u7f8e\u56fd\u8d85\u5fae\u516c\u53f8",
       "cost": 194.533,
       "shares": 15,
-      "price": 200.15,
-      "pnl_pct": 2.89,
+      "price": 198.47,
+      "pnl_pct": 2.02,
       "tech": {
-        "price": 200.15,
-        "ma20": 222.87,
-        "ma50": 219.82,
-        "ma200": 184.01,
-        "rsi": 33.7,
-        "macd": -7.212,
-        "macd_sig": -4.484,
-        "hi52": NaN,
-        "lo52": NaN,
-        "off_hi": NaN,
-        "vs_ma20": -10.2,
-        "vs_ma50": -8.9,
-        "vs_ma200": 8.8,
+        "price": 198.47,
+        "ma20": 219.81,
+        "ma50": 219.36,
+        "ma200": 184.51,
+        "rsi": 27.0,
+        "macd": -7.566,
+        "macd_sig": -5.101,
+        "hi52": 264.33,
+        "lo52": 78.21,
+        "off_hi": -24.9,
+        "vs_ma20": -9.7,
+        "vs_ma50": -9.5,
+        "vs_ma200": 7.6,
         "signals": [
           {
-            "type": "neutral",
-            "text": "RSI=34\uff0c\u5904\u4e8e\u4f4e\u4f4d\u533a\u95f4"
+            "type": "bullish",
+            "text": "RSI\u8d85\u5356(<30)\uff0c\u53ef\u80fd\u53cd\u5f39"
           },
           {
             "type": "bullish",
@@ -894,10 +895,10 @@
         ]
       },
       "fund": {
-        "forward_pe": 18.784855,
-        "trailing_pe": 76.98077,
-        "pb": 5.178525,
-        "ps": 9.42079,
+        "forward_pe": 18.629997,
+        "trailing_pe": 76.34615,
+        "pb": 5.135834,
+        "ps": 9.340773,
         "rev_growth": 0.341,
         "eps_growth": 2.171,
         "gross_margin": 0.52493,
@@ -905,7 +906,7 @@
         "roe": 0.07082,
         "debt_equity": 6.359,
         "beta": 1.949,
-        "market_cap": 326326714368,
+        "market_cap": 323636559872,
         "sector": "Technology",
         "industry": "Semiconductors",
         "signals": [
@@ -925,16 +926,16 @@
         "target_mean": 287.52173,
         "target_high": 365.0,
         "target_low": 210.0,
-        "upside": 43.7
+        "upside": 44.9
       },
       "diagnosis": {
         "score": 100,
         "action": "hold_or_add",
         "action_text": "\u6301\u6709/\u53ef\u52a0\u4ed3",
         "action_color": "bullish",
-        "tech_summary": "\u4ef7\u683c\u9ad8\u4e8eMA200 +8.8%\uff0c\u957f\u7ebf\u8d8b\u52bf\u5065\u5eb7",
-        "rsi_summary": "RSI=34\uff08\u4f4e\u4f4d\uff09",
-        "analyst_summary": "\u5206\u6790\u5e08\uff1a\u4e70\u5165\uff0c46\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$287.52173\uff08\u7a7a\u95f4+43.7%\uff09",
+        "tech_summary": "\u4ef7\u683c\u9ad8\u4e8eMA200 +7.6%\uff0c\u957f\u7ebf\u8d8b\u52bf\u5065\u5eb7",
+        "rsi_summary": "RSI=27\uff08\u8d85\u5356\uff09",
+        "analyst_summary": "\u5206\u6790\u5e08\uff1a\u4e70\u5165\uff0c46\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$287.52173\uff08\u7a7a\u95f4+44.9%\uff09",
         "signals": []
       }
     },
@@ -943,26 +944,26 @@
       "name": "NANO Nuclear",
       "cost": 30.0,
       "shares": 120,
-      "price": 24.6,
-      "pnl_pct": -18.0,
+      "price": 24.22,
+      "pnl_pct": -19.28,
       "tech": {
-        "price": 24.6,
-        "ma20": 28.53,
-        "ma50": 30.69,
-        "ma200": 34.6,
-        "rsi": 36.2,
-        "macd": -1.99,
-        "macd_sig": -1.68,
-        "hi52": NaN,
-        "lo52": NaN,
-        "off_hi": NaN,
-        "vs_ma20": -13.8,
-        "vs_ma50": -19.8,
-        "vs_ma200": -28.9,
+        "price": 24.22,
+        "ma20": 28.01,
+        "ma50": 30.45,
+        "ma200": 34.59,
+        "rsi": 39.1,
+        "macd": -2.022,
+        "macd_sig": -1.748,
+        "hi52": 56.63,
+        "lo52": 18.52,
+        "off_hi": -57.2,
+        "vs_ma20": -13.5,
+        "vs_ma50": -20.5,
+        "vs_ma200": -30.0,
         "signals": [
           {
             "type": "neutral",
-            "text": "RSI=36\uff0c\u5904\u4e8e\u4f4e\u4f4d\u533a\u95f4"
+            "text": "RSI=39\uff0c\u5904\u4e8e\u4f4e\u4f4d\u533a\u95f4"
           },
           {
             "type": "bearish",
@@ -970,7 +971,7 @@
           },
           {
             "type": "bearish",
-            "text": "\u4ef7\u683c\u5927\u5e45\u4f4e\u4e8eMA50\uff08-19.8%\uff09\uff0c\u8d8b\u52bf\u504f\u5f31"
+            "text": "\u4ef7\u683c\u5927\u5e45\u4f4e\u4e8eMA50\uff08-20.5%\uff09\uff0c\u8d8b\u52bf\u504f\u5f31"
           },
           {
             "type": "bearish",
@@ -979,9 +980,9 @@
         ]
       },
       "fund": {
-        "forward_pe": -22.029785,
+        "forward_pe": -21.685009,
         "trailing_pe": null,
-        "pb": 2.075249,
+        "pb": 2.0427704,
         "ps": null,
         "rev_growth": null,
         "eps_growth": null,
@@ -990,7 +991,7 @@
         "roe": -0.119160004,
         "debt_equity": 0.448,
         "beta": null,
-        "market_cap": 1244804096,
+        "market_cap": 1225322368,
         "sector": "Industrials",
         "industry": "Specialty Industrial Machinery",
         "signals": []
@@ -1001,16 +1002,16 @@
         "target_mean": 46.66667,
         "target_high": 50.0,
         "target_low": 45.0,
-        "upside": 89.7
+        "upside": 92.7
       },
       "diagnosis": {
         "score": 50,
         "action": "hold",
         "action_text": "\u89c2\u671b\u6301\u6709",
         "action_color": "neutral",
-        "tech_summary": "\u4ef7\u683c\u4f4e\u4e8eMA200 -28.9%\uff0c\u957f\u7ebf\u8d8b\u52bf\u504f\u7a7a",
-        "rsi_summary": "RSI=36\uff08\u4f4e\u4f4d\uff09",
-        "analyst_summary": "\u5206\u6790\u5e08\uff1a\u5f3a\u70c8\u4e70\u5165\uff0c3\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$46.66667\uff08\u7a7a\u95f4+89.7%\uff09",
+        "tech_summary": "\u4ef7\u683c\u4f4e\u4e8eMA200 -30.0%\uff0c\u957f\u7ebf\u8d8b\u52bf\u504f\u7a7a",
+        "rsi_summary": "RSI=39\uff08\u4f4e\u4f4d\uff09",
+        "analyst_summary": "\u5206\u6790\u5e08\uff1a\u5f3a\u70c8\u4e70\u5165\uff0c3\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$46.66667\uff08\u7a7a\u95f4+92.7%\uff09",
         "signals": []
       }
     },
@@ -1019,22 +1020,22 @@
       "name": "SoFi Technologies",
       "cost": 24.693,
       "shares": 150,
-      "price": 19.02,
-      "pnl_pct": -22.97,
+      "price": 18.34,
+      "pnl_pct": -25.74,
       "tech": {
-        "price": 19.02,
-        "ma20": 21.66,
-        "ma50": 24.75,
-        "ma200": 23.27,
-        "rsi": 27.0,
-        "macd": -1.76,
-        "macd_sig": -1.668,
-        "hi52": NaN,
-        "lo52": NaN,
-        "off_hi": NaN,
-        "vs_ma20": -12.2,
-        "vs_ma50": -23.1,
-        "vs_ma200": -18.2,
+        "price": 18.34,
+        "ma20": 21.28,
+        "ma50": 24.58,
+        "ma200": 23.29,
+        "rsi": 27.2,
+        "macd": -1.789,
+        "macd_sig": -1.693,
+        "hi52": 32.21,
+        "lo52": 9.5,
+        "off_hi": -43.1,
+        "vs_ma20": -13.8,
+        "vs_ma50": -25.4,
+        "vs_ma200": -21.3,
         "signals": [
           {
             "type": "bullish",
@@ -1046,7 +1047,7 @@
           },
           {
             "type": "bearish",
-            "text": "\u4ef7\u683c\u5927\u5e45\u4f4e\u4e8eMA50\uff08-23.1%\uff09\uff0c\u8d8b\u52bf\u504f\u5f31"
+            "text": "\u4ef7\u683c\u5927\u5e45\u4f4e\u4e8eMA50\uff08-25.4%\uff09\uff0c\u8d8b\u52bf\u504f\u5f31"
           },
           {
             "type": "bearish",
@@ -1055,10 +1056,10 @@
         ]
       },
       "fund": {
-        "forward_pe": 24.087841,
-        "trailing_pe": 48.769234,
-        "pb": 2.3037794,
-        "ps": 6.707937,
+        "forward_pe": 23.220322,
+        "trailing_pe": 47.01282,
+        "pb": 2.2208092,
+        "ps": 6.4663515,
         "rev_growth": 0.402,
         "eps_growth": -0.57,
         "gross_margin": 0.83002996,
@@ -1066,7 +1067,7 @@
         "roe": 0.05658,
         "debt_equity": 18.487,
         "beta": 2.178,
-        "market_cap": 24034770944,
+        "market_cap": 23169163264,
         "sector": "Financial Services",
         "industry": "Credit Services",
         "signals": [
@@ -1090,17 +1091,22 @@
         "target_mean": 26.5,
         "target_high": 38.0,
         "target_low": 12.0,
-        "upside": 39.3
+        "upside": 44.5
       },
       "diagnosis": {
-        "score": 78,
-        "action": "hold_or_add",
-        "action_text": "\u6301\u6709/\u53ef\u52a0\u4ed3",
-        "action_color": "bullish",
-        "tech_summary": "\u4ef7\u683c\u4f4e\u4e8eMA200 -18.2%\uff0c\u957f\u7ebf\u8d8b\u52bf\u504f\u7a7a",
+        "score": 63,
+        "action": "hold",
+        "action_text": "\u89c2\u671b\u6301\u6709",
+        "action_color": "neutral",
+        "tech_summary": "\u4ef7\u683c\u4f4e\u4e8eMA200 -21.3%\uff0c\u957f\u7ebf\u8d8b\u52bf\u504f\u7a7a",
         "rsi_summary": "RSI=27\uff08\u8d85\u5356\uff09",
-        "analyst_summary": "\u5206\u6790\u5e08\uff1a\u6301\u6709\uff0c19\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$26.5\uff08\u7a7a\u95f4+39.3%\uff09",
-        "signals": []
+        "analyst_summary": "\u5206\u6790\u5e08\uff1a\u6301\u6709\uff0c19\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$26.5\uff08\u7a7a\u95f4+44.5%\uff09",
+        "signals": [
+          {
+            "type": "warning",
+            "text": "\u26a0\ufe0f \u5df2\u4e8f\u635f-25.7%\uff0c\u9700\u8bc4\u4f30\u662f\u5426\u89e6\u53d1\u6b62\u635f\uff08\u5efa\u8bae -8% \u6b62\u635f\u7ebf\uff09"
+          }
+        ]
       }
     },
     {
@@ -1108,30 +1114,34 @@
       "name": "Destiny Tech100",
       "cost": 30.1,
       "shares": 100,
-      "price": 28.1,
-      "pnl_pct": -6.64,
+      "price": 27.25,
+      "pnl_pct": -9.47,
       "tech": {
-        "price": 28.1,
-        "ma20": 30.92,
-        "ma50": 30.92,
-        "ma200": 30.97,
-        "rsi": 31.3,
-        "macd": -0.375,
-        "macd_sig": 0.073,
-        "hi52": NaN,
-        "lo52": NaN,
-        "off_hi": NaN,
-        "vs_ma20": -9.1,
-        "vs_ma50": -9.1,
-        "vs_ma200": -9.3,
+        "price": 27.25,
+        "ma20": 30.77,
+        "ma50": 30.9,
+        "ma200": 30.93,
+        "rsi": 37.2,
+        "macd": -0.559,
+        "macd_sig": -0.053,
+        "hi52": 47.87,
+        "lo52": 20.82,
+        "off_hi": -43.1,
+        "vs_ma20": -11.4,
+        "vs_ma50": -11.8,
+        "vs_ma200": -11.9,
         "signals": [
           {
             "type": "neutral",
-            "text": "RSI=31\uff0c\u5904\u4e8e\u4f4e\u4f4d\u533a\u95f4"
+            "text": "RSI=37\uff0c\u5904\u4e8e\u4f4e\u4f4d\u533a\u95f4"
           },
           {
             "type": "bearish",
             "text": "\u4ef7\u683c\u5728MA200\u4e0b\u65b9\uff0c\u957f\u671f\u8d8b\u52bf\u504f\u7a7a"
+          },
+          {
+            "type": "bearish",
+            "text": "\u4ef7\u683c\u5927\u5e45\u4f4e\u4e8eMA50\uff08-11.8%\uff09\uff0c\u8d8b\u52bf\u504f\u5f31"
           },
           {
             "type": "bearish",
@@ -1141,7 +1151,7 @@
       },
       "fund": {
         "forward_pe": null,
-        "trailing_pe": 15.355191,
+        "trailing_pe": 14.89071,
         "pb": null,
         "ps": null,
         "rev_growth": null,
@@ -1151,7 +1161,7 @@
         "roe": null,
         "debt_equity": null,
         "beta": null,
-        "market_cap": 617534144,
+        "market_cap": 598854272,
         "sector": "Financial Services",
         "industry": "Asset Management",
         "signals": []
@@ -1164,12 +1174,12 @@
         "target_low": null
       },
       "diagnosis": {
-        "score": 40,
-        "action": "reduce",
-        "action_text": "\u8003\u8651\u51cf\u4ed3",
-        "action_color": "caution",
-        "tech_summary": "\u4ef7\u683c\u4f4e\u4e8eMA200 -9.3%\uff0c\u957f\u7ebf\u8d8b\u52bf\u504f\u7a7a",
-        "rsi_summary": "RSI=31\uff08\u4f4e\u4f4d\uff09",
+        "score": 30,
+        "action": "exit",
+        "action_text": "\u5efa\u8bae\u6b62\u635f/\u79bb\u573a",
+        "action_color": "bearish",
+        "tech_summary": "\u4ef7\u683c\u4f4e\u4e8eMA200 -11.9%\uff0c\u957f\u7ebf\u8d8b\u52bf\u504f\u7a7a",
+        "rsi_summary": "RSI=37\uff08\u4f4e\u4f4d\uff09",
         "analyst_summary": "",
         "signals": []
       }
@@ -1179,26 +1189,26 @@
       "name": "AST SpaceMobile",
       "cost": 97.0,
       "shares": 30,
-      "price": 80.2,
-      "pnl_pct": -17.32,
+      "price": 81.5,
+      "pnl_pct": -15.98,
       "tech": {
-        "price": 80.2,
-        "ma20": 99.86,
-        "ma50": 91.46,
-        "ma200": 61.39,
-        "rsi": 30.8,
-        "macd": -3.636,
-        "macd_sig": -0.292,
-        "hi52": NaN,
-        "lo52": NaN,
-        "off_hi": NaN,
-        "vs_ma20": -19.7,
-        "vs_ma50": -12.3,
-        "vs_ma200": 30.6,
+        "price": 81.5,
+        "ma20": 98.26,
+        "ma50": 91.63,
+        "ma200": 61.67,
+        "rsi": 34.7,
+        "macd": -4.073,
+        "macd_sig": -1.048,
+        "hi52": 122.09,
+        "lo52": 20.07,
+        "off_hi": -33.2,
+        "vs_ma20": -17.1,
+        "vs_ma50": -11.1,
+        "vs_ma200": 32.2,
         "signals": [
           {
             "type": "neutral",
-            "text": "RSI=31\uff0c\u5904\u4e8e\u4f4e\u4f4d\u533a\u95f4"
+            "text": "RSI=35\uff0c\u5904\u4e8e\u4f4e\u4f4d\u533a\u95f4"
           },
           {
             "type": "bullish",
@@ -1206,7 +1216,7 @@
           },
           {
             "type": "bearish",
-            "text": "\u4ef7\u683c\u5927\u5e45\u4f4e\u4e8eMA50\uff08-12.3%\uff09\uff0c\u8d8b\u52bf\u504f\u5f31"
+            "text": "\u4ef7\u683c\u5927\u5e45\u4f4e\u4e8eMA50\uff08-11.1%\uff09\uff0c\u8d8b\u52bf\u504f\u5f31"
           },
           {
             "type": "bearish",
@@ -1215,10 +1225,10 @@
         ]
       },
       "fund": {
-        "forward_pe": -78.937004,
+        "forward_pe": -80.27923,
         "trailing_pe": null,
-        "pb": 17.583862,
-        "ps": 1617.5746,
+        "pb": 17.882854,
+        "ps": 1645.0795,
         "rev_growth": 12.399,
         "eps_growth": null,
         "gross_margin": 0.68684995,
@@ -1226,7 +1236,7 @@
         "roe": -0.39031,
         "debt_equity": 44.433,
         "beta": 2.708,
-        "market_cap": 29975275520,
+        "market_cap": 30484967424,
         "sector": "Technology",
         "industry": "Communication Equipment",
         "signals": [
@@ -1250,16 +1260,16 @@
         "target_mean": 80.3875,
         "target_high": 137.0,
         "target_low": 43.0,
-        "upside": 0.2
+        "upside": -1.4
       },
       "diagnosis": {
         "score": 88,
         "action": "hold_or_add",
         "action_text": "\u6301\u6709/\u53ef\u52a0\u4ed3",
         "action_color": "bullish",
-        "tech_summary": "\u4ef7\u683c\u9ad8\u4e8eMA200 +30.6%\uff0c\u957f\u7ebf\u8d8b\u52bf\u5065\u5eb7",
-        "rsi_summary": "RSI=31\uff08\u4f4e\u4f4d\uff09",
-        "analyst_summary": "\u5206\u6790\u5e08\uff1a\u6301\u6709\uff0c8\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$80.3875\uff08\u7a7a\u95f4+0.2%\uff09",
+        "tech_summary": "\u4ef7\u683c\u9ad8\u4e8eMA200 +32.2%\uff0c\u957f\u7ebf\u8d8b\u52bf\u5065\u5eb7",
+        "rsi_summary": "RSI=35\uff08\u4f4e\u4f4d\uff09",
+        "analyst_summary": "\u5206\u6790\u5e08\uff1a\u6301\u6709\uff0c8\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$80.3875\uff08\u7a7a\u95f4-1.4%\uff09",
         "signals": []
       }
     },
@@ -1268,22 +1278,22 @@
       "name": "NEBIUS",
       "cost": 31.81,
       "shares": 15,
-      "price": 97.92,
-      "pnl_pct": 207.83,
+      "price": 99.43,
+      "pnl_pct": 212.57,
       "tech": {
-        "price": 97.92,
-        "ma20": 92.54,
-        "ma50": 92.83,
-        "ma200": 79.6,
-        "rsi": 58.6,
-        "macd": 1.445,
-        "macd_sig": -0.213,
-        "hi52": NaN,
-        "lo52": NaN,
-        "off_hi": NaN,
-        "vs_ma20": 5.8,
-        "vs_ma50": 5.5,
-        "vs_ma200": 23.0,
+        "price": 99.43,
+        "ma20": 92.78,
+        "ma50": 92.89,
+        "ma200": 79.97,
+        "rsi": 57.8,
+        "macd": 1.614,
+        "macd_sig": 0.153,
+        "hi52": 135.46,
+        "lo52": 20.06,
+        "off_hi": -26.6,
+        "vs_ma20": 7.2,
+        "vs_ma50": 7.0,
+        "vs_ma200": 24.3,
         "signals": [
           {
             "type": "bullish",
@@ -1296,10 +1306,10 @@
         ]
       },
       "fund": {
-        "forward_pe": -69.64438,
-        "trailing_pe": 816.0,
-        "pb": 5.370482,
-        "ps": 46.763725,
+        "forward_pe": -70.717995,
+        "trailing_pe": 828.57916,
+        "pb": 5.4532714,
+        "ps": 47.48462,
         "rev_growth": 5.008,
         "eps_growth": null,
         "gross_margin": 0.6863,
@@ -1307,7 +1317,7 @@
         "roe": 0.00737,
         "debt_equity": 105.961,
         "beta": 1.154,
-        "market_cap": 24775421952,
+        "market_cap": 25157351424,
         "sector": "Communication Services",
         "industry": "Internet Content & Information",
         "signals": [
@@ -1324,23 +1334,23 @@
       "analyst": {
         "recommendation": "buy",
         "num_analysts": 11,
-        "target_mean": 145.54546,
-        "target_high": 211.0,
+        "target_mean": 147.45454,
+        "target_high": 232.0,
         "target_low": 70.0,
-        "upside": 48.6
+        "upside": 48.3
       },
       "diagnosis": {
         "score": 100,
         "action": "hold_or_add",
         "action_text": "\u6301\u6709/\u53ef\u52a0\u4ed3",
         "action_color": "bullish",
-        "tech_summary": "\u4ef7\u683c\u9ad8\u4e8eMA200 +23.0%\uff0c\u957f\u7ebf\u8d8b\u52bf\u5065\u5eb7",
-        "rsi_summary": "RSI=59\uff08\u9ad8\u4f4d\uff09",
-        "analyst_summary": "\u5206\u6790\u5e08\uff1a\u4e70\u5165\uff0c11\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$145.54546\uff08\u7a7a\u95f4+48.6%\uff09",
+        "tech_summary": "\u4ef7\u683c\u9ad8\u4e8eMA200 +24.3%\uff0c\u957f\u7ebf\u8d8b\u52bf\u5065\u5eb7",
+        "rsi_summary": "RSI=58\uff08\u9ad8\u4f4d\uff09",
+        "analyst_summary": "\u5206\u6790\u5e08\uff1a\u4e70\u5165\uff0c11\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$147.45454\uff08\u7a7a\u95f4+48.3%\uff09",
         "signals": [
           {
             "type": "caution",
-            "text": "\u2728 \u5df2\u76c8\u5229207.8%\uff0c\u53ef\u8003\u8651\u5206\u6279\u6b62\u76c8\uff0c\u9501\u5b9a\u90e8\u5206\u5229\u6da6"
+            "text": "\u2728 \u5df2\u76c8\u5229212.6%\uff0c\u53ef\u8003\u8651\u5206\u6279\u6b62\u76c8\uff0c\u9501\u5b9a\u90e8\u5206\u5229\u6da6"
           }
         ]
       }
@@ -1350,26 +1360,26 @@
       "name": "IonQ Inc",
       "cost": 45.0,
       "shares": 20,
-      "price": 31.9,
-      "pnl_pct": -29.11,
+      "price": 31.31,
+      "pnl_pct": -30.42,
       "tech": {
-        "price": 31.9,
-        "ma20": 37.22,
-        "ma50": 44.4,
-        "ma200": 47.45,
-        "rsi": 33.4,
-        "macd": -3.811,
-        "macd_sig": -3.748,
-        "hi52": NaN,
-        "lo52": NaN,
-        "off_hi": NaN,
-        "vs_ma20": -14.3,
-        "vs_ma50": -28.1,
-        "vs_ma200": -32.8,
+        "price": 31.31,
+        "ma20": 36.43,
+        "ma50": 43.93,
+        "ma200": 47.46,
+        "rsi": 34.6,
+        "macd": -3.795,
+        "macd_sig": -3.758,
+        "hi52": 82.09,
+        "lo52": 18.27,
+        "off_hi": -61.9,
+        "vs_ma20": -14.0,
+        "vs_ma50": -28.7,
+        "vs_ma200": -34.0,
         "signals": [
           {
             "type": "neutral",
-            "text": "RSI=33\uff0c\u5904\u4e8e\u4f4e\u4f4d\u533a\u95f4"
+            "text": "RSI=35\uff0c\u5904\u4e8e\u4f4e\u4f4d\u533a\u95f4"
           },
           {
             "type": "bearish",
@@ -1377,7 +1387,7 @@
           },
           {
             "type": "bearish",
-            "text": "\u4ef7\u683c\u5927\u5e45\u4f4e\u4e8eMA50\uff08-28.1%\uff09\uff0c\u8d8b\u52bf\u504f\u5f31"
+            "text": "\u4ef7\u683c\u5927\u5e45\u4f4e\u4e8eMA50\uff08-28.7%\uff09\uff0c\u8d8b\u52bf\u504f\u5f31"
           },
           {
             "type": "bearish",
@@ -1386,10 +1396,10 @@
         ]
       },
       "fund": {
-        "forward_pe": -27.792784,
+        "forward_pe": -27.278662,
         "trailing_pe": null,
-        "pb": 4.5649686,
-        "ps": 143.58945,
+        "pb": 4.480524,
+        "ps": 140.93327,
         "rev_growth": 2.215,
         "eps_growth": null,
         "gross_margin": 0.52292,
@@ -1397,7 +1407,7 @@
         "roe": -1.07759,
         "debt_equity": 1.246,
         "beta": 2.602,
-        "market_cap": 11463607296,
+        "market_cap": 11251549184,
         "sector": "Technology",
         "industry": "Computer Hardware",
         "signals": [
@@ -1417,20 +1427,20 @@
         "target_mean": 74.88692,
         "target_high": 100.0,
         "target_low": 47.0,
-        "upside": 134.8
+        "upside": 139.2
       },
       "diagnosis": {
         "score": 65,
         "action": "hold",
         "action_text": "\u89c2\u671b\u6301\u6709",
         "action_color": "neutral",
-        "tech_summary": "\u4ef7\u683c\u4f4e\u4e8eMA200 -32.8%\uff0c\u957f\u7ebf\u8d8b\u52bf\u504f\u7a7a",
-        "rsi_summary": "RSI=33\uff08\u4f4e\u4f4d\uff09",
-        "analyst_summary": "\u5206\u6790\u5e08\uff1a\u4e70\u5165\uff0c13\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$74.88692\uff08\u7a7a\u95f4+134.8%\uff09",
+        "tech_summary": "\u4ef7\u683c\u4f4e\u4e8eMA200 -34.0%\uff0c\u957f\u7ebf\u8d8b\u52bf\u504f\u7a7a",
+        "rsi_summary": "RSI=35\uff08\u4f4e\u4f4d\uff09",
+        "analyst_summary": "\u5206\u6790\u5e08\uff1a\u4e70\u5165\uff0c13\u4eba\u8986\u76d6\uff0c\u5747\u4ef7\u76ee\u6807$74.88692\uff08\u7a7a\u95f4+139.2%\uff09",
         "signals": [
           {
             "type": "warning",
-            "text": "\u26a0\ufe0f \u5df2\u4e8f\u635f-29.1%\uff0c\u9700\u8bc4\u4f30\u662f\u5426\u89e6\u53d1\u6b62\u635f\uff08\u5efa\u8bae -8% \u6b62\u635f\u7ebf\uff09"
+            "text": "\u26a0\ufe0f \u5df2\u4e8f\u635f-30.4%\uff0c\u9700\u8bc4\u4f30\u662f\u5426\u89e6\u53d1\u6b62\u635f\uff08\u5efa\u8bae -8% \u6b62\u635f\u7ebf\uff09"
           }
         ]
       }
