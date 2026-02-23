@@ -841,8 +841,8 @@ function renderHistory() {
             <span class="hist-icon">${typeIcon[h.type]||'📌'}</span>
             <div>
               <div class="hist-title">${typeLabel[h.type]||h.title}</div>
-              <div class="timeline-preview">${h.content.slice(0,60)}...</div>
-              <pre class="timeline-full" style="display:none;white-space:pre-wrap;font-family:inherit;font-size:13px;margin-top:8px;color:#cbd5e1">${h.content}</pre>
+              <div class="timeline-preview">${(h.summary||h.content||'').slice(0,80)}...</div>
+              <pre class="timeline-full" style="display:none;white-space:pre-wrap;font-family:inherit;font-size:13px;margin-top:8px;color:#cbd5e1">${h.raw || h.content || ''}</pre>
             </div>
           </div>
           <div class="hist-time">${h.time.slice(-8)||''}</div>

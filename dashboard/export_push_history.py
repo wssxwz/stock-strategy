@@ -49,11 +49,14 @@ def run():
         ticker = s.get('ticker','')
         score = s.get('score','')
         title = f"买入信号 {ticker} ({score})"
+        summary = build_content(s)
         hist.append({
             'id': s.get('id') or f"hist_{ticker}_{t}",
             'type': 'buy_signal',
             'title': title,
-            'content': build_content(s),
+            'summary': summary,
+            'content': summary,   # 兼容旧字段
+            'raw': None,          # 预留：未来写入 Telegram 原文
             'time': t,
         })
 
