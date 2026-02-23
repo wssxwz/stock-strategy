@@ -339,3 +339,18 @@ def run():
 
 if __name__ == '__main__':
     run()
+    # 自动 push 到 GitHub Pages
+    import subprocess, os
+    repo = os.path.join(os.path.dirname(__file__), '..')
+    try:
+        subprocess.run(['git','add','dashboard/diagnosis.json','diagnosis.json'],
+                       cwd=repo, check=True, capture_output=True)
+        subprocess.run(['git','commit','-m','auto: 更新持仓诊断报告'],
+                       cwd=repo, check=True, capture_output=True)
+        subprocess.run(['git','push'], cwd=repo, check=True, capture_output=True)
+        print("🚀 已推送到 GitHub Pages")
+    except subprocess.CalledProcessError as e:
+        if b'nothing to commit' in (e.stdout or b'') + (e.stderr or b''):
+            print("  (无变更，跳过 push)")
+        else:
+            print(f"  push 失败: {e.stderr.decode() if e.stderr else e}")
