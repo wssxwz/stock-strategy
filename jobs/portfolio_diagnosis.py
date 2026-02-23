@@ -340,12 +340,15 @@ def run():
 if __name__ == '__main__':
     run()
     # 自动 push 到 GitHub Pages
-    import subprocess, os
-    repo = os.path.join(os.path.dirname(__file__), '..')
+    import subprocess, os as _os
+    repo = _os.path.join(_os.path.dirname(__file__), '..')
     try:
-        subprocess.run(['git','add','dashboard/diagnosis.json','diagnosis.json'],
-                       cwd=repo, check=True, capture_output=True)
-        subprocess.run(['git','commit','-m','auto: 更新持仓诊断报告'],
+        files = [
+            'dashboard/diagnosis.json', 'diagnosis.json',
+            'dashboard/core_holdings.json', 'core_holdings.json',  # 同步价格
+        ]
+        subprocess.run(['git','add'] + files, cwd=repo, check=True, capture_output=True)
+        subprocess.run(['git','commit','-m','auto: 盘中更新诊断+持仓价格'],
                        cwd=repo, check=True, capture_output=True)
         subprocess.run(['git','push'], cwd=repo, check=True, capture_output=True)
         print("🚀 已推送到 GitHub Pages")

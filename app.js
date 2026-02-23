@@ -59,6 +59,8 @@ window.toggleDiagDetail = function() {
   document.getElementById('diag-toggle-btn').textContent = diagDetailOpen ? '收起 ▲' : '个股详情 ▼';
 };
 
+let diagRefreshTimer = null;
+
 async function loadDiagnosis() {
   try {
     const res = await fetch('./diagnosis.json?_=' + Date.now());
@@ -66,8 +68,24 @@ async function loadDiagnosis() {
     diagData = await res.json();
     renderDiagnosis(diagData);
   } catch(e) {
-    document.getElementById('diag-updated').textContent = '诊断数据未生成，点击下方刷新';
+    const el = document.getElementById('diag-updated');
+    if (el) el.textContent = '诊断数据加载失败';
   }
+  // 盘中：每小时自动刷新；其他时段：不自动刷新
+  scheduleDiagRefresh();
+}
+
+function scheduleDiagRefresh() {
+  if (diagRefreshTimer) clearTimeout(diagRefreshTimer);
+  const session = getCurrentSession();
+  if (session === 'market') {
+    // 盘中：1小时后自动重新拉取
+    diagRefreshTimer = setTimeout(async () => {
+      console.log('[diagnosis] 盘中自动刷新...');
+      await loadDiagnosis();
+    }, 60 * 60 * 1000);
+  }
+  // 盘前/盘后/休市：不设定时器，只在手动触发时刷新
 }
 
 function renderDiagnosis(data) {
@@ -533,6 +551,10 @@ window.syncPosFromYF = async function() {
     });
     savePrivatePositions(positions); renderPositionsTab();
     btn.textContent=`✅ 已同步 ${updated} 只`;
+    // 非盘中时段，刷新价格后顺带更新一次诊断
+    if (getCurrentSession() !== 'market') {
+      await loadDiagnosis();
+    }
   } catch(e) { btn.textContent='❌ 同步失败'; }
   setTimeout(()=>{ btn.textContent='🔄 刷新价格'; btn.disabled=false; }, 3000);
 };

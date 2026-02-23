@@ -122,6 +122,18 @@ def main():
     else:
         print(f"\n共触发 {total_alerts} 个提醒（卖出:{len(exit_alerts) if portfolio else 0} 买入:{len(new_buy)}）")
 
+    # ════════════════════════════════════
+    # 盘中：每次扫描后更新持仓诊断 + 自动 push
+    # ════════════════════════════════════
+    try:
+        import sys as _sys
+        _sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../jobs'))
+        from portfolio_diagnosis import run as run_diagnosis
+        print("\n[持仓诊断] 盘中自动更新...")
+        run_diagnosis()
+    except Exception as _e:
+        print(f"  [持仓诊断更新失败] {_e}")
+
 
 if __name__ == '__main__':
     main()
