@@ -81,6 +81,80 @@ def get_earnings_timing(info: dict) -> str:
         return ''
 
 
+def get_earnings_details(ticker: str) -> dict:
+    """获取单只股票的详细财报数据（预期/实际/同比/gap）"""
+    try:
+        tk = yf.Ticker(ticker)
+        info = tk.info
+        cal = tk.calendar
+        
+        # 基础信息
+        result = {
+            'ticker': ticker,
+            'company_name': info.get('longName', ticker),
+            'sector': info.get('sector', ''),
+            'market_cap': info.get('marketCap'),
+        }
+        
+        # 财报日期和时间
+        earnings_dates = cal.get('Earnings Date', [])
+        if earnings_dates:
+            ed = earnings_dates[0]
+            if isinstance(ed, datetime):
+                ed = ed.date()
+            result['earnings_date'] = str(ed)
+            result['timing'] = get_earnings_timing(info)
+        
+        # 预期值
+        result['eps_estimate'] = cal.get('Earnings Average')
+        result['eps_high']    = cal.get('Earnings High')
+        result['eps_low']     = cal.get('Earnings Low')
+        result['rev_estimate']= cal.get('Revenue Average')
+        result['rev_high']    = cal.get('Revenue High')
+        result['rev_low']     = cal.get('Revenue Low')
+        
+        # 获取历史财报（找去年同期实际值）
+        try:
+            earnings = tk.earnings
+            if earnings is not None and len(earnings) > 0:
+                # 最新一期
+                latest = earnings.iloc[-1]
+                result['eps_actual_latest'] = latest.get('EPS Estimate')  # yfinance 这个字段名可能有变
+                result['rev_actual_latest'] = latest.get('Revenue Estimate')
+        except Exception:
+            pass
+        
+        # 尝试从 earnings_history 获取实际值
+        try:
+            hist = tk.earnings_history
+            if hist is not None and len(hist) > 0:
+                latest_hist = hist.iloc[-1]
+                # 如果财报已发布，会有 EPS Actual
+                if 'EPS Actual' in latest_hist:
+                    result['eps_actual'] = latest_hist['EPS Actual']
+                    result['eps_estimate_hist'] = latest_hist.get('EPS Estimate')
+                    result['eps_surprise'] = latest_hist.get('Surprise(%)')
+                if 'Revenue Actual' in latest_hist:
+                    result['rev_actual'] = latest_hist['Revenue Actual']
+                    result['rev_estimate_hist'] = latest_hist.get('Revenue Estimate')
+        except Exception:
+            pass
+        
+        # 去年同期数据（用于同比）
+        try:
+            # yfinance 不直接提供 YoY，需要从 quarterly_finances 或 income_stmt 推算
+            # 这里简化处理，从 info 里拿 growth 字段
+            result['eps_growth_yoy'] = info.get('earningsGrowth')
+            result['rev_growth_yoy'] = info.get('revenueGrowth')
+        except Exception:
+            pass
+        
+        return result
+    except Exception as e:
+        print(f"  获取 {ticker} 财报详情失败: {e}")
+        return {}
+
+
 def get_earnings_calendar(weeks_ahead: int = 6) -> list:
     """从 yfinance 拉取未来N周的财报日历"""
     today = date.today()
@@ -177,6 +251,16 @@ def build_calendar(weeks_ahead: int = 6) -> dict:
     earnings = get_earnings_calendar(weeks_ahead)
     print(f"  → {len(earnings)} 条财报事件")
 
+    print("  获取财报详情（预期/实际/同比）...")
+    earnings_details = {}
+    for ev in earnings:
+        ticker = ev.get('ticker')
+        if ticker:
+            details = get_earnings_details(ticker)
+            if details:
+                earnings_details[ticker] = details
+    print(f"  → {len(earnings_details)} 只股票详情")
+
     print("  加载宏观经济日历...")
     macro = get_macro_calendar(weeks_ahead)
     print(f"  → {len(macro)} 条宏观事件")
@@ -202,11 +286,12 @@ def build_calendar(weeks_ahead: int = 6) -> dict:
     core_earnings = [ev for ev in earnings if ev.get('tag') == '⭐ 核心持仓']
 
     return {
-        'generated_at': datetime.now().isoformat(),
-        'this_week':    this_week,
-        'core_earnings': core_earnings,
-        'by_date':      by_date,
-        'all_events':   all_events,
+        'generated_at':     datetime.now().isoformat(),
+        'this_week':        this_week,
+        'core_earnings':    core_earnings,
+        'by_date':          by_date,
+        'all_events':       all_events,
+        'earnings_details': earnings_details,
     }
 
 

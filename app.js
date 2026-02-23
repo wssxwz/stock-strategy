@@ -518,6 +518,7 @@ function initTradeForm() {
 
 // ── 经济日历 ──────────────────────────────────────────
 let calCollapsed = false;
+let earningsDetailsCache = {};  // 缓存财报详情
 
 window.toggleCalendar = function() {
   calCollapsed = !calCollapsed;
@@ -526,6 +527,100 @@ window.toggleCalendar = function() {
   banner.classList.toggle('cal-hidden', calCollapsed);
   btn.textContent = calCollapsed ? '展开 ▼' : '收起 ▲';
 };
+
+// ── 财报弹窗 ──────────────────────────────────────────
+window.showEarningsModal = async function(ticker) {
+  const modal = document.getElementById('modal-earnings');
+  const content = document.getElementById('earn-content');
+  
+  // 先显示加载中
+  document.getElementById('earn-ticker').textContent = ticker;
+  content.innerHTML = '<div class="empty-msg" style="padding:30px">加载财报数据中...</div>';
+  modal.style.display = 'flex';
+
+  // 先从缓存取
+  let details = earningsDetailsCache[ticker];
+  
+  // 没缓存则从 calendar.json 里找
+  if (!details) {
+    try {
+      const res = await fetch('./calendar.json?_=' + Date.now());
+      const cal = await res.json();
+      details = cal.earnings_details?.[ticker];
+      if (details) earningsDetailsCache[ticker] = details;
+    } catch(e) {}
+  }
+
+  if (!details || Object.keys(details).length === 0) {
+    content.innerHTML = '<div class="empty-msg" style="padding:30px">暂无该股票财报数据</div>';
+    return;
+  }
+
+  // 判断财报是否已发布（看是否有 actual 值）
+  const hasActual = details.eps_actual !== undefined && details.eps_actual !== null;
+  const timing = details.timing_zh || details.timing || '';
+  const epsEst = details.eps_estimate ? `$${details.eps_estimate.toFixed(2)}` : '--';
+  const revEst = details.rev_estimate ? `$${(details.rev_estimate/1e9).toFixed(2)}B` : '--';
+
+  // 同比数据
+  const epsGrowth = details.eps_growth_yoy ? `${(details.eps_growth_yoy*100).toFixed(1)}%` : '--';
+  const revGrowth = details.rev_growth_yoy ? `${(details.rev_growth_yoy*100).toFixed(1)}%` : '--';
+
+  let html = `
+    <div style="margin-bottom:16px">
+      <div style="font-size:13px;color:var(--muted);margin-bottom:6px">📅 财报日期</div>
+      <div style="font-size:15px;font-weight:600">${details.earnings_date||'--'} ${timing ? `(${timing})` : ''}</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
+      <div style="background:#0f172a;border-radius:10px;padding:14px">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:6px">📊 EPS (每股收益)</div>
+        <div style="font-size:18px;font-weight:700;margin-bottom:4px">${hasActual ? `$${details.eps_actual.toFixed(2)}` : epsEst}</div>
+        ${hasActual ? `<div style="font-size:11px;color:var(--muted)">预期：${epsEst}</div>` : ''}
+        ${hasActual ? `<div style="font-size:11px;color:${details.eps_surprise>=0?'var(--green)':'var(--red)'}">
+          Gap: ${details.eps_surprise>=0?'+':''}${(details.eps_surprise*100).toFixed(1)}%
+        </div>` : ''}
+        ${!hasActual ? `<div style="font-size:11px;color:var(--muted)">范围：$${details.eps_low?.toFixed(2)||'--'} ~ $${details.eps_high?.toFixed(2)||'--'}</div>` : ''}
+      </div>
+
+      <div style="background:#0f172a;border-radius:10px;padding:14px">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:6px">💰 营收</div>
+        <div style="font-size:18px;font-weight:700;margin-bottom:4px">${hasActual && details.rev_actual ? `$${(details.rev_actual/1e9).toFixed(2)}B` : revEst}</div>
+        ${hasActual && details.rev_actual ? `<div style="font-size:11px;color:var(--muted)">预期：${revEst}</div>` : ''}
+        ${!hasActual ? `<div style="font-size:11px;color:var(--muted)">范围：$${(details.rev_low/1e9)?.toFixed(2)||'--'}B ~ $${(details.rev_high/1e9)?.toFixed(2)||'--'}B</div>` : ''}
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
+      <div style="background:#0f172a;border-radius:10px;padding:14px">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:6px">📈 EPS 同比增长</div>
+        <div style="font-size:16px;font-weight:700">${epsGrowth}</div>
+      </div>
+      <div style="background:#0f172a;border-radius:10px;padding:14px">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:6px">📈 营收同比增长</div>
+        <div style="font-size:16px;font-weight:700">${revGrowth}</div>
+      </div>
+    </div>
+
+    ${details.company_name ? `<div style="font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:12px">
+      🏢 ${details.company_name} · ${details.sector||''} · 市值 $${details.market_cap ? (details.market_cap/1e12).toFixed(2)+'T' : '--'}
+    </div>` : ''}
+  `;
+
+  content.innerHTML = html;
+};
+
+window.closeEarningsModal = function() {
+  document.getElementById('modal-earnings').style.display = 'none';
+};
+
+// 点击弹窗背景关闭
+document.addEventListener('click', function(e) {
+  const modal = document.getElementById('modal-earnings');
+  if (e.target === modal) {
+    modal.style.display = 'none';
+  }
+});
 
 async function renderCalendar() {
   const daysEl = document.getElementById('cal-days');
@@ -598,7 +693,10 @@ async function renderCalendar() {
         ? `预期EPS: ${ev.eps_range}`
         : (ev.note || '');
 
-      return `<div class="cal-ev ${imp}">
+      const isEarnings = ev.category === 'earnings';
+      const clickAttr  = isEarnings ? `onclick="showEarningsModal('${ev.ticker}')"` : '';
+      const hoverClass = isEarnings ? 'earnings' : '';
+      return `<div class="cal-ev ${imp} ${hoverClass}" ${clickAttr}>
         <div class="cal-ev-emoji">${ev.emoji||'📌'}</div>
         <div class="cal-ev-body">
           <div class="cal-ev-name">${ev.event}</div>
