@@ -1,5 +1,22 @@
 [
   {
+    "id": "sig_1771945245.752587",
+    "type": "buy",
+    "ticker": "ANET",
+    "score": 97,
+    "kb_tag": "",
+    "price": 137.2,
+    "suggest_price": 139.5,
+    "suggest_note": "\u7b49\u5f85\u56de\u8e29MA50 ($140.20) \u9644\u8fd1",
+    "rsi14": 29.1,
+    "bb_pct": 0.248,
+    "tp_price": 157.64,
+    "sl_price": 128.34,
+    "time": "2026-02-24 23:00",
+    "archived": false,
+    "position_taken": false
+  },
+  {
     "id": "sig_1771873234.292989",
     "type": "buy",
     "ticker": "PLTR",
