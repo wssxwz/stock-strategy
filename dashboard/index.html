@@ -309,9 +309,9 @@ textarea{width:100%;height:180px;padding:12px;background:#0f172a;border:1px soli
 <!-- Tabs -->
 <div class="tabs">
   <button class="tab-btn active" data-tab="overview">🏠 今日概览</button>
-  <button class="tab-btn" data-tab="push">📨 信号推送</button>
   <button class="tab-btn" data-tab="positions">💼 我的持仓</button>
-  <button class="tab-btn" data-tab="weekly">📅 周末总结</button>
+  <button class="tab-btn" data-tab="trade">📡 买卖信号</button>
+  <button class="tab-btn" data-tab="flash">📰 速报推送</button>
   <button class="tab-btn" data-tab="settings">⚙️ 设置</button>
 </div>
 
@@ -464,35 +464,31 @@ textarea{width:100%;height:180px;padding:12px;background:#0f172a;border:1px soli
     </div>
   </div>
 
-  <!-- Tab: 信号推送（合并：推送历史 + 信号列表） -->
-  <div class="tab-panel" id="panel-push">
+  <!-- Tab: 买卖信号（盘中批量扫描提醒） -->
+  <div class="tab-panel" id="panel-trade">
+    <div class="card">
+      <div class="card-title">📡 买卖信号</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:-6px">盘中批量扫描提醒 · 用于核心关注买卖建议</div>
+      <div id="trade-batch-list" style="margin-top:12px"><div class="empty-msg">加载中...</div></div>
+    </div>
+  </div>
+
+  <!-- Tab: 速报推送（市场报告/总结） -->
+  <div class="tab-panel" id="panel-flash">
     <div class="card" style="padding:14px 14px 10px">
       <div style="display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap">
-        <div style="font-size:14px;font-weight:700">📨 信号推送</div>
-        <div style="display:flex;gap:8px">
-          <button class="session-btn active" id="push-subtab-history" onclick="setPushSubtab('history')">推送</button>
-          <button class="session-btn" id="push-subtab-signals" onclick="setPushSubtab('signals')">信号</button>
+        <div style="font-size:14px;font-weight:700">📰 速报推送</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="session-btn active" id="flash-subtab-all" onclick="setFlashSubtab('all')">全部</button>
+          <button class="session-btn" id="flash-subtab-overnight" onclick="setFlashSubtab('overnight')">全球市场overnight</button>
+          <button class="session-btn" id="flash-subtab-pre" onclick="setFlashSubtab('pre')">盘前分析</button>
+          <button class="session-btn" id="flash-subtab-weekly" onclick="setFlashSubtab('weekly')">周末总结</button>
         </div>
       </div>
     </div>
 
-    <div id="push-view-history">
-      <div id="history-list"><div class="empty-msg">暂无推送历史</div></div>
-    </div>
-
-    <div id="push-view-signals" style="display:none">
-      <div class="filters">
-        <span class="filter-label">类型:</span>
-        <select id="filter-type">
-          <option value="all">全部</option>
-          <option value="buy">买入</option>
-          <option value="exit">卖出</option>
-        </select>
-        <span class="filter-label">最低评分:</span>
-        <input type="number" id="filter-score" placeholder="0" min="0" max="100" style="width:70px">
-        <input type="text" id="filter-q" placeholder="搜索股票代码..." style="width:160px">
-      </div>
-      <div class="signals-grid" id="signals-grid"></div>
+    <div id="flash-view">
+      <div id="flash-list"><div class="empty-msg">暂无推送</div></div>
     </div>
   </div>
 
@@ -597,12 +593,11 @@ textarea{width:100%;height:180px;padding:12px;background:#0f172a;border:1px soli
   </div>
 
   <!-- Tab: 推送历史（已合并到「信号推送」） -->
-  <div class="tab-panel" id="panel-history" style="display:none">
-    <div id="history-list-old"><div class="empty-msg">已合并到「信号推送」</div></div>
-  </div>
+  <div class="tab-panel" id="panel-history" style="display:none"></div>
 
   <!-- Tab: 周末总结 -->
-  <div class="tab-panel" id="panel-weekly">
+  <div class="tab-panel" id="panel-weekly" style="display:none">
+    <div class="empty-msg">周末总结已迁移到「速报推送 → 周末总结」</div>
     <!-- 历史周报列表（左） + 当前内容（右） -->
     <div style="display:grid;grid-template-columns:220px 1fr;gap:20px">
       <div>
