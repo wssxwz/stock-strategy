@@ -376,6 +376,10 @@ textarea{width:100%;height:180px;padding:12px;background:#0f172a;border:1px soli
           <path d="M 29.29 49.29 A 100 100 0 1 1 170.71 49.29"
             fill="none" stroke="#1e293b" stroke-width="13" stroke-linecap="round"/>
 
+          <!-- 外围细圈（更有“指南针”质感） -->
+          <path d="M 29.29 49.29 A 100 100 0 1 1 170.71 49.29"
+            fill="none" stroke="#334155" stroke-width="2" stroke-linecap="round" opacity="0.9"/>
+
           <!-- 彩色进度弧 -->
           <path id="fg-fill"
             d="M 29.29 49.29 A 100 100 0 1 1 170.71 49.29"
@@ -383,18 +387,18 @@ textarea{width:100%;height:180px;padding:12px;background:#0f172a;border:1px soli
             stroke-dasharray="471.24 471.24" stroke-dashoffset="471.24"/>
 
           <!-- 区间刻度：25/45/55/75 -->
-          <line x1="0" y1="-92" x2="0" y2="-106" stroke="#0f172a" stroke-width="2.5"
-            transform="translate(100,120) rotate(-67.5)"/>
-          <line x1="0" y1="-92" x2="0" y2="-106" stroke="#0f172a" stroke-width="2.5"
-            transform="translate(100,120) rotate(-13.5)"/>
-          <line x1="0" y1="-92" x2="0" y2="-106" stroke="#0f172a" stroke-width="2.5"
-            transform="translate(100,120) rotate(13.5)"/>
-          <line x1="0" y1="-92" x2="0" y2="-106" stroke="#0f172a" stroke-width="2.5"
-            transform="translate(100,120) rotate(67.5)"/>
+          <line x1="0" y1="-92" x2="0" y2="-106" stroke="#0f172a" stroke-width="2"
+            stroke-linecap="round" opacity="0.55" transform="translate(100,120) rotate(-67.5)"/>
+          <line x1="0" y1="-92" x2="0" y2="-106" stroke="#0f172a" stroke-width="2"
+            stroke-linecap="round" opacity="0.55" transform="translate(100,120) rotate(-13.5)"/>
+          <line x1="0" y1="-92" x2="0" y2="-106" stroke="#0f172a" stroke-width="2"
+            stroke-linecap="round" opacity="0.55" transform="translate(100,120) rotate(13.5)"/>
+          <line x1="0" y1="-92" x2="0" y2="-106" stroke="#0f172a" stroke-width="2"
+            stroke-linecap="round" opacity="0.55" transform="translate(100,120) rotate(67.5)"/>
 
           <!-- 5区间标签（为避免溢出，端部两标签内收） -->
           <text x="20"  y="92" font-size="9" fill="#ef4444" text-anchor="middle" font-weight="800">极恐</text>
-          <text x="40"  y="40" font-size="9" fill="#f97316" text-anchor="middle" font-weight="800">恐惧</text>
+          <text x="44"  y="40" font-size="9" fill="#f97316" text-anchor="middle" font-weight="800">恐惧</text>
           <text x="100" y="18" font-size="9" fill="#eab308" text-anchor="middle" font-weight="800">中性</text>
           <text x="160" y="40" font-size="9" fill="#84cc16" text-anchor="middle" font-weight="800">贪婪</text>
           <text x="180" y="92" font-size="9" fill="#22c55e" text-anchor="middle" font-weight="800">极贪</text>
