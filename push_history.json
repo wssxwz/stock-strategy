@@ -2,19 +2,19 @@
   {
     "id": "daily_morning_brief_2026-02-24",
     "type": "morning_brief",
-    "title": "☀️ 早报（自动生成）",
-    "summary": "☀️ 早报（自动生成）",
-    "content": "{\n  \"generated_at\": \"2026-02-24T13:21:01.724563\",\n  \"indices\": {\n    \"SPY\": {\n      \"price\": 682.39,\n      \"change_pct\": -1.02,\n      \"change\": -7.04\n    },\n    \"QQQ\": {\n      \"price\": 601.41,\n      \"change_pct\": -1.22,\n      \"change\": -7.4",
-    "raw": "{\n  \"generated_at\": \"2026-02-24T13:21:01.724563\",\n  \"indices\": {\n    \"SPY\": {\n      \"price\": 682.39,\n      \"change_pct\": -1.02,\n      \"change\": -7.04\n    },\n    \"QQQ\": {\n      \"price\": 601.41,\n      \"change_pct\": -1.22,\n      \"change\": -7.4\n    },\n    \"DIA\": {\n      \"price\": 488.01,\n      \"change_pct\": -1.63,\n      \"change\": -8.07\n    },\n    \"IWM\": {\n      \"price\": 260.49,\n      \"change_pct\": -1.56,\n      \"change\": -4.12\n    }\n  },\n  \"commodities\": {\n    \"GC=F\": {\n      \"price\": 5190.5,\n      \"change_pct\": -0.27,\n      \"change\": -14.2\n    },\n    \"CL=F\": {\n      \"price\": 66.73,\n      \"change_pct\": 0.63,\n      \"change\": 0.42\n    },\n    \"SI=F\": {\n      \"price\": 86.86,\n      \"change_pct\": 0.4,\n      \"change\": 0.34\n    },\n    \"NG=F\": {\n      \"price\": 2.93,\n      \"change_pct\": -1.91,\n      \"change\": -0.06\n    }\n  },\n  \"fear_greed\": {\n    \"value\": 8,\n    \"label\": \"Extreme Fear\",\n    \"label_zh\": \"极度恐惧\",\n    \"emoji\": \"😱\"\n  },\n  \"sectors\": {\n    \"XLP\": {\n      \"name\": \"必需消费\",\n      \"change_pct\": 1.23,\n      \"price\": 88.97\n    },\n    \"XLV\": {\n      \"name\": \"医疗\",\n      \"change_pct\": 1.1,\n      \"price\": 158.54\n    },\n    \"XLU\": {\n      \"name\": \"公用事业\",\n      \"change_pct\": 0.76,\n      \"price\": 46.68\n    },\n    \"XLE\": {\n      \"name\": \"能源\",\n      \"change_pct\": 0.49,\n      \"price\": 55.15\n    },\n    \"XLRE\": {\n      \"name\": \"房地产\",\n      \"change_pct\": 0.11,\n      \"price\": 43.61\n    },\n    \"XLB\": {\n      \"name\": \"材料\",\n      \"change_pct\": 0.0,\n      \"price\": 52.96\n    },\n    \"XLC\": {\n      \"name\": \"通信\",\n      \"change_pct\": -1.23,\n      \"price\": 115.36\n    },\n    \"XLI\": {\n      \"name\": \"工业\",\n      \"change_pct\": -1.35,\n      \"price\": 174.83\n    },\n    \"XLK\": {\n      \"name\": \"科技\",\n      \"change_pct\": -1.68,\n      \"price\": 138.52\n    },\n    \"XLY\": {\n      \"name\": \"非必需消费\",\n      \"change_pct\": -2.09,\n      \"price\": 114.99\n    },\n    \"XLF\": {\n      \"name\": \"金融\",\n      \"change_pct\": -3.35,\n      \"price\": 50.73\n    }\n  }\n}",
+    "title": "🌅 早盘摘要（补录）",
+    "summary": "市场情绪/指数/商品/板块（补录）",
+    "content": "市场情绪/指数/商品/板块（补录）",
+    "raw": "（补录）早盘摘要：请以 Telegram 原推送为准（后续将接入推送原文存档）",
     "time": "2026-02-24 13:21"
   },
   {
     "id": "daily_deep_analysis_2026-02-24",
     "type": "deep_analysis",
-    "title": "🧠 深度分析（自动生成）",
-    "summary": "🧠 深度分析（自动生成）",
-    "content": "{\n  \"generated_at\": \"2026-02-24T08:10:04.849385\",\n  \"market_mood\": \"空头\",\n  \"fear_greed\": {\n    \"value\": 8,\n    \"label\": \"Extreme Fear\",\n    \"label_zh\": \"极度恐惧\",\n    \"emoji\": \"😱\"\n  },\n  \"advice\": {\n    \"market_mood\": \"空头\",\n    \"advices\": [\n  ",
-    "raw": "{\n  \"generated_at\": \"2026-02-24T08:10:04.849385\",\n  \"market_mood\": \"空头\",\n  \"fear_greed\": {\n    \"value\": 8,\n    \"label\": \"Extreme Fear\",\n    \"label_zh\": \"极度恐惧\",\n    \"emoji\": \"😱\"\n  },\n  \"advice\": {\n    \"market_mood\": \"空头\",\n    \"advices\": [\n      \"💎 市场极度恐惧，历史上是较好的买入窗口，可逐步加仓\",\n      \"🏆 最强板块：必需消费 (+1.2%)，可关注相关个股\",\n      \"🛡️ 整体偏空，降低仓位，以防守为主\"\n    ],\n    \"risks\": [\n      \"📉 金融 板块走弱 (-3.4%)，持仓注意\"\n    ],\n    \"fg_value\": 8,\n    \"fg_label_zh\": \"极度恐惧\"\n  }\n}",
+    "title": "📊 深度早报（补录）",
+    "summary": "市场方向/情绪/操作建议（补录）",
+    "content": "市场方向/情绪/操作建议（补录）",
+    "raw": "（补录）深度早报：请以 Telegram 原推送为准（后续将接入推送原文存档）",
     "time": "2026-02-24 08:10"
   },
   {
