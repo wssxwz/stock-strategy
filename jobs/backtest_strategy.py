@@ -95,7 +95,7 @@ def compute_ret1y(df: pd.DataFrame, i: int, lookback: int) -> float:
     return (cur_close - start_close) / start_close
 
 
-def entry_condition(df: pd.DataFrame, i: int, p: Params, ticker: str = "") -> Tuple[bool, Dict]:
+def entry_condition(df: pd.DataFrame, i: int, p: Params, rs_1y: float) -> Tuple[bool, Dict]:
     row = df.iloc[i]
 
     rsi = float(row.get("rsi14", 99))
@@ -104,13 +104,6 @@ def entry_condition(df: pd.DataFrame, i: int, p: Params, ticker: str = "") -> Tu
     ret5 = float(row.get("ret_5d", 0))
     macd_h = float(row.get("macd_hist", 0))
     
-    # Use RS_1Y (relative strength vs SPY) instead of absolute ret1y
-    rs_1y = -999.0
-    if compute_rs_1y_fn is not None and ticker:
-        try:
-            rs_1y = compute_rs_1y_fn(ticker)
-        except Exception:
-            rs_1y = -999.0
 
     ok = (
         above200 == 1
@@ -135,6 +128,14 @@ def backtest(df: pd.DataFrame, p: Params, ticker: str = "") -> pd.DataFrame:
     if df.empty:
         return pd.DataFrame()
 
+    # Precompute RS_1Y once per backtest (avoid per-bar network calls)
+    rs_1y = -999.0
+    if compute_rs_1y_fn is not None and ticker:
+        try:
+            rs_1y = compute_rs_1y_fn(ticker)
+        except Exception:
+            rs_1y = -999.0
+
     trades: List[Dict] = []
     in_trade = False
     entry_i: Optional[int] = None
@@ -146,7 +147,7 @@ def backtest(df: pd.DataFrame, p: Params, ticker: str = "") -> pd.DataFrame:
 
     for i in range(start_i, len(df)):
         if not in_trade:
-            ok, meta = entry_condition(df, i, p, ticker)
+            ok, meta = entry_condition(df, i, p, rs_1y)
             if ok:
                 in_trade = True
                 entry_i = i
