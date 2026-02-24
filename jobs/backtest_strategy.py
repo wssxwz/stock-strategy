@@ -69,7 +69,21 @@ class Params:
 
 
 def load_1h_history(ticker: str, period: str = "730d") -> pd.DataFrame:
-    df = yf.Ticker(ticker).history(period=period, interval="1h", auto_adjust=True)
+    """Load 1H history.
+
+    Priority:
+    1) Local Parquet store (sync recent window first)
+    2) Fallback to yfinance period fetch
+
+    Note: period kept for CLI compatibility.
+    """
+    try:
+        from data_store import sync_and_load
+        # sync recent 120 calendar days by default; keeps store fresh and accumulative
+        df = sync_and_load(ticker, interval="1h", lookback_days=120)
+    except Exception:
+        df = yf.Ticker(ticker).history(period=period, interval="1h", auto_adjust=True)
+
     if df is None or df.empty:
         return pd.DataFrame()
 
@@ -78,7 +92,10 @@ def load_1h_history(ticker: str, period: str = "730d") -> pd.DataFrame:
     try:
         df.index = df.index.tz_convert(None)
     except Exception:
-        pass
+        try:
+            df.index = df.index.tz_localize(None)
+        except Exception:
+            pass
 
     df.columns = [c.lower() for c in df.columns]
     df = add_all_indicators(df)
