@@ -897,23 +897,28 @@ function renderTradeSignals() {
   const el = document.getElementById('trade-batch-list');
   if (!el) return;
   const hist = _getHist();
-  const batches = hist.filter(x => x && x.type === 'buy_signal_batch');
+  const batches = hist.filter(x => x && (x.type === 'buy_signal_batch' || x.type === 'buy_signal' || x.type === 'sell_signal'));
   if (!batches.length) {
     el.innerHTML = '<div class="empty-msg">暂无批量扫描提醒</div>';
     return;
   }
 
   el.innerHTML = batches.map(h => {
-    const badge = h.signal_count ? `<span class="badge" style="margin-left:8px;font-size:11px;background:var(--gold);color:#000">📊 ${h.signal_count}只</span>` : '';
-    const strongBadge = h.strong_count ? `<span class="badge" style="margin-left:4px;font-size:11px;background:#ef4444;color:#fff">🔥 ${h.strong_count}强</span>` : '';
+    const isBatch = h.type === 'buy_signal_batch';
+    const icon = isBatch ? '📣' : (h.type === 'sell_signal' ? '🛡️' : '🎯');
+    const badge = isBatch && h.signal_count ? `<span class="badge" style="margin-left:8px;font-size:11px;background:var(--gold);color:#000">📊 ${h.signal_count}只</span>` : '';
+    const strongBadge = isBatch && h.strong_count ? `<span class="badge" style="margin-left:4px;font-size:11px;background:#ef4444;color:#fff">🔥 ${h.strong_count}强</span>` : '';
+    const title = h.title || (isBatch ? '批量扫描' : '单条信号');
+    const preview = (h.summary||h.content||'').slice(0,120);
+    const raw = h.raw || h.content || '';
     return `
       <div class="hist-item" onclick="toggleExpand(this)">
         <div class="hist-left">
-          <span class="hist-icon">📣</span>
+          <span class="hist-icon">${icon}</span>
           <div>
-            <div class="hist-title">${h.title || '批量扫描'}${badge}${strongBadge}</div>
-            <div class="timeline-preview">${(h.summary||h.content||'').slice(0,120)}...</div>
-            <pre class="timeline-full" style="display:none;white-space:pre-wrap;font-family:inherit;font-size:13px;margin-top:8px;color:#cbd5e1">${h.raw || h.content || ''}</pre>
+            <div class="hist-title">${title}${badge}${strongBadge}</div>
+            <div class="timeline-preview">${preview}${preview?'...':''}</div>
+            <pre class="timeline-full" style="display:none;white-space:pre-wrap;font-family:inherit;font-size:13px;margin-top:8px;color:#cbd5e1">${raw}</pre>
           </div>
         </div>
         <div class="hist-time">${(h.time||'').slice(-5)}</div>
