@@ -489,6 +489,19 @@ textarea{width:100%;height:180px;padding:12px;background:#0f172a;border:1px soli
 
     <div id="flash-view">
       <div id="flash-list"><div class="empty-msg">暂无推送</div></div>
+
+      <!-- 周末总结（子Tab=weekly 时显示） -->
+      <div id="flash-weekly" style="display:none">
+        <div style="display:grid;grid-template-columns:220px 1fr;gap:20px">
+          <div>
+            <div class="card-title" style="margin-bottom:12px">📋 历史周报</div>
+            <div id="flash-weekly-list" style="display:flex;flex-direction:column;gap:8px"></div>
+          </div>
+          <div class="card" id="flash-weekly-content">
+            <div class="empty-msg">← 选择一份周报查看</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 

@@ -929,10 +929,14 @@ window.setFlashSubtab = function(tab) {
 
 function renderFlash() {
   const el = document.getElementById('flash-list');
+  const weeklyEl = document.getElementById('flash-weekly');
   if (!el) return;
 
-  const hist = _getHist();
+  // weekly 子页切换
+  if (weeklyEl) weeklyEl.style.display = (flashSubtab === 'weekly') ? 'block' : 'none';
+  el.style.display = (flashSubtab === 'weekly') ? 'none' : 'block';
 
+  const hist = _getHist();
   let items = hist.filter(x => x && x.type !== 'buy_signal_batch');
 
   // 分类映射
@@ -941,9 +945,7 @@ function renderFlash() {
   } else if (flashSubtab === 'pre') {
     items = items.filter(x => x.type === 'deep_analysis');
   } else if (flashSubtab === 'weekly') {
-    // 周末总结：沿用 weekly_reports.json（不走 push_history）
-    el.innerHTML = '<div class="empty-msg">周末总结请在此处展示（已迁移中）</div>';
-    // TODO: 复用 renderWeekly 的列表渲染逻辑到这里
+    renderFlashWeekly();
     return;
   }
 
@@ -1011,6 +1013,93 @@ function renderHistory() {
         </div>`;
       }).join('')}
     </div>`).join('');
+}
+
+// ── Tab 5: 周末总结 ───────────────────────────────────
+async function renderFlashWeekly() {
+  // 展示到「速报推送 → 周末总结」
+  const list    = document.getElementById('flash-weekly-list');
+  const content = document.getElementById('flash-weekly-content');
+  if (!list || !content) return;
+
+  // 优先从 localStorage，其次从同域 JSON 文件加载
+  let reports = DB.get('weekly_reports', []);
+  if (!reports.length) {
+    try {
+      const res = await fetch('./weekly_reports.json?_=' + Date.now());
+      if (res.ok) {
+        reports = await res.json();
+        DB.set('weekly_reports', reports);
+      }
+    } catch(e) {}
+  }
+
+  // 新到旧
+  reports = (reports || []).slice().sort((a,b)=> (b.generated_at||b.date||'').localeCompare(a.generated_at||a.date||''));
+
+  if (!reports.length) {
+    list.innerHTML = '<div style="font-size:13px;color:var(--muted)">暂无周报</div>';
+    content.innerHTML = '<div class="empty-msg">每周一自动生成，也可手动导入</div>';
+    return;
+  }
+
+  list.innerHTML = reports.map((r,i) => `
+    <div class="weekly-item ${i===0?'active':''}" onclick="showFlashWeekly(${i})" id="fwitem-${i}">
+      <div style="font-weight:600;font-size:13px">${r.week_label||r.date}</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px">${(r.generated_at||'').slice(0,10)||''}</div>
+    </div>`).join('');
+
+  window._flashWeeklyReports = reports;
+  showFlashWeekly(0);
+}
+
+window.showFlashWeekly = function(idx) {
+  const reports = window._flashWeeklyReports || [];
+  const r = reports[idx];
+  if (!r) return;
+
+  document.querySelectorAll('#flash-weekly-list .weekly-item').forEach((el,i) =>
+    el.classList.toggle('active', i===idx));
+
+  const content = document.getElementById('flash-weekly-content');
+
+  // 复用周报渲染结构（复制自 showWeekly）
+  const sectionHTML = (icon, title, items) => items&&items.length ? `
+    <div class="wr-section">
+      <div class="wr-section-title">${icon} ${title}</div>
+      ${items.map(it=>`<div class="wr-item">${it}</div>`).join('')}
+    </div>` : '';
+
+  const events  = r.weekend_events || [];
+  const outlook = r.market_outlook  || {};
+  const stocks  = r.core_stocks     || [];
+  const risks   = r.risks           || [];
+  const strategy= r.strategy        || [];
+
+  content.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <div>
+        <div style="font-size:20px;font-weight:700">${r.week_label||r.date} 周末市场总结</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px">生成于 ${(r.generated_at||'').slice(0,16)||''}</div>
+      </div>
+      <div class="mood-badge-wr ${outlook.mood_class||''}">${outlook.mood_emoji||''} ${outlook.mood||'--'}</div>
+    </div>
+
+    ${sectionHTML('🗞️','周末重大事件', events.map(e=>`
+      <div style="display:flex;gap:10px;align-items:flex-start">
+        <span style="font-size:16px;flex-shrink:0">${e.emoji||'📌'}</span>
+        <div>
+          <div style="font-weight:600;font-size:14px">${e.title}</div>
+          <div style="font-size:13px;color:var(--muted);margin-top:2px">${e.detail}</div>
+          <div class="badge ${e.impact_class||'neutral'}" style="margin-top:4px">${e.impact}</div>
+        </div>
+      </div>`))}
+
+    ${sectionHTML('🔭','市场展望', [outlook.summary, outlook.bias, outlook.action].filter(Boolean))}
+    ${sectionHTML('⭐','核心关注', (stocks||[]).map(s=>`${s.ticker}：${s.note||''}`))}
+    ${sectionHTML('⚠️','风险提示', risks)}
+    ${sectionHTML('🧭','下周策略', strategy)}
+  `;
 }
 
 // ── Tab 5: 周末总结 ───────────────────────────────────
