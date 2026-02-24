@@ -295,6 +295,7 @@ def score_signal(row: pd.Series, ticker: str) -> dict:
         'scan_time':   datetime.now().strftime('%Y-%m-%d %H:%M'),
         'bar_time':    row.name.strftime('%Y-%m-%d %H:%M') if getattr(row, 'name', None) is not None else None,
         'bar_close':   round(price, 2),
+        'price_source': '1H_bar_close',
     }
 
 
@@ -338,10 +339,11 @@ def format_signal_message(sig: dict) -> str:
     bar_t = sig.get('bar_time')
     bar_tag = f"\n🕯️ 触发K线: {bar_t} (1H收盘)" if bar_t else ''
 
-    msg = f"""{emoji} **{ticker}** — {level}
+    # 标的行不再重复“强烈/买入”等级（等级信息放到 title）
+    msg = f"""{emoji} **{ticker}**
 ━━━━━━━━━━━━━━━━━━
 {kb_tag_str}📊 评分: {score}/100
-💰 当前价: ${sig['price']}（触发1H收盘价）
+💰 当前价: ${sig['price']}
 ⏰ 时间: {sig['scan_time']} (北京){sess_tag}{bar_tag}
 
 📈 技术指标:

@@ -57,7 +57,7 @@ def save_hist(hist: list):
             json.dump(hist, f, ensure_ascii=False, indent=2)
 
 
-def append_push_history(type_: str, title: str, summary: str, raw: str, time: str = None):
+def append_push_history(type_: str, title: str, summary: str, raw: str, time: str = None, meta: dict = None):
     """追加一条推送历史（供 monitor 侧调用）"""
     hist = load_hist(OUT_DASH)
     if not isinstance(hist, list):
@@ -73,6 +73,8 @@ def append_push_history(type_: str, title: str, summary: str, raw: str, time: st
         'raw': raw,
         'time': time or datetime.now().strftime('%Y-%m-%d %H:%M'),
     }
+    if meta and isinstance(meta, dict):
+        item['meta'] = meta
     hist.insert(0, item)
     if len(hist) > 800:
         hist = hist[:800]

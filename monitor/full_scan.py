@@ -134,6 +134,7 @@ def main():
         output_lines.append(f"BUY_SIGNAL:{sig['ticker']}:{sig['score']}")
         output_lines.append(msg)
         output_lines.append("---END---")
+
         # 自动保存到 Dashboard signals.json
         try:
             import sys as _sys
@@ -142,6 +143,33 @@ def main():
             add_buy_signal(sig)
         except Exception as _e:
             print(f"  [Dashboard 同步失败] {_e}")
+
+        # 单条信号写入 push_history（保持与 Telegram 原文一致）
+        try:
+            import sys as _sys
+            _sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../dashboard'))
+            from export_push_history import append_push_history
+
+            level = '🔥 强烈信号' if sig.get('score',0) >= 85 else '✅ 买入信号'
+            title = f"买入信号 {sig['ticker']} ({level})"
+            summary = f"{sig['ticker']} {level}｜评分{sig.get('score')}｜触发1H收盘价 ${sig.get('price')}"
+            append_push_history(
+                type_='buy_signal',
+                title=title,
+                summary=summary,
+                raw=msg,
+                time=sig.get('scan_time'),
+                meta={
+                    'ticker': sig.get('ticker'),
+                    'score': sig.get('score'),
+                    'level': level,
+                    'bar_time': sig.get('bar_time'),
+                    'bar_close': sig.get('bar_close'),
+                    'price_source': sig.get('price_source','1H_bar_close'),
+                }
+            )
+        except Exception as _e:
+            print(f"  [push_history 单条同步失败] {_e}")
     
     # 整批写入 push_history（1 条记录）
     if new_buy:
