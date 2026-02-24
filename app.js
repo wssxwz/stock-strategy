@@ -1341,9 +1341,10 @@ function renderFGGauge(value, labelZh) {
   }
 
   // 指针角度：
-  //   value=0   → rotate(-135)（左下，225°方向）
-  //   value=50  → rotate(0)   （正上，270°方向）
-  //   value=100 → rotate(135) （右下，315°方向）
+  //   value=0   → rotate(-135)（左下）
+  //   value=50  → rotate(0)    （正上）
+  //   value=100 → rotate(135)  （右下）
+  // 注意：这是视觉指南针映射（不是数学角度），与 SVG 弧定义保持一致。
   const angle = -135 + pct * 270;
   const needle = document.getElementById('fg-needle');
   if (needle) {
