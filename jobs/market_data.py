@@ -9,13 +9,14 @@ import yfinance as yf
 import json, os
 from datetime import datetime, timedelta
 
-# ── 核心指数 ──
+# ── 核心指数（指数本体）──
+# 使用指数代码而非 ETF，避免价格口径混淆
 INDICES = {
-    'SPY':    '标普500',
-    'QQQ':    '纳斯达克100',
-    'DIA':    '道琼斯',
-    'IWM':    '罗素2000',
-    'VIX':    'VIX恐慌指数',
+    '^GSPC':  '标普500',
+    '^NDX':   '纳斯达克100',
+    '^DJI':   '道琼斯',
+    '^RUT':   '罗素2000',
+    '^VIX':   'VIX恐慌指数',
 }
 
 # ── 大宗商品 ──

@@ -342,7 +342,7 @@ async function loadMarketSnapshot() {
       snap.style.display = 'grid';
 
       // 指数（展示：收盘价 + 涨跌幅。只看涨幅不够“有意义”）
-      const idxNames = {SPY:'标普500',QQQ:'纳斯达克',DIA:'道琼斯',IWM:'罗素2000'};
+      const idxNames = {'^GSPC':'标普500','^NDX':'纳斯达克100','^DJI':'道琼斯','^RUT':'罗素2000'};
       document.getElementById('mkt-indices').innerHTML = Object.entries(mb.indices||{})
         .filter(([k])=>idxNames[k])
         .map(([k,v])=>{

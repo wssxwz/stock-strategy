@@ -4,51 +4,56 @@
     "signals_count": 39,
     "positions_count": 0
   },
-  "updated_at": "2026-02-24T13:21:50.857562",
+  "updated_at": "2026-02-24T17:29:14.859253",
   "morning_brief": {
-    "generated_at": "2026-02-24T13:21:01.724563",
+    "generated_at": "2026-02-24T17:28:30.003938",
     "indices": {
-      "SPY": {
-        "price": 682.39,
-        "change_pct": -1.02,
-        "change": -7.04
+      "^GSPC": {
+        "price": 6837.75,
+        "change_pct": -1.04,
+        "change": -71.76
       },
-      "QQQ": {
-        "price": 601.41,
-        "change_pct": -1.22,
-        "change": -7.4
+      "^NDX": {
+        "price": 24708.94,
+        "change_pct": -1.21,
+        "change": -303.68
       },
-      "DIA": {
-        "price": 488.01,
-        "change_pct": -1.63,
-        "change": -8.07
+      "^DJI": {
+        "price": 48804.06,
+        "change_pct": -1.66,
+        "change": -821.91
       },
-      "IWM": {
-        "price": 260.49,
-        "change_pct": -1.56,
-        "change": -4.12
+      "^RUT": {
+        "price": 2620.99,
+        "change_pct": -1.61,
+        "change": -42.79
+      },
+      "^VIX": {
+        "price": 21.08,
+        "change_pct": 0.33,
+        "change": 0.07
       }
     },
     "commodities": {
       "GC=F": {
-        "price": 5190.5,
-        "change_pct": -0.27,
-        "change": -14.2
+        "price": 5193.0,
+        "change_pct": -0.22,
+        "change": -11.7
       },
       "CL=F": {
-        "price": 66.73,
-        "change_pct": 0.63,
-        "change": 0.42
+        "price": 66.54,
+        "change_pct": 0.35,
+        "change": 0.23
       },
       "SI=F": {
-        "price": 86.86,
-        "change_pct": 0.4,
-        "change": 0.34
+        "price": 87.93,
+        "change_pct": 1.63,
+        "change": 1.41
       },
       "NG=F": {
-        "price": 2.93,
-        "change_pct": -1.91,
-        "change": -0.06
+        "price": 2.92,
+        "change_pct": -2.28,
+        "change": -0.07
       }
     },
     "fear_greed": {
