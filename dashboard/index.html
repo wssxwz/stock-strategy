@@ -342,10 +342,77 @@ textarea{width:100%;height:180px;padding:12px;background:#0f172a;border:1px soli
         <div class="card-title">🗂️ 板块强弱</div>
         <div id="mkt-sectors"></div>
       </div>
-      <div class="card mkt-card" style="text-align:center;display:flex;flex-direction:column;justify-content:center">
-        <div id="mkt-fg-emoji" style="font-size:36px;margin-bottom:8px">😐</div>
-        <div id="mkt-fg-label" style="font-size:15px;font-weight:700">--</div>
-        <div id="mkt-fg-val" style="font-size:13px;color:var(--muted);margin-top:4px">恐惧贪婪指数</div>
+      <div class="card mkt-card" style="text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px 12px">
+        <div style="font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.05em;margin-bottom:6px">恐惧 ← 情绪温度计 → 贪婪</div>
+
+        <!--
+          270° 仪表盘（B：5区间标签）
+          统一几何：圆心(100,120) r=100，viewBox 0 0 200 120
+          弧(large-arc=1,sweep=1)：从 225° 左下 → 顺时针270° → 315° 右下
+          弧长 = 2πr×270/360 ≈ 471.24
+          指针：value=0→-135°, 50→0°, 100→135°
+        -->
+        <svg id="fg-gauge" viewBox="0 0 200 120" width="200" height="120" style="overflow:visible;display:block">
+          <defs>
+            <linearGradient id="fg-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%"   stop-color="#ef4444"/>
+              <stop offset="25%"  stop-color="#f97316"/>
+              <stop offset="50%"  stop-color="#eab308"/>
+              <stop offset="75%"  stop-color="#84cc16"/>
+              <stop offset="100%" stop-color="#22c55e"/>
+            </linearGradient>
+            <filter id="needle-glow">
+              <feGaussianBlur stdDeviation="1.6" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <!-- 背景轨道 -->
+          <path d="M 29.29 49.29 A 100 100 0 1 1 170.71 49.29"
+            fill="none" stroke="#1e293b" stroke-width="13" stroke-linecap="round"/>
+
+          <!-- 彩色进度弧 -->
+          <path id="fg-fill"
+            d="M 29.29 49.29 A 100 100 0 1 1 170.71 49.29"
+            fill="none" stroke="url(#fg-grad)" stroke-width="13" stroke-linecap="round"
+            stroke-dasharray="471.24 471.24" stroke-dashoffset="471.24"/>
+
+          <!-- 区间刻度：25/45/55/75 -->
+          <line x1="0" y1="-92" x2="0" y2="-106" stroke="#0f172a" stroke-width="2.5"
+            transform="translate(100,120) rotate(-67.5)"/>
+          <line x1="0" y1="-92" x2="0" y2="-106" stroke="#0f172a" stroke-width="2.5"
+            transform="translate(100,120) rotate(-13.5)"/>
+          <line x1="0" y1="-92" x2="0" y2="-106" stroke="#0f172a" stroke-width="2.5"
+            transform="translate(100,120) rotate(13.5)"/>
+          <line x1="0" y1="-92" x2="0" y2="-106" stroke="#0f172a" stroke-width="2.5"
+            transform="translate(100,120) rotate(67.5)"/>
+
+          <!-- 5区间标签（为避免溢出，端部两标签内收） -->
+          <text x="20"  y="92" font-size="9" fill="#ef4444" text-anchor="middle" font-weight="800">极恐</text>
+          <text x="40"  y="40" font-size="9" fill="#f97316" text-anchor="middle" font-weight="800">恐惧</text>
+          <text x="100" y="18" font-size="9" fill="#eab308" text-anchor="middle" font-weight="800">中性</text>
+          <text x="160" y="40" font-size="9" fill="#84cc16" text-anchor="middle" font-weight="800">贪婪</text>
+          <text x="180" y="92" font-size="9" fill="#22c55e" text-anchor="middle" font-weight="800">极贪</text>
+
+          <!-- 指针 -->
+          <g id="fg-needle" transform="translate(100,120) rotate(-135)" filter="url(#needle-glow)">
+            <polygon points="0,-90 -4,0 4,0" fill="#f1f5f9" opacity="0.95"/>
+          </g>
+
+          <!-- 圆心轴帽 -->
+          <circle cx="100" cy="120" r="7" fill="#1e293b" stroke="#475569" stroke-width="2"/>
+          <circle cx="100" cy="120" r="3" fill="#94a3b8"/>
+
+          <!-- 中心数值/标签 -->
+          <text id="fg-value-text" x="100" y="82" font-size="26" font-weight="900"
+            fill="#f8fafc" text-anchor="middle">--</text>
+          <text id="fg-label-text" x="100" y="100" font-size="10"
+            fill="#94a3b8" text-anchor="middle">加载中...</text>
+        </svg>
+
+        <div id="mkt-fg-emoji" style="font-size:20px;margin-top:-4px">😐</div>
+        <div id="mkt-fg-label" style="display:none">--</div>
+        <div id="mkt-fg-val"   style="display:none">恐惧贪婪指数</div>
       </div>
     </div>
 
