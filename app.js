@@ -1325,7 +1325,7 @@ document.addEventListener('DOMContentLoaded', init);
 
 // ── 恐惧贪婪指南针 ────────────────────────────────────────────────────────────
 function renderFGGauge(value, labelZh) {
-  // 弧线总长（270°，r=100）= 2π×100×(270/360) ≈ 471.24
+  // 弧线总长不再参与计算（使用 pathLength=100 做稳定映射）
   const ARC_LEN = 471.24;
 
   // value 0→100 映射到 dashoffset：
@@ -1351,7 +1351,7 @@ function renderFGGauge(value, labelZh) {
   const needle = document.getElementById('fg-needle');
   if (needle) {
     needle.style.transition = 'transform 0.8s cubic-bezier(.4,0,.2,1)';
-    needle.setAttribute('transform', `translate(100,120) rotate(${angle.toFixed(1)})`);
+    needle.setAttribute('transform', `translate(100,150) rotate(${angle.toFixed(1)})`);
   }
 
   // 颜色随区间
