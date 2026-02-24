@@ -10,6 +10,12 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../src'))
 
 import yfinance as yf
 from datetime import datetime, timedelta
+
+# local store (parquet) for faster/reproducible data
+try:
+    from data_store import sync_and_load
+except Exception:
+    sync_and_load = None
 from fast_scan import phase1_filter, phase2_score
 from portfolio import load_portfolio, check_positions, format_exit_alert
 from signal_engine import format_signal_message
@@ -33,20 +39,41 @@ def signal_key(sig):
     return f"{sig['ticker']}_{date_str}_{sig['score']//10*10}"
 
 def get_current_prices(tickers: list) -> dict:
-    """批量获取当前价格"""
-    prices = {}
+    """批量获取当前价格
+
+    Priority:
+    - Use local 1h store last close when available (fast + stable)
+    - Fallback to yfinance download (1m)
+    """
+    prices: dict = {}
     if not tickers:
         return prices
-    try:
-        data = yf.download(tickers, period='1d', interval='1m',
-                           auto_adjust=True, progress=False, threads=True)
-        if len(tickers) == 1:
-            prices[tickers[0]] = float(data['Close'].iloc[-1])
-        else:
+
+    # 1) local store
+    if sync_and_load is not None:
+        try:
             for t in tickers:
+                df = sync_and_load(t, interval='1h', lookback_days=7)
+                if df is not None and not df.empty and 'close' in df.columns:
+                    prices[t] = float(df['close'].iloc[-1])
+        except Exception:
+            pass
+
+    # 2) fallback yfinance for missing
+    missing = [t for t in tickers if t not in prices]
+    if not missing:
+        return prices
+
+    try:
+        data = yf.download(missing, period='1d', interval='1m',
+                           auto_adjust=True, progress=False, threads=True)
+        if len(missing) == 1:
+            prices[missing[0]] = float(data['Close'].iloc[-1])
+        else:
+            for t in missing:
                 try:
                     prices[t] = float(data['Close'][t].iloc[-1])
-                except:
+                except Exception:
                     pass
     except Exception as e:
         print(f"  价格获取失败: {e}")
