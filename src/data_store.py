@@ -96,13 +96,34 @@ def fetch_yf(ticker: str, interval: str, start: datetime, end: datetime, auto_ad
     return _normalize(df)
 
 
-def sync(ticker: str, interval: str = "1h", lookback_days: int = 60, cfg: Optional[StoreConfig] = None) -> pd.DataFrame:
-    """Sync recent window from yfinance and merge into local parquet."""
+def sync(
+    ticker: str,
+    interval: str = "1h",
+    lookback_days: int = 60,
+    cfg: Optional[StoreConfig] = None,
+    max_auto_lookback_days: int = 730,
+    gap_days_threshold: int = 7,
+) -> pd.DataFrame:
+    """Sync recent window from yfinance and merge into local parquet.
+
+    Auto-backfill:
+    - If local data is stale (gap > gap_days_threshold), automatically increase lookback_days
+      to cover the gap (capped by max_auto_lookback_days).
+    """
     cfg = cfg or StoreConfig()
     existing = load_local(ticker, interval, cfg)
 
+    # decide lookback based on staleness
+    effective_lookback = int(lookback_days)
+    if not existing.empty:
+        last_ts = pd.to_datetime(existing.index.max())
+        gap_days = (datetime.now() - last_ts.to_pydatetime()).days
+        if gap_days > gap_days_threshold:
+            # cover missing days + small buffer
+            effective_lookback = min(max_auto_lookback_days, max(effective_lookback, gap_days + 10))
+
     end = datetime.now() + timedelta(days=1)  # yfinance end non-inclusive
-    start = end - timedelta(days=int(lookback_days))
+    start = end - timedelta(days=effective_lookback)
 
     fetched = fetch_yf(ticker, interval, start=start, end=end)
     if fetched.empty and not existing.empty:
@@ -114,5 +135,11 @@ def sync(ticker: str, interval: str = "1h", lookback_days: int = 60, cfg: Option
     return merged
 
 
-def sync_and_load(ticker: str, interval: str = "1h", lookback_days: int = 60, cfg: Optional[StoreConfig] = None) -> pd.DataFrame:
-    return sync(ticker, interval=interval, lookback_days=lookback_days, cfg=cfg)
+def sync_and_load(
+    ticker: str,
+    interval: str = "1h",
+    lookback_days: int = 60,
+    cfg: Optional[StoreConfig] = None,
+    **kwargs,
+) -> pd.DataFrame:
+    return sync(ticker, interval=interval, lookback_days=lookback_days, cfg=cfg, **kwargs)

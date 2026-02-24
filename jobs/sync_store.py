@@ -28,6 +28,8 @@ def main():
     ap.add_argument("--watchlist", action="store_true")
     ap.add_argument("--interval", default="1h", choices=["1h", "1d"])
     ap.add_argument("--days", type=int, default=120)
+    ap.add_argument("--gap-threshold", type=int, default=7, help="auto-backfill if local gap exceeds N days")
+    ap.add_argument("--max-auto-days", type=int, default=730, help="cap for auto-backfill lookback days")
     args = ap.parse_args()
 
     if args.watchlist:
@@ -43,7 +45,14 @@ def main():
         tickers = ["SPY"] + tickers
 
     for t in tickers:
-        df = sync_and_load(t, interval=args.interval, lookback_days=args.days)
+        df = sync_and_load(
+            t,
+            interval=args.interval,
+            lookback_days=args.days,
+            # auto-backfill settings
+            gap_days_threshold=args.gap_threshold,
+            max_auto_lookback_days=args.max_auto_days,
+        )
         print(f"{t:<8} {args.interval} rows={len(df):>6}  range={df.index.min()} -> {df.index.max()}")
 
 
