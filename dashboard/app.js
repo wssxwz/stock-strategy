@@ -1331,13 +1331,15 @@ function renderFGGauge(value, labelZh) {
   // value 0→100 映射到 dashoffset：
   //   value=0   → 全空（offset=ARC_LEN，整段不显示）
   //   value=100 → 全满（offset=0，整段显示）
-  const pct = Math.max(0, Math.min(100, value)) / 100;
-  const offset = ARC_LEN * (1 - pct);
+  const v = Math.max(0, Math.min(100, value));
+  const pct = v / 100;
 
+  // 用 pathLength=100，把 dashoffset 直接设为 (100 - value)
+  // 这样缩放/viewBox 不会影响填充位置，稳定适配。
   const fillEl = document.getElementById('fg-fill');
   if (fillEl) {
     fillEl.style.transition = 'stroke-dashoffset 0.8s cubic-bezier(.4,0,.2,1)';
-    fillEl.style.strokeDashoffset = offset;
+    fillEl.style.strokeDashoffset = String(100 - v);
   }
 
   // 指针角度：
