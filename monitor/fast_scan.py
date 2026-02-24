@@ -14,6 +14,12 @@ import yfinance as yf
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
+
+# local parquet store
+try:
+    from data_store import sync_and_load
+except Exception:
+    sync_and_load = None
 from analyzer.indicators import add_all_indicators
 from signal_engine import score_signal, check_stabilization, format_signal_message
 from config import WATCHLIST, NOTIFY
@@ -114,11 +120,14 @@ def phase2_score(candidates: list) -> list:
             end = datetime.now()
             start = end - timedelta(days=59)
             # 注意：yfinance 的 end 是“非包含”，用 +1 天避免漏掉当天盘中数据
-            df = yf.Ticker(ticker).history(
-                start=start.strftime('%Y-%m-%d'),
-                end=(end + timedelta(days=1)).strftime('%Y-%m-%d'),
-                interval='1h', auto_adjust=True
-            )
+            if sync_and_load is not None:
+                df = sync_and_load(ticker, interval='1h', lookback_days=120)
+            else:
+                df = yf.Ticker(ticker).history(
+                    start=start.strftime('%Y-%m-%d'),
+                    end=(end + timedelta(days=1)).strftime('%Y-%m-%d'),
+                    interval='1h', auto_adjust=True
+                )
             if len(df) < 30:
                 continue
 
