@@ -341,14 +341,21 @@ async function loadMarketSnapshot() {
       const snap = document.getElementById('mkt-snapshot');
       snap.style.display = 'grid';
 
-      // 指数
+      // 指数（展示：收盘价 + 涨跌幅。只看涨幅不够“有意义”）
       const idxNames = {SPY:'标普500',QQQ:'纳斯达克',DIA:'道琼斯',IWM:'罗素2000'};
       document.getElementById('mkt-indices').innerHTML = Object.entries(mb.indices||{})
         .filter(([k])=>idxNames[k])
-        .map(([k,v])=>`<div class="mkt-row">
-          <span class="mkt-name">${idxNames[k]||k}</span>
-          <span class="mkt-val ${v.change_pct>=0?'up':'dn'}">${v.change_pct>=0?'+':''}${v.change_pct.toFixed(2)}%</span>
-        </div>`).join('');
+        .map(([k,v])=>{
+          const px = (v && typeof v.price === 'number') ? v.price : null;
+          const pxTxt = px!=null ? px.toFixed(2) : '--';
+          const cp = (v && typeof v.change_pct === 'number') ? v.change_pct : 0;
+          const cpTxt = `${cp>=0?'+':''}${cp.toFixed(2)}%`;
+          return `<div class="mkt-row" style="grid-template-columns:1fr auto auto;gap:10px">
+            <span class="mkt-name">${idxNames[k]||k}</span>
+            <span class="mkt-price" style="font-variant-numeric:tabular-nums;color:var(--text)">${pxTxt}</span>
+            <span class="mkt-val ${cp>=0?'up':'dn'}" style="font-variant-numeric:tabular-nums">${cpTxt}</span>
+          </div>`;
+        }).join('');
 
       // 大宗商品
       const cmdNames = {'GC=F':'黄金','CL=F':'原油','SI=F':'白银','NG=F':'天然气'};
