@@ -1386,16 +1386,15 @@ function renderFGGauge(value, labelZh) {
     fillEl.style.strokeDashoffset = String(100 - v);
   }
 
-  // 指针角度：
-  //   value=0   → rotate(-135)（左下）
-  //   value=50  → rotate(0)    （正上）
-  //   value=100 → rotate(135)  （右下）
-  // 注意：这是视觉指南针映射（不是数学角度），与 SVG 弧定义保持一致。
-  const angle = -135 + pct * 270;
+  // 指针角度（半圆 180°）：
+  //   value=0   → rotate(-90)（左端）
+  //   value=50  → rotate(0)   （正上）
+  //   value=100 → rotate(90)  （右端）
+  const angle = -90 + pct * 180;
   const needle = document.getElementById('fg-needle');
   if (needle) {
     needle.style.transition = 'transform 0.8s cubic-bezier(.4,0,.2,1)';
-    needle.setAttribute('transform', `translate(100,150) rotate(${angle.toFixed(1)})`);
+    needle.setAttribute('transform', `translate(100,120) rotate(${angle.toFixed(1)})`);
   }
 
   // 颜色随区间
