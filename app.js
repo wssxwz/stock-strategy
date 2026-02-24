@@ -1109,6 +1109,11 @@ window.toggleCalendar = function() {
   const btn    = banner.querySelector('.cal-toggle');
   banner.classList.toggle('cal-hidden', calCollapsed);
   btn.textContent = calCollapsed ? '展开 ▼' : '收起 ▲';
+
+  // 每次展开时强制重渲染一次（确保财报日期这类高敏信息不会被旧DOM/旧缓存卡住）
+  if (!calCollapsed) {
+    try { renderCalendar(); } catch(e) {}
+  }
 };
 
 // ── 财报弹窗 ──────────────────────────────────────────
@@ -1210,9 +1215,12 @@ async function renderCalendar() {
   const subEl  = document.getElementById('cal-sub');
 
   // 说明：日历信息对“日期准确性”要求极高。
-  // 之前 localStorage 的 6 小时缓存会导致已修正的数据（如财报日期）在手机端长期不刷新。
-  // 这里改为：每次渲染都强制拉取最新 calendar.json，并覆盖缓存。
+  // 这里策略：
+  //  - 每次渲染都强制拉取最新 calendar.json（no-store）
+  //  - 并清理旧的 6h 缓存，避免历史错误日期长期驻留
   let cal = null;
+  try { localStorage.removeItem('calendar_cache'); } catch(e) {}
+
   try {
     const res = await fetch('./calendar.json?_=' + Date.now(), { cache: 'no-store' });
     if (res.ok) {
