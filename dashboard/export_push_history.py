@@ -27,12 +27,17 @@ def build_content(sig: dict) -> str:
     sl     = sig.get('sl_price','')
     kb     = sig.get('kb_tag','')
 
+    price_src = sig.get('price_source') or ''
+    bar_time = sig.get('bar_time') or ''
+
     lines = [
         f"{kb}📊 评分: {score}/100",
-        f"💰 当前价: ${price}",
+        f"💰 当前价: ${price}" + (f"（{price_src}）" if price_src else ''),
+        (f"🕯️ 触发K线: {bar_time} (1H收盘)" if bar_time else '').strip(),
         f"📈 RSI14: {rsi}  |  BB%: {bb}",
         f"🎯 止盈: ${tp}  |  🛡️ 止损: ${sl}",
     ]
+    lines = [x for x in lines if x]
     return "\n".join(lines)
 
 

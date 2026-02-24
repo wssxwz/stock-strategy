@@ -293,6 +293,8 @@ def score_signal(row: pd.Series, ticker: str) -> dict:
         'details':     details,
         'warnings':    warnings_list,
         'scan_time':   datetime.now().strftime('%Y-%m-%d %H:%M'),
+        'bar_time':    row.name.strftime('%Y-%m-%d %H:%M') if getattr(row, 'name', None) is not None else None,
+        'bar_close':   round(price, 2),
     }
 
 
@@ -315,11 +317,32 @@ def format_signal_message(sig: dict) -> str:
     ma_status = '✅ MA200上方' if sig['above_ma200'] else ('⚠️ MA50上方' if sig['above_ma50'] else '❌ 均线下方')
 
     kb_tag_str = f"  {sig.get('kb_tag', '')}\n" if sig.get('kb_tag') else ''
+    # 会话标注（北京时间粗略映射美股盘前/盘中/盘后）
+    def _session_bj(ts: str) -> str:
+        try:
+            from datetime import datetime, time
+            dt = datetime.strptime(ts, '%Y-%m-%d %H:%M')
+            t = dt.time()
+            if time(16,0) <= t < time(21,30):
+                return '盘前'
+            if t >= time(21,30) or t < time(4,0):
+                return '盘中'
+            if time(4,0) <= t < time(8,0):
+                return '盘后'
+            return '休市'
+        except Exception:
+            return ''
+
+    sess = _session_bj(sig.get('scan_time',''))
+    sess_tag = f"（{sess}）" if sess else ''
+    bar_t = sig.get('bar_time')
+    bar_tag = f"\n🕯️ 触发K线: {bar_t} (1H收盘)" if bar_t else ''
+
     msg = f"""{emoji} **{ticker}** — {level}
 ━━━━━━━━━━━━━━━━━━
 {kb_tag_str}📊 评分: {score}/100
-💰 当前价: ${sig['price']}
-⏰ 时间: {sig['scan_time']} (北京)
+💰 当前价: ${sig['price']}（触发1H收盘价）
+⏰ 时间: {sig['scan_time']} (北京){sess_tag}{bar_tag}
 
 📈 技术指标:
   RSI14: {sig['rsi14']}  |  BB%: {sig['bb_pct']}

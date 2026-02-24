@@ -125,8 +125,12 @@ def phase2_score(candidates: list) -> list:
             df.columns = [c2.lower() for c2 in df.columns]
             df = add_all_indicators(df)
 
+            # 用“信号触发那根 1H K线的收盘价”作为价格口径（可复现）
             row = df.iloc[-1]
             sig = score_signal(row, ticker)
+            sig['bar_time']  = df.index[-1].strftime('%Y-%m-%d %H:%M')
+            sig['bar_close'] = round(float(row.get('close')), 2) if 'close' in row else sig.get('price')
+            sig['price'] = sig['bar_close']  # 统一口径：当前价=触发bar的收盘价
 
             # ── P0: 企稳确认（有完整 df，做全量检查）────────────
             stab = check_stabilization(df)
