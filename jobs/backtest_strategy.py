@@ -43,14 +43,21 @@ import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 from analyzer.indicators import add_all_indicators, add_crossover_signals
 
+# RS module (relative strength vs SPY)
+try:
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
+    from rs_strength import compute_rs_1y as compute_rs_1y_fn
+except Exception:
+    compute_rs_1y_fn = None
+
 
 @dataclass
 class Params:
     # entry
     rsi_entry: float = 45
     ret5_entry: float = -0.03
-    ret1y_min: float = 0.20
-    ret1y_lookback_bars: int = 1638  # ~252 trading days * 6.5 bars/day
+    rs_1y_min: float = 0.0  # RS_1Y > 0% (not weaker than SPY)
+    ret1y_lookback_bars: int = 1638  # kept for compatibility, but RS uses daily data
 
     # exits
     tp_pct: float = 0.13
@@ -88,7 +95,7 @@ def compute_ret1y(df: pd.DataFrame, i: int, lookback: int) -> float:
     return (cur_close - start_close) / start_close
 
 
-def entry_condition(df: pd.DataFrame, i: int, p: Params) -> Tuple[bool, Dict]:
+def entry_condition(df: pd.DataFrame, i: int, p: Params, ticker: str = "") -> Tuple[bool, Dict]:
     row = df.iloc[i]
 
     rsi = float(row.get("rsi14", 99))
@@ -96,13 +103,20 @@ def entry_condition(df: pd.DataFrame, i: int, p: Params) -> Tuple[bool, Dict]:
     above50 = int(row.get("above_ma50", 0))
     ret5 = float(row.get("ret_5d", 0))
     macd_h = float(row.get("macd_hist", 0))
-    ret_1y = compute_ret1y(df, i, p.ret1y_lookback_bars)
+    
+    # Use RS_1Y (relative strength vs SPY) instead of absolute ret1y
+    rs_1y = -999.0
+    if compute_rs_1y_fn is not None and ticker:
+        try:
+            rs_1y = compute_rs_1y_fn(ticker)
+        except Exception:
+            rs_1y = -999.0
 
     ok = (
         above200 == 1
         and rsi < p.rsi_entry
         and ret5 < p.ret5_entry
-        and ret_1y > p.ret1y_min
+        and rs_1y > p.rs_1y_min  # RS_1Y > 0% (not weaker than SPY)
         and macd_h < 0
     )
 
@@ -111,13 +125,13 @@ def entry_condition(df: pd.DataFrame, i: int, p: Params) -> Tuple[bool, Dict]:
         "above_ma200": above200,
         "above_ma50": above50,
         "ret_5d_pct": ret5 * 100,
-        "ret_1y_pct": ret_1y * 100,
+        "rs_1y": rs_1y,
         "macd_hist": macd_h,
     }
     return ok, meta
 
 
-def backtest(df: pd.DataFrame, p: Params) -> pd.DataFrame:
+def backtest(df: pd.DataFrame, p: Params, ticker: str = "") -> pd.DataFrame:
     if df.empty:
         return pd.DataFrame()
 
@@ -132,7 +146,7 @@ def backtest(df: pd.DataFrame, p: Params) -> pd.DataFrame:
 
     for i in range(start_i, len(df)):
         if not in_trade:
-            ok, meta = entry_condition(df, i, p)
+            ok, meta = entry_condition(df, i, p, ticker)
             if ok:
                 in_trade = True
                 entry_i = i
@@ -221,7 +235,7 @@ def main():
 
     ap.add_argument("--rsi", type=float, default=45)
     ap.add_argument("--ret5", type=float, default=-0.03)
-    ap.add_argument("--ret1y", type=float, default=0.20)
+    ap.add_argument("--rs_1y", type=float, default=0.0, help="RS_1Y min threshold (vs SPY, default 0.0)")
 
     ap.add_argument("--warmup", type=int, default=300)
     ap.add_argument("--ret1y_lookback", type=int, default=1638)
@@ -231,7 +245,7 @@ def main():
     p = Params(
         rsi_entry=args.rsi,
         ret5_entry=args.ret5,
-        ret1y_min=args.ret1y,
+        rs_1y_min=args.rs_1y,
         tp_pct=args.tp,
         sl_pct=args.sl,
         hold_max=args.hold,
@@ -244,7 +258,7 @@ def main():
         print(f"No data for {args.ticker}")
         return
 
-    trades = backtest(df, p)
+    trades = backtest(df, p, ticker=args.ticker)
     stats = summarize(trades)
 
     print(f"\n{args.ticker} 1H backtest ({args.period})")

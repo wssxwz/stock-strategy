@@ -13,6 +13,12 @@ from analyzer.indicators import add_all_indicators, add_crossover_signals
 from datetime import datetime
 from config import WATCHLIST, STRATEGY
 
+# 相对强度模块（RS vs SPY）
+try:
+    from rs_strength import compute_rs_1y
+except Exception:
+    compute_rs_1y = None
+
 
 def get_1h_data(ticker: str, days: int = 59) -> pd.DataFrame:
     """拉取1小时K线"""
@@ -222,6 +228,27 @@ def score_signal(row: pd.Series, ticker: str) -> dict:
     except Exception:
         pass
     score += kb_bonus
+
+    # ── 9. 相对强度 RS_1Y（vs SPY，新趋势过滤器）──
+    rs_1y = -999.0
+    if compute_rs_1y is not None:
+        try:
+            rs_1y = compute_rs_1y(ticker)
+        except Exception:
+            rs_1y = -999.0
+
+    # RS_1Y 打分：跑赢大盘才有额外分
+    if rs_1y > 10:
+        score += 10
+        details.append(f'✅ 显著跑赢大盘 RS_1Y={rs_1y:+.1f}%')
+    elif rs_1y > 0:
+        score += 5
+        details.append(f'✅ 跑赢大盘 RS_1Y={rs_1y:+.1f}%')
+    elif rs_1y > -10:
+        details.append(f'⚠️ 略弱于大盘 RS_1Y={rs_1y:+.1f}%')
+    else:
+        details.append(f'❌ 大幅跑输大盘 RS_1Y={rs_1y:+.1f}%')
+
     score = min(score, 100)
 
     # 计算参考止盈止损 + 建议买入价
@@ -297,6 +324,7 @@ def score_signal(row: pd.Series, ticker: str) -> dict:
         'bar_time':    row.name.strftime('%Y-%m-%d %H:%M') if getattr(row, 'name', None) is not None else None,
         'bar_close':   round(price, 2),
         'price_source': '1H_bar_close',
+        'rs_1y':       rs_1y,
     }
 
 
