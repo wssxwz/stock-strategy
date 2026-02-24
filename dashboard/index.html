@@ -357,7 +357,7 @@ textarea{width:100%;height:180px;padding:12px;background:#0f172a;border:1px soli
           弧长 = 2πr×270/360 ≈ 471.24
           指针：value=0→-135°, 50→0°, 100→135°
         -->
-        <svg id="fg-gauge" class="svg-responsive" viewBox="-15 -10 230 150" preserveAspectRatio="xMidYMid meet" style="overflow:hidden">
+        <svg id="fg-gauge" class="svg-responsive" viewBox="0 0 200 120" preserveAspectRatio="xMidYMid meet" style="overflow:visible">
           <defs>
             <linearGradient id="fg-grad" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%"   stop-color="#ef4444"/>
@@ -374,17 +374,17 @@ textarea{width:100%;height:180px;padding:12px;background:#0f172a;border:1px soli
 
           <!-- 背景轨道 -->
           <path d="M 29.29 49.29 A 100 100 0 1 1 170.71 49.29"
-            fill="none" stroke="#1e293b" stroke-width="13" stroke-linecap="round"/>
+            fill="none" stroke="#1e293b" stroke-width="13" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
 
           <!-- 外围细圈（更有“指南针”质感） -->
           <path d="M 29.29 49.29 A 100 100 0 1 1 170.71 49.29"
-            fill="none" stroke="#334155" stroke-width="2" stroke-linecap="round" opacity="0.9"/>
+            fill="none" stroke="#334155" stroke-width="2" stroke-linecap="round" opacity="0.9" vector-effect="non-scaling-stroke"/>
 
           <!-- 彩色进度弧 -->
           <path id="fg-fill"
             d="M 29.29 49.29 A 100 100 0 1 1 170.71 49.29"
             fill="none" stroke="url(#fg-grad)" stroke-width="13" stroke-linecap="round"
-            stroke-dasharray="471.24 471.24" stroke-dashoffset="471.24"/>
+            stroke-dasharray="471.24 471.24" stroke-dashoffset="471.24" vector-effect="non-scaling-stroke"/>
 
           <!-- 区间刻度：25/45/55/75 -->
           <line x1="0" y1="-92" x2="0" y2="-106" stroke="#0f172a" stroke-width="2"
