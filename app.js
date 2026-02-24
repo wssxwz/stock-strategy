@@ -58,11 +58,9 @@ function initTabs() {
 
 function renderTab(tab) {
   if (tab==='overview')  renderOverview();
-  if (tab==='push')      renderPush();
-  if (tab==='signals')   renderSignals();
   if (tab==='positions') renderPositions();
-  if (tab==='history')   renderHistory();
-  if (tab==='weekly')    renderWeekly();
+  if (tab==='trade')     renderTradeSignals();
+  if (tab==='flash')     renderFlash();
   if (tab==='settings')  renderSettings();
 }
 
@@ -881,31 +879,98 @@ window.closePosition = function(id, type) {
   updateStats();
 };
 
-// ── Tab: 信号推送（合并：推送历史 + 信号列表） ───────────
-let pushSubtab = 'history';
-window.setPushSubtab = function(tab) {
-  pushSubtab = tab;
-  const hBtn = document.getElementById('push-subtab-history');
-  const sBtn = document.getElementById('push-subtab-signals');
-  const hView = document.getElementById('push-view-history');
-  const sView = document.getElementById('push-view-signals');
-  if (!hBtn || !sBtn || !hView || !sView) return;
+// ── Tab: 买卖信号 + 速报推送（新框架）────────────────────
+function _getHist() {
+  // 使用 push_history（localStorage）作为统一展示源
+  return DB.history() || [];
+}
 
-  const isHist = tab === 'history';
-  hBtn.classList.toggle('active', isHist);
-  sBtn.classList.toggle('active', !isHist);
-  hView.style.display = isHist ? 'block' : 'none';
-  sView.style.display = isHist ? 'none' : 'block';
+// 买卖信号：只展示批量扫描提醒
+function renderTradeSignals() {
+  const el = document.getElementById('trade-batch-list');
+  if (!el) return;
+  const hist = _getHist();
+  const batches = hist.filter(x => x && x.type === 'buy_signal_batch');
+  if (!batches.length) {
+    el.innerHTML = '<div class="empty-msg">暂无批量扫描提醒</div>';
+    return;
+  }
 
-  if (isHist) renderHistory();
-  else renderSignals();
+  el.innerHTML = batches.map(h => {
+    const badge = h.signal_count ? `<span class="badge" style="margin-left:8px;font-size:11px;background:var(--gold);color:#000">📊 ${h.signal_count}只</span>` : '';
+    const strongBadge = h.strong_count ? `<span class="badge" style="margin-left:4px;font-size:11px;background:#ef4444;color:#fff">🔥 ${h.strong_count}强</span>` : '';
+    return `
+      <div class="hist-item" onclick="toggleExpand(this)">
+        <div class="hist-left">
+          <span class="hist-icon">📣</span>
+          <div>
+            <div class="hist-title">${h.title || '批量扫描'}${badge}${strongBadge}</div>
+            <div class="timeline-preview">${(h.summary||h.content||'').slice(0,120)}...</div>
+            <pre class="timeline-full" style="display:none;white-space:pre-wrap;font-family:inherit;font-size:13px;margin-top:8px;color:#cbd5e1">${h.raw || h.content || ''}</pre>
+          </div>
+        </div>
+        <div class="hist-time">${(h.time||'').slice(-5)}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// 速报推送：多子类筛选
+let flashSubtab = 'all';
+window.setFlashSubtab = function(tab) {
+  flashSubtab = tab;
+  const ids = ['all','overnight','pre','weekly'];
+  ids.forEach(id => {
+    const btn = document.getElementById('flash-subtab-' + id);
+    if (btn) btn.classList.toggle('active', id === tab);
+  });
+  renderFlash();
 };
 
-function renderPush() {
-  // 默认展示“推送”子页
-  try { setPushSubtab(pushSubtab || 'history'); } catch(e) {
-    renderHistory();
+function renderFlash() {
+  const el = document.getElementById('flash-list');
+  if (!el) return;
+
+  const hist = _getHist();
+
+  let items = hist.filter(x => x && x.type !== 'buy_signal_batch');
+
+  // 分类映射
+  if (flashSubtab === 'overnight') {
+    items = items.filter(x => x.type === 'morning_brief');
+  } else if (flashSubtab === 'pre') {
+    items = items.filter(x => x.type === 'deep_analysis');
+  } else if (flashSubtab === 'weekly') {
+    // 周末总结：沿用 weekly_reports.json（不走 push_history）
+    el.innerHTML = '<div class="empty-msg">周末总结请在此处展示（已迁移中）</div>';
+    // TODO: 复用 renderWeekly 的列表渲染逻辑到这里
+    return;
   }
+
+  if (!items.length) {
+    el.innerHTML = '<div class="empty-msg">暂无推送</div>';
+    return;
+  }
+
+  const typeIcon  = {morning_brief:'🌅',deep_analysis:'📊',buy_signal:'🎯',evening_review:'🌙',exit_alert:'🛡️'};
+  const typeLabel = {morning_brief:'全球市场overnight',deep_analysis:'盘前分析',buy_signal:'买入信号',evening_review:'收盘复盘',exit_alert:'出场提醒'};
+
+  // 统一按 time 新到旧
+  items = items.slice().sort((a,b)=>(b.time||'').localeCompare(a.time||''));
+
+  el.innerHTML = items.map(h => `
+    <div class="hist-item" onclick="toggleExpand(this)">
+      <div class="hist-left">
+        <span class="hist-icon">${typeIcon[h.type]||'📌'}</span>
+        <div>
+          <div class="hist-title">${typeLabel[h.type]||h.title||'推送'}</div>
+          <div class="timeline-preview">${(h.summary||h.content||'').slice(0,120)}...</div>
+          <pre class="timeline-full" style="display:none;white-space:pre-wrap;font-family:inherit;font-size:13px;margin-top:8px;color:#cbd5e1">${h.raw || h.content || ''}</pre>
+        </div>
+      </div>
+      <div class="hist-time">${(h.time||'').slice(-5)}</div>
+    </div>
+  `).join('');
 }
 
 // ── Tab 4: 推送历史 ───────────────────────────────────
