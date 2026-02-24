@@ -372,11 +372,12 @@ async function loadMarketSnapshot() {
           <span class="mkt-val dn">${v.change_pct.toFixed(2)}%</span></div>`)
         ].join('');
 
-      // 恐惧贪婪
+      // 恐惧贪婪指南针
       const fg = mb.fear_greed || {};
       document.getElementById('mkt-fg-emoji').textContent = fg.emoji || '😐';
       document.getElementById('mkt-fg-label').textContent = fg.label_zh || fg.label || '--';
-      document.getElementById('mkt-fg-val').textContent = fg.value ? `${fg.value}/100 · 恐惧贪婪指数` : '恐惧贪婪指数';
+      document.getElementById('mkt-fg-val').textContent = fg.value ? `${fg.value}/100` : '--';
+      if (fg.value != null) renderFGGauge(fg.value, fg.label_zh || fg.label || '');
 
       return; // 成功则返回
     } catch(e) {}
@@ -1321,3 +1322,49 @@ async function init() {
   updateStats();
 }
 document.addEventListener('DOMContentLoaded', init);
+
+// ── 恐惧贪婪指南针 ────────────────────────────────────────────────────────────
+function renderFGGauge(value, labelZh) {
+  // 弧线总长（270°，r=100）= 2π×100×(270/360) ≈ 471.24
+  const ARC_LEN = 471.24;
+
+  // value 0→100 映射到 dashoffset：
+  //   value=0   → 全空（offset=ARC_LEN，整段不显示）
+  //   value=100 → 全满（offset=0，整段显示）
+  const pct = Math.max(0, Math.min(100, value)) / 100;
+  const offset = ARC_LEN * (1 - pct);
+
+  const fillEl = document.getElementById('fg-fill');
+  if (fillEl) {
+    fillEl.style.transition = 'stroke-dashoffset 0.8s cubic-bezier(.4,0,.2,1)';
+    fillEl.style.strokeDashoffset = offset;
+  }
+
+  // 指针角度：
+  //   value=0   → rotate(-135)（左下，225°方向）
+  //   value=50  → rotate(0)   （正上，270°方向）
+  //   value=100 → rotate(135) （右下，315°方向）
+  const angle = -135 + pct * 270;
+  const needle = document.getElementById('fg-needle');
+  if (needle) {
+    needle.style.transition = 'transform 0.8s cubic-bezier(.4,0,.2,1)';
+    needle.setAttribute('transform', `translate(100,120) rotate(${angle.toFixed(1)})`);
+  }
+
+  // 颜色随区间
+  const color = value < 25 ? '#ef4444'
+              : value < 45 ? '#f97316'
+              : value < 55 ? '#eab308'
+              : value < 75 ? '#84cc16'
+              : '#22c55e';
+
+  const valText = document.getElementById('fg-value-text');
+  const lblText = document.getElementById('fg-label-text');
+  if (valText) { valText.textContent = value; valText.setAttribute('fill', color); }
+  if (lblText) { lblText.textContent = labelZh; lblText.setAttribute('fill', color); }
+
+  // emoji
+  const emoji = value < 25 ? '😱' : value < 45 ? '😰' : value < 55 ? '😐' : value < 75 ? '😏' : '🤑';
+  const emojiEl = document.getElementById('mkt-fg-emoji');
+  if (emojiEl) emojiEl.textContent = emoji;
+}
