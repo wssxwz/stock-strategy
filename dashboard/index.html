@@ -357,7 +357,7 @@ textarea{width:100%;height:180px;padding:12px;background:#0f172a;border:1px soli
           弧长 = 2πr×270/360 ≈ 471.24
           指针：value=0→-135°, 50→0°, 100→135°
         -->
-        <svg id="fg-gauge" class="svg-responsive" viewBox="0 0 200 120" preserveAspectRatio="xMidYMid meet" style="overflow:visible">
+        <svg id="fg-gauge" class="svg-responsive" viewBox="0 0 200 160" preserveAspectRatio="xMidYMid meet" style="overflow:visible">
           <defs>
             <linearGradient id="fg-grad" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%"   stop-color="#ef4444"/>
@@ -373,29 +373,35 @@ textarea{width:100%;height:180px;padding:12px;background:#0f172a;border:1px soli
           </defs>
 
           <!-- 背景轨道 -->
-          <path d="M 29.29 49.29 A 100 100 0 1 1 170.71 49.29"
+          <!--
+            弧线几何重新校准（更贴近你截图的“上半圆”位置）
+            圆心： (100, 150)  半径：85
+            起点： (35, 63)   终点：(165, 63)
+            仍然是 270°弧：225° → (large-arc=1,sweep=1) → 315°
+          -->
+          <path d="M 35 63 A 85 85 0 1 1 165 63"
             fill="none" stroke="#1e293b" stroke-width="13" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
 
-          <!-- 外围细圈（更有“指南针”质感） -->
-          <path d="M 29.29 49.29 A 100 100 0 1 1 170.71 49.29"
+          <!-- 外围细圈 -->
+          <path d="M 35 63 A 85 85 0 1 1 165 63"
             fill="none" stroke="#334155" stroke-width="2" stroke-linecap="round" opacity="0.9" vector-effect="non-scaling-stroke"/>
 
           <!-- 彩色进度弧（渐变填充到当前值） -->
           <path id="fg-fill"
-            d="M 29.29 49.29 A 100 100 0 1 1 170.71 49.29"
+            d="M 35 63 A 85 85 0 1 1 165 63"
             fill="none" stroke="url(#fg-grad)" stroke-width="13" stroke-linecap="round"
-            stroke-dasharray="471.24 471.24" stroke-dashoffset="471.24"
+            stroke-dasharray="400.00 400.00" stroke-dashoffset="400.00"
             vector-effect="non-scaling-stroke" pathLength="100"/>
 
           <!-- 区间刻度：25/45/55/75 -->
-          <line x1="0" y1="-92" x2="0" y2="-106" stroke="#0f172a" stroke-width="2"
-            stroke-linecap="round" opacity="0.55" transform="translate(100,120) rotate(-67.5)"/>
-          <line x1="0" y1="-92" x2="0" y2="-106" stroke="#0f172a" stroke-width="2"
-            stroke-linecap="round" opacity="0.55" transform="translate(100,120) rotate(-13.5)"/>
-          <line x1="0" y1="-92" x2="0" y2="-106" stroke="#0f172a" stroke-width="2"
-            stroke-linecap="round" opacity="0.55" transform="translate(100,120) rotate(13.5)"/>
-          <line x1="0" y1="-92" x2="0" y2="-106" stroke="#0f172a" stroke-width="2"
-            stroke-linecap="round" opacity="0.55" transform="translate(100,120) rotate(67.5)"/>
+          <line x1="0" y1="-78" x2="0" y2="-90" stroke="#0f172a" stroke-width="2"
+            stroke-linecap="round" opacity="0.55" transform="translate(100,150) rotate(-67.5)"/>
+          <line x1="0" y1="-78" x2="0" y2="-90" stroke="#0f172a" stroke-width="2"
+            stroke-linecap="round" opacity="0.55" transform="translate(100,150) rotate(-13.5)"/>
+          <line x1="0" y1="-78" x2="0" y2="-90" stroke="#0f172a" stroke-width="2"
+            stroke-linecap="round" opacity="0.55" transform="translate(100,150) rotate(13.5)"/>
+          <line x1="0" y1="-78" x2="0" y2="-90" stroke="#0f172a" stroke-width="2"
+            stroke-linecap="round" opacity="0.55" transform="translate(100,150) rotate(67.5)"/>
 
           <!-- 5区间标签（为避免溢出，端部两标签内收） -->
           <text x="20"  y="92" font-size="9" fill="#ef4444" text-anchor="middle" font-weight="800">极恐</text>
@@ -405,13 +411,13 @@ textarea{width:100%;height:180px;padding:12px;background:#0f172a;border:1px soli
           <text x="180" y="92" font-size="9" fill="#22c55e" text-anchor="middle" font-weight="800">极贪</text>
 
           <!-- 指针 -->
-          <g id="fg-needle" transform="translate(100,120) rotate(-135)" filter="url(#needle-glow)">
-            <polygon points="0,-90 -4,0 4,0" fill="#f1f5f9" opacity="0.95"/>
+          <g id="fg-needle" transform="translate(100,150) rotate(-135)" filter="url(#needle-glow)">
+            <polygon points="0,-78 -4,0 4,0" fill="#0f172a" opacity="0.9"/>
           </g>
 
           <!-- 圆心轴帽 -->
-          <circle cx="100" cy="120" r="7" fill="#1e293b" stroke="#475569" stroke-width="2"/>
-          <circle cx="100" cy="120" r="3" fill="#94a3b8"/>
+          <circle cx="100" cy="150" r="7" fill="#0f172a" stroke="#475569" stroke-width="2"/>
+          <circle cx="100" cy="150" r="3" fill="#94a3b8"/>
 
           <!-- 中心数值/标签 -->
           <text id="fg-value-text" x="100" y="82" font-size="26" font-weight="900"
