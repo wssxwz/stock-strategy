@@ -29,6 +29,18 @@ WATCHLIST_ALL = [
 TIER1 = {'TSLA','GOOGL','NVDA','META'}
 TIER2 = {'RKLB','ASTS','PLTR','AMD','AVGO','LLY','AMZN','MSFT','AAPL','CRWD','NOW','DDOG','NEM','GDX'}
 
+# ── 财报日期手工纠错（优先级最高）────────────────────────────
+# 说明：Yahoo/yfinance 的 Earnings Date 偶尔会偏差 1 天。
+# 女王陛下确认：NVDA 财报为 02-25 周三盘后。
+EARNINGS_OVERRIDES = {
+    'NVDA': {
+        'earnings_date': '2026-02-25',
+        'timing': 'AMC',
+        'source': 'manual',
+        'note': '女王确认：周三盘后',
+    }
+}
+
 # ── 固定经济日历（每月/每周规律发布）──
 # 格式: (月日偏移规则, 事件名, 重要性, 影响)
 # 这里用"已知即将发布日期"硬编码 + 动态规则两种方式
@@ -166,12 +178,21 @@ def get_earnings_calendar(weeks_ahead: int = 6) -> list:
 
     for ticker in WATCHLIST_ALL:
         try:
-            tk  = yf.Ticker(ticker)
-            cal = tk.calendar
-            earnings_dates = cal.get('Earnings Date', [])
-            if not earnings_dates:
-                continue
-            ed = earnings_dates[0]
+            # ── 手工纠错优先（避免 yfinance 偏差） ─────────────
+            override = EARNINGS_OVERRIDES.get(ticker)
+            if override:
+                ed = datetime.strptime(override['earnings_date'], '%Y-%m-%d').date()
+                timing = override.get('timing', '')
+                info = {}
+                tk = None
+                cal = {}
+            else:
+                tk  = yf.Ticker(ticker)
+                cal = tk.calendar
+                earnings_dates = cal.get('Earnings Date', [])
+                if not earnings_dates:
+                    continue
+                ed = earnings_dates[0]
             if isinstance(ed, datetime):
                 ed = ed.date()
             if ed < today or ed > cutoff:
@@ -182,18 +203,19 @@ def get_earnings_calendar(weeks_ahead: int = 6) -> list:
             seen.add(key)
 
             # 盘前/盘后
-            try:
-                info   = tk.info
-                timing = get_earnings_timing(info)
-            except Exception:
-                timing = ''
+            if not override:
+                try:
+                    info   = tk.info
+                    timing = get_earnings_timing(info)
+                except Exception:
+                    timing = ''
 
             timing_zh  = {'BMO': '盘前📈', 'AMC': '盘后🌙', '': '时间待定'}.get(timing, '')
             timing_tag = f" [{timing_zh}]" if timing_zh else ''
 
-            eps_avg  = cal.get('Earnings Average')
-            eps_high = cal.get('Earnings High')
-            eps_low  = cal.get('Earnings Low')
+            eps_avg  = cal.get('Earnings Average') if isinstance(cal, dict) else None
+            eps_high = cal.get('Earnings High') if isinstance(cal, dict) else None
+            eps_low  = cal.get('Earnings Low') if isinstance(cal, dict) else None
 
             is_tier1   = ticker in TIER1
             is_tier2   = ticker in TIER2
