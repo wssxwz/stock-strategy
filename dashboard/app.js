@@ -1017,10 +1017,8 @@ function renderHistory() {
 
 // ── Tab 5: 周末总结 ───────────────────────────────────
 async function renderFlashWeekly() {
-  // 展示到「速报推送 → 周末总结」
-  const list    = document.getElementById('flash-weekly-list');
-  const content = document.getElementById('flash-weekly-content');
-  if (!list || !content) return;
+  const feed = document.getElementById('flash-weekly-feed');
+  if (!feed) return;
 
   // 优先从 localStorage，其次从同域 JSON 文件加载
   let reports = DB.get('weekly_reports', []);
@@ -1038,68 +1036,93 @@ async function renderFlashWeekly() {
   reports = (reports || []).slice().sort((a,b)=> (b.generated_at||b.date||'').localeCompare(a.generated_at||a.date||''));
 
   if (!reports.length) {
-    list.innerHTML = '<div style="font-size:13px;color:var(--muted)">暂无周报</div>';
-    content.innerHTML = '<div class="empty-msg">每周一自动生成，也可手动导入</div>';
+    feed.innerHTML = '<div class="empty-msg">暂无周末总结</div>';
     return;
   }
 
-  list.innerHTML = reports.map((r,i) => `
-    <div class="weekly-item ${i===0?'active':''}" onclick="showFlashWeekly(${i})" id="fwitem-${i}">
-      <div style="font-weight:600;font-size:13px">${r.week_label||r.date}</div>
-      <div style="font-size:11px;color:var(--muted);margin-top:2px">${(r.generated_at||'').slice(0,10)||''}</div>
-    </div>`).join('');
+  // 标题：几月几号-几月几号周末速递
+  const rangeTitle = (r) => {
+    // 优先使用 week_label（如 2026/02/23 当周），否则用 date
+    const d = (r.date || (r.generated_at||'').slice(0,10) || '').replaceAll('/','-');
+    if (!d) return (r.week_label||'周末速递');
+    // 用 date 作为周起点（数据里一般是周一），结束=+6天
+    try {
+      const dt = new Date(d + 'T12:00:00');
+      const end = new Date(dt); end.setDate(dt.getDate()+6);
+      const fmt = (x)=>`${String(x.getMonth()+1).padStart(2,'0')}.${String(x.getDate()).padStart(2,'0')}`;
+      return `${fmt(dt)}-${fmt(end)} 周末速递`;
+    } catch(e) {
+      return `${d.slice(5)} 周末速递`;
+    }
+  };
 
-  window._flashWeeklyReports = reports;
-  showFlashWeekly(0);
-}
+  // 一行正文：优先 outlook.summary，其次取首条事件
+  const oneLine = (r) => {
+    const o = r.market_outlook || {};
+    if (o.summary) return o.summary;
+    const ev = (r.weekend_events||[])[0];
+    if (ev && (ev.title||ev.detail)) return `${ev.title||''}${ev.detail?('：'+ev.detail):''}`;
+    return '点击展开查看详情';
+  };
 
-window.showFlashWeekly = function(idx) {
-  const reports = window._flashWeeklyReports || [];
-  const r = reports[idx];
-  if (!r) return;
+  const detailsText = (r) => {
+    const outlook = r.market_outlook || {};
+    const events  = r.weekend_events || [];
+    const stocks  = r.core_stocks || [];
+    const risks   = r.risks || [];
+    const strategy= r.strategy || [];
 
-  document.querySelectorAll('#flash-weekly-list .weekly-item').forEach((el,i) =>
-    el.classList.toggle('active', i===idx));
+    const lines = [];
+    lines.push(`🗓️ ${r.week_label||r.date||''}`);
+    if (outlook.mood) lines.push(`\n${outlook.mood_emoji||''} 市场情绪：${outlook.mood}`);
+    if (outlook.summary) lines.push(`- 展望：${outlook.summary}`);
+    if (outlook.bias) lines.push(`- 偏向：${outlook.bias}`);
+    if (outlook.action) lines.push(`- 操作：${outlook.action}`);
 
-  const content = document.getElementById('flash-weekly-content');
+    if (events.length) {
+      lines.push(`\n🗞️ 周末重大事件`);
+      events.forEach(e=>{
+        lines.push(`- ${e.emoji||'📌'} ${e.title}${e.detail?('：'+e.detail):''}`);
+      });
+    }
 
-  // 复用周报渲染结构（复制自 showWeekly）
-  const sectionHTML = (icon, title, items) => items&&items.length ? `
-    <div class="wr-section">
-      <div class="wr-section-title">${icon} ${title}</div>
-      ${items.map(it=>`<div class="wr-item">${it}</div>`).join('')}
-    </div>` : '';
+    if (stocks.length) {
+      lines.push(`\n⭐ 核心关注`);
+      stocks.forEach(s=>lines.push(`- ${s.ticker}：${s.note||''}`));
+    }
 
-  const events  = r.weekend_events || [];
-  const outlook = r.market_outlook  || {};
-  const stocks  = r.core_stocks     || [];
-  const risks   = r.risks           || [];
-  const strategy= r.strategy        || [];
+    if (risks.length) {
+      lines.push(`\n⚠️ 风险提示`);
+      risks.forEach(x=>lines.push(`- ${x}`));
+    }
 
-  content.innerHTML = `
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
-      <div>
-        <div style="font-size:20px;font-weight:700">${r.week_label||r.date} 周末市场总结</div>
-        <div style="font-size:12px;color:var(--muted);margin-top:4px">生成于 ${(r.generated_at||'').slice(0,16)||''}</div>
-      </div>
-      <div class="mood-badge-wr ${outlook.mood_class||''}">${outlook.mood_emoji||''} ${outlook.mood||'--'}</div>
-    </div>
+    if (strategy.length) {
+      lines.push(`\n🧭 下周策略`);
+      strategy.forEach(x=>lines.push(`- ${x}`));
+    }
 
-    ${sectionHTML('🗞️','周末重大事件', events.map(e=>`
-      <div style="display:flex;gap:10px;align-items:flex-start">
-        <span style="font-size:16px;flex-shrink:0">${e.emoji||'📌'}</span>
-        <div>
-          <div style="font-weight:600;font-size:14px">${e.title}</div>
-          <div style="font-size:13px;color:var(--muted);margin-top:2px">${e.detail}</div>
-          <div class="badge ${e.impact_class||'neutral'}" style="margin-top:4px">${e.impact}</div>
+    return lines.join('\n');
+  };
+
+  feed.innerHTML = reports.map((r,i)=>{
+    const open = i===0;
+    return `
+      <div class="hist-item" onclick="toggleExpand(this)" style="margin-bottom:10px">
+        <div class="hist-left">
+          <span class="hist-icon">📅</span>
+          <div>
+            <div class="hist-title">${rangeTitle(r)}</div>
+            <div class="timeline-preview">${oneLine(r)}</div>
+            <pre class="timeline-full" style="display:${open?'block':'none'};white-space:pre-wrap;font-family:inherit;font-size:13px;margin-top:8px;color:#cbd5e1">${detailsText(r)}</pre>
+          </div>
         </div>
-      </div>`))}
+        <div class="hist-time">${(r.generated_at||r.date||'').slice(0,10).slice(5).replace('-','.')}</div>
+      </div>
+    `;
+  }).join('');
 
-    ${sectionHTML('🔭','市场展望', [outlook.summary, outlook.bias, outlook.action].filter(Boolean))}
-    ${sectionHTML('⭐','核心关注', (stocks||[]).map(s=>`${s.ticker}：${s.note||''}`))}
-    ${sectionHTML('⚠️','风险提示', risks)}
-    ${sectionHTML('🧭','下周策略', strategy)}
-  `;
+  // 默认展开第一条：让 preview 仍可见
+  // toggleExpand 会切换 timeline-full 显示
 }
 
 // ── Tab 5: 周末总结 ───────────────────────────────────
