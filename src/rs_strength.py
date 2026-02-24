@@ -16,9 +16,40 @@ TRADING_DAYS_1Y = 252
 CALENDAR_DAYS_1Y = 400  # ~252 trading days + weekends/holidays
 
 
+def _normalize(df: pd.DataFrame) -> pd.DataFrame:
+    if df is None or df.empty:
+        return pd.DataFrame()
+    df = df.dropna().copy()
+    try:
+        df.index = df.index.tz_convert(None)
+    except Exception:
+        try:
+            df.index = df.index.tz_localize(None)
+        except Exception:
+            pass
+    df.columns = [c.lower() for c in df.columns]
+    df = df[~df.index.duplicated(keep='last')].sort_index()
+    return df
+
+
+def _load_local_1d(ticker: str) -> pd.DataFrame:
+    """Try load 1D data from local parquet store."""
+    try:
+        from data_store import load_local
+        return _normalize(load_local(ticker, interval='1d'))
+    except Exception:
+        return pd.DataFrame()
+
+
 @lru_cache(maxsize=500)
 def get_spy_history(days: int = CALENDAR_DAYS_1Y) -> pd.DataFrame:
-    """获取 SPY 历史数据（缓存）"""
+    """获取 SPY 历史数据（优先本地 store，其次 yfinance，带缓存）"""
+    # 1) local store
+    local = _load_local_1d(SPY_TICKER)
+    if not local.empty and len(local) >= TRADING_DAYS_1Y + 10:
+        return local
+
+    # 2) fallback yfinance
     end = datetime.now()
     start = end - timedelta(days=days)
     df = yf.Ticker(SPY_TICKER).history(
@@ -26,11 +57,7 @@ def get_spy_history(days: int = CALENDAR_DAYS_1Y) -> pd.DataFrame:
         end=(end + timedelta(days=1)).strftime('%Y-%m-%d'),
         interval='1d', auto_adjust=True
     )
-    if df is None or df.empty:
-        return pd.DataFrame()
-    df.index = df.index.tz_localize(None) if df.index.tzinfo else df.index
-    df.columns = [c.lower() for c in df.columns]
-    return df
+    return _normalize(df)
 
 
 def compute_rs_1y(ticker: str) -> float:
@@ -41,20 +68,23 @@ def compute_rs_1y(ticker: str) -> float:
     end = datetime.now()
     start = end - timedelta(days=CALENDAR_DAYS_1Y)
 
-    try:
-        stock_df = yf.Ticker(ticker).history(
-            start=start.strftime('%Y-%m-%d'),
-            end=(end + timedelta(days=1)).strftime('%Y-%m-%d'),
-            interval='1d', auto_adjust=True
-        )
-    except Exception:
-        return -999.0
+    # 1) local store first
+    stock_df = _load_local_1d(ticker)
 
-    if stock_df is None or stock_df.empty or 'Close' not in stock_df.columns:
-        return -999.0
+    # 2) fallback yfinance
+    if stock_df.empty:
+        try:
+            stock_df = yf.Ticker(ticker).history(
+                start=start.strftime('%Y-%m-%d'),
+                end=(end + timedelta(days=1)).strftime('%Y-%m-%d'),
+                interval='1d', auto_adjust=True
+            )
+            stock_df = _normalize(stock_df)
+        except Exception:
+            return -999.0
 
-    stock_df.index = stock_df.index.tz_localize(None) if stock_df.index.tzinfo else stock_df.index
-    stock_df.columns = [c.lower() for c in stock_df.columns]
+    if stock_df.empty or 'close' not in stock_df.columns:
+        return -999.0
 
     spy_df = get_spy_history(CALENDAR_DAYS_1Y)
     if spy_df.empty or 'close' not in spy_df.columns:
