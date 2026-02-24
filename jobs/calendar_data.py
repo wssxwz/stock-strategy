@@ -108,14 +108,19 @@ def get_earnings_details(ticker: str) -> dict:
             'market_cap': info.get('marketCap'),
         }
         
-        # 财报日期和时间
-        earnings_dates = cal.get('Earnings Date', [])
-        if earnings_dates:
-            ed = earnings_dates[0]
-            if isinstance(ed, datetime):
-                ed = ed.date()
-            result['earnings_date'] = str(ed)
-            result['timing'] = get_earnings_timing(info)
+        # 财报日期和时间（手工纠错优先，保证详情与事件列表一致）
+        override = EARNINGS_OVERRIDES.get(ticker)
+        if override:
+            result['earnings_date'] = override.get('earnings_date')
+            result['timing'] = override.get('timing') or get_earnings_timing(info)
+        else:
+            earnings_dates = cal.get('Earnings Date', [])
+            if earnings_dates:
+                ed = earnings_dates[0]
+                if isinstance(ed, datetime):
+                    ed = ed.date()
+                result['earnings_date'] = str(ed)
+                result['timing'] = get_earnings_timing(info)
         
         # 预期值
         result['eps_estimate'] = cal.get('Earnings Average')
