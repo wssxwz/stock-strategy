@@ -377,7 +377,10 @@ async function loadMarketSnapshot() {
       document.getElementById('mkt-fg-emoji').textContent = fg.emoji || '😐';
       document.getElementById('mkt-fg-label').textContent = fg.label_zh || fg.label || '--';
       document.getElementById('mkt-fg-val').textContent = fg.value ? `${fg.value}/100` : '--';
-      if (fg.value != null) renderFGGauge(fg.value, fg.label_zh || fg.label || '');
+      if (fg.value != null) {
+        renderFGGauge(fg.value, fg.label_zh || fg.label || '');
+        renderFGMinis(d); // 用 data/daily 的日期串推导昨日/上周/上月
+      }
 
       return; // 成功则返回
     } catch(e) {}
@@ -1324,6 +1327,47 @@ async function init() {
 document.addEventListener('DOMContentLoaded', init);
 
 // ── 恐惧贪婪指南针 ────────────────────────────────────────────────────────────
+function fmtFgLabel(v){
+  if (v < 25) return '极度恐惧';
+  if (v < 45) return '恐惧';
+  if (v < 55) return '中性';
+  if (v < 75) return '贪婪';
+  return '极度贪婪';
+}
+
+async function renderFGMinis(dateStr){
+  // dateStr: YYYY-MM-DD（来自 data/daily 文件名）
+  const d0 = new Date(dateStr + 'T00:00:00');
+  const yday = new Date(d0); yday.setDate(d0.getDate()-1);
+  const wk   = new Date(d0); wk.setDate(d0.getDate()-7);
+  const mo   = new Date(d0); mo.setMonth(d0.getMonth()-1);
+
+  const fmt = (dt)=> `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
+  const targets = [
+    {id:'fg-mini-yday', label:'昨日',   ds: fmt(yday)},
+    {id:'fg-mini-wk',   label:'上周',   ds: fmt(wk)},
+    {id:'fg-mini-mo',   label:'上月',   ds: fmt(mo)},
+  ];
+
+  for (const t of targets){
+    const box = document.getElementById(t.id);
+    if (!box) continue;
+    const vEl = box.querySelector('.v');
+    if (vEl) vEl.textContent = '...';
+    try{
+      const res = await fetch(`./data/daily/${t.ds}.json?_=` + Date.now());
+      if (!res.ok) throw new Error('no file');
+      const data = await res.json();
+      const mb = data.morning_brief || data.deep_analysis || {};
+      const fg = mb.fear_greed || {};
+      if (fg.value == null) throw new Error('no fg');
+      if (vEl) vEl.textContent = `${fg.value} ${fmtFgLabel(fg.value)}`;
+    }catch(e){
+      if (vEl) vEl.textContent = '--';
+    }
+  }
+}
+
 function renderFGGauge(value, labelZh) {
   // 弧线总长不再参与计算（使用 pathLength=100 做稳定映射）
   const ARC_LEN = 471.24;
