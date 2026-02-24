@@ -337,15 +337,22 @@ def format_signal_message(sig: dict) -> str:
 
     sess = _session_bj(sig.get('scan_time',''))
     sess_tag = f"（{sess}）" if sess else ''
+
+    # 触发K线/会话信息放到最底部备注（不打断阅读）
     bar_t = sig.get('bar_time')
-    bar_tag = f"\n🕯️ 触发K线: {bar_t} (1H收盘)" if bar_t else ''
+    note_parts = []
+    if sess:
+        note_parts.append(sess)
+    if bar_t:
+        note_parts.append(f"触发1H收盘@{bar_t}")
+    note = f"\n\n备注: {'｜'.join(note_parts)}" if note_parts else ''
 
     # 标的行不再重复“强烈/买入”等级（等级信息放到 title）
     msg = f"""{emoji} **{ticker}**
 ━━━━━━━━━━━━━━━━━━
 {kb_tag_str}📊 评分: {score}/100
 💰 当前价: ${sig['price']}
-⏰ 时间: {sig['scan_time']} (北京){sess_tag}{bar_tag}
+⏰ 时间: {sig['scan_time']} (北京){sess_tag}
 
 📈 技术指标:
   RSI14: {sig['rsi14']}  |  BB%: {sig['bb_pct']}
@@ -362,6 +369,7 @@ def format_signal_message(sig: dict) -> str:
         msg += '\n\n⚠️ 风险提示:\n' + '\n'.join(f'  • {w}' for w in sig['warnings'])
 
     msg += '\n\n_仅供参考，请结合基本面和市场环境判断_'
+    msg += note
     return msg
 
 
