@@ -183,6 +183,10 @@ def summarize(trades: pd.DataFrame) -> Dict:
             "losses": 0,
             "win_rate": 0.0,
             "total_return_serial": 0.0,
+            "avg_ret_pct": 0.0,
+            "median_ret_pct": 0.0,
+            "avg_bars": 0.0,
+            "exit_breakdown": {},
         }
 
     wins = int((trades["ret_pct"] > 0).sum())
