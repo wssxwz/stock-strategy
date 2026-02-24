@@ -113,9 +113,10 @@ def phase2_score(candidates: list) -> list:
         try:
             end = datetime.now()
             start = end - timedelta(days=59)
+            # 注意：yfinance 的 end 是“非包含”，用 +1 天避免漏掉当天盘中数据
             df = yf.Ticker(ticker).history(
                 start=start.strftime('%Y-%m-%d'),
-                end=end.strftime('%Y-%m-%d'),
+                end=(end + timedelta(days=1)).strftime('%Y-%m-%d'),
                 interval='1h', auto_adjust=True
             )
             if len(df) < 30:

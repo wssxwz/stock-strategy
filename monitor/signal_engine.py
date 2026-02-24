@@ -19,9 +19,10 @@ def get_1h_data(ticker: str, days: int = 59) -> pd.DataFrame:
     from datetime import timedelta
     end = datetime.now()
     start = end - timedelta(days=days)
+    # 注意：yfinance 的 end 是“非包含”，用 +1 天避免漏掉当天盘中数据
     df = yf.Ticker(ticker).history(
         start=start.strftime('%Y-%m-%d'),
-        end=end.strftime('%Y-%m-%d'),
+        end=(end + timedelta(days=1)).strftime('%Y-%m-%d'),
         interval='1h', auto_adjust=True
     )
     if df.empty:
