@@ -1409,8 +1409,12 @@ function renderFGGauge(value, labelZh) {
   if (valText) { valText.textContent = value; valText.setAttribute('fill', color); }
   if (lblText) { lblText.textContent = labelZh; lblText.setAttribute('fill', color); }
 
-  // emoji
+  // emoji + inline label
   const emoji = value < 25 ? '😱' : value < 45 ? '😰' : value < 55 ? '😐' : value < 75 ? '😏' : '🤑';
   const emojiEl = document.getElementById('mkt-fg-emoji');
   if (emojiEl) emojiEl.textContent = emoji;
+
+  const inline = document.getElementById('fg-label-inline');
+  if (inline) inline.textContent = labelZh || fmtFgLabel(value);
+  if (inline) inline.style.color = color;
 }
