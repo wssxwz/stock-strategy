@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-02-24T23:01:24.710523",
+  "generated_at": "2026-02-24T23:34:39.680212",
   "version": "2.0",
   "overview": {
-    "avg_score": 47.8,
+    "avg_score": 48.3,
     "health_label": "中性",
     "health_color": "neutral",
     "total_count": 17,
@@ -30,18 +30,18 @@
     "trailing_stop_alerts": [
       {
         "ticker": "TSLA",
-        "trailing_stop": 361.21,
-        "note": "移动止损：当前价-10%（锁定大部分利润，盈利76%）",
-        "pnl_pct": 75.98
+        "trailing_stop": 366.55,
+        "note": "移动止损：当前价-10%（锁定大部分利润，盈利79%）",
+        "pnl_pct": 78.58
       },
       {
         "ticker": "NBIS",
-        "trailing_stop": 92.09,
-        "note": "移动止损：当前价-10%（锁定大部分利润，盈利222%）",
-        "pnl_pct": 221.68
+        "trailing_stop": 92.91,
+        "note": "移动止损：当前价-10%（锁定大部分利润，盈利225%）",
+        "pnl_pct": 224.52
       }
     ],
-    "generated_at": "2026-02-24T23:01:24.710516"
+    "generated_at": "2026-02-24T23:34:39.680198"
   },
   "stocks": [
     {
@@ -49,30 +49,30 @@
       "name": "特斯拉",
       "cost": 228.06,
       "shares": 32,
-      "price": 401.34,
-      "pnl_pct": 75.98,
-      "updated_at": "2026-02-24 23:00",
+      "price": 407.27,
+      "pnl_pct": 78.58,
+      "updated_at": "2026-02-24 23:34",
       "tech": {
-        "price": 401.34,
-        "ma20": 415.97,
-        "ma50": 439.03,
-        "ma200": 388.99,
-        "rsi": 38.4,
-        "macd": -8.312,
-        "macd_sig": -7.636,
+        "price": 407.27,
+        "ma20": 416.27,
+        "ma50": 439.15,
+        "ma200": 389.02,
+        "rsi": 42.3,
+        "macd": -7.838,
+        "macd_sig": -7.541,
         "hi52": 489.88,
         "lo52": 221.86,
-        "off_hi": -18.1,
-        "vs_ma20": -3.5,
-        "vs_ma50": -8.6,
-        "vs_ma200": 3.2,
-        "vol_ratio": 0.16
+        "off_hi": -16.9,
+        "vs_ma20": -2.2,
+        "vs_ma50": -7.3,
+        "vs_ma200": 4.7,
+        "vol_ratio": 0.27
       },
       "fund": {
-        "forward_pe": 143.17552,
-        "trailing_pe": 371.76852,
-        "pb": 18.336304,
-        "ps": 15.891456,
+        "forward_pe": 145.231,
+        "trailing_pe": 377.1057,
+        "pb": 18.599545,
+        "ps": 16.114206,
         "rev_growth": -0.031,
         "eps_growth": -0.606,
         "gross_margin": 0.18027,
@@ -80,7 +80,7 @@
         "roe": 0.049250003,
         "debt_equity": 17.763,
         "beta": 1.887,
-        "market_cap": 1506638954496,
+        "market_cap": 1528268718080,
         "sector": "Consumer Cyclical",
         "industry": "Auto Manufacturers",
         "data_note": "基本面数据来自最新财报（可能滞后 1-3 个月）"
@@ -92,15 +92,15 @@
         "target_high": 600.0,
         "target_low": 125.0,
         "data_note": "分析师评级可能滞后数天到数周",
-        "upside": 5.1
+        "upside": 3.5
       },
       "trend": {
         "can_add": true,
         "can_hold": true,
         "trend_status": "weak",
         "reasons": [
-          "✅ MA200 上方3.2%，趋势健康",
-          "⚠️ 量比0.16，流动性萎缩"
+          "✅ MA200 上方4.7%，趋势健康",
+          "⚠️ 量比0.27，流动性萎缩"
         ]
       },
       "quality": {
@@ -122,8 +122,8 @@
         "trend_multiplier": 0.75
       },
       "trailing_stop": {
-        "price": 361.21,
-        "note": "移动止损：当前价-10%（锁定大部分利润，盈利76%）"
+        "price": 366.55,
+        "note": "移动止损：当前价-10%（锁定大部分利润，盈利79%）"
       },
       "diagnosis": {
         "score": 43.5,
@@ -136,15 +136,15 @@
         "signals": [
           {
             "type": "info",
-            "text": "✅ MA200 上方3.2%，趋势健康"
+            "text": "✅ MA200 上方4.7%，趋势健康"
           },
           {
             "type": "info",
-            "text": "⚠️ 量比0.16，流动性萎缩"
+            "text": "⚠️ 量比0.27，流动性萎缩"
           },
           {
             "type": "caution",
-            "text": "✨ 已盈利76.0%，考虑分批止盈"
+            "text": "✨ 已盈利78.6%，考虑分批止盈"
           }
         ]
       }
@@ -154,30 +154,30 @@
       "name": "Meta Platforms",
       "cost": 639.088,
       "shares": 15,
-      "price": 630.3,
-      "pnl_pct": -1.38,
-      "updated_at": "2026-02-24 23:00",
+      "price": 635.6,
+      "pnl_pct": -0.55,
+      "updated_at": "2026-02-24 23:34",
       "tech": {
-        "price": 630.3,
-        "ma20": 667.6,
-        "ma50": 656.21,
-        "ma200": 689.88,
-        "rsi": 26.0,
-        "macd": -5.579,
-        "macd_sig": -1.002,
+        "price": 635.6,
+        "ma20": 667.86,
+        "ma50": 656.31,
+        "ma200": 689.9,
+        "rsi": 27.2,
+        "macd": -5.157,
+        "macd_sig": -0.917,
         "hi52": 788.82,
         "lo52": 483.57,
-        "off_hi": -20.1,
-        "vs_ma20": -5.6,
-        "vs_ma50": -3.9,
-        "vs_ma200": -8.6,
-        "vol_ratio": 0.11
+        "off_hi": -19.4,
+        "vs_ma20": -4.8,
+        "vs_ma50": -3.2,
+        "vs_ma200": -7.9,
+        "vol_ratio": 0.16
       },
       "fund": {
-        "forward_pe": 17.612787,
-        "trailing_pe": 26.809868,
-        "pb": 7.340422,
-        "ps": 7.9316874,
+        "forward_pe": 17.76076,
+        "trailing_pe": 27.035109,
+        "pb": 7.402092,
+        "ps": 8.000228,
         "rev_growth": 0.238,
         "eps_growth": 0.107,
         "gross_margin": 0.81999,
@@ -185,7 +185,7 @@
         "roe": 0.30238,
         "debt_equity": 39.164,
         "beta": 1.284,
-        "market_cap": 1594378813440,
+        "market_cap": 1607773847552,
         "sector": "Communication Services",
         "industry": "Internet Content & Information",
         "data_note": "基本面数据来自最新财报（可能滞后 1-3 个月）"
@@ -197,27 +197,27 @@
         "target_high": 1144.0,
         "target_low": 700.0,
         "data_note": "分析师评级可能滞后数天到数周",
-        "upside": 36.6
+        "upside": 35.5
       },
       "trend": {
         "can_add": true,
         "can_hold": true,
         "trend_status": "weak",
         "reasons": [
-          "✅ MA200 上方-8.6%，趋势健康",
-          "⚠️ 量比0.11，流动性萎缩"
+          "✅ MA200 上方-7.9%，趋势健康",
+          "⚠️ 量比0.16，流动性萎缩"
         ]
       },
       "quality": {
         "score": 75.0,
-        "tech_score": 5,
+        "tech_score": 10,
         "fund_score": 30,
         "analyst_score": 15,
         "details": [
           "RSI 低位，反弹潜力",
           "MACD 死叉，动能偏弱",
-          "52 周中位",
-          "技术面小计：5/40",
+          "接近 52 周高位，强势",
+          "技术面小计：10/40",
           "营收稳健增长 +24%",
           "毛利率82%，护城河深",
           "经营利润率41%",
@@ -243,11 +243,11 @@
         "signals": [
           {
             "type": "info",
-            "text": "✅ MA200 上方-8.6%，趋势健康"
+            "text": "✅ MA200 上方-7.9%，趋势健康"
           },
           {
             "type": "info",
-            "text": "⚠️ 量比0.11，流动性萎缩"
+            "text": "⚠️ 量比0.16，流动性萎缩"
           }
         ]
       }
@@ -257,30 +257,30 @@
       "name": "CrowdStrike",
       "cost": 463.636,
       "shares": 22,
-      "price": 348.63,
-      "pnl_pct": -24.81,
-      "updated_at": "2026-02-24 23:00",
+      "price": 360.25,
+      "pnl_pct": -22.3,
+      "updated_at": "2026-02-24 23:34",
       "tech": {
-        "price": 348.63,
-        "ma20": 414.93,
-        "ma50": 448.32,
-        "ma200": 470.5,
-        "rsi": 31.9,
-        "macd": -21.711,
-        "macd_sig": -16.754,
+        "price": 360.25,
+        "ma20": 415.51,
+        "ma50": 448.55,
+        "ma200": 470.56,
+        "rsi": 35.4,
+        "macd": -20.784,
+        "macd_sig": -16.568,
         "hi52": 557.53,
         "lo52": 308.86,
-        "off_hi": -37.5,
-        "vs_ma20": -16.0,
-        "vs_ma50": -22.2,
-        "vs_ma200": -25.9,
-        "vol_ratio": 0.4
+        "off_hi": -35.4,
+        "vs_ma20": -13.3,
+        "vs_ma50": -19.7,
+        "vs_ma200": -23.4,
+        "vol_ratio": 0.62
       },
       "fund": {
-        "forward_pe": 71.987564,
+        "forward_pe": 74.39745,
         "trailing_pe": null,
-        "pb": 21.87963,
-        "ps": 19.2521,
+        "pb": 22.607319,
+        "ps": 19.892403,
         "rev_growth": 0.222,
         "eps_growth": null,
         "gross_margin": 0.74277,
@@ -288,7 +288,7 @@
         "roe": -0.088149995,
         "debt_equity": 20.154,
         "beta": 1.034,
-        "market_cap": 87889076224,
+        "market_cap": 90812162048,
         "sector": "Technology",
         "industry": "Software - Infrastructure",
         "data_note": "基本面数据来自最新财报（可能滞后 1-3 个月）"
@@ -300,16 +300,15 @@
         "target_high": 706.0,
         "target_low": 353.0,
         "data_note": "分析师评级可能滞后数天到数周",
-        "upside": 55.8
+        "upside": 50.7
       },
       "trend": {
         "can_add": false,
         "can_hold": true,
         "trend_status": "broken",
         "reasons": [
-          "⚠️ MA200 下方25.9%，趋势破位，禁止加仓",
-          "⚠️ MA50 下方22.2%，中期趋势偏弱",
-          "⚠️ 量比0.40，流动性萎缩"
+          "⚠️ MA200 下方23.4%，趋势破位，禁止加仓",
+          "⚠️ MA50 下方19.7%，中期趋势偏弱"
         ]
       },
       "quality": {
@@ -347,15 +346,11 @@
         "signals": [
           {
             "type": "info",
-            "text": "⚠️ MA200 下方25.9%，趋势破位，禁止加仓"
+            "text": "⚠️ MA200 下方23.4%，趋势破位，禁止加仓"
           },
           {
             "type": "info",
-            "text": "⚠️ MA50 下方22.2%，中期趋势偏弱"
-          },
-          {
-            "type": "info",
-            "text": "⚠️ 量比0.40，流动性萎缩"
+            "text": "⚠️ MA50 下方19.7%，中期趋势偏弱"
           }
         ]
       }
@@ -365,30 +360,30 @@
       "name": "Palo Alto Net.",
       "cost": 183.857,
       "shares": 56,
-      "price": 143.35,
-      "pnl_pct": -22.03,
-      "updated_at": "2026-02-24 23:00",
+      "price": 146.56,
+      "pnl_pct": -20.29,
+      "updated_at": "2026-02-24 23:34",
       "tech": {
-        "price": 143.35,
-        "ma20": 163.62,
-        "ma50": 177.48,
-        "ma200": 192.14,
-        "rsi": 29.0,
-        "macd": -9.295,
-        "macd_sig": -7.551,
+        "price": 146.56,
+        "ma20": 163.78,
+        "ma50": 177.55,
+        "ma200": 192.16,
+        "rsi": 32.5,
+        "macd": -9.039,
+        "macd_sig": -7.5,
         "hi52": 221.38,
-        "lo52": 143.35,
-        "off_hi": -35.2,
-        "vs_ma20": -12.4,
-        "vs_ma50": -19.2,
-        "vs_ma200": -25.4,
-        "vol_ratio": 0.14
+        "lo52": 144.14,
+        "off_hi": -33.8,
+        "vs_ma20": -10.5,
+        "vs_ma50": -17.5,
+        "vs_ma200": -23.7,
+        "vol_ratio": 0.24
       },
       "fund": {
-        "forward_pe": 35.991817,
-        "trailing_pe": 90.157234,
-        "pb": 10.728988,
-        "ps": 11.710895,
+        "forward_pe": 36.797768,
+        "trailing_pe": 92.176094,
+        "pb": 10.969238,
+        "ps": 11.976346,
         "rev_growth": 0.149,
         "eps_growth": 0.605,
         "gross_margin": 0.73502,
@@ -396,7 +391,7 @@
         "roe": 0.16259001,
         "debt_equity": 4.887,
         "beta": 0.75,
-        "market_cap": 115837493248,
+        "market_cap": 118431408128,
         "sector": "Technology",
         "industry": "Software - Infrastructure",
         "data_note": "基本面数据来自最新财报（可能滞后 1-3 个月）"
@@ -408,16 +403,16 @@
         "target_high": 265.0,
         "target_low": 114.0,
         "data_note": "分析师评级可能滞后数天到数周",
-        "upside": 46.2
+        "upside": 43.0
       },
       "trend": {
         "can_add": false,
         "can_hold": true,
         "trend_status": "broken",
         "reasons": [
-          "⚠️ MA200 下方25.4%，趋势破位，禁止加仓",
-          "⚠️ MA50 下方19.2%，中期趋势偏弱",
-          "⚠️ 量比0.14，流动性萎缩"
+          "⚠️ MA200 下方23.7%，趋势破位，禁止加仓",
+          "⚠️ MA50 下方17.5%，中期趋势偏弱",
+          "⚠️ 量比0.24，流动性萎缩"
         ]
       },
       "quality": {
@@ -454,15 +449,15 @@
         "signals": [
           {
             "type": "info",
-            "text": "⚠️ MA200 下方25.4%，趋势破位，禁止加仓"
+            "text": "⚠️ MA200 下方23.7%，趋势破位，禁止加仓"
           },
           {
             "type": "info",
-            "text": "⚠️ MA50 下方19.2%，中期趋势偏弱"
+            "text": "⚠️ MA50 下方17.5%，中期趋势偏弱"
           },
           {
             "type": "info",
-            "text": "⚠️ 量比0.14，流动性萎缩"
+            "text": "⚠️ 量比0.24，流动性萎缩"
           }
         ]
       }
@@ -472,30 +467,30 @@
       "name": "甲骨文",
       "cost": 186.333,
       "shares": 33,
-      "price": 143.21,
-      "pnl_pct": -23.14,
-      "updated_at": "2026-02-24 23:00",
+      "price": 145.57,
+      "pnl_pct": -21.88,
+      "updated_at": "2026-02-24 23:34",
       "tech": {
-        "price": 143.21,
-        "ma20": 155.58,
-        "ma50": 176.55,
-        "ma200": 219.88,
-        "rsi": 42.3,
-        "macd": -9.243,
-        "macd_sig": -9.408,
+        "price": 145.57,
+        "ma20": 155.69,
+        "ma50": 176.6,
+        "ma200": 219.89,
+        "rsi": 44.1,
+        "macd": -9.055,
+        "macd_sig": -9.371,
         "hi52": 326.9,
         "lo52": 122.02,
-        "off_hi": -56.2,
-        "vs_ma20": -7.9,
-        "vs_ma50": -18.9,
-        "vs_ma200": -34.9,
-        "vol_ratio": 0.17
+        "off_hi": -55.5,
+        "vs_ma20": -6.5,
+        "vs_ma50": -17.6,
+        "vs_ma200": -33.8,
+        "vol_ratio": 0.23
       },
       "fund": {
-        "forward_pe": 18.126522,
-        "trailing_pe": 26.983051,
-        "pb": 13.743884,
-        "ps": 6.7476325,
+        "forward_pe": 18.416233,
+        "trailing_pe": 27.414314,
+        "pb": 13.96355,
+        "ps": 6.859033,
         "rev_growth": 0.142,
         "eps_growth": 0.909,
         "gross_margin": 0.68543,
@@ -503,7 +498,7 @@
         "roe": 0.69026,
         "debt_equity": 432.511,
         "beta": 1.633,
-        "market_cap": 411799748608,
+        "market_cap": 418381463552,
         "sector": "Technology",
         "industry": "Software - Infrastructure",
         "data_note": "基本面数据来自最新财报（可能滞后 1-3 个月）"
@@ -515,16 +510,16 @@
         "target_high": 400.0,
         "target_low": 155.0,
         "data_note": "分析师评级可能滞后数天到数周",
-        "upside": 90.6
+        "upside": 87.5
       },
       "trend": {
         "can_add": false,
         "can_hold": true,
         "trend_status": "broken",
         "reasons": [
-          "⚠️ MA200 下方34.9%，趋势破位，禁止加仓",
-          "⚠️ MA50 下方18.9%，中期趋势偏弱",
-          "⚠️ 量比0.17，流动性萎缩"
+          "⚠️ MA200 下方33.8%，趋势破位，禁止加仓",
+          "⚠️ MA50 下方17.6%，中期趋势偏弱",
+          "⚠️ 量比0.23，流动性萎缩"
         ]
       },
       "quality": {
@@ -562,15 +557,15 @@
         "signals": [
           {
             "type": "info",
-            "text": "⚠️ MA200 下方34.9%，趋势破位，禁止加仓"
+            "text": "⚠️ MA200 下方33.8%，趋势破位，禁止加仓"
           },
           {
             "type": "info",
-            "text": "⚠️ MA50 下方18.9%，中期趋势偏弱"
+            "text": "⚠️ MA50 下方17.6%，中期趋势偏弱"
           },
           {
             "type": "info",
-            "text": "⚠️ 量比0.17，流动性萎缩"
+            "text": "⚠️ 量比0.23，流动性萎缩"
           }
         ]
       }
@@ -580,30 +575,30 @@
       "name": "Rocket Lab",
       "cost": 84.923,
       "shares": 65,
-      "price": 68.62,
-      "pnl_pct": -19.19,
-      "updated_at": "2026-02-24 23:00",
+      "price": 69.35,
+      "pnl_pct": -18.34,
+      "updated_at": "2026-02-24 23:34",
       "tech": {
-        "price": 68.62,
-        "ma20": 74.5,
-        "ma50": 76.06,
+        "price": 69.35,
+        "ma20": 74.54,
+        "ma50": 76.08,
         "ma200": 52.16,
-        "rsi": 38.0,
-        "macd": -2.143,
-        "macd_sig": -1.576,
+        "rsi": 38.6,
+        "macd": -2.085,
+        "macd_sig": -1.565,
         "hi52": 96.3,
         "lo52": 16.37,
-        "off_hi": -28.7,
-        "vs_ma20": -7.9,
-        "vs_ma50": -9.8,
-        "vs_ma200": 31.6,
-        "vol_ratio": 0.16
+        "off_hi": -28.0,
+        "vs_ma20": -7.0,
+        "vs_ma50": -8.8,
+        "vs_ma200": 32.9,
+        "vol_ratio": 0.25
       },
       "fund": {
-        "forward_pe": -439.90384,
+        "forward_pe": -444.51923,
         "trailing_pe": null,
-        "pb": 26.588531,
-        "ps": 66.13681,
+        "pb": 26.867493,
+        "ps": 66.79663,
         "rev_growth": 0.48,
         "eps_growth": null,
         "gross_margin": 0.31695998,
@@ -611,7 +606,7 @@
         "roe": -0.2324,
         "debt_equity": 40.33,
         "beta": 2.182,
-        "market_cap": 36656476160,
+        "market_cap": 37041070080,
         "sector": "Industrials",
         "industry": "Aerospace & Defense",
         "data_note": "基本面数据来自最新财报（可能滞后 1-3 个月）"
@@ -623,15 +618,15 @@
         "target_high": 120.0,
         "target_low": 55.0,
         "data_note": "分析师评级可能滞后数天到数周",
-        "upside": 22.3
+        "upside": 21.1
       },
       "trend": {
         "can_add": true,
         "can_hold": true,
         "trend_status": "weak",
         "reasons": [
-          "✅ MA200 上方31.6%，趋势健康",
-          "⚠️ 量比0.16，流动性萎缩"
+          "✅ MA200 上方32.9%，趋势健康",
+          "⚠️ 量比0.25，流动性萎缩"
         ]
       },
       "quality": {
@@ -668,11 +663,11 @@
         "signals": [
           {
             "type": "info",
-            "text": "✅ MA200 上方31.6%，趋势健康"
+            "text": "✅ MA200 上方32.9%，趋势健康"
           },
           {
             "type": "info",
-            "text": "⚠️ 量比0.16，流动性萎缩"
+            "text": "⚠️ 量比0.25，流动性萎缩"
           }
         ]
       }
@@ -682,29 +677,29 @@
       "name": "Oklo Inc",
       "cost": 85.108,
       "shares": 65,
-      "price": 62.65,
-      "pnl_pct": -26.38,
-      "updated_at": "2026-02-24 23:01",
+      "price": 64.82,
+      "pnl_pct": -23.83,
+      "updated_at": "2026-02-24 23:34",
       "tech": {
-        "price": 62.65,
-        "ma20": 71.55,
-        "ma50": 81.04,
-        "ma200": 84.25,
-        "rsi": 34.4,
-        "macd": -6.094,
-        "macd_sig": -5.88,
+        "price": 64.82,
+        "ma20": 71.66,
+        "ma50": 81.08,
+        "ma200": 84.26,
+        "rsi": 36.9,
+        "macd": -5.921,
+        "macd_sig": -5.845,
         "hi52": 174.14,
         "lo52": 19.8,
-        "off_hi": -64.0,
-        "vs_ma20": -12.4,
-        "vs_ma50": -22.7,
-        "vs_ma200": -25.6,
-        "vol_ratio": 0.13
+        "off_hi": -62.8,
+        "vs_ma20": -9.5,
+        "vs_ma50": -20.1,
+        "vs_ma200": -23.1,
+        "vol_ratio": 0.22
       },
       "fund": {
-        "forward_pe": -94.4939,
+        "forward_pe": -97.86604,
         "trailing_pe": null,
-        "pb": 8.115041,
+        "pb": 8.404637,
         "ps": null,
         "rev_growth": null,
         "eps_growth": null,
@@ -713,7 +708,7 @@
         "roe": -0.10425,
         "debt_equity": 0.138,
         "beta": 0.774,
-        "market_cap": 9787316224,
+        "market_cap": 10136590336,
         "sector": "Utilities",
         "industry": "Utilities - Independent Power Producers",
         "data_note": "基本面数据来自最新财报（可能滞后 1-3 个月）"
@@ -725,16 +720,16 @@
         "target_high": 175.0,
         "target_low": 14.0,
         "data_note": "分析师评级可能滞后数天到数周",
-        "upside": 79.0
+        "upside": 73.0
       },
       "trend": {
         "can_add": false,
         "can_hold": true,
         "trend_status": "broken",
         "reasons": [
-          "⚠️ MA200 下方25.6%，趋势破位，禁止加仓",
-          "⚠️ MA50 下方22.7%，中期趋势偏弱",
-          "⚠️ 量比0.13，流动性萎缩"
+          "⚠️ MA200 下方23.1%，趋势破位，禁止加仓",
+          "⚠️ MA50 下方20.1%，中期趋势偏弱",
+          "⚠️ 量比0.22，流动性萎缩"
         ]
       },
       "quality": {
@@ -769,19 +764,15 @@
         "signals": [
           {
             "type": "info",
-            "text": "⚠️ MA200 下方25.6%，趋势破位，禁止加仓"
+            "text": "⚠️ MA200 下方23.1%，趋势破位，禁止加仓"
           },
           {
             "type": "info",
-            "text": "⚠️ MA50 下方22.7%，中期趋势偏弱"
+            "text": "⚠️ MA50 下方20.1%，中期趋势偏弱"
           },
           {
             "type": "info",
-            "text": "⚠️ 量比0.13，流动性萎缩"
-          },
-          {
-            "type": "warning",
-            "text": "⚠️ 已亏损-26.4%，评估是否止损"
+            "text": "⚠️ 量比0.22，流动性萎缩"
           }
         ]
       }
@@ -791,30 +782,30 @@
       "name": "SoundHound AI",
       "cost": 11.556,
       "shares": 450,
-      "price": 8.13,
-      "pnl_pct": -29.65,
-      "updated_at": "2026-02-24 23:01",
+      "price": 8.43,
+      "pnl_pct": -27.09,
+      "updated_at": "2026-02-24 23:34",
       "tech": {
-        "price": 8.13,
-        "ma20": 8.21,
+        "price": 8.43,
+        "ma20": 8.23,
         "ma50": 9.84,
-        "ma200": 12.35,
-        "rsi": 48.6,
-        "macd": -0.667,
-        "macd_sig": -0.768,
+        "ma200": 12.36,
+        "rsi": 51.7,
+        "macd": -0.643,
+        "macd_sig": -0.763,
         "hi52": 21.4,
         "lo52": 7.18,
-        "off_hi": -62.0,
-        "vs_ma20": -1.0,
-        "vs_ma50": -17.3,
-        "vs_ma200": -34.2,
-        "vol_ratio": 0.22
+        "off_hi": -60.6,
+        "vs_ma20": 2.4,
+        "vs_ma50": -14.4,
+        "vs_ma200": -31.8,
+        "vol_ratio": 0.4
       },
       "fund": {
-        "forward_pe": -106.04018,
+        "forward_pe": -109.88653,
         "trailing_pe": null,
-        "pb": 8.53106,
-        "ps": 23.014349,
+        "pb": 8.840504,
+        "ps": 23.84914,
         "rev_growth": 0.676,
         "eps_growth": null,
         "gross_margin": 0.39745998,
@@ -822,7 +813,7 @@
         "roe": -0.89946,
         "debt_equity": 1.208,
         "beta": 2.876,
-        "market_cap": 3415421440,
+        "market_cap": 3539307776,
         "sector": "Technology",
         "industry": "Software - Application",
         "data_note": "基本面数据来自最新财报（可能滞后 1-3 个月）"
@@ -834,16 +825,15 @@
         "target_high": 26.0,
         "target_low": 11.0,
         "data_note": "分析师评级可能滞后数天到数周",
-        "upside": 100.6
+        "upside": 93.6
       },
       "trend": {
         "can_add": false,
         "can_hold": true,
         "trend_status": "broken",
         "reasons": [
-          "⚠️ MA200 下方34.2%，趋势破位，禁止加仓",
-          "⚠️ MA50 下方17.3%，中期趋势偏弱",
-          "⚠️ 量比0.22，流动性萎缩"
+          "⚠️ MA200 下方31.8%，趋势破位，禁止加仓",
+          "⚠️ 量比0.40，流动性萎缩"
         ]
       },
       "quality": {
@@ -880,19 +870,15 @@
         "signals": [
           {
             "type": "info",
-            "text": "⚠️ MA200 下方34.2%，趋势破位，禁止加仓"
+            "text": "⚠️ MA200 下方31.8%，趋势破位，禁止加仓"
           },
           {
             "type": "info",
-            "text": "⚠️ MA50 下方17.3%，中期趋势偏弱"
-          },
-          {
-            "type": "info",
-            "text": "⚠️ 量比0.22，流动性萎缩"
+            "text": "⚠️ 量比0.40，流动性萎缩"
           },
           {
             "type": "warning",
-            "text": "⚠️ 已亏损-29.6%，评估是否止损"
+            "text": "⚠️ 已亏损-27.1%，评估是否止损"
           }
         ]
       }
@@ -902,30 +888,30 @@
       "name": "Snowflake",
       "cost": 217.3,
       "shares": 20,
-      "price": 158.64,
-      "pnl_pct": -26.99,
-      "updated_at": "2026-02-24 23:01",
+      "price": 161.36,
+      "pnl_pct": -25.74,
+      "updated_at": "2026-02-24 23:34",
       "tech": {
-        "price": 158.64,
-        "ma20": 179.44,
-        "ma50": 202.72,
-        "ma200": 218.47,
-        "rsi": 42.2,
-        "macd": -11.349,
-        "macd_sig": -10.924,
+        "price": 161.36,
+        "ma20": 179.58,
+        "ma50": 202.77,
+        "ma200": 218.48,
+        "rsi": 43.8,
+        "macd": -11.132,
+        "macd_sig": -10.881,
         "hi52": 277.14,
         "lo52": 130.53,
-        "off_hi": -42.8,
-        "vs_ma20": -11.6,
-        "vs_ma50": -21.7,
-        "vs_ma200": -27.4,
-        "vol_ratio": 0.23
+        "off_hi": -41.8,
+        "vs_ma20": -10.1,
+        "vs_ma50": -20.4,
+        "vs_ma200": -26.1,
+        "vol_ratio": 0.38
       },
       "fund": {
-        "forward_pe": 97.59574,
+        "forward_pe": 99.347374,
         "trailing_pe": null,
-        "pb": 25.423416,
-        "ps": 12.365459,
+        "pb": 25.879711,
+        "ps": 12.587394,
         "rev_growth": 0.287,
         "eps_growth": null,
         "gross_margin": 0.67243,
@@ -933,7 +919,7 @@
         "roe": -0.53093,
         "debt_equity": 125.912,
         "beta": 1.147,
-        "market_cap": 54243831808,
+        "market_cap": 55217393664,
         "sector": "Technology",
         "industry": "Software - Application",
         "data_note": "基本面数据来自最新财报（可能滞后 1-3 个月）"
@@ -945,16 +931,16 @@
         "target_high": 500.0,
         "target_low": 170.0,
         "data_note": "分析师评级可能滞后数天到数周",
-        "upside": 67.7
+        "upside": 64.9
       },
       "trend": {
         "can_add": false,
         "can_hold": true,
         "trend_status": "broken",
         "reasons": [
-          "⚠️ MA200 下方27.4%，趋势破位，禁止加仓",
-          "⚠️ MA50 下方21.7%，中期趋势偏弱",
-          "⚠️ 量比0.23，流动性萎缩"
+          "⚠️ MA200 下方26.1%，趋势破位，禁止加仓",
+          "⚠️ MA50 下方20.4%，中期趋势偏弱",
+          "⚠️ 量比0.38，流动性萎缩"
         ]
       },
       "quality": {
@@ -992,19 +978,19 @@
         "signals": [
           {
             "type": "info",
-            "text": "⚠️ MA200 下方27.4%，趋势破位，禁止加仓"
+            "text": "⚠️ MA200 下方26.1%，趋势破位，禁止加仓"
           },
           {
             "type": "info",
-            "text": "⚠️ MA50 下方21.7%，中期趋势偏弱"
+            "text": "⚠️ MA50 下方20.4%，中期趋势偏弱"
           },
           {
             "type": "info",
-            "text": "⚠️ 量比0.23，流动性萎缩"
+            "text": "⚠️ 量比0.38，流动性萎缩"
           },
           {
             "type": "warning",
-            "text": "⚠️ 已亏损-27.0%，评估是否止损"
+            "text": "⚠️ 已亏损-25.7%，评估是否止损"
           }
         ]
       }
@@ -1014,30 +1000,30 @@
       "name": "Arm Holdings",
       "cost": 120.0,
       "shares": 25,
-      "price": 128.65,
-      "pnl_pct": 7.21,
-      "updated_at": "2026-02-24 23:01",
+      "price": 129.4,
+      "pnl_pct": 7.83,
+      "updated_at": "2026-02-24 23:34",
       "tech": {
-        "price": 128.65,
-        "ma20": 118.6,
-        "ma50": 115.95,
+        "price": 129.4,
+        "ma20": 118.64,
+        "ma50": 115.96,
         "ma200": 138.59,
-        "rsi": 81.3,
-        "macd": 3.364,
-        "macd_sig": 2.308,
+        "rsi": 81.6,
+        "macd": 3.423,
+        "macd_sig": 2.32,
         "hi52": 178.62,
         "lo52": 85.82,
-        "off_hi": -28.0,
-        "vs_ma20": 8.5,
-        "vs_ma50": 11.0,
-        "vs_ma200": -7.2,
-        "vol_ratio": 0.14
+        "off_hi": -27.6,
+        "vs_ma20": 9.1,
+        "vs_ma50": 11.6,
+        "vs_ma200": -6.6,
+        "vol_ratio": 0.28
       },
       "fund": {
-        "forward_pe": 59.612892,
-        "trailing_pe": 169.2763,
-        "pb": 17.520086,
-        "ps": 29.249863,
+        "forward_pe": 59.95811,
+        "trailing_pe": 170.25659,
+        "pb": 17.621546,
+        "ps": 29.419249,
         "rev_growth": 0.263,
         "eps_growth": -0.123,
         "gross_margin": 0.97495,
@@ -1045,7 +1031,7 @@
         "roe": 0.112679996,
         "debt_equity": 5.912,
         "beta": 4.374,
-        "market_cap": 136626110464,
+        "market_cap": 137417310208,
         "sector": "Technology",
         "industry": "Semiconductors",
         "data_note": "基本面数据来自最新财报（可能滞后 1-3 个月）"
@@ -1057,16 +1043,16 @@
         "target_high": 201.0,
         "target_low": 80.0,
         "data_note": "分析师评级可能滞后数天到数周",
-        "upside": 14.7
+        "upside": 14.0
       },
       "trend": {
         "can_add": false,
         "can_hold": true,
         "trend_status": "broken",
         "reasons": [
-          "✅ MA200 上方-7.2%，趋势健康",
-          "⚠️ RSI=81 超买区，追高风险",
-          "⚠️ 量比0.14，流动性萎缩"
+          "✅ MA200 上方-6.6%，趋势健康",
+          "⚠️ RSI=82 超买区，追高风险",
+          "⚠️ 量比0.28，流动性萎缩"
         ]
       },
       "quality": {
@@ -1103,15 +1089,15 @@
         "signals": [
           {
             "type": "info",
-            "text": "✅ MA200 上方-7.2%，趋势健康"
+            "text": "✅ MA200 上方-6.6%，趋势健康"
           },
           {
             "type": "info",
-            "text": "⚠️ RSI=81 超买区，追高风险"
+            "text": "⚠️ RSI=82 超买区，追高风险"
           },
           {
             "type": "info",
-            "text": "⚠️ 量比0.14，流动性萎缩"
+            "text": "⚠️ 量比0.28，流动性萎缩"
           }
         ]
       }
@@ -1121,30 +1107,30 @@
       "name": "美国超微公司",
       "cost": 194.533,
       "shares": 15,
-      "price": 210.73,
-      "pnl_pct": 8.32,
-      "updated_at": "2026-02-24 23:01",
+      "price": 211.7,
+      "pnl_pct": 8.82,
+      "updated_at": "2026-02-24 23:34",
       "tech": {
-        "price": 210.73,
-        "ma20": 217.68,
-        "ma50": 219.11,
+        "price": 211.7,
+        "ma20": 217.73,
+        "ma50": 219.13,
         "ma200": 185.06,
-        "rsi": 36.5,
-        "macd": -6.895,
-        "macd_sig": -5.483,
+        "rsi": 37.0,
+        "macd": -6.818,
+        "macd_sig": -5.468,
         "hi52": 264.33,
         "lo52": 78.21,
-        "off_hi": -20.3,
-        "vs_ma20": -3.2,
-        "vs_ma50": -3.8,
-        "vs_ma200": 13.9,
-        "vol_ratio": 0.74
+        "off_hi": -19.9,
+        "vs_ma20": -2.8,
+        "vs_ma50": -3.4,
+        "vs_ma200": 14.4,
+        "vol_ratio": 0.92
       },
       "fund": {
-        "forward_pe": 19.782991,
-        "trailing_pe": 80.760544,
-        "pb": 5.4536867,
-        "ps": 9.921365,
+        "forward_pe": 19.8684,
+        "trailing_pe": 81.1092,
+        "pb": 5.4772315,
+        "ps": 9.969139,
         "rev_growth": 0.341,
         "eps_growth": 2.171,
         "gross_margin": 0.52493,
@@ -1152,7 +1138,7 @@
         "roe": 0.07082,
         "debt_equity": 6.359,
         "beta": 1.949,
-        "market_cap": 343666163712,
+        "market_cap": 345149833216,
         "sector": "Technology",
         "industry": "Semiconductors",
         "data_note": "基本面数据来自最新财报（可能滞后 1-3 个月）"
@@ -1164,26 +1150,26 @@
         "target_high": 365.0,
         "target_low": 210.0,
         "data_note": "分析师评级可能滞后数天到数周",
-        "upside": 35.9
+        "upside": 35.2
       },
       "trend": {
         "can_add": true,
         "can_hold": true,
         "trend_status": "healthy",
         "reasons": [
-          "✅ MA200 上方13.9%，趋势健康"
+          "✅ MA200 上方14.4%，趋势健康"
         ]
       },
       "quality": {
         "score": 100.0,
-        "tech_score": 20,
+        "tech_score": 25,
         "fund_score": 27,
         "analyst_score": 12,
         "details": [
           "RSI 低位，反弹潜力",
           "MACD 死叉，动能偏弱",
-          "52 周中位",
-          "技术面小计：20/40",
+          "接近 52 周高位，强势",
+          "技术面小计：25/40",
           "营收高增长 +34%",
           "毛利率52%，良好",
           "基本面小计：27/35",
@@ -1208,7 +1194,7 @@
         "signals": [
           {
             "type": "info",
-            "text": "✅ MA200 上方13.9%，趋势健康"
+            "text": "✅ MA200 上方14.4%，趋势健康"
           }
         ]
       }
@@ -1218,29 +1204,29 @@
       "name": "NANO Nuclear",
       "cost": 30.0,
       "shares": 120,
-      "price": 24.49,
-      "pnl_pct": -18.37,
-      "updated_at": "2026-02-24 23:01",
+      "price": 25.37,
+      "pnl_pct": -15.43,
+      "updated_at": "2026-02-24 23:34",
       "tech": {
-        "price": 24.49,
-        "ma20": 27.6,
-        "ma50": 30.21,
+        "price": 25.37,
+        "ma20": 27.65,
+        "ma50": 30.23,
         "ma200": 34.6,
-        "rsi": 30.3,
-        "macd": -1.989,
-        "macd_sig": -1.793,
+        "rsi": 34.5,
+        "macd": -1.918,
+        "macd_sig": -1.779,
         "hi52": 56.63,
         "lo52": 18.52,
-        "off_hi": -56.8,
-        "vs_ma20": -11.3,
-        "vs_ma50": -18.9,
-        "vs_ma200": -29.2,
-        "vol_ratio": 0.14
+        "off_hi": -55.2,
+        "vs_ma20": -8.2,
+        "vs_ma50": -16.1,
+        "vs_ma200": -26.7,
+        "vol_ratio": 0.24
       },
       "fund": {
-        "forward_pe": -21.931278,
+        "forward_pe": -22.719336,
         "trailing_pe": null,
-        "pb": 2.0659692,
+        "pb": 2.1402059,
         "ps": null,
         "rev_growth": null,
         "eps_growth": null,
@@ -1249,7 +1235,7 @@
         "roe": -0.119160004,
         "debt_equity": 0.448,
         "beta": null,
-        "market_cap": 1275507584,
+        "market_cap": 1321340416,
         "sector": "Industrials",
         "industry": "Specialty Industrial Machinery",
         "data_note": "基本面数据来自最新财报（可能滞后 1-3 个月）"
@@ -1261,16 +1247,16 @@
         "target_high": 50.0,
         "target_low": 45.0,
         "data_note": "分析师评级可能滞后数天到数周",
-        "upside": 90.6
+        "upside": 83.9
       },
       "trend": {
         "can_add": false,
         "can_hold": true,
         "trend_status": "broken",
         "reasons": [
-          "⚠️ MA200 下方29.2%，趋势破位，禁止加仓",
-          "⚠️ MA50 下方18.9%，中期趋势偏弱",
-          "⚠️ 量比0.14，流动性萎缩"
+          "⚠️ MA200 下方26.7%，趋势破位，禁止加仓",
+          "⚠️ MA50 下方16.1%，中期趋势偏弱",
+          "⚠️ 量比0.24，流动性萎缩"
         ]
       },
       "quality": {
@@ -1305,15 +1291,15 @@
         "signals": [
           {
             "type": "info",
-            "text": "⚠️ MA200 下方29.2%，趋势破位，禁止加仓"
+            "text": "⚠️ MA200 下方26.7%，趋势破位，禁止加仓"
           },
           {
             "type": "info",
-            "text": "⚠️ MA50 下方18.9%，中期趋势偏弱"
+            "text": "⚠️ MA50 下方16.1%，中期趋势偏弱"
           },
           {
             "type": "info",
-            "text": "⚠️ 量比0.14，流动性萎缩"
+            "text": "⚠️ 量比0.24，流动性萎缩"
           }
         ]
       }
@@ -1323,30 +1309,30 @@
       "name": "SoFi Technologies",
       "cost": 24.693,
       "shares": 150,
-      "price": 18.38,
-      "pnl_pct": -25.57,
-      "updated_at": "2026-02-24 23:01",
+      "price": 18.5,
+      "pnl_pct": -25.08,
+      "updated_at": "2026-02-24 23:34",
       "tech": {
-        "price": 18.38,
-        "ma20": 20.9,
+        "price": 18.5,
+        "ma20": 20.91,
         "ma50": 24.4,
         "ma200": 23.32,
-        "rsi": 29.3,
-        "macd": -1.796,
-        "macd_sig": -1.715,
+        "rsi": 30.3,
+        "macd": -1.786,
+        "macd_sig": -1.713,
         "hi52": 32.21,
         "lo52": 9.5,
-        "off_hi": -42.9,
-        "vs_ma20": -12.1,
-        "vs_ma50": -24.7,
-        "vs_ma200": -21.2,
-        "vol_ratio": 0.14
+        "off_hi": -42.6,
+        "vs_ma20": -11.5,
+        "vs_ma50": -24.2,
+        "vs_ma200": -20.7,
+        "vol_ratio": 0.22
       },
       "fund": {
-        "forward_pe": 23.277311,
-        "trailing_pe": 47.128204,
-        "pb": 2.2262597,
-        "ps": 6.5417585,
+        "forward_pe": 23.436125,
+        "trailing_pe": 47.449745,
+        "pb": 2.2414486,
+        "ps": 6.5862484,
         "rev_growth": 0.402,
         "eps_growth": -0.57,
         "gross_margin": 0.83002996,
@@ -1354,7 +1340,7 @@
         "roe": 0.05658,
         "debt_equity": 18.487,
         "beta": 2.178,
-        "market_cap": 23439349760,
+        "market_cap": 23599267840,
         "sector": "Financial Services",
         "industry": "Credit Services",
         "data_note": "基本面数据来自最新财报（可能滞后 1-3 个月）"
@@ -1366,16 +1352,16 @@
         "target_high": 38.0,
         "target_low": 12.0,
         "data_note": "分析师评级可能滞后数天到数周",
-        "upside": 44.2
+        "upside": 43.2
       },
       "trend": {
         "can_add": false,
         "can_hold": true,
         "trend_status": "broken",
         "reasons": [
-          "⚠️ MA200 下方21.2%，趋势破位，禁止加仓",
-          "⚠️ MA50 下方24.7%，中期趋势偏弱",
-          "⚠️ 量比0.14，流动性萎缩"
+          "⚠️ MA200 下方20.7%，趋势破位，禁止加仓",
+          "⚠️ MA50 下方24.2%，中期趋势偏弱",
+          "⚠️ 量比0.22，流动性萎缩"
         ]
       },
       "quality": {
@@ -1412,19 +1398,19 @@
         "signals": [
           {
             "type": "info",
-            "text": "⚠️ MA200 下方21.2%，趋势破位，禁止加仓"
+            "text": "⚠️ MA200 下方20.7%，趋势破位，禁止加仓"
           },
           {
             "type": "info",
-            "text": "⚠️ MA50 下方24.7%，中期趋势偏弱"
+            "text": "⚠️ MA50 下方24.2%，中期趋势偏弱"
           },
           {
             "type": "info",
-            "text": "⚠️ 量比0.14，流动性萎缩"
+            "text": "⚠️ 量比0.22，流动性萎缩"
           },
           {
             "type": "warning",
-            "text": "⚠️ 已亏损-25.6%，评估是否止损"
+            "text": "⚠️ 已亏损-25.1%，评估是否止损"
           }
         ]
       }
@@ -1434,28 +1420,28 @@
       "name": "Destiny Tech100",
       "cost": 30.1,
       "shares": 100,
-      "price": 27.03,
-      "pnl_pct": -10.2,
-      "updated_at": "2026-02-24 23:01",
+      "price": 27.26,
+      "pnl_pct": -9.44,
+      "updated_at": "2026-02-24 23:34",
       "tech": {
-        "price": 27.03,
-        "ma20": 30.66,
+        "price": 27.26,
+        "ma20": 30.67,
         "ma50": 30.81,
         "ma200": 30.89,
-        "rsi": 24.4,
-        "macd": -0.719,
-        "macd_sig": -0.187,
+        "rsi": 25.2,
+        "macd": -0.701,
+        "macd_sig": -0.184,
         "hi52": 47.87,
         "lo52": 20.82,
-        "off_hi": -43.5,
-        "vs_ma20": -11.8,
-        "vs_ma50": -12.3,
-        "vs_ma200": -12.5,
-        "vol_ratio": 0.1
+        "off_hi": -43.1,
+        "vs_ma20": -11.1,
+        "vs_ma50": -11.5,
+        "vs_ma200": -11.7,
+        "vol_ratio": 0.15
       },
       "fund": {
         "forward_pe": null,
-        "trailing_pe": 14.77071,
+        "trailing_pe": 14.896174,
         "pb": null,
         "ps": null,
         "rev_growth": null,
@@ -1465,7 +1451,7 @@
         "roe": null,
         "debt_equity": null,
         "beta": null,
-        "market_cap": 594028288,
+        "market_cap": 599074048,
         "sector": "Financial Services",
         "industry": "Asset Management",
         "data_note": "基本面数据来自最新财报（可能滞后 1-3 个月）"
@@ -1483,25 +1469,25 @@
         "can_hold": true,
         "trend_status": "broken",
         "reasons": [
-          "⚠️ MA200 下方12.5%，趋势转弱，暂不加仓",
-          "⚠️ 量比0.10，流动性萎缩"
+          "⚠️ MA200 下方11.7%，趋势转弱，暂不加仓",
+          "⚠️ 量比0.15，流动性萎缩"
         ]
       },
       "quality": {
-        "score": 16.5,
-        "tech_score": -12,
+        "score": 17.5,
+        "tech_score": -10,
         "fund_score": -5,
         "analyst_score": 0,
         "details": [
-          "RSI 超卖，可能反弹",
+          "RSI 低位，反弹潜力",
           "MACD 死叉，动能偏弱",
           "远离 52 周高位，弱势",
-          "技术面小计：-12/40",
+          "技术面小计：-10/40",
           "基本面小计：-5/35",
           "分析师小计：0/15",
           "相对强度：N/A"
         ],
-        "raw_score": 33,
+        "raw_score": 35,
         "trend_multiplier": 0.5
       },
       "trailing_stop": {
@@ -1509,7 +1495,7 @@
         "note": "原始止损 -8%（成本 $30.10）"
       },
       "diagnosis": {
-        "score": 16.5,
+        "score": 17.5,
         "action": "reduce",
         "action_text": "考虑减仓（趋势弱 + 质量一般）",
         "action_color": "caution",
@@ -1519,11 +1505,11 @@
         "signals": [
           {
             "type": "info",
-            "text": "⚠️ MA200 下方12.5%，趋势转弱，暂不加仓"
+            "text": "⚠️ MA200 下方11.7%，趋势转弱，暂不加仓"
           },
           {
             "type": "info",
-            "text": "⚠️ 量比0.10，流动性萎缩"
+            "text": "⚠️ 量比0.15，流动性萎缩"
           }
         ]
       }
@@ -1533,30 +1519,30 @@
       "name": "AST SpaceMobile",
       "cost": 97.0,
       "shares": 30,
-      "price": 83.02,
-      "pnl_pct": -14.41,
-      "updated_at": "2026-02-24 23:01",
+      "price": 84.5,
+      "pnl_pct": -12.89,
+      "updated_at": "2026-02-24 23:34",
       "tech": {
-        "price": 83.02,
-        "ma20": 97.29,
-        "ma50": 91.76,
-        "ma200": 61.97,
-        "rsi": 25.7,
-        "macd": -4.1,
-        "macd_sig": -1.628,
+        "price": 84.5,
+        "ma20": 97.36,
+        "ma50": 91.79,
+        "ma200": 61.98,
+        "rsi": 26.7,
+        "macd": -3.982,
+        "macd_sig": -1.604,
         "hi52": 122.09,
         "lo52": 20.07,
-        "off_hi": -32.0,
-        "vs_ma20": -14.7,
-        "vs_ma50": -9.5,
-        "vs_ma200": 34.0,
-        "vol_ratio": 0.12
+        "off_hi": -30.8,
+        "vs_ma20": -13.2,
+        "vs_ma50": -7.9,
+        "vs_ma200": 36.3,
+        "vol_ratio": 0.17
       },
       "fund": {
-        "forward_pe": -81.71259,
+        "forward_pe": -83.16929,
         "trailing_pe": null,
-        "pb": 18.202148,
-        "ps": 1675.6622,
+        "pb": 18.52664,
+        "ps": 1704.3026,
         "rev_growth": 12.399,
         "eps_growth": null,
         "gross_margin": 0.68684995,
@@ -1564,7 +1550,7 @@
         "roe": -0.39031,
         "debt_equity": 44.433,
         "beta": 2.708,
-        "market_cap": 31029270528,
+        "market_cap": 31582431232,
         "sector": "Technology",
         "industry": "Communication Equipment",
         "data_note": "基本面数据来自最新财报（可能滞后 1-3 个月）"
@@ -1576,15 +1562,15 @@
         "target_high": 137.0,
         "target_low": 43.0,
         "data_note": "分析师评级可能滞后数天到数周",
-        "upside": -3.2
+        "upside": -4.9
       },
       "trend": {
         "can_add": true,
         "can_hold": true,
         "trend_status": "weak",
         "reasons": [
-          "✅ MA200 上方34.0%，趋势健康",
-          "⚠️ 量比0.12，流动性萎缩"
+          "✅ MA200 上方36.3%，趋势健康",
+          "⚠️ 量比0.17，流动性萎缩"
         ]
       },
       "quality": {
@@ -1622,11 +1608,11 @@
         "signals": [
           {
             "type": "info",
-            "text": "✅ MA200 上方34.0%，趋势健康"
+            "text": "✅ MA200 上方36.3%，趋势健康"
           },
           {
             "type": "info",
-            "text": "⚠️ 量比0.12，流动性萎缩"
+            "text": "⚠️ 量比0.17，流动性萎缩"
           }
         ]
       }
@@ -1636,30 +1622,30 @@
       "name": "NEBIUS",
       "cost": 31.81,
       "shares": 15,
-      "price": 102.32,
-      "pnl_pct": 221.68,
-      "updated_at": "2026-02-24 23:01",
+      "price": 103.23,
+      "pnl_pct": 224.52,
+      "updated_at": "2026-02-24 23:34",
       "tech": {
-        "price": 102.32,
-        "ma20": 93.38,
-        "ma50": 93.09,
+        "price": 103.23,
+        "ma20": 93.43,
+        "ma50": 93.11,
         "ma200": 80.35,
-        "rsi": 58.4,
-        "macd": 2.032,
-        "macd_sig": 0.544,
+        "rsi": 58.9,
+        "macd": 2.104,
+        "macd_sig": 0.558,
         "hi52": 135.46,
         "lo52": 20.06,
-        "off_hi": -24.5,
-        "vs_ma20": 9.6,
-        "vs_ma50": 9.9,
-        "vs_ma200": 27.4,
-        "vol_ratio": 0.14
+        "off_hi": -23.8,
+        "vs_ma20": 10.5,
+        "vs_ma50": 10.9,
+        "vs_ma200": 28.5,
+        "vol_ratio": 0.19
       },
       "fund": {
-        "forward_pe": -72.63158,
-        "trailing_pe": 928.36365,
-        "pb": 5.600834,
-        "ps": 48.769524,
+        "forward_pe": -73.42105,
+        "trailing_pe": 938.4546,
+        "pb": 5.6617126,
+        "ps": 49.268585,
         "rev_growth": 5.008,
         "eps_growth": null,
         "gross_margin": 0.6863,
@@ -1667,7 +1653,7 @@
         "roe": 0.00737,
         "debt_equity": 105.961,
         "beta": 1.154,
-        "market_cap": 25838094336,
+        "market_cap": 26118942720,
         "sector": "Communication Services",
         "industry": "Internet Content & Information",
         "data_note": "基本面数据来自最新财报（可能滞后 1-3 个月）"
@@ -1679,15 +1665,15 @@
         "target_high": 232.0,
         "target_low": 70.0,
         "data_note": "分析师评级可能滞后数天到数周",
-        "upside": 44.1
+        "upside": 42.8
       },
       "trend": {
         "can_add": true,
         "can_hold": true,
         "trend_status": "weak",
         "reasons": [
-          "✅ MA200 上方27.4%，趋势健康",
-          "⚠️ 量比0.14，流动性萎缩"
+          "✅ MA200 上方28.5%，趋势健康",
+          "⚠️ 量比0.19，流动性萎缩"
         ]
       },
       "quality": {
@@ -1710,8 +1696,8 @@
         "trend_multiplier": 0.75
       },
       "trailing_stop": {
-        "price": 92.09,
-        "note": "移动止损：当前价-10%（锁定大部分利润，盈利222%）"
+        "price": 92.91,
+        "note": "移动止损：当前价-10%（锁定大部分利润，盈利225%）"
       },
       "diagnosis": {
         "score": 75.0,
@@ -1724,15 +1710,15 @@
         "signals": [
           {
             "type": "info",
-            "text": "✅ MA200 上方27.4%，趋势健康"
+            "text": "✅ MA200 上方28.5%，趋势健康"
           },
           {
             "type": "info",
-            "text": "⚠️ 量比0.14，流动性萎缩"
+            "text": "⚠️ 量比0.19，流动性萎缩"
           },
           {
             "type": "caution",
-            "text": "✨ 已盈利221.7%，考虑分批止盈"
+            "text": "✨ 已盈利224.5%，考虑分批止盈"
           }
         ]
       }
@@ -1742,30 +1728,30 @@
       "name": "IonQ Inc",
       "cost": 45.0,
       "shares": 20,
-      "price": 30.95,
-      "pnl_pct": -31.22,
-      "updated_at": "2026-02-24 23:01",
+      "price": 31.72,
+      "pnl_pct": -29.5,
+      "updated_at": "2026-02-24 23:34",
       "tech": {
-        "price": 30.95,
-        "ma20": 35.78,
-        "ma50": 43.51,
-        "ma200": 47.46,
-        "rsi": 34.4,
-        "macd": -3.801,
-        "macd_sig": -3.773,
+        "price": 31.72,
+        "ma20": 35.82,
+        "ma50": 43.52,
+        "ma200": 47.47,
+        "rsi": 36.4,
+        "macd": -3.739,
+        "macd_sig": -3.761,
         "hi52": 82.09,
         "lo52": 18.27,
-        "off_hi": -62.3,
-        "vs_ma20": -13.5,
-        "vs_ma50": -28.9,
-        "vs_ma200": -34.8,
-        "vol_ratio": 0.17
+        "off_hi": -61.4,
+        "vs_ma20": -11.4,
+        "vs_ma50": -27.1,
+        "vs_ma200": -33.2,
+        "vol_ratio": 0.23
       },
       "fund": {
-        "forward_pe": -26.965012,
+        "forward_pe": -27.649986,
         "trailing_pe": null,
-        "pb": 4.429007,
-        "ps": 139.31284,
+        "pb": 4.541514,
+        "ps": 142.8517,
         "rev_growth": 2.215,
         "eps_growth": null,
         "gross_margin": 0.52292,
@@ -1773,7 +1759,7 @@
         "roe": -1.07759,
         "debt_equity": 1.246,
         "beta": 2.602,
-        "market_cap": 11122179072,
+        "market_cap": 11404707840,
         "sector": "Technology",
         "industry": "Computer Hardware",
         "data_note": "基本面数据来自最新财报（可能滞后 1-3 个月）"
@@ -1785,28 +1771,28 @@
         "target_high": 100.0,
         "target_low": 35.0,
         "data_note": "分析师评级可能滞后数天到数周",
-        "upside": 136.2
+        "upside": 130.5
       },
       "trend": {
         "can_add": false,
         "can_hold": true,
         "trend_status": "broken",
         "reasons": [
-          "⚠️ MA200 下方34.8%，趋势破位，禁止加仓",
-          "⚠️ MA50 下方28.9%，中期趋势偏弱",
-          "⚠️ 量比0.17，流动性萎缩"
+          "⚠️ MA200 下方33.2%，趋势破位，禁止加仓",
+          "⚠️ MA50 下方27.1%，中期趋势偏弱",
+          "⚠️ 量比0.23，流动性萎缩"
         ]
       },
       "quality": {
-        "score": 34.5,
-        "tech_score": -10,
+        "score": 42.0,
+        "tech_score": 5,
         "fund_score": 17,
         "analyst_score": 12,
         "details": [
           "RSI 低位，反弹潜力",
-          "MACD 死叉，动能偏弱",
+          "MACD 金叉，动能向上",
           "远离 52 周高位，弱势",
-          "技术面小计：-10/40",
+          "技术面小计：5/40",
           "营收高增长 +222%",
           "毛利率52%，良好",
           "经营亏损",
@@ -1814,7 +1800,7 @@
           "分析师小计：12/15",
           "相对强度：N/A"
         ],
-        "raw_score": 69,
+        "raw_score": 84,
         "trend_multiplier": 0.5
       },
       "trailing_stop": {
@@ -1822,7 +1808,7 @@
         "note": "原始止损 -8%（成本 $45.00）"
       },
       "diagnosis": {
-        "score": 34.5,
+        "score": 42.0,
         "action": "reduce",
         "action_text": "考虑减仓（趋势弱 + 质量一般）",
         "action_color": "caution",
@@ -1832,19 +1818,19 @@
         "signals": [
           {
             "type": "info",
-            "text": "⚠️ MA200 下方34.8%，趋势破位，禁止加仓"
+            "text": "⚠️ MA200 下方33.2%，趋势破位，禁止加仓"
           },
           {
             "type": "info",
-            "text": "⚠️ MA50 下方28.9%，中期趋势偏弱"
+            "text": "⚠️ MA50 下方27.1%，中期趋势偏弱"
           },
           {
             "type": "info",
-            "text": "⚠️ 量比0.17，流动性萎缩"
+            "text": "⚠️ 量比0.23，流动性萎缩"
           },
           {
             "type": "warning",
-            "text": "⚠️ 已亏损-31.2%，评估是否止损"
+            "text": "⚠️ 已亏损-29.5%，评估是否止损"
           }
         ]
       }
