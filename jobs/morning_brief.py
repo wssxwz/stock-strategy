@@ -57,7 +57,7 @@ def generate_morning_brief() -> str:
     lines.append("━━━━━━━━━━━━━━━━")
 
     # 市场情绪
-    lines.append(f"\n{fg['emoji']} **市场情绪：{fg['label_zh']}** ({fg['value']}/100)")
+    lines.append(f"\n{fg['emoji']} **市场情绪：{fg['label_zh']}** (恐惧贪婪指数 {fg['value']}，0=极恐 100=极贪)")
 
     # 美股指数
     lines.append("\n📊 **美股昨夜收盘**")

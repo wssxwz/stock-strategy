@@ -117,7 +117,7 @@ def generate_telegram_msg(overview: dict, advice: dict) -> str:
         f"📊 **深度早报** | {now.strftime('%m/%d')}",
         "━━━━━━━━━━━━━━━━",
         f"\n{overview['mood_emoji']} 市场方向：**{overview['market_mood']}**",
-        f"{overview['fear_greed']['emoji']} 情绪指数：**{overview['fear_greed']['label_zh']}** {overview['fear_greed']['value']}/100",
+        f"{overview['fear_greed']['emoji']} 情绪指数：**{overview['fear_greed']['label_zh']}** {overview['fear_greed']['value']}（恐惧贪婪指数，0=极恐 100=极贪）",
         "",
     ]
 

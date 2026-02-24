@@ -116,7 +116,7 @@ def generate_evening_review() -> str:
     for t, name in [('SPY','标普500'),('QQQ','纳斯达克'),('DIA','道指')]:
         if t in idx:
             lines.append(f"  {arr(idx[t]['change_pct'])} {name}  {fmt(idx[t]['change_pct'])}")
-    lines.append(f"  {fg['emoji']} 情绪：{fg['label_zh']} ({fg['value']}/100)")
+    lines.append(f"  {fg['emoji']} 情绪：{fg['label_zh']}（指数 {fg['value']}，0=极恐 100=极贪）")
 
     # 今日信号回顾
     if signals:
