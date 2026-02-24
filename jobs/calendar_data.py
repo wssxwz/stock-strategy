@@ -38,6 +38,18 @@ EARNINGS_OVERRIDES = {
         'timing': 'AMC',
         'source': 'manual',
         'note': '女王确认：周三盘后',
+    },
+    'CRM': {
+        'earnings_date': '2026-02-25',
+        'timing': 'AMC',
+        'source': 'manual',
+        'note': '女王确认：周三盘后',
+    },
+    'SNPS': {
+        'earnings_date': '2026-02-25',
+        'timing': 'AMC',
+        'source': 'manual',
+        'note': '女王确认：周三盘后',
     }
 }
 
