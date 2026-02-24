@@ -6,7 +6,7 @@
       "change": -11.99,
       "change_pct": -2.91,
       "date": "2026-02-23",
-      "volume": 69061241,
+      "volume": 69480900,
       "high_52w": 498.83,
       "low_52w": 214.25,
       "off_high": -19.8
@@ -17,7 +17,7 @@
       "change": -18.41,
       "change_pct": -2.81,
       "date": "2026-02-23",
-      "volume": 8540813,
+      "volume": 8581100,
       "high_52w": 796.25,
       "low_52w": 479.8,
       "off_high": -20.0
@@ -28,7 +28,7 @@
       "change": -38.27,
       "change_pct": -9.85,
       "date": "2026-02-23",
-      "volume": 15022566,
+      "volume": 15036400,
       "high_52w": 566.9,
       "low_52w": 298.0,
       "off_high": -38.2
@@ -39,9 +39,9 @@
       "change": -4.56,
       "change_pct": -3.07,
       "date": "2026-02-23",
-      "volume": 20808320,
+      "volume": 20847600,
       "high_52w": 223.61,
-      "low_52w": 144.15,
+      "low_52w": 143.3,
       "off_high": -35.5
     },
     "ORCL": {
@@ -50,7 +50,7 @@
       "change": -6.77,
       "change_pct": -4.57,
       "date": "2026-02-23",
-      "volume": 29555211,
+      "volume": 31664100,
       "high_52w": 345.72,
       "low_52w": 118.86,
       "off_high": -59.1
@@ -61,7 +61,7 @@
       "change": -0.65,
       "change_pct": -0.92,
       "date": "2026-02-23",
-      "volume": 13762950,
+      "volume": 13777300,
       "high_52w": 99.58,
       "low_52w": 14.71,
       "off_high": -29.5
@@ -72,7 +72,7 @@
       "change": -0.74,
       "change_pct": -1.16,
       "date": "2026-02-23",
-      "volume": 6157274,
+      "volume": 6161900,
       "high_52w": 193.84,
       "low_52w": 17.42,
       "off_high": -67.5
@@ -83,7 +83,7 @@
       "change": 0.01,
       "change_pct": 0.13,
       "date": "2026-02-23",
-      "volume": 28622098,
+      "volume": 28654300,
       "high_52w": 22.17,
       "low_52w": 6.52,
       "off_high": -64.7
@@ -94,7 +94,7 @@
       "change": -14.9,
       "change_pct": -8.64,
       "date": "2026-02-23",
-      "volume": 11082277,
+      "volume": 11109700,
       "high_52w": 280.67,
       "low_52w": 120.1,
       "off_high": -43.8
@@ -105,7 +105,7 @@
       "change": -1.8,
       "change_pct": -1.43,
       "date": "2026-02-23",
-      "volume": 3358231,
+      "volume": 3387800,
       "high_52w": 183.16,
       "low_52w": 80.0,
       "off_high": -32.4
@@ -116,7 +116,7 @@
       "change": -3.55,
       "change_pct": -1.77,
       "date": "2026-02-23",
-      "volume": 28039898,
+      "volume": 28121700,
       "high_52w": 267.08,
       "low_52w": 76.48,
       "off_high": -26.4
@@ -127,7 +127,7 @@
       "change": -0.16,
       "change_pct": -0.65,
       "date": "2026-02-23",
-      "volume": 1145466,
+      "volume": 1162500,
       "high_52w": 60.87,
       "low_52w": 17.26,
       "off_high": -59.8
@@ -138,7 +138,7 @@
       "change": -0.8,
       "change_pct": -4.21,
       "date": "2026-02-23",
-      "volume": 82459832,
+      "volume": 82578300,
       "high_52w": 32.73,
       "low_52w": 8.6,
       "off_high": -44.3
@@ -149,7 +149,7 @@
       "change": -0.91,
       "change_pct": -3.24,
       "date": "2026-02-23",
-      "volume": 943573,
+      "volume": 950500,
       "high_52w": 50.5,
       "low_52w": 19.71,
       "off_high": -46.2
@@ -160,7 +160,7 @@
       "change": 3.7,
       "change_pct": 4.61,
       "date": "2026-02-23",
-      "volume": 12429194,
+      "volume": 12954100,
       "high_52w": 129.89,
       "low_52w": 18.22,
       "off_high": -35.4
@@ -171,7 +171,7 @@
       "change": 2.69,
       "change_pct": 2.75,
       "date": "2026-02-23",
-      "volume": 8839762,
+      "volume": 8871000,
       "high_52w": 141.1,
       "low_52w": 18.31,
       "off_high": -28.7
@@ -182,7 +182,7 @@
       "change": -1.12,
       "change_pct": -3.51,
       "date": "2026-02-23",
-      "volume": 12112591,
+      "volume": 14497900,
       "high_52w": 84.64,
       "low_52w": 17.88,
       "off_high": -63.6
@@ -193,7 +193,7 @@
       "change": -3.49,
       "change_pct": -1.11,
       "date": "2026-02-23",
-      "volume": 31353761,
+      "volume": 31384900,
       "high_52w": 349.0,
       "low_52w": 140.53,
       "off_high": -10.7
@@ -204,11 +204,11 @@
       "change": 1.73,
       "change_pct": 0.91,
       "date": "2026-02-23",
-      "volume": 169780971,
+      "volume": 171079800,
       "high_52w": 212.19,
       "low_52w": 86.62,
       "off_high": -9.7
     }
   },
-  "generated_at": "2026-02-24T09:20:05.858779"
+  "generated_at": "2026-02-24T13:19:48.272026"
 }

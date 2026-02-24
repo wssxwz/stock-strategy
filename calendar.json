@@ -1,6 +1,21 @@
 {
-  "generated_at": "2026-02-24T09:19:36.035284",
+  "generated_at": "2026-02-24T13:18:52.283412",
   "this_week": [
+    {
+      "date": "2026-02-25",
+      "event": "NVDA \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
+      "ticker": "NVDA",
+      "category": "earnings",
+      "importance": 5,
+      "impact": "neutral",
+      "emoji": "\ud83d\udccb",
+      "tag": "\u2b50 \u6838\u5fc3\u6301\u4ed3",
+      "timing": "AMC",
+      "timing_zh": "\u76d8\u540e\ud83c\udf19",
+      "eps_est": null,
+      "eps_range": null,
+      "note": "\u76d8\u540e\ud83c\udf19"
+    },
     {
       "date": "2026-02-25",
       "event": "Trump \u56fd\u60c5\u54a8\u6587",
@@ -35,21 +50,6 @@
     },
     {
       "date": "2026-02-26",
-      "event": "NVDA \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
-      "ticker": "NVDA",
-      "category": "earnings",
-      "importance": 5,
-      "impact": "neutral",
-      "emoji": "\ud83d\udccb",
-      "tag": "\u2b50 \u6838\u5fc3\u6301\u4ed3",
-      "timing": "AMC",
-      "timing_zh": "\u76d8\u540e\ud83c\udf19",
-      "eps_est": 1.537,
-      "eps_range": "$1.49~$1.65",
-      "note": "EPS\u9884\u671f $1.54 \u00b7 \u76d8\u540e\ud83c\udf19"
-    },
-    {
-      "date": "2026-02-26",
       "event": "GDP Q4 \u7ec8\u503c",
       "category": "macro",
       "importance": 5,
@@ -67,7 +67,7 @@
       "tag": "",
       "timing": "AMC",
       "timing_zh": "\u76d8\u540e\ud83c\udf19",
-      "eps_est": 3.051,
+      "eps_est": 3.05,
       "eps_range": "$3.02~$3.20",
       "note": "EPS\u9884\u671f $3.05 \u00b7 \u76d8\u540e\ud83c\udf19"
     },
@@ -144,7 +144,7 @@
   ],
   "core_earnings": [
     {
-      "date": "2026-02-26",
+      "date": "2026-02-25",
       "event": "NVDA \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
       "ticker": "NVDA",
       "category": "earnings",
@@ -154,13 +154,28 @@
       "tag": "\u2b50 \u6838\u5fc3\u6301\u4ed3",
       "timing": "AMC",
       "timing_zh": "\u76d8\u540e\ud83c\udf19",
-      "eps_est": 1.537,
-      "eps_range": "$1.49~$1.65",
-      "note": "EPS\u9884\u671f $1.54 \u00b7 \u76d8\u540e\ud83c\udf19"
+      "eps_est": null,
+      "eps_range": null,
+      "note": "\u76d8\u540e\ud83c\udf19"
     }
   ],
   "by_date": {
     "2026-02-25": [
+      {
+        "date": "2026-02-25",
+        "event": "NVDA \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
+        "ticker": "NVDA",
+        "category": "earnings",
+        "importance": 5,
+        "impact": "neutral",
+        "emoji": "\ud83d\udccb",
+        "tag": "\u2b50 \u6838\u5fc3\u6301\u4ed3",
+        "timing": "AMC",
+        "timing_zh": "\u76d8\u540e\ud83c\udf19",
+        "eps_est": null,
+        "eps_range": null,
+        "note": "\u76d8\u540e\ud83c\udf19"
+      },
       {
         "date": "2026-02-25",
         "event": "Trump \u56fd\u60c5\u54a8\u6587",
@@ -197,21 +212,6 @@
     "2026-02-26": [
       {
         "date": "2026-02-26",
-        "event": "NVDA \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
-        "ticker": "NVDA",
-        "category": "earnings",
-        "importance": 5,
-        "impact": "neutral",
-        "emoji": "\ud83d\udccb",
-        "tag": "\u2b50 \u6838\u5fc3\u6301\u4ed3",
-        "timing": "AMC",
-        "timing_zh": "\u76d8\u540e\ud83c\udf19",
-        "eps_est": 1.537,
-        "eps_range": "$1.49~$1.65",
-        "note": "EPS\u9884\u671f $1.54 \u00b7 \u76d8\u540e\ud83c\udf19"
-      },
-      {
-        "date": "2026-02-26",
         "event": "GDP Q4 \u7ec8\u503c",
         "category": "macro",
         "importance": 5,
@@ -229,7 +229,7 @@
         "tag": "",
         "timing": "AMC",
         "timing_zh": "\u76d8\u540e\ud83c\udf19",
-        "eps_est": 3.051,
+        "eps_est": 3.05,
         "eps_range": "$3.02~$3.20",
         "note": "EPS\u9884\u671f $3.05 \u00b7 \u76d8\u540e\ud83c\udf19"
       },
@@ -541,6 +541,21 @@
   "all_events": [
     {
       "date": "2026-02-25",
+      "event": "NVDA \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
+      "ticker": "NVDA",
+      "category": "earnings",
+      "importance": 5,
+      "impact": "neutral",
+      "emoji": "\ud83d\udccb",
+      "tag": "\u2b50 \u6838\u5fc3\u6301\u4ed3",
+      "timing": "AMC",
+      "timing_zh": "\u76d8\u540e\ud83c\udf19",
+      "eps_est": null,
+      "eps_range": null,
+      "note": "\u76d8\u540e\ud83c\udf19"
+    },
+    {
+      "date": "2026-02-25",
       "event": "Trump \u56fd\u60c5\u54a8\u6587",
       "category": "political",
       "importance": 5,
@@ -573,21 +588,6 @@
     },
     {
       "date": "2026-02-26",
-      "event": "NVDA \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
-      "ticker": "NVDA",
-      "category": "earnings",
-      "importance": 5,
-      "impact": "neutral",
-      "emoji": "\ud83d\udccb",
-      "tag": "\u2b50 \u6838\u5fc3\u6301\u4ed3",
-      "timing": "AMC",
-      "timing_zh": "\u76d8\u540e\ud83c\udf19",
-      "eps_est": 1.537,
-      "eps_range": "$1.49~$1.65",
-      "note": "EPS\u9884\u671f $1.54 \u00b7 \u76d8\u540e\ud83c\udf19"
-    },
-    {
-      "date": "2026-02-26",
       "event": "GDP Q4 \u7ec8\u503c",
       "category": "macro",
       "importance": 5,
@@ -605,7 +605,7 @@
       "tag": "",
       "timing": "AMC",
       "timing_zh": "\u76d8\u540e\ud83c\udf19",
-      "eps_est": 3.051,
+      "eps_est": 3.05,
       "eps_range": "$3.02~$3.20",
       "note": "EPS\u9884\u671f $3.05 \u00b7 \u76d8\u540e\ud83c\udf19"
     },
@@ -878,22 +878,6 @@
     }
   ],
   "earnings_details": {
-    "MELI": {
-      "ticker": "MELI",
-      "company_name": "MercadoLibre, Inc.",
-      "sector": "Consumer Cyclical",
-      "market_cap": 94522867712,
-      "earnings_date": "2026-02-25",
-      "timing": "AMC",
-      "eps_estimate": 11.43263,
-      "eps_high": 12.29,
-      "eps_low": 9.62,
-      "rev_estimate": 8465833040,
-      "rev_high": 8754000000,
-      "rev_low": 8103400000,
-      "eps_growth_yoy": 0.061,
-      "rev_growth_yoy": 0.395
-    },
     "NVDA": {
       "ticker": "NVDA",
       "company_name": "NVIDIA Corporation",
@@ -910,6 +894,22 @@
       "eps_growth_yoy": 0.667,
       "rev_growth_yoy": 0.625
     },
+    "MELI": {
+      "ticker": "MELI",
+      "company_name": "MercadoLibre, Inc.",
+      "sector": "Consumer Cyclical",
+      "market_cap": 94522867712,
+      "earnings_date": "2026-02-25",
+      "timing": "AMC",
+      "eps_estimate": 11.43263,
+      "eps_high": 12.29,
+      "eps_low": 9.62,
+      "rev_estimate": 8462842860,
+      "rev_high": 8754000000,
+      "rev_low": 8103400000,
+      "eps_growth_yoy": 0.061,
+      "rev_growth_yoy": 0.395
+    },
     "CRM": {
       "ticker": "CRM",
       "company_name": "Salesforce, Inc.",
@@ -917,10 +917,10 @@
       "market_cap": 169608331264,
       "earnings_date": "2026-02-26",
       "timing": "AMC",
-      "eps_estimate": 3.05068,
+      "eps_estimate": 3.05025,
       "eps_high": 3.2,
       "eps_low": 3.02,
-      "rev_estimate": 11188165400,
+      "rev_estimate": 11188164760,
       "rev_high": 11300230000,
       "rev_low": 11134488000,
       "eps_growth_yoy": 0.386,

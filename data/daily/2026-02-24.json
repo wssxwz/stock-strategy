@@ -4,9 +4,9 @@
     "signals_count": 39,
     "positions_count": 0
   },
-  "updated_at": "2026-02-24T09:21:15.979964",
+  "updated_at": "2026-02-24T13:21:50.857562",
   "morning_brief": {
-    "generated_at": "2026-02-24T09:20:34.841388",
+    "generated_at": "2026-02-24T13:21:01.724563",
     "indices": {
       "SPY": {
         "price": 682.39,
@@ -31,24 +31,24 @@
     },
     "commodities": {
       "GC=F": {
-        "price": 5226.9,
-        "change_pct": 3.31,
-        "change": 167.6
+        "price": 5190.5,
+        "change_pct": -0.27,
+        "change": -14.2
       },
       "CL=F": {
-        "price": 66.25,
-        "change_pct": -0.21,
-        "change": -0.14
+        "price": 66.73,
+        "change_pct": 0.63,
+        "change": 0.42
       },
       "SI=F": {
-        "price": 87.13,
-        "change_pct": 5.89,
-        "change": 4.85
+        "price": 86.86,
+        "change_pct": 0.4,
+        "change": 0.34
       },
       "NG=F": {
-        "price": 2.92,
-        "change_pct": -4.07,
-        "change": -0.12
+        "price": 2.93,
+        "change_pct": -1.91,
+        "change": -0.06
       }
     },
     "fear_greed": {
