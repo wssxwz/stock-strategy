@@ -309,9 +309,8 @@ textarea{width:100%;height:180px;padding:12px;background:#0f172a;border:1px soli
 <!-- Tabs -->
 <div class="tabs">
   <button class="tab-btn active" data-tab="overview">🏠 今日概览</button>
-  <button class="tab-btn" data-tab="signals">📡 信号列表</button>
+  <button class="tab-btn" data-tab="push">📨 信号推送</button>
   <button class="tab-btn" data-tab="positions">💼 我的持仓</button>
-  <button class="tab-btn" data-tab="history">📜 推送历史</button>
   <button class="tab-btn" data-tab="weekly">📅 周末总结</button>
   <button class="tab-btn" data-tab="settings">⚙️ 设置</button>
 </div>
@@ -465,20 +464,36 @@ textarea{width:100%;height:180px;padding:12px;background:#0f172a;border:1px soli
     </div>
   </div>
 
-  <!-- Tab: 信号列表 -->
-  <div class="tab-panel" id="panel-signals">
-    <div class="filters">
-      <span class="filter-label">类型:</span>
-      <select id="filter-type">
-        <option value="all">全部</option>
-        <option value="buy">买入</option>
-        <option value="exit">卖出</option>
-      </select>
-      <span class="filter-label">最低评分:</span>
-      <input type="number" id="filter-score" placeholder="0" min="0" max="100" style="width:70px">
-      <input type="text" id="filter-q" placeholder="搜索股票代码..." style="width:160px">
+  <!-- Tab: 信号推送（合并：推送历史 + 信号列表） -->
+  <div class="tab-panel" id="panel-push">
+    <div class="card" style="padding:14px 14px 10px">
+      <div style="display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap">
+        <div style="font-size:14px;font-weight:700">📨 信号推送</div>
+        <div style="display:flex;gap:8px">
+          <button class="session-btn active" id="push-subtab-history" onclick="setPushSubtab('history')">推送</button>
+          <button class="session-btn" id="push-subtab-signals" onclick="setPushSubtab('signals')">信号</button>
+        </div>
+      </div>
     </div>
-    <div class="signals-grid" id="signals-grid"></div>
+
+    <div id="push-view-history">
+      <div id="history-list"><div class="empty-msg">暂无推送历史</div></div>
+    </div>
+
+    <div id="push-view-signals" style="display:none">
+      <div class="filters">
+        <span class="filter-label">类型:</span>
+        <select id="filter-type">
+          <option value="all">全部</option>
+          <option value="buy">买入</option>
+          <option value="exit">卖出</option>
+        </select>
+        <span class="filter-label">最低评分:</span>
+        <input type="number" id="filter-score" placeholder="0" min="0" max="100" style="width:70px">
+        <input type="text" id="filter-q" placeholder="搜索股票代码..." style="width:160px">
+      </div>
+      <div class="signals-grid" id="signals-grid"></div>
+    </div>
   </div>
 
   <!-- Tab: 我的持仓 -->
@@ -581,9 +596,9 @@ textarea{width:100%;height:180px;padding:12px;background:#0f172a;border:1px soli
     </div>
   </div>
 
-  <!-- Tab: 推送历史 -->
-  <div class="tab-panel" id="panel-history">
-    <div id="history-list"><div class="empty-msg">暂无推送历史</div></div>
+  <!-- Tab: 推送历史（已合并到「信号推送」） -->
+  <div class="tab-panel" id="panel-history" style="display:none">
+    <div id="history-list-old"><div class="empty-msg">已合并到「信号推送」</div></div>
   </div>
 
   <!-- Tab: 周末总结 -->

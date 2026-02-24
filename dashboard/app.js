@@ -58,6 +58,7 @@ function initTabs() {
 
 function renderTab(tab) {
   if (tab==='overview')  renderOverview();
+  if (tab==='push')      renderPush();
   if (tab==='signals')   renderSignals();
   if (tab==='positions') renderPositions();
   if (tab==='history')   renderHistory();
@@ -879,6 +880,33 @@ window.closePosition = function(id, type) {
   renderPositions();
   updateStats();
 };
+
+// ── Tab: 信号推送（合并：推送历史 + 信号列表） ───────────
+let pushSubtab = 'history';
+window.setPushSubtab = function(tab) {
+  pushSubtab = tab;
+  const hBtn = document.getElementById('push-subtab-history');
+  const sBtn = document.getElementById('push-subtab-signals');
+  const hView = document.getElementById('push-view-history');
+  const sView = document.getElementById('push-view-signals');
+  if (!hBtn || !sBtn || !hView || !sView) return;
+
+  const isHist = tab === 'history';
+  hBtn.classList.toggle('active', isHist);
+  sBtn.classList.toggle('active', !isHist);
+  hView.style.display = isHist ? 'block' : 'none';
+  sView.style.display = isHist ? 'none' : 'block';
+
+  if (isHist) renderHistory();
+  else renderSignals();
+};
+
+function renderPush() {
+  // 默认展示“推送”子页
+  try { setPushSubtab(pushSubtab || 'history'); } catch(e) {
+    renderHistory();
+  }
+}
 
 // ── Tab 4: 推送历史 ───────────────────────────────────
 function renderHistory() {
