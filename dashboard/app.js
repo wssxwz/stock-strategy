@@ -1209,26 +1209,24 @@ async function renderCalendar() {
   const daysEl = document.getElementById('cal-days');
   const subEl  = document.getElementById('cal-sub');
 
-  // 先从 localStorage 取缓存
+  // 说明：日历信息对“日期准确性”要求极高。
+  // 之前 localStorage 的 6 小时缓存会导致已修正的数据（如财报日期）在手机端长期不刷新。
+  // 这里改为：每次渲染都强制拉取最新 calendar.json，并覆盖缓存。
   let cal = null;
   try {
-    const cached = localStorage.getItem('calendar_cache');
-    if (cached) {
-      const obj = JSON.parse(cached);
-      // 超过6小时则重新加载
-      if (Date.now() - obj._ts < 6 * 3600 * 1000) cal = obj;
+    const res = await fetch('./calendar.json?_=' + Date.now(), { cache: 'no-store' });
+    if (res.ok) {
+      cal = await res.json();
+      cal._ts = Date.now();
+      try { localStorage.setItem('calendar_cache', JSON.stringify(cal)); } catch(e) {}
     }
   } catch(e) {}
 
-  // 没缓存则从 JSON 文件加载
+  // 兜底：若网络失败，再用本地缓存
   if (!cal) {
     try {
-      const res = await fetch('./calendar.json?_=' + Date.now());
-      if (res.ok) {
-        cal = await res.json();
-        cal._ts = Date.now();
-        localStorage.setItem('calendar_cache', JSON.stringify(cal));
-      }
+      const cached = localStorage.getItem('calendar_cache');
+      if (cached) cal = JSON.parse(cached);
     } catch(e) {}
   }
 
