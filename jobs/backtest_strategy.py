@@ -207,6 +207,19 @@ def entry_condition(df: pd.DataFrame, i: int, p: Params, rs_1y: float) -> Tuple[
 
     trend_ok = (above200 == 1 and ma200_slope_pct >= 0 and (rs_1y == -999.0 or rs_1y > -10.0) and not knife_risk)
 
+    # Strong-trend flag (used to avoid choking off big trend compounding)
+    # Conservative: require trend_ok plus strong RS + positive MA200 slope + price meaningfully above MA200.
+    strong_trend = False
+    try:
+        strong_trend = (
+            trend_ok
+            and (rs_1y == -999.0 or rs_1y >= 20.0)
+            and ma200_slope_pct >= 2.0
+            and close > ma200 * 1.03
+        )
+    except Exception:
+        strong_trend = False
+
     meta = {
         "rsi14": rsi,
         "above_ma200": above200,
@@ -226,6 +239,7 @@ def entry_condition(df: pd.DataFrame, i: int, p: Params, rs_1y: float) -> Tuple[
         "knife_risk": bool(knife_risk),
         "chop_risk": bool(chop_risk),
         "trend_ok": bool(trend_ok),
+        "strong_trend": bool(strong_trend),
 
         "knife_ret5_thresh": knife_ret5_thresh,
         "chop_atr_thresh": chop_atr_thresh,
@@ -387,17 +401,28 @@ def backtest(df: pd.DataFrame, p: Params, ticker: str = "") -> pd.DataFrame:
                     chop = bool(entry_meta.get("chop_risk"))
                     trend_ok = bool(entry_meta.get("trend_ok"))
 
+                    strong = bool(entry_meta.get("strong_trend"))
+
                     if chop and (not trend_ok):
                         adaptive_mode = "skip_struct"
                         # do not use struct; will fall back to fixed below
                         pivot_left, pivot_right = p.sl_pivot_left, p.sl_pivot_right
                         entry_sl = None
                         entry_tp = None
+
+                    elif (not chop) and strong:
+                        # strong trend: prefer fixed exits to preserve big trend compounding
+                        adaptive_mode = "trend_fixed"
+                        pivot_left, pivot_right = p.sl_pivot_left, p.sl_pivot_right
+                        entry_sl = None
+                        entry_tp = None
+
                     elif chop and trend_ok:
                         adaptive_mode = "pivot_wide"
                         pivot_left, pivot_right = p.sl_pivot_left, p.sl_pivot_right
                         eff_lookback = max(eff_lookback, 40)
                         eff_atr_buffer = max(eff_atr_buffer, 1.0)
+
                     else:
                         adaptive_mode = "pivot"
                         pivot_left, pivot_right = p.sl_pivot_left, p.sl_pivot_right
