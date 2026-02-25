@@ -383,13 +383,12 @@ def format_structure_signal_message(ticker: str, sig: dict, timeframe: str = "60
     risk = entry - sl if entry and sl else 0
     risk_pct = (risk / entry * 100) if entry else 0
 
-    # keep RPS wording but map to rs_1y if present
-    rps = sig.get('rps', None)
-    if rps is None and 'rs_1y' in sig:
+    rs_1y = sig.get('rs_1y', None)
+    if rs_1y is not None:
         try:
-            rps = float(sig.get('rs_1y'))
+            rs_1y = float(rs_1y)
         except Exception:
-            rps = None
+            rs_1y = None
 
     parts = [
         f"🚀 {ticker} {typ_zh}开仓",
@@ -399,11 +398,8 @@ def format_structure_signal_message(ticker: str, sig: dict, timeframe: str = "60
         f"🎯 止盈: {tp:.2f}",
         f"📐 RR: {rr:.3f}｜风险: {risk_pct:.2f}%",
     ]
-    if rps is not None:
-        try:
-            parts.append(f"📊 RPS评级: {float(rps):.3f}")
-        except Exception:
-            parts.append(f"📊 RPS评级: {rps}")
+    if rs_1y is not None:
+        parts.append(f"📊 RS_1Y: {rs_1y:+.2f}%")
 
     return "\n".join(parts)
 
