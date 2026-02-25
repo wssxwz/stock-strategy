@@ -73,7 +73,7 @@ class Params:
     # exits (two modes)
     # - fixed: use tp_pct/sl_pct
     # - rr_struct: use structure stop (swing low) + fixed RR to derive TP
-    risk_mode: str = "fixed"  # fixed | rr_struct
+    risk_mode: str = "fixed"  # fixed | rr_struct | rr_struct_adaptive
     rr: float = 5/3
     sl_lookback: int = 20
     sl_atr_buffer: float = 0.0  # buffer in ATR14 units
@@ -371,29 +371,64 @@ def backtest(df: pd.DataFrame, p: Params, ticker: str = "") -> pd.DataFrame:
                 # risk model
                 entry_sl = None
                 entry_tp = None
-                if p.risk_mode == "rr_struct":
+                # Adaptive mode: decide rr_struct variant per-entry based on chop_risk
+                adaptive_mode = None
+                pivot_left = p.sl_pivot_left
+                pivot_right = p.sl_pivot_right
+
+                if p.risk_mode == "rr_struct_adaptive":
+                    # if market is choppy, use a *wider* structure stop to avoid getting whipped out:
+                    # - disable pivots (fallback to min-low)
+                    # - increase lookback
+                    # - increase ATR buffer
+                    eff_lookback = p.sl_lookback
+                    eff_atr_buffer = p.sl_atr_buffer
+
+                    if bool(entry_meta.get("chop_risk")):
+                        adaptive_mode = "minlow"
+                        pivot_left, pivot_right = 10, 1  # effectively disables pivots in window
+                        eff_lookback = max(eff_lookback, 60)
+                        eff_atr_buffer = max(eff_atr_buffer, 1.0)
+                    else:
+                        adaptive_mode = "pivot"
+
+                elif p.risk_mode == "rr_struct":
+                    adaptive_mode = "pivot"
+                    eff_lookback = p.sl_lookback
+                    eff_atr_buffer = p.sl_atr_buffer
+                else:
+                    eff_lookback = p.sl_lookback
+                    eff_atr_buffer = p.sl_atr_buffer
+
+                if p.risk_mode in ("rr_struct", "rr_struct_adaptive"):
                     sl = _structure_sl(
                         df,
                         i,
-                        p.sl_lookback,
-                        p.sl_atr_buffer,
-                        pivot_left=p.sl_pivot_left,
-                        pivot_right=p.sl_pivot_right,
+                        eff_lookback,
+                        eff_atr_buffer,
+                        pivot_left=pivot_left,
+                        pivot_right=pivot_right,
                     )
                     if sl is not None and sl < entry_price:
                         entry_sl = float(sl)
                         entry_tp = float(entry_price + p.rr * (entry_price - entry_sl))
+
                 # fallback: fixed % stop/target
                 if entry_sl is None:
                     entry_sl = float(entry_price * (1.0 + p.sl_pct))
                     entry_tp = float(entry_price * (1.0 + p.tp_pct))
+                    if adaptive_mode is None:
+                        adaptive_mode = "fixed"
 
                 entry_meta = {
                     **entry_meta,
                     "risk_mode": p.risk_mode,
+                    "adaptive_mode": adaptive_mode,
                     "rr": float(p.rr),
-                    "sl_lookback": int(p.sl_lookback),
-                    "sl_atr_buffer": float(p.sl_atr_buffer),
+                    "sl_lookback": int(eff_lookback),
+                    "sl_atr_buffer": float(eff_atr_buffer),
+                    "pivot_left": int(pivot_left),
+                    "pivot_right": int(pivot_right),
                     "entry_sl": round(entry_sl, 4),
                     "entry_tp": round(entry_tp, 4),
                 }
@@ -479,7 +514,7 @@ def main():
     ap.add_argument("--sl", type=float, default=-0.08, help="Fixed SL pct (used when --risk_mode=fixed)")
     ap.add_argument("--hold", type=int, default=195)
 
-    ap.add_argument("--risk_mode", type=str, default="fixed", choices=["fixed", "rr_struct"], help="Exit model")
+    ap.add_argument("--risk_mode", type=str, default="fixed", choices=["fixed", "rr_struct", "rr_struct_adaptive"], help="Exit model")
     ap.add_argument("--rr", type=float, default=5/3, help="Risk-reward for rr_struct mode (TP = entry + rr*(entry-SL))")
     ap.add_argument("--sl_lookback", type=int, default=30, help="Structure SL lookback bars for rr_struct")
     ap.add_argument("--sl_atr_buffer", type=float, default=0.5, help="Subtract buffer*ATR14 from structure SL (default 0.5)")
