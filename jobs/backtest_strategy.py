@@ -69,7 +69,14 @@ class Params:
 
     ret1y_lookback_bars: int = 1638  # kept for compatibility, but RS uses daily data
 
-    # exits
+    # exits (two modes)
+    # - fixed: use tp_pct/sl_pct
+    # - rr_struct: use structure stop (swing low) + fixed RR to derive TP
+    risk_mode: str = "fixed"  # fixed | rr_struct
+    rr: float = 5/3
+    sl_lookback: int = 20
+    sl_atr_buffer: float = 0.0  # buffer in ATR14 units
+
     tp_pct: float = 0.13
     sl_pct: float = -0.08
     hold_max: int = 195  # ~30 trading days * 6.5 bars/day
@@ -181,6 +188,30 @@ def entry_condition(df: pd.DataFrame, i: int, p: Params, rs_1y: float) -> Tuple[
     return ok, meta
 
 
+def _structure_sl(df: pd.DataFrame, i: int, lookback: int, atr_buffer: float) -> Optional[float]:
+    """Compute a simple structure stop loss from recent swing low.
+
+    Uses the min(low) over the last `lookback` bars (inclusive), optionally minus atr_buffer*ATR14.
+    Returns None if not computable.
+    """
+    try:
+        lb = max(1, int(lookback))
+        start = max(0, i - lb + 1)
+        window = df.iloc[start : i + 1]
+        if window is None or window.empty:
+            return None
+        if "low" not in window.columns:
+            return None
+        sl = float(window["low"].min())
+        if atr_buffer and "atr14" in df.columns:
+            atr = float(df["atr14"].iloc[i])
+            if atr > 0:
+                sl = sl - float(atr_buffer) * atr
+        return sl
+    except Exception:
+        return None
+
+
 def backtest(df: pd.DataFrame, p: Params, ticker: str = "") -> pd.DataFrame:
     if df.empty:
         return pd.DataFrame()
@@ -199,6 +230,8 @@ def backtest(df: pd.DataFrame, p: Params, ticker: str = "") -> pd.DataFrame:
     entry_price: Optional[float] = None
     entry_time: Optional[pd.Timestamp] = None
     entry_meta: Dict = {}
+    entry_sl: Optional[float] = None
+    entry_tp: Optional[float] = None
 
     start_i = max(p.warmup_bars, p.ret1y_lookback_bars)  # deterministic start
 
@@ -211,6 +244,29 @@ def backtest(df: pd.DataFrame, p: Params, ticker: str = "") -> pd.DataFrame:
                 entry_price = float(df["close"].iloc[i])
                 entry_time = df.index[i]
                 entry_meta = meta
+
+                # risk model
+                entry_sl = None
+                entry_tp = None
+                if p.risk_mode == "rr_struct":
+                    sl = _structure_sl(df, i, p.sl_lookback, p.sl_atr_buffer)
+                    if sl is not None and sl < entry_price:
+                        entry_sl = float(sl)
+                        entry_tp = float(entry_price + p.rr * (entry_price - entry_sl))
+                # fallback: fixed % stop/target
+                if entry_sl is None:
+                    entry_sl = float(entry_price * (1.0 + p.sl_pct))
+                    entry_tp = float(entry_price * (1.0 + p.tp_pct))
+
+                entry_meta = {
+                    **entry_meta,
+                    "risk_mode": p.risk_mode,
+                    "rr": float(p.rr),
+                    "sl_lookback": int(p.sl_lookback),
+                    "sl_atr_buffer": float(p.sl_atr_buffer),
+                    "entry_sl": round(entry_sl, 4),
+                    "entry_tp": round(entry_tp, 4),
+                }
         else:
             assert entry_i is not None and entry_price is not None and entry_time is not None
             bars_held = i - entry_i
@@ -218,9 +274,9 @@ def backtest(df: pd.DataFrame, p: Params, ticker: str = "") -> pd.DataFrame:
             cur_ret = (cur - entry_price) / entry_price
 
             reason = None
-            if cur_ret >= p.tp_pct:
+            if entry_tp is not None and cur >= entry_tp:
                 reason = "TP"
-            elif cur_ret <= p.sl_pct:
+            elif entry_sl is not None and cur <= entry_sl:
                 reason = "SL"
             elif bars_held >= p.hold_max:
                 reason = "TIME"
@@ -243,6 +299,8 @@ def backtest(df: pd.DataFrame, p: Params, ticker: str = "") -> pd.DataFrame:
                 entry_price = None
                 entry_time = None
                 entry_meta = {}
+                entry_sl = None
+                entry_tp = None
 
     return pd.DataFrame(trades)
 
@@ -287,9 +345,14 @@ def main():
     ap.add_argument("--period", default="730d")
     ap.add_argument("--out", default="")
 
-    ap.add_argument("--tp", type=float, default=0.13)
-    ap.add_argument("--sl", type=float, default=-0.08)
+    ap.add_argument("--tp", type=float, default=0.13, help="Fixed TP pct (used when --risk_mode=fixed)")
+    ap.add_argument("--sl", type=float, default=-0.08, help="Fixed SL pct (used when --risk_mode=fixed)")
     ap.add_argument("--hold", type=int, default=195)
+
+    ap.add_argument("--risk_mode", type=str, default="fixed", choices=["fixed", "rr_struct"], help="Exit model")
+    ap.add_argument("--rr", type=float, default=5/3, help="Risk-reward for rr_struct mode (TP = entry + rr*(entry-SL))")
+    ap.add_argument("--sl_lookback", type=int, default=20, help="Swing-low lookback bars for rr_struct SL")
+    ap.add_argument("--sl_atr_buffer", type=float, default=0.0, help="Subtract buffer*ATR14 from swing-low SL")
 
     ap.add_argument("--rsi", type=float, default=45)
     ap.add_argument("--ret5", type=float, default=-0.03)
@@ -306,6 +369,11 @@ def main():
         ret5_entry=args.ret5,
         no_signal_streak=args.no_signal,
         rs_1y_floor=args.rs_1y_floor,
+        risk_mode=args.risk_mode,
+        rr=args.rr,
+        sl_lookback=args.sl_lookback,
+        sl_atr_buffer=args.sl_atr_buffer,
+
         tp_pct=args.tp,
         sl_pct=args.sl,
         hold_max=args.hold,
