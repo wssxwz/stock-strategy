@@ -118,6 +118,46 @@ def check_stabilization(df: pd.DataFrame) -> dict:
     }
 
 
+def _structure_signals(df: pd.DataFrame, ticker: str) -> dict:
+    """Compute structure (1buy/2buy) signals on latest bar.
+
+    Returns dict with keys:
+      - structure: { enabled, signals: [..], best: .. }
+
+    This is intentionally separate from score_signal so we can migrate from
+    mean-reversion scanning to structure-based execution.
+    """
+    try:
+        import sys as _sys, os as _os
+        _sys.path.insert(0, _os.path.join(_os.path.dirname(__file__), '../src'))
+        from strategy.structure import StructureParams, structure_1buy_signal, structure_2buy_signal
+
+        if df is None or df.empty:
+            return {"enabled": True, "signals": [], "best": None}
+
+        i = len(df) - 1
+        p = StructureParams()
+        s1 = structure_1buy_signal(df, i, p)
+        s2 = structure_2buy_signal(df, i, p)
+
+        signals = []
+        if s1: signals.append(s1)
+        if s2: signals.append(s2)
+
+        # pick best by rr *and* risk distance sanity (prefer reasonable risk)
+        best = None
+        if signals:
+            def key(s):
+                risk = max(1e-9, float(s['entry'] - s['sl']))
+                risk_pct = risk / float(s['entry'])
+                return (1 if risk_pct <= 0.08 else 0, -risk_pct, s.get('type',''))
+            best = sorted(signals, key=key, reverse=True)[0]
+
+        return {"enabled": True, "signals": signals, "best": best}
+    except Exception:
+        return {"enabled": False, "signals": [], "best": None}
+
+
 def score_signal(row: pd.Series, ticker: str) -> dict:
     """
     对单根K线打分，返回信号评分和详情
