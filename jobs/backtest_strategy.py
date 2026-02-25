@@ -377,20 +377,30 @@ def backtest(df: pd.DataFrame, p: Params, ticker: str = "") -> pd.DataFrame:
                 pivot_right = p.sl_pivot_right
 
                 if p.risk_mode == "rr_struct_adaptive":
-                    # if market is choppy, use a *wider* structure stop to avoid getting whipped out:
-                    # - disable pivots (fallback to min-low)
-                    # - increase lookback
-                    # - increase ATR buffer
+                    # Adaptive policy (conservative, avoid catching falling knives):
+                    # - If chop_risk and NOT trend_ok: treat as no-trade (fallback to fixed tight exits)
+                    # - If chop_risk and trend_ok: keep pivot structure, but widen buffer to survive whipsaws
+                    # - Else: use pivot structure defaults
                     eff_lookback = p.sl_lookback
                     eff_atr_buffer = p.sl_atr_buffer
 
-                    if bool(entry_meta.get("chop_risk")):
-                        adaptive_mode = "minlow"
-                        pivot_left, pivot_right = 10, 1  # effectively disables pivots in window
-                        eff_lookback = max(eff_lookback, 60)
+                    chop = bool(entry_meta.get("chop_risk"))
+                    trend_ok = bool(entry_meta.get("trend_ok"))
+
+                    if chop and (not trend_ok):
+                        adaptive_mode = "skip_struct"
+                        # do not use struct; will fall back to fixed below
+                        pivot_left, pivot_right = p.sl_pivot_left, p.sl_pivot_right
+                        entry_sl = None
+                        entry_tp = None
+                    elif chop and trend_ok:
+                        adaptive_mode = "pivot_wide"
+                        pivot_left, pivot_right = p.sl_pivot_left, p.sl_pivot_right
+                        eff_lookback = max(eff_lookback, 40)
                         eff_atr_buffer = max(eff_atr_buffer, 1.0)
                     else:
                         adaptive_mode = "pivot"
+                        pivot_left, pivot_right = p.sl_pivot_left, p.sl_pivot_right
 
                 elif p.risk_mode == "rr_struct":
                     adaptive_mode = "pivot"
@@ -400,7 +410,7 @@ def backtest(df: pd.DataFrame, p: Params, ticker: str = "") -> pd.DataFrame:
                     eff_lookback = p.sl_lookback
                     eff_atr_buffer = p.sl_atr_buffer
 
-                if p.risk_mode in ("rr_struct", "rr_struct_adaptive"):
+                if p.risk_mode in ("rr_struct", "rr_struct_adaptive") and entry_sl is None:
                     sl = _structure_sl(
                         df,
                         i,
