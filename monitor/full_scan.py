@@ -27,8 +27,12 @@ STATE_FILE = os.path.join(os.path.dirname(__file__), '.monitor_state.json')
 def load_state():
     if os.path.exists(STATE_FILE):
         with open(STATE_FILE) as f:
-            return json.load(f)
-    return {'sent_signals': {}}
+            s = json.load(f)
+            # backward-compatible defaults
+            s.setdefault('sent_signals', {})
+            s.setdefault('no_signal_streak', 0)  # consecutive scans with NO_SIGNAL
+            return s
+    return {'sent_signals': {}, 'no_signal_streak': 0}
 
 def save_state(state):
     with open(STATE_FILE, 'w') as f:
@@ -121,17 +125,48 @@ def main():
     # ════════════════════════════════════
     # 第三部分：扫描买入信号
     # ════════════════════════════════════
+
+    # ret5 动态降级（KO 低波动票也要有出手机会）
+    # 全市场连续无信号 >=20 / >=30 / >=40: 逐步放宽 ret5 门槛
+    streak = int(state.get('no_signal_streak', 0) or 0)
+    if streak >= 30:
+        ret5_entry_pct = -2.0
+        ret5_level = 'L2'
+    elif streak >= 20:
+        ret5_entry_pct = -2.5
+        ret5_level = 'L1'
+    else:
+        ret5_entry_pct = -3.0
+        ret5_level = 'L0'
+    print(f"[ret5 门槛] {ret5_level}: ret_5d ≤ {ret5_entry_pct:.1f}%（无信号连续 {streak} 次）")
     print(f"\n[买入扫描] 开始扫描 {len(WATCHLIST)} 只股票...")
     candidates = phase1_filter(WATCHLIST)
     # phase2_score 后按动态阈值过滤（P3：按股票类型细化阈值）
     buy_signals_raw = phase2_score(candidates) if candidates else []
-    buy_signals = []
+
+    # 先按 ret5 硬门槛过滤（动态降级）
+    buy_signals_ret5 = []
     for s in buy_signals_raw:
+        try:
+            # signal_engine 的 ret_5d 是百分比口径（例如 -2.3）
+            if float(s.get('ret_5d', 0)) <= ret5_entry_pct:
+                buy_signals_ret5.append(s)
+        except Exception:
+            continue
+
+    buy_signals = []
+    for s in buy_signals_ret5:
         ticker_threshold = get_score_threshold(s['ticker'], regime)
         s['score_threshold'] = ticker_threshold  # 记录该股实际阈值
+        s['ret5_entry_pct'] = ret5_entry_pct
+        s['ret5_level'] = ret5_level
+        s['no_signal_streak'] = streak
         if s['score'] >= ticker_threshold:
             buy_signals.append(s)
-    print(f"[信号过滤] 原始触发 {len(buy_signals_raw)} 只 → 达到阈值 {len(buy_signals)} 只")
+
+    print(
+        f"[信号过滤] 原始触发 {len(buy_signals_raw)} 只 → ret5通过 {len(buy_signals_ret5)} 只 → 达到阈值 {len(buy_signals)} 只"
+    )
 
     new_buy = []
     for sig in buy_signals:
@@ -224,8 +259,10 @@ def main():
     total_alerts = len(exit_alerts) + len(new_buy) if portfolio else len(new_buy)
     if total_alerts == 0:
         print("\nNO_SIGNAL")
+        state['no_signal_streak'] = int(state.get('no_signal_streak', 0) or 0) + 1
     else:
         print(f"\n共触发 {total_alerts} 个提醒（卖出:{len(exit_alerts) if portfolio else 0} 买入:{len(new_buy)}）")
+        state['no_signal_streak'] = 0
 
     # ════════════════════════════════════
     # 盘中：每次扫描后更新持仓诊断 + 自动 push

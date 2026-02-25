@@ -55,8 +55,18 @@ except Exception:
 class Params:
     # entry
     rsi_entry: float = 45
+
+    # ret5 dynamic downgrade (matches live scan)
+    # L0: -3% (default)
+    # L1: -2.5% when market has been "no-signal" for >=20 scans
+    # L2: -2%   when market has been "no-signal" for >=30 scans (cap)
     ret5_entry: float = -0.03
-    rs_1y_min: float = 0.0  # RS_1Y > 0% (not weaker than SPY)
+    no_signal_streak: int = 0
+
+    # RS_1Y: avoid hard-killing slightly-weak names like AAPL
+    # Only filter out *extremely weak* names.
+    rs_1y_floor: float = -10.0  # allow if RS_1Y > -10% (vs SPY)
+
     ret1y_lookback_bars: int = 1638  # kept for compatibility, but RS uses daily data
 
     # exits
@@ -122,20 +132,46 @@ def entry_condition(df: pd.DataFrame, i: int, p: Params, rs_1y: float) -> Tuple[
     macd_h = float(row.get("macd_hist", 0))
     
 
+    # apply dynamic ret5 downgrade (same thresholds as live scan)
+    ret5_entry = p.ret5_entry
+    if p.no_signal_streak >= 30:
+        ret5_entry = -0.02
+    elif p.no_signal_streak >= 20:
+        ret5_entry = -0.025
+
+    # RS_1Y: no longer a hard filter unless *extremely weak*
+    rs_ok = (rs_1y == -999.0) or (rs_1y > p.rs_1y_floor)
+
     ok = (
         above200 == 1
         and rsi < p.rsi_entry
-        and ret5 < p.ret5_entry
-        and rs_1y > p.rs_1y_min  # RS_1Y > 0% (not weaker than SPY)
+        and ret5 < ret5_entry
+        and rs_ok
         and macd_h < 0
     )
+
+    # RS_1Y score (kept consistent with signal_engine)
+    rs_score = 0
+    if rs_1y != -999.0:
+        if rs_1y > 10:
+            rs_score = 10
+        elif rs_1y > 0:
+            rs_score = 5
+        elif rs_1y > -10:
+            rs_score = 0
+        else:
+            rs_score = -5
 
     meta = {
         "rsi14": rsi,
         "above_ma200": above200,
         "above_ma50": above50,
         "ret_5d_pct": ret5 * 100,
+        "ret5_entry_pct": ret5_entry * 100,
+        "no_signal_streak": int(p.no_signal_streak),
         "rs_1y": rs_1y,
+        "rs_1y_floor": p.rs_1y_floor,
+        "rs_1y_score": rs_score,
         "macd_hist": macd_h,
     }
     return ok, meta
@@ -253,7 +289,8 @@ def main():
 
     ap.add_argument("--rsi", type=float, default=45)
     ap.add_argument("--ret5", type=float, default=-0.03)
-    ap.add_argument("--rs_1y", type=float, default=0.0, help="RS_1Y min threshold (vs SPY, default 0.0)")
+    ap.add_argument("--rs_1y_floor", type=float, default=-10.0, help="RS_1Y floor filter (vs SPY). Only blocks extremely weak names; default -10.0")
+    ap.add_argument("--no_signal", type=int, default=0, help="Market no-signal streak (scans). Used to auto-downgrade ret5: 0->-3%%, >=20->-2.5%%, >=30->-2%%")
 
     ap.add_argument("--warmup", type=int, default=300)
     ap.add_argument("--ret1y_lookback", type=int, default=1638)
@@ -263,7 +300,8 @@ def main():
     p = Params(
         rsi_entry=args.rsi,
         ret5_entry=args.ret5,
-        rs_1y_min=args.rs_1y,
+        no_signal_streak=args.no_signal,
+        rs_1y_floor=args.rs_1y_floor,
         tp_pct=args.tp,
         sl_pct=args.sl,
         hold_max=args.hold,
