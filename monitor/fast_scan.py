@@ -14,6 +14,12 @@ import yfinance as yf
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
+import io
+import contextlib
+import logging
+
+# reduce yfinance noise
+logging.getLogger('yfinance').setLevel(logging.CRITICAL)
 
 # local parquet store
 try:
@@ -54,18 +60,21 @@ def phase1_filter(tickers: list, batch_size: int = 100) -> list:
         batch = tickers[i:i+batch_size]
         raw = None
         try:
-            raw = yf.download(
-                batch, period='3mo', interval='1d',
-                auto_adjust=True, group_by='ticker',
-                progress=False, threads=True
-            )
+            # yfinance sometimes prints noisy errors; silence stdout/stderr here
+            with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+                raw = yf.download(
+                    batch, period='3mo', interval='1d',
+                    auto_adjust=True, group_by='ticker',
+                    progress=False, threads=True
+                )
         except Exception as e:
             print(f"    批次 {i//batch_size+1} 批量下载失败: {e}（将逐只重试）")
 
         def _download_one(tk: str) -> pd.DataFrame:
             """Per-ticker fallback download to avoid batch-level failures and reduce spam."""
             try:
-                df1 = yf.Ticker(tk).history(period='3mo', interval='1d', auto_adjust=True)
+                with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+                    df1 = yf.Ticker(tk).history(period='3mo', interval='1d', auto_adjust=True)
                 if df1 is None:
                     return pd.DataFrame()
                 return df1
