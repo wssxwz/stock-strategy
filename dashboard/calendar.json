@@ -1,812 +1,950 @@
 {
-  "generated_at": "2026-02-24T15:21:09.440060",
+  "generated_at": "2026-02-25T08:52:18.531549",
   "this_week": [
     {
       "date": "2026-02-25",
-      "event": "NVDA 财报 [盘后🌙]",
+      "event": "NVDA \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
       "ticker": "NVDA",
       "category": "earnings",
       "importance": 5,
       "impact": "neutral",
-      "emoji": "📋",
-      "tag": "⭐ 核心持仓",
+      "emoji": "\ud83d\udccb",
+      "tag": "\u2b50 \u6838\u5fc3\u6301\u4ed3",
       "timing": "AMC",
-      "timing_zh": "盘后🌙",
+      "timing_zh": "\u76d8\u540e\ud83c\udf19",
       "eps_est": null,
       "eps_range": null,
-      "note": "盘后🌙"
+      "note": "\u76d8\u540e\ud83c\udf19"
     },
     {
       "date": "2026-02-25",
-      "event": "Trump 国情咨文",
+      "event": "Trump \u56fd\u60c5\u54a8\u6587",
       "category": "political",
       "importance": 5,
       "impact": "bearish",
-      "emoji": "🇺🇸",
-      "note": "关税/AI政策表态"
+      "emoji": "\ud83c\uddfa\ud83c\uddf8",
+      "note": "\u5173\u7a0e/AI\u653f\u7b56\u8868\u6001"
     },
     {
       "date": "2026-02-25",
-      "event": "CRM 财报 [盘后🌙]",
+      "event": "CRM \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
       "ticker": "CRM",
       "category": "earnings",
       "importance": 3,
       "impact": "neutral",
-      "emoji": "📋",
+      "emoji": "\ud83d\udccb",
       "tag": "",
       "timing": "AMC",
-      "timing_zh": "盘后🌙",
+      "timing_zh": "\u76d8\u540e\ud83c\udf19",
       "eps_est": null,
       "eps_range": null,
-      "note": "盘后🌙"
+      "note": "\u76d8\u540e\ud83c\udf19"
     },
     {
       "date": "2026-02-25",
-      "event": "SNPS 财报 [盘后🌙]",
+      "event": "SNPS \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
       "ticker": "SNPS",
       "category": "earnings",
       "importance": 3,
       "impact": "neutral",
-      "emoji": "📋",
+      "emoji": "\ud83d\udccb",
       "tag": "",
       "timing": "AMC",
-      "timing_zh": "盘后🌙",
+      "timing_zh": "\u76d8\u540e\ud83c\udf19",
       "eps_est": null,
       "eps_range": null,
-      "note": "盘后🌙"
+      "note": "\u76d8\u540e\ud83c\udf19"
     },
     {
       "date": "2026-02-25",
-      "event": "MELI 财报 [盘后🌙]",
+      "event": "MELI \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
       "ticker": "MELI",
       "category": "earnings",
       "importance": 3,
       "impact": "neutral",
-      "emoji": "📋",
+      "emoji": "\ud83d\udccb",
       "tag": "",
       "timing": "AMC",
-      "timing_zh": "盘后🌙",
+      "timing_zh": "\u76d8\u540e\ud83c\udf19",
       "eps_est": 11.433,
       "eps_range": "$9.62~$12.29",
-      "note": "EPS预期 $11.43 · 盘后🌙"
+      "note": "EPS\u9884\u671f $11.43 \u00b7 \u76d8\u540e\ud83c\udf19"
     },
     {
       "date": "2026-02-25",
-      "event": "耐用品订单 Jan",
+      "event": "\u8010\u7528\u54c1\u8ba2\u5355 Jan",
       "category": "macro",
       "importance": 3,
       "impact": "neutral",
-      "emoji": "🏭"
+      "emoji": "\ud83c\udfed"
     },
     {
       "date": "2026-02-26",
-      "event": "GDP Q4 终值",
+      "event": "GDP Q4 \u7ec8\u503c",
       "category": "macro",
       "importance": 5,
       "impact": "neutral",
-      "emoji": "📊"
+      "emoji": "\ud83d\udcca"
     },
     {
       "date": "2026-02-27",
-      "event": "PCE 物价指数 Jan",
+      "event": "PCE \u7269\u4ef7\u6307\u6570 Jan",
       "category": "macro",
       "importance": 5,
       "impact": "bearish",
-      "emoji": "💰",
-      "note": "Fed最关注通胀指标"
+      "emoji": "\ud83d\udcb0",
+      "note": "Fed\u6700\u5173\u6ce8\u901a\u80c0\u6307\u6807"
     },
     {
       "date": "2026-02-27",
-      "event": "RKLB 财报 [盘后🌙]",
+      "event": "RKLB \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
       "ticker": "RKLB",
       "category": "earnings",
       "importance": 4,
       "impact": "neutral",
-      "emoji": "📋",
-      "tag": "🎯 重点关注",
+      "emoji": "\ud83d\udccb",
+      "tag": "\ud83c\udfaf \u91cd\u70b9\u5173\u6ce8",
       "timing": "AMC",
-      "timing_zh": "盘后🌙",
+      "timing_zh": "\u76d8\u540e\ud83c\udf19",
       "eps_est": -0.052,
       "eps_range": "$-0.06~$-0.05",
-      "note": "EPS预期 $-0.05 · 盘后🌙"
+      "note": "EPS\u9884\u671f $-0.05 \u00b7 \u76d8\u540e\ud83c\udf19"
     },
     {
       "date": "2026-02-27",
-      "event": "初请失业金人数",
+      "event": "\u521d\u8bf7\u5931\u4e1a\u91d1\u4eba\u6570",
       "category": "macro",
       "importance": 3,
       "impact": "neutral",
-      "emoji": "👷"
+      "emoji": "\ud83d\udc77"
     },
     {
       "date": "2026-02-28",
-      "event": "密歇根消费者信心终值",
+      "event": "\u5bc6\u6b47\u6839\u6d88\u8d39\u8005\u4fe1\u5fc3\u7ec8\u503c",
       "category": "macro",
       "importance": 3,
       "impact": "neutral",
-      "emoji": "😊"
+      "emoji": "\ud83d\ude0a"
     },
     {
       "date": "2026-03-03",
-      "event": "ASTS 财报 [盘后🌙]",
+      "event": "ASTS \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
       "ticker": "ASTS",
       "category": "earnings",
       "importance": 4,
       "impact": "neutral",
-      "emoji": "📋",
-      "tag": "🎯 重点关注",
+      "emoji": "\ud83d\udccb",
+      "tag": "\ud83c\udfaf \u91cd\u70b9\u5173\u6ce8",
       "timing": "AMC",
-      "timing_zh": "盘后🌙",
+      "timing_zh": "\u76d8\u540e\ud83c\udf19",
       "eps_est": null,
       "eps_range": null,
-      "note": "盘后🌙"
+      "note": "\u76d8\u540e\ud83c\udf19"
+    },
+    {
+      "date": "2026-03-04",
+      "event": "CRWD \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
+      "ticker": "CRWD",
+      "category": "earnings",
+      "importance": 4,
+      "impact": "neutral",
+      "emoji": "\ud83d\udccb",
+      "tag": "\ud83c\udfaf \u91cd\u70b9\u5173\u6ce8",
+      "timing": "AMC",
+      "timing_zh": "\u76d8\u540e\ud83c\udf19",
+      "eps_est": 1.103,
+      "eps_range": "$1.08~$1.12",
+      "note": "EPS\u9884\u671f $1.10 \u00b7 \u76d8\u540e\ud83c\udf19"
+    },
+    {
+      "date": "2026-03-04",
+      "event": "ISM \u5236\u9020\u4e1a PMI",
+      "category": "macro",
+      "importance": 4,
+      "impact": "neutral",
+      "emoji": "\ud83c\udfd7\ufe0f"
     }
   ],
   "core_earnings": [
     {
       "date": "2026-02-25",
-      "event": "NVDA 财报 [盘后🌙]",
+      "event": "NVDA \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
       "ticker": "NVDA",
       "category": "earnings",
       "importance": 5,
       "impact": "neutral",
-      "emoji": "📋",
-      "tag": "⭐ 核心持仓",
+      "emoji": "\ud83d\udccb",
+      "tag": "\u2b50 \u6838\u5fc3\u6301\u4ed3",
       "timing": "AMC",
-      "timing_zh": "盘后🌙",
+      "timing_zh": "\u76d8\u540e\ud83c\udf19",
       "eps_est": null,
       "eps_range": null,
-      "note": "盘后🌙"
+      "note": "\u76d8\u540e\ud83c\udf19"
+    },
+    {
+      "date": "2026-04-22",
+      "event": "TSLA \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
+      "ticker": "TSLA",
+      "category": "earnings",
+      "importance": 5,
+      "impact": "neutral",
+      "emoji": "\ud83d\udccb",
+      "tag": "\u2b50 \u6838\u5fc3\u6301\u4ed3",
+      "timing": "AMC",
+      "timing_zh": "\u76d8\u540e\ud83c\udf19",
+      "eps_est": 0.41,
+      "eps_range": "$0.25~$0.54",
+      "note": "EPS\u9884\u671f $0.41 \u00b7 \u76d8\u540e\ud83c\udf19"
     }
   ],
   "by_date": {
     "2026-02-25": [
       {
         "date": "2026-02-25",
-        "event": "NVDA 财报 [盘后🌙]",
+        "event": "NVDA \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
         "ticker": "NVDA",
         "category": "earnings",
         "importance": 5,
         "impact": "neutral",
-        "emoji": "📋",
-        "tag": "⭐ 核心持仓",
+        "emoji": "\ud83d\udccb",
+        "tag": "\u2b50 \u6838\u5fc3\u6301\u4ed3",
         "timing": "AMC",
-        "timing_zh": "盘后🌙",
+        "timing_zh": "\u76d8\u540e\ud83c\udf19",
         "eps_est": null,
         "eps_range": null,
-        "note": "盘后🌙"
+        "note": "\u76d8\u540e\ud83c\udf19"
       },
       {
         "date": "2026-02-25",
-        "event": "Trump 国情咨文",
+        "event": "Trump \u56fd\u60c5\u54a8\u6587",
         "category": "political",
         "importance": 5,
         "impact": "bearish",
-        "emoji": "🇺🇸",
-        "note": "关税/AI政策表态"
+        "emoji": "\ud83c\uddfa\ud83c\uddf8",
+        "note": "\u5173\u7a0e/AI\u653f\u7b56\u8868\u6001"
       },
       {
         "date": "2026-02-25",
-        "event": "CRM 财报 [盘后🌙]",
+        "event": "CRM \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
         "ticker": "CRM",
         "category": "earnings",
         "importance": 3,
         "impact": "neutral",
-        "emoji": "📋",
+        "emoji": "\ud83d\udccb",
         "tag": "",
         "timing": "AMC",
-        "timing_zh": "盘后🌙",
+        "timing_zh": "\u76d8\u540e\ud83c\udf19",
         "eps_est": null,
         "eps_range": null,
-        "note": "盘后🌙"
+        "note": "\u76d8\u540e\ud83c\udf19"
       },
       {
         "date": "2026-02-25",
-        "event": "SNPS 财报 [盘后🌙]",
+        "event": "SNPS \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
         "ticker": "SNPS",
         "category": "earnings",
         "importance": 3,
         "impact": "neutral",
-        "emoji": "📋",
+        "emoji": "\ud83d\udccb",
         "tag": "",
         "timing": "AMC",
-        "timing_zh": "盘后🌙",
+        "timing_zh": "\u76d8\u540e\ud83c\udf19",
         "eps_est": null,
         "eps_range": null,
-        "note": "盘后🌙"
+        "note": "\u76d8\u540e\ud83c\udf19"
       },
       {
         "date": "2026-02-25",
-        "event": "MELI 财报 [盘后🌙]",
+        "event": "MELI \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
         "ticker": "MELI",
         "category": "earnings",
         "importance": 3,
         "impact": "neutral",
-        "emoji": "📋",
+        "emoji": "\ud83d\udccb",
         "tag": "",
         "timing": "AMC",
-        "timing_zh": "盘后🌙",
+        "timing_zh": "\u76d8\u540e\ud83c\udf19",
         "eps_est": 11.433,
         "eps_range": "$9.62~$12.29",
-        "note": "EPS预期 $11.43 · 盘后🌙"
+        "note": "EPS\u9884\u671f $11.43 \u00b7 \u76d8\u540e\ud83c\udf19"
       },
       {
         "date": "2026-02-25",
-        "event": "耐用品订单 Jan",
+        "event": "\u8010\u7528\u54c1\u8ba2\u5355 Jan",
         "category": "macro",
         "importance": 3,
         "impact": "neutral",
-        "emoji": "🏭"
+        "emoji": "\ud83c\udfed"
       }
     ],
     "2026-02-26": [
       {
         "date": "2026-02-26",
-        "event": "GDP Q4 终值",
+        "event": "GDP Q4 \u7ec8\u503c",
         "category": "macro",
         "importance": 5,
         "impact": "neutral",
-        "emoji": "📊"
+        "emoji": "\ud83d\udcca"
       }
     ],
     "2026-02-27": [
       {
         "date": "2026-02-27",
-        "event": "PCE 物价指数 Jan",
+        "event": "PCE \u7269\u4ef7\u6307\u6570 Jan",
         "category": "macro",
         "importance": 5,
         "impact": "bearish",
-        "emoji": "💰",
-        "note": "Fed最关注通胀指标"
+        "emoji": "\ud83d\udcb0",
+        "note": "Fed\u6700\u5173\u6ce8\u901a\u80c0\u6307\u6807"
       },
       {
         "date": "2026-02-27",
-        "event": "RKLB 财报 [盘后🌙]",
+        "event": "RKLB \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
         "ticker": "RKLB",
         "category": "earnings",
         "importance": 4,
         "impact": "neutral",
-        "emoji": "📋",
-        "tag": "🎯 重点关注",
+        "emoji": "\ud83d\udccb",
+        "tag": "\ud83c\udfaf \u91cd\u70b9\u5173\u6ce8",
         "timing": "AMC",
-        "timing_zh": "盘后🌙",
+        "timing_zh": "\u76d8\u540e\ud83c\udf19",
         "eps_est": -0.052,
         "eps_range": "$-0.06~$-0.05",
-        "note": "EPS预期 $-0.05 · 盘后🌙"
+        "note": "EPS\u9884\u671f $-0.05 \u00b7 \u76d8\u540e\ud83c\udf19"
       },
       {
         "date": "2026-02-27",
-        "event": "初请失业金人数",
+        "event": "\u521d\u8bf7\u5931\u4e1a\u91d1\u4eba\u6570",
         "category": "macro",
         "importance": 3,
         "impact": "neutral",
-        "emoji": "👷"
+        "emoji": "\ud83d\udc77"
       }
     ],
     "2026-02-28": [
       {
         "date": "2026-02-28",
-        "event": "密歇根消费者信心终值",
+        "event": "\u5bc6\u6b47\u6839\u6d88\u8d39\u8005\u4fe1\u5fc3\u7ec8\u503c",
         "category": "macro",
         "importance": 3,
         "impact": "neutral",
-        "emoji": "😊"
+        "emoji": "\ud83d\ude0a"
       }
     ],
     "2026-03-03": [
       {
         "date": "2026-03-03",
-        "event": "ASTS 财报 [盘后🌙]",
+        "event": "ASTS \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
         "ticker": "ASTS",
         "category": "earnings",
         "importance": 4,
         "impact": "neutral",
-        "emoji": "📋",
-        "tag": "🎯 重点关注",
+        "emoji": "\ud83d\udccb",
+        "tag": "\ud83c\udfaf \u91cd\u70b9\u5173\u6ce8",
         "timing": "AMC",
-        "timing_zh": "盘后🌙",
+        "timing_zh": "\u76d8\u540e\ud83c\udf19",
         "eps_est": null,
         "eps_range": null,
-        "note": "盘后🌙"
+        "note": "\u76d8\u540e\ud83c\udf19"
       }
     ],
     "2026-03-04": [
       {
         "date": "2026-03-04",
-        "event": "CRWD 财报 [盘后🌙]",
+        "event": "CRWD \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
         "ticker": "CRWD",
         "category": "earnings",
         "importance": 4,
         "impact": "neutral",
-        "emoji": "📋",
-        "tag": "🎯 重点关注",
+        "emoji": "\ud83d\udccb",
+        "tag": "\ud83c\udfaf \u91cd\u70b9\u5173\u6ce8",
         "timing": "AMC",
-        "timing_zh": "盘后🌙",
+        "timing_zh": "\u76d8\u540e\ud83c\udf19",
         "eps_est": 1.103,
         "eps_range": "$1.08~$1.12",
-        "note": "EPS预期 $1.10 · 盘后🌙"
+        "note": "EPS\u9884\u671f $1.10 \u00b7 \u76d8\u540e\ud83c\udf19"
       },
       {
         "date": "2026-03-04",
-        "event": "ISM 制造业 PMI",
+        "event": "ISM \u5236\u9020\u4e1a PMI",
         "category": "macro",
         "importance": 4,
         "impact": "neutral",
-        "emoji": "🏗️"
+        "emoji": "\ud83c\udfd7\ufe0f"
       }
     ],
     "2026-03-05": [
       {
         "date": "2026-03-05",
-        "event": "AVGO 财报 [盘后🌙]",
+        "event": "AVGO \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
         "ticker": "AVGO",
         "category": "earnings",
         "importance": 4,
         "impact": "neutral",
-        "emoji": "📋",
-        "tag": "🎯 重点关注",
+        "emoji": "\ud83d\udccb",
+        "tag": "\ud83c\udfaf \u91cd\u70b9\u5173\u6ce8",
         "timing": "AMC",
-        "timing_zh": "盘后🌙",
-        "eps_est": 2.02,
+        "timing_zh": "\u76d8\u540e\ud83c\udf19",
+        "eps_est": 2.018,
         "eps_range": "$1.90~$2.11",
-        "note": "EPS预期 $2.02 · 盘后🌙"
+        "note": "EPS\u9884\u671f $2.02 \u00b7 \u76d8\u540e\ud83c\udf19"
       }
     ],
     "2026-03-06": [
       {
         "date": "2026-03-06",
-        "event": "非农就业人数 Feb",
+        "event": "\u975e\u519c\u5c31\u4e1a\u4eba\u6570 Feb",
         "category": "macro",
         "importance": 5,
         "impact": "neutral",
-        "emoji": "💼",
-        "note": "月度最重要就业数据"
+        "emoji": "\ud83d\udcbc",
+        "note": "\u6708\u5ea6\u6700\u91cd\u8981\u5c31\u4e1a\u6570\u636e"
       },
       {
         "date": "2026-03-06",
-        "event": "失业率 Feb",
+        "event": "\u5931\u4e1a\u7387 Feb",
         "category": "macro",
         "importance": 4,
         "impact": "neutral",
-        "emoji": "📉"
+        "emoji": "\ud83d\udcc9"
       },
       {
         "date": "2026-03-06",
-        "event": "MRVL 财报 [盘后🌙]",
+        "event": "MRVL \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
         "ticker": "MRVL",
         "category": "earnings",
         "importance": 3,
         "impact": "neutral",
-        "emoji": "📋",
+        "emoji": "\ud83d\udccb",
         "tag": "",
         "timing": "AMC",
-        "timing_zh": "盘后🌙",
+        "timing_zh": "\u76d8\u540e\ud83c\udf19",
         "eps_est": 0.792,
         "eps_range": "$0.76~$0.81",
-        "note": "EPS预期 $0.79 · 盘后🌙"
+        "note": "EPS\u9884\u671f $0.79 \u00b7 \u76d8\u540e\ud83c\udf19"
       }
     ],
     "2026-03-10": [
       {
         "date": "2026-03-10",
-        "event": "CPI 通胀 Feb",
+        "event": "CPI \u901a\u80c0 Feb",
         "category": "macro",
         "importance": 5,
         "impact": "bearish",
-        "emoji": "🔥",
-        "note": "影响降息时间表"
+        "emoji": "\ud83d\udd25",
+        "note": "\u5f71\u54cd\u964d\u606f\u65f6\u95f4\u8868"
       }
     ],
     "2026-03-12": [
       {
         "date": "2026-03-12",
-        "event": "PPI 生产者物价 Feb",
+        "event": "PPI \u751f\u4ea7\u8005\u7269\u4ef7 Feb",
         "category": "macro",
         "importance": 4,
         "impact": "neutral",
-        "emoji": "🏪"
+        "emoji": "\ud83c\udfea"
       }
     ],
     "2026-03-13": [
       {
         "date": "2026-03-13",
-        "event": "ADBE 财报 [盘后🌙]",
+        "event": "ADBE \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
         "ticker": "ADBE",
         "category": "earnings",
         "importance": 3,
         "impact": "neutral",
-        "emoji": "📋",
+        "emoji": "\ud83d\udccb",
         "tag": "",
         "timing": "AMC",
-        "timing_zh": "盘后🌙",
+        "timing_zh": "\u76d8\u540e\ud83c\udf19",
         "eps_est": 5.874,
         "eps_range": "$5.84~$5.91",
-        "note": "EPS预期 $5.87 · 盘后🌙"
+        "note": "EPS\u9884\u671f $5.87 \u00b7 \u76d8\u540e\ud83c\udf19"
       }
     ],
     "2026-03-17": [
       {
         "date": "2026-03-17",
-        "event": "零售销售 Feb",
+        "event": "\u96f6\u552e\u9500\u552e Feb",
         "category": "macro",
         "importance": 4,
         "impact": "neutral",
-        "emoji": "🛒"
+        "emoji": "\ud83d\uded2"
       }
     ],
     "2026-03-18": [
       {
         "date": "2026-03-18",
-        "event": "FOMC 利率决议",
+        "event": "FOMC \u5229\u7387\u51b3\u8bae",
         "category": "fomc",
         "importance": 5,
         "impact": "neutral",
-        "emoji": "🏦",
-        "note": "Fed是否暗示降息"
+        "emoji": "\ud83c\udfe6",
+        "note": "Fed\u662f\u5426\u6697\u793a\u964d\u606f"
       }
     ],
     "2026-03-19": [
       {
         "date": "2026-03-19",
-        "event": "FOMC 新闻发布会",
+        "event": "FOMC \u65b0\u95fb\u53d1\u5e03\u4f1a",
         "category": "fomc",
         "importance": 5,
         "impact": "neutral",
-        "emoji": "🎙️"
+        "emoji": "\ud83c\udf99\ufe0f"
       },
       {
         "date": "2026-03-19",
-        "event": "MU 财报 [盘后🌙]",
+        "event": "MU \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
         "ticker": "MU",
         "category": "earnings",
         "importance": 3,
         "impact": "neutral",
-        "emoji": "📋",
+        "emoji": "\ud83d\udccb",
         "tag": "",
         "timing": "AMC",
-        "timing_zh": "盘后🌙",
+        "timing_zh": "\u76d8\u540e\ud83c\udf19",
         "eps_est": 8.504,
         "eps_range": "$6.99~$9.12",
-        "note": "EPS预期 $8.50 · 盘后🌙"
+        "note": "EPS\u9884\u671f $8.50 \u00b7 \u76d8\u540e\ud83c\udf19"
       }
     ],
     "2026-03-26": [
       {
         "date": "2026-03-26",
-        "event": "GDP Q4 修正版",
+        "event": "GDP Q4 \u4fee\u6b63\u7248",
         "category": "macro",
         "importance": 4,
         "impact": "neutral",
-        "emoji": "📊"
+        "emoji": "\ud83d\udcca"
       }
     ],
     "2026-03-27": [
       {
         "date": "2026-03-27",
-        "event": "PCE 物价指数 Feb",
+        "event": "PCE \u7269\u4ef7\u6307\u6570 Feb",
         "category": "macro",
         "importance": 5,
         "impact": "bearish",
-        "emoji": "💰"
+        "emoji": "\ud83d\udcb0"
       }
     ],
     "2026-04-03": [
       {
         "date": "2026-04-03",
-        "event": "非农就业 Mar",
+        "event": "\u975e\u519c\u5c31\u4e1a Mar",
         "category": "macro",
         "importance": 5,
         "impact": "neutral",
-        "emoji": "💼"
+        "emoji": "\ud83d\udcbc"
+      }
+    ],
+    "2026-04-10": [
+      {
+        "date": "2026-04-10",
+        "event": "CPI \u901a\u80c0 Mar",
+        "category": "macro",
+        "importance": 5,
+        "impact": "neutral",
+        "emoji": "\ud83d\udd25"
+      }
+    ],
+    "2026-04-16": [
+      {
+        "date": "2026-04-16",
+        "event": "\u96f6\u552e\u9500\u552e Mar",
+        "category": "macro",
+        "importance": 4,
+        "impact": "neutral",
+        "emoji": "\ud83d\uded2"
+      }
+    ],
+    "2026-04-17": [
+      {
+        "date": "2026-04-17",
+        "event": "NFLX \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
+        "ticker": "NFLX",
+        "category": "earnings",
+        "importance": 3,
+        "impact": "neutral",
+        "emoji": "\ud83d\udccb",
+        "tag": "",
+        "timing": "AMC",
+        "timing_zh": "\u76d8\u540e\ud83c\udf19",
+        "eps_est": 0.763,
+        "eps_range": "$0.75~$0.79",
+        "note": "EPS\u9884\u671f $0.76 \u00b7 \u76d8\u540e\ud83c\udf19"
+      }
+    ],
+    "2026-04-22": [
+      {
+        "date": "2026-04-22",
+        "event": "TSLA \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
+        "ticker": "TSLA",
+        "category": "earnings",
+        "importance": 5,
+        "impact": "neutral",
+        "emoji": "\ud83d\udccb",
+        "tag": "\u2b50 \u6838\u5fc3\u6301\u4ed3",
+        "timing": "AMC",
+        "timing_zh": "\u76d8\u540e\ud83c\udf19",
+        "eps_est": 0.41,
+        "eps_range": "$0.25~$0.54",
+        "note": "EPS\u9884\u671f $0.41 \u00b7 \u76d8\u540e\ud83c\udf19"
       }
     ]
   },
   "all_events": [
     {
       "date": "2026-02-25",
-      "event": "NVDA 财报 [盘后🌙]",
+      "event": "NVDA \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
       "ticker": "NVDA",
       "category": "earnings",
       "importance": 5,
       "impact": "neutral",
-      "emoji": "📋",
-      "tag": "⭐ 核心持仓",
+      "emoji": "\ud83d\udccb",
+      "tag": "\u2b50 \u6838\u5fc3\u6301\u4ed3",
       "timing": "AMC",
-      "timing_zh": "盘后🌙",
+      "timing_zh": "\u76d8\u540e\ud83c\udf19",
       "eps_est": null,
       "eps_range": null,
-      "note": "盘后🌙"
+      "note": "\u76d8\u540e\ud83c\udf19"
     },
     {
       "date": "2026-02-25",
-      "event": "Trump 国情咨文",
+      "event": "Trump \u56fd\u60c5\u54a8\u6587",
       "category": "political",
       "importance": 5,
       "impact": "bearish",
-      "emoji": "🇺🇸",
-      "note": "关税/AI政策表态"
+      "emoji": "\ud83c\uddfa\ud83c\uddf8",
+      "note": "\u5173\u7a0e/AI\u653f\u7b56\u8868\u6001"
     },
     {
       "date": "2026-02-25",
-      "event": "CRM 财报 [盘后🌙]",
+      "event": "CRM \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
       "ticker": "CRM",
       "category": "earnings",
       "importance": 3,
       "impact": "neutral",
-      "emoji": "📋",
+      "emoji": "\ud83d\udccb",
       "tag": "",
       "timing": "AMC",
-      "timing_zh": "盘后🌙",
+      "timing_zh": "\u76d8\u540e\ud83c\udf19",
       "eps_est": null,
       "eps_range": null,
-      "note": "盘后🌙"
+      "note": "\u76d8\u540e\ud83c\udf19"
     },
     {
       "date": "2026-02-25",
-      "event": "SNPS 财报 [盘后🌙]",
+      "event": "SNPS \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
       "ticker": "SNPS",
       "category": "earnings",
       "importance": 3,
       "impact": "neutral",
-      "emoji": "📋",
+      "emoji": "\ud83d\udccb",
       "tag": "",
       "timing": "AMC",
-      "timing_zh": "盘后🌙",
+      "timing_zh": "\u76d8\u540e\ud83c\udf19",
       "eps_est": null,
       "eps_range": null,
-      "note": "盘后🌙"
+      "note": "\u76d8\u540e\ud83c\udf19"
     },
     {
       "date": "2026-02-25",
-      "event": "MELI 财报 [盘后🌙]",
+      "event": "MELI \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
       "ticker": "MELI",
       "category": "earnings",
       "importance": 3,
       "impact": "neutral",
-      "emoji": "📋",
+      "emoji": "\ud83d\udccb",
       "tag": "",
       "timing": "AMC",
-      "timing_zh": "盘后🌙",
+      "timing_zh": "\u76d8\u540e\ud83c\udf19",
       "eps_est": 11.433,
       "eps_range": "$9.62~$12.29",
-      "note": "EPS预期 $11.43 · 盘后🌙"
+      "note": "EPS\u9884\u671f $11.43 \u00b7 \u76d8\u540e\ud83c\udf19"
     },
     {
       "date": "2026-02-25",
-      "event": "耐用品订单 Jan",
+      "event": "\u8010\u7528\u54c1\u8ba2\u5355 Jan",
       "category": "macro",
       "importance": 3,
       "impact": "neutral",
-      "emoji": "🏭"
+      "emoji": "\ud83c\udfed"
     },
     {
       "date": "2026-02-26",
-      "event": "GDP Q4 终值",
+      "event": "GDP Q4 \u7ec8\u503c",
       "category": "macro",
       "importance": 5,
       "impact": "neutral",
-      "emoji": "📊"
+      "emoji": "\ud83d\udcca"
     },
     {
       "date": "2026-02-27",
-      "event": "PCE 物价指数 Jan",
+      "event": "PCE \u7269\u4ef7\u6307\u6570 Jan",
       "category": "macro",
       "importance": 5,
       "impact": "bearish",
-      "emoji": "💰",
-      "note": "Fed最关注通胀指标"
+      "emoji": "\ud83d\udcb0",
+      "note": "Fed\u6700\u5173\u6ce8\u901a\u80c0\u6307\u6807"
     },
     {
       "date": "2026-02-27",
-      "event": "RKLB 财报 [盘后🌙]",
+      "event": "RKLB \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
       "ticker": "RKLB",
       "category": "earnings",
       "importance": 4,
       "impact": "neutral",
-      "emoji": "📋",
-      "tag": "🎯 重点关注",
+      "emoji": "\ud83d\udccb",
+      "tag": "\ud83c\udfaf \u91cd\u70b9\u5173\u6ce8",
       "timing": "AMC",
-      "timing_zh": "盘后🌙",
+      "timing_zh": "\u76d8\u540e\ud83c\udf19",
       "eps_est": -0.052,
       "eps_range": "$-0.06~$-0.05",
-      "note": "EPS预期 $-0.05 · 盘后🌙"
+      "note": "EPS\u9884\u671f $-0.05 \u00b7 \u76d8\u540e\ud83c\udf19"
     },
     {
       "date": "2026-02-27",
-      "event": "初请失业金人数",
+      "event": "\u521d\u8bf7\u5931\u4e1a\u91d1\u4eba\u6570",
       "category": "macro",
       "importance": 3,
       "impact": "neutral",
-      "emoji": "👷"
+      "emoji": "\ud83d\udc77"
     },
     {
       "date": "2026-02-28",
-      "event": "密歇根消费者信心终值",
+      "event": "\u5bc6\u6b47\u6839\u6d88\u8d39\u8005\u4fe1\u5fc3\u7ec8\u503c",
       "category": "macro",
       "importance": 3,
       "impact": "neutral",
-      "emoji": "😊"
+      "emoji": "\ud83d\ude0a"
     },
     {
       "date": "2026-03-03",
-      "event": "ASTS 财报 [盘后🌙]",
+      "event": "ASTS \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
       "ticker": "ASTS",
       "category": "earnings",
       "importance": 4,
       "impact": "neutral",
-      "emoji": "📋",
-      "tag": "🎯 重点关注",
+      "emoji": "\ud83d\udccb",
+      "tag": "\ud83c\udfaf \u91cd\u70b9\u5173\u6ce8",
       "timing": "AMC",
-      "timing_zh": "盘后🌙",
+      "timing_zh": "\u76d8\u540e\ud83c\udf19",
       "eps_est": null,
       "eps_range": null,
-      "note": "盘后🌙"
+      "note": "\u76d8\u540e\ud83c\udf19"
     },
     {
       "date": "2026-03-04",
-      "event": "CRWD 财报 [盘后🌙]",
+      "event": "CRWD \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
       "ticker": "CRWD",
       "category": "earnings",
       "importance": 4,
       "impact": "neutral",
-      "emoji": "📋",
-      "tag": "🎯 重点关注",
+      "emoji": "\ud83d\udccb",
+      "tag": "\ud83c\udfaf \u91cd\u70b9\u5173\u6ce8",
       "timing": "AMC",
-      "timing_zh": "盘后🌙",
+      "timing_zh": "\u76d8\u540e\ud83c\udf19",
       "eps_est": 1.103,
       "eps_range": "$1.08~$1.12",
-      "note": "EPS预期 $1.10 · 盘后🌙"
+      "note": "EPS\u9884\u671f $1.10 \u00b7 \u76d8\u540e\ud83c\udf19"
     },
     {
       "date": "2026-03-04",
-      "event": "ISM 制造业 PMI",
+      "event": "ISM \u5236\u9020\u4e1a PMI",
       "category": "macro",
       "importance": 4,
       "impact": "neutral",
-      "emoji": "🏗️"
+      "emoji": "\ud83c\udfd7\ufe0f"
     },
     {
       "date": "2026-03-05",
-      "event": "AVGO 财报 [盘后🌙]",
+      "event": "AVGO \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
       "ticker": "AVGO",
       "category": "earnings",
       "importance": 4,
       "impact": "neutral",
-      "emoji": "📋",
-      "tag": "🎯 重点关注",
+      "emoji": "\ud83d\udccb",
+      "tag": "\ud83c\udfaf \u91cd\u70b9\u5173\u6ce8",
       "timing": "AMC",
-      "timing_zh": "盘后🌙",
-      "eps_est": 2.02,
+      "timing_zh": "\u76d8\u540e\ud83c\udf19",
+      "eps_est": 2.018,
       "eps_range": "$1.90~$2.11",
-      "note": "EPS预期 $2.02 · 盘后🌙"
+      "note": "EPS\u9884\u671f $2.02 \u00b7 \u76d8\u540e\ud83c\udf19"
     },
     {
       "date": "2026-03-06",
-      "event": "非农就业人数 Feb",
+      "event": "\u975e\u519c\u5c31\u4e1a\u4eba\u6570 Feb",
       "category": "macro",
       "importance": 5,
       "impact": "neutral",
-      "emoji": "💼",
-      "note": "月度最重要就业数据"
+      "emoji": "\ud83d\udcbc",
+      "note": "\u6708\u5ea6\u6700\u91cd\u8981\u5c31\u4e1a\u6570\u636e"
     },
     {
       "date": "2026-03-06",
-      "event": "失业率 Feb",
+      "event": "\u5931\u4e1a\u7387 Feb",
       "category": "macro",
       "importance": 4,
       "impact": "neutral",
-      "emoji": "📉"
+      "emoji": "\ud83d\udcc9"
     },
     {
       "date": "2026-03-06",
-      "event": "MRVL 财报 [盘后🌙]",
+      "event": "MRVL \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
       "ticker": "MRVL",
       "category": "earnings",
       "importance": 3,
       "impact": "neutral",
-      "emoji": "📋",
+      "emoji": "\ud83d\udccb",
       "tag": "",
       "timing": "AMC",
-      "timing_zh": "盘后🌙",
+      "timing_zh": "\u76d8\u540e\ud83c\udf19",
       "eps_est": 0.792,
       "eps_range": "$0.76~$0.81",
-      "note": "EPS预期 $0.79 · 盘后🌙"
+      "note": "EPS\u9884\u671f $0.79 \u00b7 \u76d8\u540e\ud83c\udf19"
     },
     {
       "date": "2026-03-10",
-      "event": "CPI 通胀 Feb",
+      "event": "CPI \u901a\u80c0 Feb",
       "category": "macro",
       "importance": 5,
       "impact": "bearish",
-      "emoji": "🔥",
-      "note": "影响降息时间表"
+      "emoji": "\ud83d\udd25",
+      "note": "\u5f71\u54cd\u964d\u606f\u65f6\u95f4\u8868"
     },
     {
       "date": "2026-03-12",
-      "event": "PPI 生产者物价 Feb",
+      "event": "PPI \u751f\u4ea7\u8005\u7269\u4ef7 Feb",
       "category": "macro",
       "importance": 4,
       "impact": "neutral",
-      "emoji": "🏪"
+      "emoji": "\ud83c\udfea"
     },
     {
       "date": "2026-03-13",
-      "event": "ADBE 财报 [盘后🌙]",
+      "event": "ADBE \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
       "ticker": "ADBE",
       "category": "earnings",
       "importance": 3,
       "impact": "neutral",
-      "emoji": "📋",
+      "emoji": "\ud83d\udccb",
       "tag": "",
       "timing": "AMC",
-      "timing_zh": "盘后🌙",
+      "timing_zh": "\u76d8\u540e\ud83c\udf19",
       "eps_est": 5.874,
       "eps_range": "$5.84~$5.91",
-      "note": "EPS预期 $5.87 · 盘后🌙"
+      "note": "EPS\u9884\u671f $5.87 \u00b7 \u76d8\u540e\ud83c\udf19"
     },
     {
       "date": "2026-03-17",
-      "event": "零售销售 Feb",
+      "event": "\u96f6\u552e\u9500\u552e Feb",
       "category": "macro",
       "importance": 4,
       "impact": "neutral",
-      "emoji": "🛒"
+      "emoji": "\ud83d\uded2"
     },
     {
       "date": "2026-03-18",
-      "event": "FOMC 利率决议",
+      "event": "FOMC \u5229\u7387\u51b3\u8bae",
       "category": "fomc",
       "importance": 5,
       "impact": "neutral",
-      "emoji": "🏦",
-      "note": "Fed是否暗示降息"
+      "emoji": "\ud83c\udfe6",
+      "note": "Fed\u662f\u5426\u6697\u793a\u964d\u606f"
     },
     {
       "date": "2026-03-19",
-      "event": "FOMC 新闻发布会",
+      "event": "FOMC \u65b0\u95fb\u53d1\u5e03\u4f1a",
       "category": "fomc",
       "importance": 5,
       "impact": "neutral",
-      "emoji": "🎙️"
+      "emoji": "\ud83c\udf99\ufe0f"
     },
     {
       "date": "2026-03-19",
-      "event": "MU 财报 [盘后🌙]",
+      "event": "MU \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
       "ticker": "MU",
       "category": "earnings",
       "importance": 3,
       "impact": "neutral",
-      "emoji": "📋",
+      "emoji": "\ud83d\udccb",
       "tag": "",
       "timing": "AMC",
-      "timing_zh": "盘后🌙",
+      "timing_zh": "\u76d8\u540e\ud83c\udf19",
       "eps_est": 8.504,
       "eps_range": "$6.99~$9.12",
-      "note": "EPS预期 $8.50 · 盘后🌙"
+      "note": "EPS\u9884\u671f $8.50 \u00b7 \u76d8\u540e\ud83c\udf19"
     },
     {
       "date": "2026-03-26",
-      "event": "GDP Q4 修正版",
+      "event": "GDP Q4 \u4fee\u6b63\u7248",
       "category": "macro",
       "importance": 4,
       "impact": "neutral",
-      "emoji": "📊"
+      "emoji": "\ud83d\udcca"
     },
     {
       "date": "2026-03-27",
-      "event": "PCE 物价指数 Feb",
+      "event": "PCE \u7269\u4ef7\u6307\u6570 Feb",
       "category": "macro",
       "importance": 5,
       "impact": "bearish",
-      "emoji": "💰"
+      "emoji": "\ud83d\udcb0"
     },
     {
       "date": "2026-04-03",
-      "event": "非农就业 Mar",
+      "event": "\u975e\u519c\u5c31\u4e1a Mar",
       "category": "macro",
       "importance": 5,
       "impact": "neutral",
-      "emoji": "💼"
+      "emoji": "\ud83d\udcbc"
+    },
+    {
+      "date": "2026-04-10",
+      "event": "CPI \u901a\u80c0 Mar",
+      "category": "macro",
+      "importance": 5,
+      "impact": "neutral",
+      "emoji": "\ud83d\udd25"
+    },
+    {
+      "date": "2026-04-16",
+      "event": "\u96f6\u552e\u9500\u552e Mar",
+      "category": "macro",
+      "importance": 4,
+      "impact": "neutral",
+      "emoji": "\ud83d\uded2"
+    },
+    {
+      "date": "2026-04-17",
+      "event": "NFLX \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
+      "ticker": "NFLX",
+      "category": "earnings",
+      "importance": 3,
+      "impact": "neutral",
+      "emoji": "\ud83d\udccb",
+      "tag": "",
+      "timing": "AMC",
+      "timing_zh": "\u76d8\u540e\ud83c\udf19",
+      "eps_est": 0.763,
+      "eps_range": "$0.75~$0.79",
+      "note": "EPS\u9884\u671f $0.76 \u00b7 \u76d8\u540e\ud83c\udf19"
+    },
+    {
+      "date": "2026-04-22",
+      "event": "TSLA \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
+      "ticker": "TSLA",
+      "category": "earnings",
+      "importance": 5,
+      "impact": "neutral",
+      "emoji": "\ud83d\udccb",
+      "tag": "\u2b50 \u6838\u5fc3\u6301\u4ed3",
+      "timing": "AMC",
+      "timing_zh": "\u76d8\u540e\ud83c\udf19",
+      "eps_est": 0.41,
+      "eps_range": "$0.25~$0.54",
+      "note": "EPS\u9884\u671f $0.41 \u00b7 \u76d8\u540e\ud83c\udf19"
     }
   ],
   "earnings_details": {
@@ -814,13 +952,13 @@
       "ticker": "NVDA",
       "company_name": "NVIDIA Corporation",
       "sector": "Technology",
-      "market_cap": 4663668113408,
+      "market_cap": 4695319379968,
       "earnings_date": "2026-02-25",
       "timing": "AMC",
-      "eps_estimate": 1.53669,
+      "eps_estimate": 1.53812,
       "eps_high": 1.65,
       "eps_low": 1.49,
-      "rev_estimate": 66124358429,
+      "rev_estimate": 66231668470,
       "rev_high": 71257000000,
       "rev_low": 62306000000,
       "eps_growth_yoy": 0.667,
@@ -830,7 +968,7 @@
       "ticker": "CRM",
       "company_name": "Salesforce, Inc.",
       "sector": "Technology",
-      "market_cap": 169608331264,
+      "market_cap": 176519839744,
       "earnings_date": "2026-02-25",
       "timing": "AMC",
       "eps_estimate": 3.05025,
@@ -846,7 +984,7 @@
       "ticker": "SNPS",
       "company_name": "Synopsys, Inc.",
       "sector": "Technology",
-      "market_cap": 80510533632,
+      "market_cap": 84317757440,
       "earnings_date": "2026-02-25",
       "timing": "AMC",
       "eps_estimate": 3.55719,
@@ -862,7 +1000,7 @@
       "ticker": "MELI",
       "company_name": "MercadoLibre, Inc.",
       "sector": "Consumer Cyclical",
-      "market_cap": 94522867712,
+      "market_cap": 97468383232,
       "earnings_date": "2026-02-25",
       "timing": "AMC",
       "eps_estimate": 11.43263,
@@ -878,7 +1016,7 @@
       "ticker": "RKLB",
       "company_name": "Rocket Lab Corporation",
       "sector": "Industrials",
-      "market_cap": 37503115264,
+      "market_cap": 37374918656,
       "earnings_date": "2026-02-27",
       "timing": "AMC",
       "eps_estimate": -0.052,
@@ -894,7 +1032,7 @@
       "ticker": "ASTS",
       "company_name": "AST SpaceMobile, Inc.",
       "sector": "Technology",
-      "market_cap": 31358177280,
+      "market_cap": 32075788288,
       "earnings_date": "2026-03-03",
       "timing": "AMC",
       "eps_estimate": null,
@@ -910,7 +1048,7 @@
       "ticker": "CRWD",
       "company_name": "CrowdStrike Holdings, Inc.",
       "sector": "Technology",
-      "market_cap": 88317640704,
+      "market_cap": 88297472000,
       "earnings_date": "2026-03-04",
       "timing": "AMC",
       "eps_estimate": 1.10262,
@@ -926,13 +1064,13 @@
       "ticker": "AVGO",
       "company_name": "Broadcom Inc.",
       "sector": "Technology",
-      "market_cap": 1566232281088,
+      "market_cap": 1543237140480,
       "earnings_date": "2026-03-05",
       "timing": "AMC",
-      "eps_estimate": 2.02026,
+      "eps_estimate": 2.01781,
       "eps_high": 2.11,
       "eps_low": 1.9,
-      "rev_estimate": 19105028740,
+      "rev_estimate": 19105669760,
       "rev_high": 19895000000,
       "rev_low": 17400000000,
       "eps_growth_yoy": 1.881,
@@ -942,13 +1080,13 @@
       "ticker": "MRVL",
       "company_name": "Marvell Technology, Inc.",
       "sector": "Technology",
-      "market_cap": 65973698560,
+      "market_cap": 66482556928,
       "earnings_date": "2026-03-06",
       "timing": "AMC",
       "eps_estimate": 0.79217,
       "eps_high": 0.81,
       "eps_low": 0.76,
-      "rev_estimate": 2206965170,
+      "rev_estimate": 2206897520,
       "rev_high": 2287287000,
       "rev_low": 2143000000,
       "eps_growth_yoy": null,
@@ -958,7 +1096,7 @@
       "ticker": "ADBE",
       "company_name": "Adobe Inc.",
       "sector": "Technology",
-      "market_cap": 103260241920,
+      "market_cap": 106814160896,
       "earnings_date": "2026-03-13",
       "timing": "AMC",
       "eps_estimate": 5.8741,
@@ -974,7 +1112,7 @@
       "ticker": "MU",
       "company_name": "Micron Technology, Inc.",
       "sector": "Technology",
-      "market_cap": 473805619200,
+      "market_cap": 470474129408,
       "earnings_date": "2026-03-19",
       "timing": "AMC",
       "eps_estimate": 8.50416,
@@ -985,6 +1123,38 @@
       "rev_low": 17375000000,
       "eps_growth_yoy": 1.754,
       "rev_growth_yoy": 0.567
+    },
+    "NFLX": {
+      "ticker": "NFLX",
+      "company_name": "Netflix, Inc.",
+      "sector": "Communication Services",
+      "market_cap": 331037048832,
+      "earnings_date": "2026-04-17",
+      "timing": "AMC",
+      "eps_estimate": 0.76279,
+      "eps_high": 0.79,
+      "eps_low": 0.74722,
+      "rev_estimate": 12170332990,
+      "rev_high": 12282000000,
+      "rev_low": 12038000000,
+      "eps_growth_yoy": 0.327,
+      "rev_growth_yoy": 0.176
+    },
+    "TSLA": {
+      "ticker": "TSLA",
+      "company_name": "Tesla, Inc.",
+      "sector": "Consumer Cyclical",
+      "market_cap": 1536170524672,
+      "earnings_date": "2026-04-22",
+      "timing": "AMC",
+      "eps_estimate": 0.41048,
+      "eps_high": 0.54,
+      "eps_low": 0.25,
+      "rev_estimate": 23195230200,
+      "rev_high": 24860000000,
+      "rev_low": 20282039790,
+      "eps_growth_yoy": -0.606,
+      "rev_growth_yoy": -0.031
     }
   }
 }
