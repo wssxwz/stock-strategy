@@ -89,7 +89,11 @@ def load_1h_history(ticker: str, period: str = "730d") -> pd.DataFrame:
     """
     try:
         from data_store import sync_and_load
-        # sync recent 120 calendar days by default; keeps store fresh and accumulative
+        # If user requests long period (e.g. 730d), prefer yfinance direct fetch to avoid
+        # silently truncating to the local store's recent window.
+        if str(period).endswith('d') and int(str(period)[:-1]) > 180:
+            raise RuntimeError('prefer yfinance for long period')
+        # otherwise: sync recent window; keeps store fresh and accumulative
         df = sync_and_load(ticker, interval="1h", lookback_days=120)
     except Exception:
         df = yf.Ticker(ticker).history(period=period, interval="1h", auto_adjust=True)
