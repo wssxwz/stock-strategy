@@ -108,7 +108,13 @@ def load_1h_history(ticker: str, period: str = "730d") -> pd.DataFrame:
         # otherwise: sync recent window; keeps store fresh and accumulative
         df = sync_and_load(ticker, interval="1h", lookback_days=120)
     except Exception:
-        df = yf.Ticker(ticker).history(period=period, interval="1h", auto_adjust=True)
+        # yfinance can sporadically return None; retry once to reduce flakiness
+        try:
+            df = yf.Ticker(ticker).history(period=period, interval="1h", auto_adjust=True)
+            if df is None:
+                raise RuntimeError('yfinance returned None')
+        except Exception:
+            df = yf.Ticker(ticker).history(period=period, interval="1h", auto_adjust=True)
 
     if df is None or df.empty:
         return pd.DataFrame()
