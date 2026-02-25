@@ -76,6 +76,8 @@ class Params:
     rr: float = 5/3
     sl_lookback: int = 20
     sl_atr_buffer: float = 0.0  # buffer in ATR14 units
+    sl_pivot_left: int = 2
+    sl_pivot_right: int = 2
 
     tp_pct: float = 0.13
     sl_pct: float = -0.08
@@ -188,11 +190,46 @@ def entry_condition(df: pd.DataFrame, i: int, p: Params, rs_1y: float) -> Tuple[
     return ok, meta
 
 
-def _structure_sl(df: pd.DataFrame, i: int, lookback: int, atr_buffer: float) -> Optional[float]:
-    """Compute a simple structure stop loss from recent swing low.
+def _find_pivot_lows(lows: pd.Series, left: int = 2, right: int = 2) -> pd.Series:
+    """Return a boolean Series marking pivot lows.
 
-    Uses the min(low) over the last `lookback` bars (inclusive), optionally minus atr_buffer*ATR14.
-    Returns None if not computable.
+    A pivot low at t means low[t] is strictly lower than `left` bars to the left
+    and `right` bars to the right.
+
+    Note: this is a *confirmed* pivot definition, so it needs `right` future bars.
+    In backtest, using data up to entry bar i, we only consider pivots that are
+    confirmable within the lookback window ending at i.
+    """
+    left = max(1, int(left))
+    right = max(1, int(right))
+    # strictly lower than both sides
+    is_pivot = pd.Series(True, index=lows.index)
+    for k in range(1, left + 1):
+        is_pivot &= lows < lows.shift(k)
+    for k in range(1, right + 1):
+        is_pivot &= lows < lows.shift(-k)
+    # edges cannot be pivots
+    is_pivot.iloc[:left] = False
+    is_pivot.iloc[-right:] = False
+    return is_pivot
+
+
+def _structure_sl(
+    df: pd.DataFrame,
+    i: int,
+    lookback: int,
+    atr_buffer: float,
+    *,
+    pivot_left: int = 2,
+    pivot_right: int = 2,
+) -> Optional[float]:
+    """Compute structure stop loss.
+
+    Upgrade v2 (closer to "structure" / 一买二买 semantics):
+    - Prefer the most recent confirmed pivot low (fractal swing low) within lookback.
+    - Fallback to min(low) if no pivot low is found.
+
+    Optionally subtract `atr_buffer * ATR14`.
     """
     try:
         lb = max(1, int(lookback))
@@ -202,7 +239,19 @@ def _structure_sl(df: pd.DataFrame, i: int, lookback: int, atr_buffer: float) ->
             return None
         if "low" not in window.columns:
             return None
-        sl = float(window["low"].min())
+
+        lows = window["low"].astype(float)
+
+        # find confirmed pivot lows *within the window*
+        piv = _find_pivot_lows(lows, left=pivot_left, right=pivot_right)
+        pivot_idxs = list(lows.index[piv])
+        if pivot_idxs:
+            # use the latest pivot low as structure SL
+            last_idx = pivot_idxs[-1]
+            sl = float(lows.loc[last_idx])
+        else:
+            sl = float(lows.min())
+
         if atr_buffer and "atr14" in df.columns:
             atr = float(df["atr14"].iloc[i])
             if atr > 0:
@@ -249,7 +298,14 @@ def backtest(df: pd.DataFrame, p: Params, ticker: str = "") -> pd.DataFrame:
                 entry_sl = None
                 entry_tp = None
                 if p.risk_mode == "rr_struct":
-                    sl = _structure_sl(df, i, p.sl_lookback, p.sl_atr_buffer)
+                    sl = _structure_sl(
+                        df,
+                        i,
+                        p.sl_lookback,
+                        p.sl_atr_buffer,
+                        pivot_left=p.sl_pivot_left,
+                        pivot_right=p.sl_pivot_right,
+                    )
                     if sl is not None and sl < entry_price:
                         entry_sl = float(sl)
                         entry_tp = float(entry_price + p.rr * (entry_price - entry_sl))
@@ -351,8 +407,10 @@ def main():
 
     ap.add_argument("--risk_mode", type=str, default="fixed", choices=["fixed", "rr_struct"], help="Exit model")
     ap.add_argument("--rr", type=float, default=5/3, help="Risk-reward for rr_struct mode (TP = entry + rr*(entry-SL))")
-    ap.add_argument("--sl_lookback", type=int, default=30, help="Swing-low lookback bars for rr_struct SL")
-    ap.add_argument("--sl_atr_buffer", type=float, default=0.5, help="Subtract buffer*ATR14 from swing-low SL (upgrade: default 0.5)")
+    ap.add_argument("--sl_lookback", type=int, default=30, help="Structure SL lookback bars for rr_struct")
+    ap.add_argument("--sl_atr_buffer", type=float, default=0.5, help="Subtract buffer*ATR14 from structure SL (default 0.5)")
+    ap.add_argument("--sl_pivot_left", type=int, default=2, help="Pivot-low (fractal) left bars")
+    ap.add_argument("--sl_pivot_right", type=int, default=2, help="Pivot-low (fractal) right bars")
 
     ap.add_argument("--rsi", type=float, default=45)
     ap.add_argument("--ret5", type=float, default=-0.03)
@@ -373,6 +431,8 @@ def main():
         rr=args.rr,
         sl_lookback=args.sl_lookback,
         sl_atr_buffer=args.sl_atr_buffer,
+        sl_pivot_left=args.sl_pivot_left,
+        sl_pivot_right=args.sl_pivot_right,
 
         tp_pct=args.tp,
         sl_pct=args.sl,
