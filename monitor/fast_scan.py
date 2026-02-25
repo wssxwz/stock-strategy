@@ -138,6 +138,14 @@ def phase2_score(candidates: list) -> list:
             # 用“信号触发那根 1H K线的收盘价”作为价格口径（可复现）
             row = df.iloc[-1]
             sig = score_signal(row, ticker)
+
+            # Structure signals (1buy/2buy) — grey mode: compute & attach only
+            try:
+                from signal_engine import _structure_signals
+                ss = _structure_signals(df, ticker)
+                sig['structure'] = ss
+            except Exception:
+                sig['structure'] = {'enabled': False, 'signals': [], 'best': None}
             sig['bar_time']  = df.index[-1].strftime('%Y-%m-%d %H:%M')
             sig['bar_close'] = round(float(row.get('close')), 2) if 'close' in row else sig.get('price')
             sig['price'] = sig['bar_close']  # 统一口径：当前价=触发bar的收盘价

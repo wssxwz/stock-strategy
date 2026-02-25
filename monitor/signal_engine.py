@@ -365,7 +365,62 @@ def score_signal(row: pd.Series, ticker: str) -> dict:
         'bar_close':   round(price, 2),
         'price_source': '1H_bar_close',
         'rs_1y':       rs_1y,
+        'structure':   {'enabled': False, 'signals': [], 'best': None},
     }
+
+
+def format_structure_signal_message(ticker: str, sig: dict, timeframe: str = "60") -> str:
+    """Format structure (1buy/2buy) signal message in the user's case style."""
+    typ = sig.get('type', '').strip()
+    typ_zh = '一买' if typ == '1buy' else ('二买' if typ == '2buy' else typ)
+
+    entry = float(sig.get('entry', 0) or 0)
+    sl = float(sig.get('sl', 0) or 0)
+    tp = float(sig.get('tp', 0) or 0)
+    rr = float(sig.get('rr', 0) or 0)
+
+    # risk metrics
+    risk = entry - sl if entry and sl else 0
+    risk_pct = (risk / entry * 100) if entry else 0
+
+    # keep RPS wording but map to rs_1y if present
+    rps = sig.get('rps', None)
+    if rps is None and 'rs_1y' in sig:
+        try:
+            rps = float(sig.get('rs_1y'))
+        except Exception:
+            rps = None
+
+    parts = [
+        f"🚀 {ticker} {typ_zh}开仓",
+        f"⏰ 时间级别: {timeframe}",
+        f"💰 价格: {entry:.2f}",
+        f"🛡️ 止损: {sl:.2f}",
+        f"🎯 止盈: {tp:.2f}",
+        f"📐 RR: {rr:.3f}｜风险: {risk_pct:.2f}%",
+    ]
+    if rps is not None:
+        try:
+            parts.append(f"📊 RPS评级: {float(rps):.3f}")
+        except Exception:
+            parts.append(f"📊 RPS评级: {rps}")
+
+    return "\n".join(parts)
+
+
+def format_structure_signals_section(sig: dict) -> str:
+    """Format a section with both 1buy and 2buy signals if present."""
+    st = sig.get('structure') or {}
+    signals = st.get('signals') or []
+    if not signals:
+        return ''
+
+    ticker = sig.get('ticker', '')
+    out = ["\n\n📌 结构信号（灰度展示）"]
+    for s in signals:
+        out.append(format_structure_signal_message(ticker, s, timeframe='60'))
+        out.append(".")
+    return "\n".join(out).rstrip()
 
 
 def format_signal_message(sig: dict) -> str:
@@ -435,6 +490,12 @@ def format_signal_message(sig: dict) -> str:
 
     if sig['warnings']:
         msg += '\n\n⚠️ 风险提示:\n' + '\n'.join(f'  • {w}' for w in sig['warnings'])
+
+    # append structure signals (grey mode)
+    try:
+        msg += format_structure_signals_section(sig)
+    except Exception:
+        pass
 
     msg += '\n\n_仅供参考，请结合基本面和市场环境判断_'
     msg += note
