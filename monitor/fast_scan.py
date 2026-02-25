@@ -52,6 +52,7 @@ def phase1_filter(tickers: list, batch_size: int = 100) -> list:
 
     for i in range(0, total, batch_size):
         batch = tickers[i:i+batch_size]
+        raw = None
         try:
             raw = yf.download(
                 batch, period='3mo', interval='1d',
@@ -59,17 +60,34 @@ def phase1_filter(tickers: list, batch_size: int = 100) -> list:
                 progress=False, threads=True
             )
         except Exception as e:
-            print(f"    批次 {i//batch_size+1} 下载失败: {e}")
-            continue
+            print(f"    批次 {i//batch_size+1} 批量下载失败: {e}（将逐只重试）")
+
+        def _download_one(tk: str) -> pd.DataFrame:
+            """Per-ticker fallback download to avoid batch-level failures and reduce spam."""
+            try:
+                df1 = yf.Ticker(tk).history(period='3mo', interval='1d', auto_adjust=True)
+                if df1 is None:
+                    return pd.DataFrame()
+                return df1
+            except Exception:
+                return pd.DataFrame()
 
         for ticker in batch:
             try:
-                if len(batch) == 1:
-                    df = raw.copy()
+                if raw is None:
+                    df = _download_one(ticker)
                 else:
-                    df = raw[ticker].copy() if ticker in raw.columns.get_level_values(0) else pd.DataFrame()
+                    if len(batch) == 1:
+                        df = raw.copy()
+                    else:
+                        try:
+                            df = raw[ticker].copy() if ticker in raw.columns.get_level_values(0) else pd.DataFrame()
+                        except Exception:
+                            df = pd.DataFrame()
+                    if df is None or df.empty:
+                        df = _download_one(ticker)
 
-                if df.empty or len(df) < 20:
+                if df is None or df.empty or len(df) < 20:
                     continue
 
                 df.columns = [c.lower() for c in df.columns]
