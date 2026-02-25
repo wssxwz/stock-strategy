@@ -1,8 +1,12 @@
-"""
-策略回测模块
-用还原出的规则在历史数据上验证胜率/收益
-规则：RPS≥80(近似) + MA200上方 + RSI14<45 + 5日回调<-3% → 买入
-出场：止盈+13% / 止损-8%（基于实际信号中位数）
+"""策略回测模块（旧版日线）
+
+用还原出的规则在历史数据上验证胜率/收益。
+
+⚠️ 与实盘/1H 回测逻辑保持一致的两点同步：
+- RS_1Y 不再硬过滤（仅在极弱时过滤）：默认仅当 RS_1Y ≤ -10% 才拦截
+- ret5 阈值按“全市场连续无信号”自动降级：L0=-3%, L1=-2.5%(>=20), L2=-2%(>=30)
+
+出场：止盈+13% / 止损-8%
 """
 import sys, warnings
 warnings.filterwarnings('ignore')
@@ -13,18 +17,54 @@ import pandas as pd
 import numpy as np
 from analyzer.indicators import add_all_indicators, add_crossover_signals
 
+# RS module (relative strength vs SPY)
+try:
+    from rs_strength import compute_rs_1y as compute_rs_1y_fn
+except Exception:
+    compute_rs_1y_fn = None
 
-# ── 策略参数（从逆向工程还原）──
+
+def ret5_entry_from_no_signal_streak(streak: int) -> float:
+    """Map no-signal streak to ret5 entry threshold."""
+    try:
+        s = int(streak or 0)
+    except Exception:
+        s = 0
+    if s >= 30:
+        return RET5_L2
+    if s >= 20:
+        return RET5_L1
+    return RET5_L0
+
+
+# ── 策略参数（从逆向工程还原 + 与实盘同步的升级项）──
 TAKE_PROFIT  = 0.13   # +13%
 STOP_LOSS    = -0.08  # -8%
 HOLD_MAX     = 30     # 最大持仓天数（超时平仓）
 RSI_ENTRY    = 45     # RSI买入阈值
-RET5_ENTRY   = -0.03  # 5日跌幅超过-3%才买
-RET1Y_MIN    = 0.20   # 近似RPS：1年涨幅>20%
+
+# ret5 动态降级（与 full_scan 同口径）
+RET5_L0 = -0.03   # -3.0%
+RET5_L1 = -0.025  # -2.5% (no-signal >=20)
+RET5_L2 = -0.02   # -2.0% (no-signal >=30)
+
+# RS_1Y：只过滤“极弱”，避免 AAPL 这类轻度跑输被直接归零
+RS_1Y_FLOOR_DEFAULT = -10.0  # vs SPY, in percent
 
 
-def backtest_ticker(ticker: str, start: str = '2023-01-01', end: str = None) -> pd.DataFrame:
-    """单只股票回测"""
+def backtest_ticker(
+    ticker: str,
+    start: str = '2023-01-01',
+    end: str = None,
+    *,
+    no_signal_streak: int = 0,
+    rs_1y_floor: float = RS_1Y_FLOOR_DEFAULT,
+) -> pd.DataFrame:
+    """单只股票回测
+
+    no_signal_streak: 连续无信号次数，用于 ret5 动态降级。
+    rs_1y_floor: RS_1Y 极弱过滤线（百分比，vs SPY）。
+    """
     hist = yf.Ticker(ticker).history(start=start, end=end, auto_adjust=True)
     if len(hist) < 100:
         return pd.DataFrame()
@@ -33,6 +73,16 @@ def backtest_ticker(ticker: str, start: str = '2023-01-01', end: str = None) -> 
     hist.columns = [c.lower() for c in hist.columns]
     hist = add_all_indicators(hist)
     hist = add_crossover_signals(hist)
+
+    # precompute RS_1Y once per ticker (avoid per-bar calls)
+    rs_1y = -999.0
+    if compute_rs_1y_fn is not None:
+        try:
+            rs_1y = float(compute_rs_1y_fn(ticker))
+        except Exception:
+            rs_1y = -999.0
+
+    ret5_entry = ret5_entry_from_no_signal_streak(no_signal_streak)
 
     trades = []
     in_trade = False
@@ -49,15 +99,14 @@ def backtest_ticker(ticker: str, start: str = '2023-01-01', end: str = None) -> 
             ret5  = row.get('ret_5d', 0)
             macd_h = row.get('macd_hist', 0)
 
-            # 近似RPS：用近1年涨幅
-            start_close = hist['close'].iloc[max(0, i-252)]
-            ret_1y = (row['close'] - start_close) / start_close
+            # RS_1Y：只在“极弱”时过滤（vs SPY，百分比口径）
+            rs_ok = (rs_1y == -999.0) or (rs_1y > rs_1y_floor)
 
             buy_signal = (
                 above200 == 1 and
                 rsi < RSI_ENTRY and
-                ret5 < RET5_ENTRY and
-                ret_1y > RET1Y_MIN and
+                ret5 < ret5_entry and
+                rs_ok and
                 macd_h < 0
             )
 
@@ -68,7 +117,7 @@ def backtest_ticker(ticker: str, start: str = '2023-01-01', end: str = None) -> 
                 entry_date  = hist.index[i]
                 entry_rsi   = rsi
                 entry_ret5  = ret5 * 100
-                entry_ret1y = ret_1y * 100
+                entry_rs_1y = rs_1y
 
         else:
             # ── 出场条件 ──
@@ -97,7 +146,10 @@ def backtest_ticker(ticker: str, start: str = '2023-01-01', end: str = None) -> 
                     'exit_reason':exit_reason,
                     'entry_rsi':  round(entry_rsi, 1),
                     'entry_ret5': round(entry_ret5, 1),
-                    'entry_ret1y':round(entry_ret1y, 1),
+                    'ret5_entry': round(ret5_entry * 100, 1),
+                    'entry_rs_1y': round(entry_rs_1y, 2),
+                    'rs_1y_floor': float(rs_1y_floor),
+                    'no_signal_streak': int(no_signal_streak),
                     'is_win':     current_ret > 0,
                 })
                 in_trade = False
