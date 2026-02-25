@@ -101,20 +101,18 @@ def load_1h_history(ticker: str, period: str = "730d") -> pd.DataFrame:
     """
     try:
         from data_store import sync_and_load
-        # If user requests long period (e.g. 730d), prefer yfinance direct fetch to avoid
-        # silently truncating to the local store's recent window.
-        if str(period).endswith('d') and int(str(period)[:-1]) > 180:
-            raise RuntimeError('prefer yfinance for long period')
-        # otherwise: sync recent window; keeps store fresh and accumulative
-        df = sync_and_load(ticker, interval="1h", lookback_days=120)
-    except Exception:
-        # yfinance can sporadically return None; retry once to reduce flakiness
+        # Prefer local store for stability. For long periods, request a full backfill window.
+        lb = 120
         try:
-            df = yf.Ticker(ticker).history(period=period, interval="1h", auto_adjust=True)
-            if df is None:
-                raise RuntimeError('yfinance returned None')
+            if str(period).endswith('d'):
+                days = int(str(period)[:-1])
+                lb = 800 if days >= 365 else max(120, days + 10)
         except Exception:
-            df = yf.Ticker(ticker).history(period=period, interval="1h", auto_adjust=True)
+            pass
+        df = sync_and_load(ticker, interval="1h", lookback_days=lb, max_auto_lookback_days=800)
+    except Exception:
+        # fallback to yfinance
+        df = yf.Ticker(ticker).history(period=period, interval="1h", auto_adjust=True)
 
     if df is None or df.empty:
         return pd.DataFrame()
