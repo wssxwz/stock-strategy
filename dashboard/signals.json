@@ -1,5 +1,25 @@
 [
   {
+    "id": "sig_1772035335.134891",
+    "type": "buy",
+    "ticker": "TEST",
+    "score": 75,
+    "kb_tag": "",
+    "price": 100.5,
+    "price_source": "1H_bar_close",
+    "bar_time": null,
+    "bar_close": 100.5,
+    "suggest_price": 99.5,
+    "suggest_note": "",
+    "rsi14": 32.5,
+    "bb_pct": 0.15,
+    "tp_price": 113.5,
+    "sl_price": 92.5,
+    "time": "2026-02-26 00:02",
+    "archived": false,
+    "position_taken": false
+  },
+  {
     "id": "sig_1771952527.560872",
     "type": "buy",
     "ticker": "ANET",
