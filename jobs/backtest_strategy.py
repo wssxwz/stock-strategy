@@ -351,8 +351,8 @@ def main():
 
     ap.add_argument("--risk_mode", type=str, default="fixed", choices=["fixed", "rr_struct"], help="Exit model")
     ap.add_argument("--rr", type=float, default=5/3, help="Risk-reward for rr_struct mode (TP = entry + rr*(entry-SL))")
-    ap.add_argument("--sl_lookback", type=int, default=20, help="Swing-low lookback bars for rr_struct SL")
-    ap.add_argument("--sl_atr_buffer", type=float, default=0.0, help="Subtract buffer*ATR14 from swing-low SL")
+    ap.add_argument("--sl_lookback", type=int, default=30, help="Swing-low lookback bars for rr_struct SL")
+    ap.add_argument("--sl_atr_buffer", type=float, default=0.5, help="Subtract buffer*ATR14 from swing-low SL (upgrade: default 0.5)")
 
     ap.add_argument("--rsi", type=float, default=45)
     ap.add_argument("--ret5", type=float, default=-0.03)
