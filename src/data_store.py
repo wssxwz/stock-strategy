@@ -126,6 +126,23 @@ def sync(
     start = end - timedelta(days=effective_lookback)
 
     fetched = fetch_yf(ticker, interval, start=start, end=end)
+
+    # If start/end fetch returned empty (common for 1h on some tickers), fallback to period-based fetch.
+    if fetched.empty:
+        try:
+            # yfinance supports 1h up to ~730d.
+            # yfinance 1h supports up to ~730d reliably; clamp period to 730d.
+            period_days = min(730, int(min(effective_lookback, max_auto_lookback_days)))
+            fetched = _normalize(
+                yf.Ticker(ticker).history(
+                    period=f"{period_days}d",
+                    interval=interval,
+                    auto_adjust=True,
+                )
+            )
+        except Exception:
+            pass
+
     if fetched.empty and not existing.empty:
         return existing
 
