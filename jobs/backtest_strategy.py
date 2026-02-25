@@ -37,6 +37,7 @@ from typing import Dict, List, Optional, Tuple
 
 import pandas as pd
 import yfinance as yf
+import numpy as np
 
 # local imports
 import sys, os
@@ -175,19 +176,92 @@ def entry_condition(df: pd.DataFrame, i: int, p: Params, rs_1y: float) -> Tuple[
         else:
             rs_score = -5
 
+    # ── risk regime flags (conservative: avoid catching falling knives) ──
+    close = float(row.get("close", 0))
+    ma200 = float(row.get("ma200", close))
+    ma50 = float(row.get("ma50", close))
+    atr14 = float(row.get("atr14", 0))
+    atr_pct = (atr14 / close * 100) if close else 0.0
+
+    # slope computed on trailing MA series up to i (no look-ahead)
+    ma200_slope_pct = _ma_slope_pct(df["ma200"].iloc[: i + 1], window=50) if "ma200" in df.columns else 0.0
+    ma50_crosses = _cross_count(df["close"].iloc[: i + 1], df["ma50"].iloc[: i + 1], window=80) if ("ma50" in df.columns and "close" in df.columns) else 0
+
+    # thresholds (chosen from core-pool distribution; conservative)
+    # - ret_5d <= -5% is ~5th percentile of core-pool bars → treat as knife pressure
+    # - ATR% >= 3.3% is ~90th percentile → noisy/choppy regime
+    ret5_pct = ret5 * 100
+    knife_ret5_thresh = -5.0
+    chop_atr_thresh = 3.3
+
+    knife_risk = (
+        (above200 == 0 and ma200_slope_pct < 0)
+        or (ret5_pct <= knife_ret5_thresh and macd_h < 0)
+        or (rs_1y != -999.0 and rs_1y <= -20.0)
+    )
+
+    chop_risk = (
+        (atr_pct >= chop_atr_thresh and ma50_crosses >= 6)
+        or (atr_pct >= chop_atr_thresh * 1.2)
+    )
+
+    trend_ok = (above200 == 1 and ma200_slope_pct >= 0 and (rs_1y == -999.0 or rs_1y > -10.0) and not knife_risk)
+
     meta = {
         "rsi14": rsi,
         "above_ma200": above200,
         "above_ma50": above50,
-        "ret_5d_pct": ret5 * 100,
+        "ret_5d_pct": ret5_pct,
         "ret5_entry_pct": ret5_entry * 100,
         "no_signal_streak": int(p.no_signal_streak),
         "rs_1y": rs_1y,
         "rs_1y_floor": p.rs_1y_floor,
         "rs_1y_score": rs_score,
         "macd_hist": macd_h,
+
+        "atr_pct": round(atr_pct, 3),
+        "ma200_slope_pct": round(ma200_slope_pct, 3),
+        "ma50_crosses": int(ma50_crosses),
+
+        "knife_risk": bool(knife_risk),
+        "chop_risk": bool(chop_risk),
+        "trend_ok": bool(trend_ok),
+
+        "knife_ret5_thresh": knife_ret5_thresh,
+        "chop_atr_thresh": chop_atr_thresh,
     }
     return ok, meta
+
+
+def _ma_slope_pct(ma: pd.Series, window: int = 50) -> float:
+    """Return MA slope over last `window` bars in percent (end/start - 1).
+
+    Conservative: if not enough bars, return 0.
+    """
+    try:
+        w = max(5, int(window))
+        if ma is None or len(ma) < w + 1:
+            return 0.0
+        a = float(ma.iloc[-w])
+        b = float(ma.iloc[-1])
+        if a == 0:
+            return 0.0
+        return (b / a - 1.0) * 100.0
+    except Exception:
+        return 0.0
+
+
+def _cross_count(series: pd.Series, ref: pd.Series, window: int = 50) -> int:
+    """Count sign changes of (series-ref) over last `window` bars."""
+    try:
+        w = max(10, int(window))
+        s = (series - ref).iloc[-w:].astype(float)
+        # treat zeros as previous sign to avoid noisy counts
+        sign = np.sign(s)
+        sign = sign.replace(0, np.nan).ffill().fillna(0)
+        return int((sign.shift(1) * sign < 0).sum())
+    except Exception:
+        return 0
 
 
 def _find_pivot_lows(lows: pd.Series, left: int = 2, right: int = 2) -> pd.Series:
