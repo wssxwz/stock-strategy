@@ -140,9 +140,23 @@ def _structure_signals(df: pd.DataFrame, ticker: str) -> dict:
         s1 = structure_1buy_signal(df, i, p)
         s2 = structure_2buy_signal(df, i, p)
 
+        # compute RS_1Y once and attach (do NOT call it RPS)
+        rs_1y = None
+        if compute_rs_1y is not None:
+            try:
+                rs_1y = float(compute_rs_1y(ticker))
+            except Exception:
+                rs_1y = None
+
         signals = []
-        if s1: signals.append(s1)
-        if s2: signals.append(s2)
+        if s1:
+            if rs_1y is not None:
+                s1['rs_1y'] = rs_1y
+            signals.append(s1)
+        if s2:
+            if rs_1y is not None:
+                s2['rs_1y'] = rs_1y
+            signals.append(s2)
 
         # pick best by rr *and* risk distance sanity (prefer reasonable risk)
         best = None
