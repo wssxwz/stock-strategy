@@ -55,6 +55,8 @@ except Exception:
 @dataclass
 class Params:
     # entry
+    entry_mode: str = "mean_reversion"  # mean_reversion | structure_1buy | structure_2buy
+
     rsi_entry: float = 45
 
     # ret5 dynamic downgrade (matches live scan)
@@ -137,6 +139,7 @@ def compute_ret1y(df: pd.DataFrame, i: int, lookback: int) -> float:
 
 
 def entry_condition(df: pd.DataFrame, i: int, p: Params, rs_1y: float) -> Tuple[bool, Dict]:
+    """Mean-reversion style entry (legacy)."""
     row = df.iloc[i]
 
     rsi = float(row.get("rsi14", 99))
@@ -349,6 +352,42 @@ def _structure_sl(
         return None
 
 
+def _structure_entry(df: pd.DataFrame, i: int, p: Params) -> Tuple[bool, Dict, Optional[float], Optional[float]]:
+    """Structure breakout/pullback entry (1buy/2buy).
+
+    Returns: (ok, meta, entry_sl, entry_tp)
+    """
+    try:
+        import sys as _sys, os as _os
+        _sys.path.insert(0, _os.path.join(_os.path.dirname(__file__), '..', 'src'))
+        from strategy.structure import StructureParams, structure_1buy_signal, structure_2buy_signal
+
+        sp = StructureParams(rr=p.rr)
+        if p.entry_mode == 'structure_1buy':
+            sig = structure_1buy_signal(df, i, sp)
+        elif p.entry_mode == 'structure_2buy':
+            sig = structure_2buy_signal(df, i, sp)
+        else:
+            sig = None
+
+        if not sig:
+            return False, {}, None, None
+
+        meta = {
+            'entry_mode': p.entry_mode,
+            'structure_type': sig.get('type'),
+            'box_high': sig.get('box_high'),
+            'box_low': sig.get('box_low'),
+            'breakout_i': sig.get('breakout_i'),
+            'zone_level': sig.get('zone_level'),
+        }
+        sl = float(sig['sl'])
+        tp = float(sig['tp'])
+        return True, meta, sl, tp
+    except Exception:
+        return False, {}, None, None
+
+
 def backtest(df: pd.DataFrame, p: Params, ticker: str = "") -> pd.DataFrame:
     if df.empty:
         return pd.DataFrame()
@@ -374,7 +413,15 @@ def backtest(df: pd.DataFrame, p: Params, ticker: str = "") -> pd.DataFrame:
 
     for i in range(start_i, len(df)):
         if not in_trade:
-            ok, meta = entry_condition(df, i, p, rs_1y)
+            # ── entry ──
+            entry_sl = None
+            entry_tp = None
+
+            if p.entry_mode.startswith('structure_'):
+                ok, meta, entry_sl, entry_tp = _structure_entry(df, i, p)
+            else:
+                ok, meta = entry_condition(df, i, p, rs_1y)
+
             if ok:
                 in_trade = True
                 entry_i = i
@@ -383,8 +430,7 @@ def backtest(df: pd.DataFrame, p: Params, ticker: str = "") -> pd.DataFrame:
                 entry_meta = meta
 
                 # risk model
-                entry_sl = None
-                entry_tp = None
+                # if structure entry provided SL/TP, use it; otherwise compute based on risk_mode
                 # Adaptive mode: decide rr_struct variant per-entry based on chop_risk
                 adaptive_mode = None
                 pivot_left = p.sl_pivot_left
@@ -447,6 +493,10 @@ def backtest(df: pd.DataFrame, p: Params, ticker: str = "") -> pd.DataFrame:
                     if sl is not None and sl < entry_price:
                         entry_sl = float(sl)
                         entry_tp = float(entry_price + p.rr * (entry_price - entry_sl))
+
+                # If structure entry already set SL/TP, ensure mode tag
+                if entry_sl is not None and entry_tp is not None and adaptive_mode is None:
+                    adaptive_mode = "structure"
 
                 # fallback: fixed % stop/target
                 if entry_sl is None:
@@ -549,6 +599,7 @@ def main():
     ap.add_argument("--sl", type=float, default=-0.08, help="Fixed SL pct (used when --risk_mode=fixed)")
     ap.add_argument("--hold", type=int, default=195)
 
+    ap.add_argument("--entry_mode", type=str, default="mean_reversion", choices=["mean_reversion", "structure_1buy", "structure_2buy"], help="Entry model")
     ap.add_argument("--risk_mode", type=str, default="fixed", choices=["fixed", "rr_struct", "rr_struct_adaptive"], help="Exit model")
     ap.add_argument("--rr", type=float, default=5/3, help="Risk-reward for rr_struct mode (TP = entry + rr*(entry-SL))")
     ap.add_argument("--sl_lookback", type=int, default=30, help="Structure SL lookback bars for rr_struct")
@@ -567,6 +618,7 @@ def main():
     args = ap.parse_args()
 
     p = Params(
+        entry_mode=args.entry_mode,
         rsi_entry=args.rsi,
         ret5_entry=args.ret5,
         no_signal_streak=args.no_signal,
