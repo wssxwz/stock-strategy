@@ -12,6 +12,7 @@ from market_data import (
     INDICES, COMMODITIES, SECTORS, save_daily_data, load_daily_data
 )
 from datetime import datetime
+import argparse
 import json
 
 
@@ -284,12 +285,15 @@ def generate_html_report(overview: dict, advice: dict, date_str: str) -> str:
     return html
 
 
-def run():
+def run(date_str: str | None = None, update_latest: bool = True, save_daily: bool = True):
     now = datetime.now()
-    date_str = now.strftime('%Y-%m-%d')
+    today_str = now.strftime('%Y-%m-%d')
+    date_str = date_str or today_str
 
     print(f"📊 生成深度早报 {date_str}...")
 
+    # Note: for backfill (--date in the past), we still fetch current market data.
+    # This is mainly to ensure dashboard report continuity (missing file) rather than a strict historical replay.
     overview = get_market_overview()
     advice   = get_operation_advice(overview)
 
@@ -303,20 +307,22 @@ def run():
     with open(html_path, 'w') as f:
         f.write(html)
 
-    # 同时更新 dashboard 的 latest-report.html
-    latest_path = os.path.join(os.path.dirname(__file__), '../dashboard/latest-report.html')
-    with open(latest_path, 'w') as f:
-        f.write(html)
+    # 更新 latest-report.html（默认仅当天更新；回补历史时建议关闭）
+    if update_latest:
+        latest_path = os.path.join(os.path.dirname(__file__), '../dashboard/latest-report.html')
+        with open(latest_path, 'w') as f:
+            f.write(html)
 
     # 保存数据
-    save_daily_data({
-        'deep_analysis': {
-            'generated_at': now.isoformat(),
-            'market_mood':  overview['market_mood'],
-            'fear_greed':   overview['fear_greed'],
-            'advice':       advice,
-        }
-    }, date_str)
+    if save_daily:
+        save_daily_data({
+            'deep_analysis': {
+                'generated_at': now.isoformat(),
+                'market_mood':  overview['market_mood'],
+                'fear_greed':   overview['fear_greed'],
+                'advice':       advice,
+            }
+        }, date_str)
 
     print("\nDEEP_ANALYSIS_START")
     print(tg_msg)
@@ -324,5 +330,19 @@ def run():
     print(f"\n✅ HTML 报告已保存: {html_path}")
 
 
+def _parse_args():
+    ap = argparse.ArgumentParser(description='深度早报生成器')
+    ap.add_argument('--date', help='指定报告日期（YYYY-MM-DD），用于回补缺失报告文件', default=None)
+    ap.add_argument('--update-latest', action='store_true', help='同时更新 dashboard/latest-report.html（默认仅当天）')
+    ap.add_argument('--no-save-daily', action='store_true', help='不写入 data/daily/<date>.json（回补时建议）')
+    return ap.parse_args()
+
+
 if __name__ == '__main__':
-    run()
+    args = _parse_args()
+    # default behavior: if backfilling a past date, do NOT update latest and do NOT overwrite daily json
+    now = datetime.now().strftime('%Y-%m-%d')
+    is_backfill = bool(args.date and args.date != now)
+    update_latest = args.update_latest if not is_backfill else False
+    save_daily = False if (args.no_save_daily or is_backfill) else True
+    run(date_str=args.date, update_latest=update_latest, save_daily=save_daily)
