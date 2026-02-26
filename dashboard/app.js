@@ -585,6 +585,9 @@ const FUTU_POSITIONS_INIT = [
   {ticker:'ASTS',name:'AST SpaceMobile', shares:30, cost:97.000, price:78.81, pnl:-545.70, pnlPct:-18.75,type:'stock'},
   {ticker:'IONQ',name:'IonQ Inc',        shares:20, cost:45.000, price:31.25, pnl:-275.00, pnlPct:-30.56,type:'stock'},
   {ticker:'NFLX',name:'NFLX CALL 260320 85',shares:2,cost:4.200,price:1.29,  pnl:-582.00, pnlPct:-69.29,type:'options',expiry:'2026-03-20',strike:85},
+  // 2026-02-26 新增持仓（手动录入）
+  {ticker:'NOW', name:'ServiceNow',       shares:20, cost:103.000,price:null,pnl:null,  pnlPct:null, type:'stock'},
+  {ticker:'RDDT',name:'Reddit',           shares:25, cost:145.000,price:null,pnl:null,  pnlPct:null, type:'stock'},
 ];
 
 // ── 已平仓记录（手动维护）──────────────────────────────

@@ -1,0 +1,20 @@
+{
+  "NOW": {
+    "ticker": "NOW",
+    "entry_price": 103.0,
+    "take_profit": 116.39,
+    "stop_loss": 94.76,
+    "entry_time": "2026-02-26T00:00:00",
+    "note": "manual add: 20 @103",
+    "alerted": []
+  },
+  "RDDT": {
+    "ticker": "RDDT",
+    "entry_price": 145.0,
+    "take_profit": 163.85,
+    "stop_loss": 133.4,
+    "entry_time": "2026-02-26T00:00:00",
+    "note": "manual add: 25 @145",
+    "alerted": []
+  }
+}
