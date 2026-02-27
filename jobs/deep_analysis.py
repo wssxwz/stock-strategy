@@ -107,51 +107,102 @@ def get_operation_advice(overview: dict) -> dict:
 
 
 def generate_telegram_msg(overview: dict, advice: dict) -> str:
-    """生成 Telegram 精华推送（早餐时看）"""
+    """生成 Telegram 精华推送（早餐时看）
+
+    Goal: concise but punchy. Focus on *last night's tape* + actionable read.
+    """
     now = datetime.now()
 
-    def fmt(pct): return f"{'+'if pct>=0 else ''}{pct:.2f}%"
-    def arr(pct): return '🔺' if pct > 0 else '🔻'
+    def fmt(pct):
+        try:
+            pct = float(pct)
+        except Exception:
+            pct = 0.0
+        return f"{('+' if pct >= 0 else '')}{pct:.2f}%"
 
-    idx = overview['indices']
-    lines = [
-        f"📊 **深度早报** | {now.strftime('%m/%d')}",
-        "━━━━━━━━━━━━━━━━",
-        f"\n{overview['mood_emoji']} 市场方向：**{overview['market_mood']}**",
-        f"{overview['fear_greed']['emoji']} 情绪指数：**{overview['fear_greed']['label_zh']}** {overview['fear_greed']['value']}（恐惧贪婪指数，0=极恐 100=极贪）",
-        "",
-    ]
+    def arr(pct):
+        try:
+            pct = float(pct)
+        except Exception:
+            pct = 0.0
+        return '🔺' if pct > 0 else '🔻'
 
-    # 指数
-    lines.append("📈 **指数**")
-    for t, name in [('SPY','标普500'),('QQQ','纳斯达克'),('DIA','道指')]:
-        if t in idx:
-            lines.append(f"  {arr(idx[t]['change_pct'])} {name} {fmt(idx[t]['change_pct'])}")
+    idx = overview.get('indices', {}) or {}
+    sects = overview.get('sectors', {}) or {}
 
-    # 板块 TOP2 / BOTTOM2
-    sects = overview['sectors']
+    spy = idx.get('SPY', {})
+    qqq = idx.get('QQQ', {})
+    dia = idx.get('DIA', {})
+    iwm = idx.get('IWM', {})
+    vix = idx.get('VIX', {})
+
+    fg = overview.get('fear_greed', {}) or {}
+
+    # Quick sector leaders/laggards
+    top2 = []
+    bot2 = []
     if sects:
         sl = list(sects.items())
-        lines.append("\n🗂️ **板块** (强→弱)")
-        for etf, d in sl[:2]:
+        top2 = sl[:2]
+        bot2 = sl[-2:]
+
+    # Tape read (simple but useful)
+    risk_off = False
+    try:
+        risk_off = float(qqq.get('change_pct', 0)) < float(spy.get('change_pct', 0)) - 0.3
+    except Exception:
+        pass
+
+    # build
+    lines = [
+        f"📊 **深度早报（精读版）** | {now.strftime('%m/%d')}",
+        "━━━━━━━━━━━━━━━━",
+        f"\n{overview['mood_emoji']} 昨夜主线：**{overview['market_mood']}**｜{fg.get('emoji','')} 情绪：**{fg.get('label_zh','')}** {fg.get('value','-')}",
+        "",
+        "📌 **大盘复盘（昨夜）**",
+        f"  {arr(spy.get('change_pct',0))} SPY {fmt(spy.get('change_pct',0))}｜{arr(qqq.get('change_pct',0))} QQQ {fmt(qqq.get('change_pct',0))}｜{arr(dia.get('change_pct',0))} 道指 {fmt(dia.get('change_pct',0))}",
+        f"  {arr(iwm.get('change_pct',0))} IWM {fmt(iwm.get('change_pct',0))}｜VIX {fmt(vix.get('change_pct',0))} → {vix.get('price','-')}",
+    ]
+
+    if risk_off:
+        lines.append("  🧭 风格：纳指明显弱于标普 → **偏风险规避/高β承压**")
+    else:
+        lines.append("  🧭 风格：权重与成长分化不大 → **以轮动为主**")
+
+    if top2 or bot2:
+        lines.append("\n🗂️ **板块轮动（强→弱）**")
+        for _, d in top2:
             lines.append(f"  💪 {d['name']} {fmt(d['change_pct'])}")
-        lines.append("  ···")
-        for etf, d in sl[-2:]:
-            lines.append(f"  🩸 {d['name']} {fmt(d['change_pct'])}")
+        if bot2:
+            lines.append("  ···")
+            for _, d in bot2:
+                lines.append(f"  🩸 {d['name']} {fmt(d['change_pct'])}")
 
-    # 操作建议
-    lines.append("\n💡 **今日建议**")
-    for a in advice['advices'][:3]:
-        lines.append(f"  {a}")
+    # Actionable plan (short)
+    lines.append("\n🎯 **今日策略（简洁版）**")
+    # pick 2-3 advices but rewrite to be more actionable
+    fg_val = fg.get('value', None)
+    try:
+        fg_val = int(fg_val)
+    except Exception:
+        fg_val = None
 
-    # 风险
-    if advice['risks']:
-        lines.append("\n⚠️ **风险提示**")
-        for r in advice['risks']:
-            lines.append(f"  {r}")
+    if fg_val is not None and fg_val <= 25:
+        lines.append("  • 情绪极恐：优先抓**高质量回撤**，分批试错；仓位从小到大")
+    elif overview.get('market_mood') == '空头':
+        lines.append("  • 偏空：以防守为主，信号也要更挑剔（宁可少做）")
+    else:
+        lines.append("  • 震荡：不追涨，等回撤到位/结构明确再出手")
+
+    if advice.get('risks'):
+        # keep only the first risk line
+        lines.append(f"  • 风险：{advice['risks'][0]}")
+
+    lines.append("\n⏰ **关注时间点（北京）**")
+    lines.append("  • 21:30 开盘前后波动增大（数据/财报集中时段）")
 
     lines.append(f"\n📋 完整报告：https://wssxwz.github.io/stock-strategy/")
-    lines.append("\n_数据延迟15min，仅供参考_")
+    lines.append("\n_数据延迟约15min，仅供参考_")
 
     return '\n'.join(lines)
 
