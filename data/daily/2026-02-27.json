@@ -4,7 +4,7 @@
     "signals_count": 2,
     "positions_count": 2
   },
-  "updated_at": "2026-02-27T09:57:02.970602",
+  "updated_at": "2026-02-27T09:59:05.370526",
   "morning_brief": {
     "generated_at": "2026-02-27T09:56:09.947795",
     "indices": {
@@ -121,7 +121,7 @@
     }
   },
   "deep_analysis": {
-    "generated_at": "2026-02-27T08:10:16.796985",
+    "generated_at": "2026-02-27T09:58:47.567977",
     "market_mood": "\u9707\u8361",
     "fear_greed": {
       "value": 13,
