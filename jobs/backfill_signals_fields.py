@@ -88,6 +88,13 @@ def _fill_from_row(sig: dict, row: pd.Series):
     # keep price_source if missing
     sig.setdefault('price_source', '1H_bar_close')
 
+    # derived hints (align with V3.1 router)
+    try:
+        bb = float(sig.get('bb_pct', 0.5) or 0.5)
+    except Exception:
+        bb = 0.5
+    sig['mr_bb_gap'] = round(max(0.0, bb - 0.10), 3)
+
     return sig
 
 

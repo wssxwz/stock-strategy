@@ -264,7 +264,34 @@ def main():
         for s in sorted(normal_buy, key=lambda x: float(x.get('score',0) or 0), reverse=True)[:10]:
             mode = s.get('exec_mode','-')
             reason = s.get('exec_reason','-')
-            lines.append(f"• {s['ticker']}｜{mode}｜score {s.get('score')}｜${s.get('price')}｜{reason}")
+
+            # proximity hints (for quick operator reading)
+            try:
+                bb = float(s.get('bb_pct', 0.5) or 0.5)
+            except Exception:
+                bb = 0.5
+            try:
+                atr = float(s.get('atr_pct14', 999) or 999)
+            except Exception:
+                atr = 999
+            ma200 = bool(s.get('above_ma200', False))
+            st = s.get('structure') or {}
+            has_struct = bool((st.get('signals') or []))
+
+            mr_gap = max(0.0, bb - 0.10)
+            struct_gaps = []
+            if not has_struct: struct_gaps.append('缺结构')
+            if not ma200: struct_gaps.append('MA200❌')
+            if atr > ATR_PCT14_MAX: struct_gaps.append(f"ATR%>{ATR_PCT14_MAX}")
+            struct_hint = ' / '.join(struct_gaps) if struct_gaps else 'OK'
+
+            hint = f"MR距触发BB={bb:.2f}(差{mr_gap:.2f})｜STRUCT:{struct_hint}"
+
+            # persist hint fields for tracking
+            s['mr_bb_gap'] = round(mr_gap, 3)
+            s['struct_hint'] = struct_hint
+
+            lines.append(f"• {s['ticker']}｜{mode}｜score {s.get('score')}｜${s.get('price')}｜{hint}")
         lines.append("\n（提示：强信号/STRUCT 会单独推送）")
         batch_msg = "\n".join(lines)
 

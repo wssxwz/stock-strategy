@@ -63,6 +63,8 @@ def add_buy_signal(sig: dict) -> bool:
             'exec_mode': sig.get('exec_mode', None),
             'exec_reason': sig.get('exec_reason', None),
             'exec_struct_type': sig.get('exec_struct_type', None),
+            'mr_bb_gap': sig.get('mr_bb_gap', None),
+            'struct_hint': sig.get('struct_hint', None),
             # exits
             'tp_price': sig.get('tp_price', 0),
             'sl_price': sig.get('sl_price', 0),
