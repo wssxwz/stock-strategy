@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-27T07:52:41.775659",
+  "generated_at": "2026-02-27T09:56:09.940965",
   "version": "2.0",
   "overview": {
     "avg_score": 57.7,
@@ -41,7 +41,7 @@
         "pnl_pct": 229.71
       }
     ],
-    "generated_at": "2026-02-27T07:52:41.775650"
+    "generated_at": "2026-02-27T09:56:09.940955"
   },
   "stocks": [
     {
@@ -51,7 +51,7 @@
       "shares": 32,
       "price": 408.58,
       "pnl_pct": 79.15,
-      "updated_at": "2026-02-27 07:52",
+      "updated_at": "2026-02-27 09:55",
       "tech": {
         "price": 408.58,
         "ma20": 414.55,
@@ -70,7 +70,7 @@
       },
       "fund": {
         "forward_pe": 145.69662,
-        "trailing_pe": 374.84402,
+        "trailing_pe": 385.45285,
         "pb": 18.659178,
         "ps": 16.168058,
         "rev_growth": -0.031,
@@ -150,7 +150,7 @@
       "shares": 15,
       "price": 657.01,
       "pnl_pct": 2.8,
-      "updated_at": "2026-02-27 07:52",
+      "updated_at": "2026-02-27 09:55",
       "tech": {
         "price": 657.01,
         "ma20": 666.5,
@@ -169,7 +169,7 @@
       },
       "fund": {
         "forward_pe": 18.351723,
-        "trailing_pe": 27.99361,
+        "trailing_pe": 27.851208,
         "pb": 7.6514845,
         "ps": 8.2697735,
         "rev_growth": 0.238,
@@ -248,7 +248,7 @@
       "shares": 22,
       "price": 381.1,
       "pnl_pct": -17.8,
-      "updated_at": "2026-02-27 07:52",
+      "updated_at": "2026-02-27 09:55",
       "tech": {
         "price": 381.1,
         "ma20": 404.94,
@@ -346,7 +346,7 @@
       "shares": 56,
       "price": 149.4,
       "pnl_pct": -18.74,
-      "updated_at": "2026-02-27 07:52",
+      "updated_at": "2026-02-27 09:55",
       "tech": {
         "price": 149.4,
         "ma20": 159.89,
@@ -365,7 +365,7 @@
       },
       "fund": {
         "forward_pe": 37.510826,
-        "trailing_pe": 83.0,
+        "trailing_pe": 80.75675,
         "pb": 11.181797,
         "ps": 12.322271,
         "rev_growth": 0.149,
@@ -443,7 +443,7 @@
       "shares": 33,
       "price": 150.31,
       "pnl_pct": -19.33,
-      "updated_at": "2026-02-27 07:52",
+      "updated_at": "2026-02-27 09:55",
       "tech": {
         "price": 150.31,
         "ma20": 153.25,
@@ -462,7 +462,7 @@
       },
       "fund": {
         "forward_pe": 18.948652,
-        "trailing_pe": 28.253757,
+        "trailing_pe": 27.783733,
         "pb": 14.418225,
         "ps": 7.0801864,
         "rev_growth": 0.142,
@@ -540,7 +540,7 @@
       "shares": 65,
       "price": 72.65,
       "pnl_pct": -14.45,
-      "updated_at": "2026-02-27 07:52",
+      "updated_at": "2026-02-27 09:55",
       "tech": {
         "price": 72.65,
         "ma20": 72.93,
@@ -636,7 +636,7 @@
       "shares": 65,
       "price": 69.07,
       "pnl_pct": -18.84,
-      "updated_at": "2026-02-27 07:52",
+      "updated_at": "2026-02-27 09:55",
       "tech": {
         "price": 69.07,
         "ma20": 69.46,
@@ -730,7 +730,7 @@
       "shares": 450,
       "price": 8.98,
       "pnl_pct": -22.29,
-      "updated_at": "2026-02-27 07:52",
+      "updated_at": "2026-02-27 09:55",
       "tech": {
         "price": 8.98,
         "ma20": 8.12,
@@ -748,7 +748,7 @@
         "vol_ratio": 1.42
       },
       "fund": {
-        "forward_pe": -117.125336,
+        "forward_pe": "Infinity",
         "trailing_pe": null,
         "pb": 9.422874,
         "ps": 25.42021,
@@ -826,7 +826,7 @@
       "shares": 20,
       "price": 173.06,
       "pnl_pct": -20.36,
-      "updated_at": "2026-02-27 07:52",
+      "updated_at": "2026-02-27 09:55",
       "tech": {
         "price": 173.06,
         "ma20": 175.24,
@@ -923,7 +923,7 @@
       "shares": 25,
       "price": 129.26,
       "pnl_pct": 7.72,
-      "updated_at": "2026-02-27 07:52",
+      "updated_at": "2026-02-27 09:55",
       "tech": {
         "price": 129.26,
         "ma20": 120.38,
@@ -942,7 +942,7 @@
       },
       "fund": {
         "forward_pe": 59.89555,
-        "trailing_pe": 172.34666,
+        "trailing_pe": 174.67566,
         "pb": 17.603159,
         "ps": 29.388554,
         "rev_growth": 0.263,
@@ -1020,7 +1020,7 @@
       "shares": 15,
       "price": 203.68,
       "pnl_pct": 4.7,
-      "updated_at": "2026-02-27 07:52",
+      "updated_at": "2026-02-27 09:55",
       "tech": {
         "price": 203.68,
         "ma20": 213.33,
@@ -1039,7 +1039,7 @@
       },
       "fund": {
         "forward_pe": 18.742311,
-        "trailing_pe": 78.038315,
+        "trailing_pe": 80.50593,
         "pb": 5.2698574,
         "ps": 9.586942,
         "rev_growth": 0.341,
@@ -1116,7 +1116,7 @@
       "shares": 120,
       "price": 27.72,
       "pnl_pct": -7.6,
-      "updated_at": "2026-02-27 07:52",
+      "updated_at": "2026-02-27 09:56",
       "tech": {
         "price": 27.72,
         "ma20": 26.92,
@@ -1210,7 +1210,7 @@
       "shares": 150,
       "price": 19.1,
       "pnl_pct": -22.65,
-      "updated_at": "2026-02-27 07:52",
+      "updated_at": "2026-02-27 09:56",
       "tech": {
         "price": 19.1,
         "ma20": 20.34,
@@ -1312,7 +1312,7 @@
       "shares": 100,
       "price": 27.92,
       "pnl_pct": -7.24,
-      "updated_at": "2026-02-27 07:52",
+      "updated_at": "2026-02-27 09:56",
       "tech": {
         "price": 27.92,
         "ma20": 30.22,
@@ -1331,7 +1331,7 @@
       },
       "fund": {
         "forward_pe": null,
-        "trailing_pe": 15.25683,
+        "trailing_pe": 15.425415,
         "pb": null,
         "ps": null,
         "rev_growth": null,
@@ -1411,7 +1411,7 @@
       "shares": 30,
       "price": 85.76,
       "pnl_pct": -11.59,
-      "updated_at": "2026-02-27 07:52",
+      "updated_at": "2026-02-27 09:56",
       "tech": {
         "price": 85.76,
         "ma20": 94.21,
@@ -1509,7 +1509,7 @@
       "shares": 15,
       "price": 104.88,
       "pnl_pct": 229.71,
-      "updated_at": "2026-02-27 07:52",
+      "updated_at": "2026-02-27 09:56",
       "tech": {
         "price": 104.88,
         "ma20": 94.03,
@@ -1611,7 +1611,7 @@
       "shares": 20,
       "price": 40.88,
       "pnl_pct": -9.16,
-      "updated_at": "2026-02-27 07:52",
+      "updated_at": "2026-02-27 09:56",
       "tech": {
         "price": 40.88,
         "ma20": 34.97,
