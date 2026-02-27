@@ -494,10 +494,14 @@ def format_signal_message(sig: dict) -> str:
 ⏰ 时间: {sig['scan_time']} (北京){sess_tag}
 
 📈 技术指标:
-  RSI14: {sig['rsi14']}  |  BB%: {sig['bb_pct']}
+  RSI14: {sig['rsi14']}  |  BB%: {sig['bb_pct']}  |  ATR%: {sig.get('atr_pct14','-')}
   MACD柱: {sig['macd_hist']}  |  量比: {sig['vol_ratio']}
   趋势: {ma_status}
   5日涨跌: {sig['ret_5d']:+.1f}%
+
+🧭 执行路由（V3.1）:
+  模式: {sig.get('exec_mode','-')}  |  原因: {sig.get('exec_reason','-')}
+  触发条件: STRUCT=结构信号+MA200上方+ATR%≤3.5；MR=BB%<0.10（RSI<25更佳）
 
 🎯 参考出场:
   止盈: ${sig['tp_price']} ({sig.get('tp_label','')})
