@@ -77,6 +77,9 @@ def _fill_from_row(sig: dict, row: pd.Series):
     if sig.get('ret_5d') is None and 'ret_5d' in row:
         sig['ret_5d'] = round(float(row.get('ret_5d')) * 100, 1)
 
+    if sig.get('atr_pct14') is None and 'atr_pct14' in row:
+        sig['atr_pct14'] = round(float(row.get('atr_pct14')) * 100, 2)
+
     if sig.get('above_ma200') is None and 'above_ma200' in row:
         sig['above_ma200'] = bool(int(row.get('above_ma200')))
     if sig.get('above_ma50') is None and 'above_ma50' in row:

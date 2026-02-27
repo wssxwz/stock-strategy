@@ -308,6 +308,11 @@ def score_signal(row: pd.Series, ticker: str) -> dict:
     # 计算参考止盈止损 + 建议买入价
     price = row.get('close', 0)
     atr   = row.get('atr14', price * 0.05)
+    atr_pct14 = row.get('atr_pct14', None)
+    try:
+        atr_pct14 = float(atr_pct14) if atr_pct14 is not None else None
+    except Exception:
+        atr_pct14 = None
     
     # 止盈止损（方案B：强趋势用更大的止盈目标）
     is_strong = score >= STRATEGY.get('strong_trend_min_score', 85)
@@ -366,6 +371,7 @@ def score_signal(row: pd.Series, ticker: str) -> dict:
         'above_ma50':  bool(above50),
         'vol_ratio':   round(vol_r, 2),
         'ret_5d':      round(ret5d, 1),
+        'atr_pct14':   round(atr_pct14 * 100, 2) if atr_pct14 is not None else None,
         'tp_price':    tp_price_suggest,
         'sl_price':    sl_price_suggest,
         'rr_ratio':    round(rr_ratio, 2),

@@ -154,27 +154,51 @@ def main():
         except Exception:
             continue
 
-    # BB% gate (more stable):
-    # - normal MR entries: require BB% < 0.10 (sweet spot)
-    # - strong trend entries: allow BB% < 0.25 but must be above MA200
-    buy_signals_bb = []
-    for s in buy_signals_ret5:
-        try:
-            bb = float(s.get('bb_pct', 0.5))
-        except Exception:
-            bb = 0.5
-        strong = (float(s.get('score', 0) or 0) >= 85) and bool(s.get('above_ma200', False))
-        if strong:
-            if bb < 0.25:
-                s['bb_gate'] = 'relaxed'
-                buy_signals_bb.append(s)
-        else:
-            if bb < 0.10:
-                s['bb_gate'] = 'strict'
-                buy_signals_bb.append(s)
+    # Execution router (MR vs STRUCT) — V3.1
+    # 1) If structure 1buy/2buy exists AND above MA200 AND (chop not high / ATR not big) -> STRUCT
+    # 2) Else if bb_pct < 0.10 (esp RSI<25) -> MR
+    # 3) Else -> SKIP
+    ATR_PCT14_MAX = 3.5  # percent (e.g. 3.5 means ATR%<=3.5%)
 
+    routed = []
+    for s in buy_signals_ret5:
+        # defaults
+        s['exec_mode'] = 'SKIP'
+        s['exec_reason'] = ''
+
+        bb = float(s.get('bb_pct', 0.5) or 0.5)
+        rsi = float(s.get('rsi14', 50) or 50)
+        above200 = bool(s.get('above_ma200', False))
+        atr_pct14 = s.get('atr_pct14', None)
+        try:
+            atr_ok = (atr_pct14 is not None) and (float(atr_pct14) <= ATR_PCT14_MAX)
+        except Exception:
+            atr_ok = False
+
+        st = s.get('structure') or {}
+        st_signals = st.get('signals') or []
+        st_best = st.get('best') or None
+
+        if st_signals and st_best and above200 and atr_ok:
+            s['exec_mode'] = 'STRUCT'
+            s['exec_struct_type'] = st_best.get('type')
+            s['exec_reason'] = f"STRUCT({s['exec_struct_type']}) ma200+ atr%<= {ATR_PCT14_MAX}"
+        elif bb < 0.10:
+            s['exec_mode'] = 'MR'
+            s['exec_reason'] = f"MR bb<{0.10:.2f}" + (" rsi<25" if rsi < 25 else "")
+        else:
+            s['exec_mode'] = 'SKIP'
+            s['exec_reason'] = 'skip: no-struct and bb>=0.10'
+
+        # keep for later analysis
+        s['atr_gate_max'] = ATR_PCT14_MAX
+        routed.append(s)
+
+    # Apply score threshold only to MR/STRUCT candidates
     buy_signals = []
-    for s in buy_signals_bb:
+    for s in routed:
+        if s.get('exec_mode') == 'SKIP':
+            continue
         ticker_threshold = get_score_threshold(s['ticker'], regime)
         s['score_threshold'] = ticker_threshold  # 记录该股实际阈值
         s['ret5_entry_pct'] = ret5_entry_pct
@@ -184,7 +208,7 @@ def main():
             buy_signals.append(s)
 
     print(
-        f"[信号过滤] 原始触发 {len(buy_signals_raw)} 只 → ret5通过 {len(buy_signals_ret5)} 只 → BB过滤 {len(buy_signals_bb)} 只 → 达到阈值 {len(buy_signals)} 只"
+        f"[信号过滤] 原始触发 {len(buy_signals_raw)} 只 → ret5通过 {len(buy_signals_ret5)} 只 → 路由通过 {sum(1 for x in routed if x.get('exec_mode')!='SKIP')} 只 → 达到阈值 {len(buy_signals)} 只"
     )
 
     new_buy = []
