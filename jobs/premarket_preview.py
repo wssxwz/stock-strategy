@@ -16,6 +16,10 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from datetime import datetime
 
 import yfinance as yf
+import logging
+
+# silence yfinance downloader noise (e.g., 'Failed download')
+logging.getLogger('yfinance').setLevel(logging.CRITICAL)
 
 # Reuse market_data constants when available
 from market_data import get_batch_quotes, INDICES, COMMODITIES
@@ -57,26 +61,69 @@ def _get_last_change_pct(symbol: str):
         return None
 
 
-def _get_premarket_quote(symbol: str):
-    """Try to fetch premarket price and change% (best-effort)."""
+def _safe_last_close(df):
+    """Extract last close from yf.download result (handles single/multi-index cols)."""
+    if df is None or df.empty:
+        return None, None
+    ts = df.index[-1]
     try:
-        # 1m data with prepost often works during premarket; otherwise fallback to info
+        if 'Close' in df.columns:
+            v = df['Close'].iloc[-1]
+        else:
+            # multi-index like ('Close','CRWD')
+            close_cols = [c for c in df.columns if (isinstance(c, tuple) and c[0] == 'Close')]
+            if close_cols:
+                v = df[close_cols[0]].iloc[-1]
+            else:
+                return None, ts
+        # v can be Series if still multi
+        if hasattr(v, 'iloc') and not isinstance(v, (float, int)):
+            try:
+                v = float(v.iloc[-1])
+            except Exception:
+                v = float(v)
+        return float(v), ts
+    except Exception:
+        return None, ts
+
+
+def _get_premarket_quote(symbol: str):
+    """Try to fetch premarket price and change% vs previous close.
+
+    Returns (px, chg_pct, asof_ts).
+    """
+    # Prefer fast_info (previousClose + lastPrice) for a robust change%
+    prev_close = None
+    last_px = None
+    try:
+        info = yf.Ticker(symbol).fast_info
+        prev_close = info.get('previousClose', None)
+        last_px = info.get('lastPrice', None)
+        prev_close = float(prev_close) if prev_close else None
+        last_px = float(last_px) if last_px else None
+    except Exception:
+        prev_close = None
+        last_px = None
+
+    # Try 1m prepost to get a recent timestamp
+    asof = None
+    try:
         h = yf.download(symbol, period='1d', interval='1m', prepost=True, auto_adjust=True, progress=False, threads=False)
-        if h is not None and not h.empty:
-            px = float(h['Close'].iloc[-1])
-            # change vs last regular close (approx from daily)
-            chg = _get_last_change_pct(symbol)
-            return px, chg
+        px, ts = _safe_last_close(h)
+        if px is not None:
+            last_px = px
+        asof = ts
     except Exception:
         pass
 
-    try:
-        info = yf.Ticker(symbol).fast_info
-        px = info.get('lastPrice', None)
-        return (float(px) if px else None), _get_last_change_pct(symbol)
-    except Exception:
-        return None, _get_last_change_pct(symbol)
+    chg = None
+    if last_px is not None and prev_close not in (None, 0):
+        chg = (last_px / prev_close - 1) * 100
+    else:
+        # fallback to last daily change
+        chg = _get_last_change_pct(symbol)
 
+    return last_px, chg, asof
 
 def run():
     now = datetime.now()
@@ -96,21 +143,23 @@ def run():
     # Core movers (premarket quote best-effort)
     movers = []
     for t in WATCH_CORE:
-        px, pct = _get_premarket_quote(t)
+        px, pct, asof = _get_premarket_quote(t)
         if pct is None and px is None:
             continue
-        movers.append((t, pct if pct is not None else 0.0, px))
+        movers.append((t, float(pct) if pct is not None else None, px, asof))
 
-    # pick top up/down by pct
-    movers_sorted = sorted(movers, key=lambda x: x[1], reverse=True)
-    top_up = [m for m in movers_sorted[:5] if m[1] is not None]
-    top_dn = [m for m in sorted(movers, key=lambda x: x[1])[:5] if m[1] is not None]
+    # pick top up/down by pct (ignore None)
+    movers2 = [m for m in movers if m[1] is not None]
+    movers_sorted = sorted(movers2, key=lambda x: x[1], reverse=True)
+    top_up = movers_sorted[:5]
+    top_dn = sorted(movers2, key=lambda x: x[1])[:5]
 
     # Commodities
     cmd = get_batch_quotes(list(COMMODITIES.keys()))
 
     lines = [
         f"{date_str} 美股前瞻",
+        f"（数据时间：{now.strftime('%H:%M')} 北京｜盘前数据为 best-effort，若个股异动异常以交易软件为准）",
         "一、大盘整体走势",
     ]
 
@@ -128,10 +177,10 @@ def run():
 
     lines.append("\n二、热门板块与个股表现")
     if top_up:
-        up_txt = '；'.join([f"{t} {_fmt_pct(pct)}" for t,pct,_ in top_up[:3]])
+        up_txt = '；'.join([f"{t} {_fmt_pct(pct)}" for t,pct,_,_asof in top_up[:3]])
         lines.append(f"• 盘前相对强势：{up_txt}")
     if top_dn:
-        dn_txt = '；'.join([f"{t} {_fmt_pct(pct)}" for t,pct,_ in top_dn[:3]])
+        dn_txt = '；'.join([f"{t} {_fmt_pct(pct)}" for t,pct,_,_asof in top_dn[:3]])
         lines.append(f"• 盘前相对承压：{dn_txt}")
 
     lines.append("\n三、核心个股动态")
