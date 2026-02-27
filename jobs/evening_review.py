@@ -107,50 +107,49 @@ def generate_evening_review() -> str:
     def arr(pct): return '🔺' if pct > 0 else '🔻'
 
     lines = [
-        f"🌙 **收盘复盘** | {date_str}",
+        f"🌙 **盘后复盘（执行版）** | {date_str}",
         "━━━━━━━━━━━━━━━━",
     ]
 
-    # 今日收盘
-    lines.append("\n📊 **今日收盘**")
-    for t, name in [('SPY','标普500'),('QQQ','纳斯达克'),('DIA','道指')]:
-        if t in idx:
-            lines.append(f"  {arr(idx[t]['change_pct'])} {name}  {fmt(idx[t]['change_pct'])}")
-    lines.append(f"  {fg['emoji']} 情绪：{fg['label_zh']}（指数 {fg['value']}，0=极恐 100=极贪）")
+    # 1) Tape read
+    lines.append("\n📌 **今晚主线（1句话）**")
+    spy = idx.get('SPY',{}).get('change_pct',0)
+    qqq = idx.get('QQQ',{}).get('change_pct',0)
+    dia = idx.get('DIA',{}).get('change_pct',0)
+    lines.append(f"  标普{fmt(spy)}｜纳指{fmt(qqq)}｜道指{fmt(dia)}｜{fg['emoji']} {fg['label_zh']} {fg['value']}")
 
-    # 今日信号回顾
-    if signals:
-        lines.append(f"\n📡 **今日触发信号 ({len(signals)}个)**")
-        for s in signals[:5]:
-            lines.append(f"  🎯 {s['ticker']} | 评分:{s['score']} | ${s['price']}")
-    else:
-        lines.append("\n📡 **今日信号：** 无触发")
-
-    # 持仓盈亏
+    # 2) What changed for portfolio
+    lines.append("\n💼 **持仓：今晚需要知道的3件事**")
     if pnl_list:
-        lines.append(f"\n💼 **持仓状况 ({len(pnl_list)}只)**")
+        winners = [p for p in pnl_list if p['ret_pct']>=0][:3]
+        losers  = [p for p in pnl_list if p['ret_pct']<0][-3:]
+        if winners:
+            lines.append("  • 强势：" + '，'.join([f"{p['ticker']} {fmt(p['ret_pct'])}" for p in winners]))
+        if losers:
+            lines.append("  • 承压：" + '，'.join([f"{p['ticker']} {fmt(p['ret_pct'])}" for p in losers]))
         total_ret = sum(p['ret_pct'] for p in pnl_list) / len(pnl_list)
-        for p in pnl_list:
-            emoji = '🟢' if p['ret_pct'] >= 0 else '🔴'
-            lines.append(f"  {emoji} {p['ticker']}  {fmt(p['ret_pct'])}  (入场${p['entry']} → 现${p['current']})")
-        lines.append(f"  📈 平均浮盈：{fmt(total_ret)}")
+        lines.append(f"  • 组合均值：{fmt(total_ret)}（只看方向，不做精确净值）")
     else:
-        lines.append("\n💼 **持仓：** 暂无记录")
+        lines.append("  • 未检测到持仓记录（portfolio.json 为空）")
 
-    # 最强/最弱板块
+    # 3) Tomorrow focus
+    lines.append("\n🎯 **明天开盘前要盯什么**")
     if sects:
         sl = list(sects.items())
-        lines.append(f"\n🏆 最强：{sl[0][1]['name']} {fmt(sl[0][1]['change_pct'])}  |  最弱：{sl[-1][1]['name']} {fmt(sl[-1][1]['change_pct'])}")
-
-    # 明日预告
-    lines.append("\n📅 **明日关注**")
+        lines.append(f"  • 板块：最强 {sl[0][1]['name']} {fmt(sl[0][1]['change_pct'])}｜最弱 {sl[-1][1]['name']} {fmt(sl[-1][1]['change_pct'])}")
     if tomorrow_events:
-        for e in tomorrow_events:
-            lines.append(f"  {e}")
-    lines.append("  → 早盘摘要 7:50 推送")
+        lines.append("  • 事件：" + '；'.join(tomorrow_events[:3]))
+    lines.append("  • 节奏：21:00 盘前前瞻｜盘中按小时扫描｜回撤到 MR/结构条件再出手")
+
+    # Signals summary (short)
+    lines.append("\n📡 **今日信号（简）**")
+    if signals:
+        lines.append('  ' + '，'.join([f"{s['ticker']}({s['score']})" for s in signals[:8]]))
+    else:
+        lines.append("  无触发")
 
     lines.append("\n━━━━━━━━━━━━━━━━")
-    lines.append("_仅供参考，祝好梦！🌙_")
+    lines.append("_仅供参考_")
 
     msg = '\n'.join(lines)
 

@@ -225,13 +225,26 @@ def main():
                 'price': sig['price'], 'time': datetime.now().isoformat()
             }
 
-    # 批量推送历史写入（一次扫描=1 条批次记录）
+    # -------- Push strategy (noise reduction)
+    # - Strong or STRUCT: send immediately (single message)
+    # - Normal: send one batch summary message per scan
+    strong_buy = []
+    normal_buy = []
+    for s in new_buy:
+        is_strong = (float(s.get('score', 0) or 0) >= 85) or (s.get('exec_mode') == 'STRUCT')
+        (strong_buy if is_strong else normal_buy).append(s)
+
+    # Batch push_history raw includes full formatted messages for archival
     batch_raw = "\n\n".join([format_signal_message(sig) for sig in new_buy])
     if new_buy:
         batch_title = f"📣 全市场扫描信号（{datetime.now().strftime('%Y-%m-%d %H:%M')} 北京）"
-        batch_summary = f"✅ 买入 {len(new_buy)} / 卖出 0｜强趋势 {sum(1 for s in new_buy if s['score']>=85)} 只｜{regime['regime_zh']}模式"
-    
-    for sig in new_buy:
+        batch_summary = (
+            f"✅ 买入 {len(new_buy)} / 卖出 0｜强信号 {len(strong_buy)} 只｜"
+            f"{regime['regime_zh']}模式"
+        )
+
+    # --- 1) Send strong individually
+    for sig in strong_buy:
         msg = format_signal_message(sig)
         print(f"\nBUY_SIGNAL:{sig['ticker']}:{sig['score']}")
         print(msg)
@@ -240,6 +253,30 @@ def main():
         output_lines.append(msg)
         output_lines.append("---END---")
 
+    # --- 2) Send normal as one batch (top list)
+    if normal_buy:
+        lines = [
+            f"📦 普通信号汇总（{datetime.now().strftime('%Y-%m-%d %H:%M')} 北京）",
+            f"共 {len(normal_buy)} 只（已去重/已过滤）",
+            "",
+        ]
+        # keep short: show up to 10
+        for s in sorted(normal_buy, key=lambda x: float(x.get('score',0) or 0), reverse=True)[:10]:
+            mode = s.get('exec_mode','-')
+            reason = s.get('exec_reason','-')
+            lines.append(f"• {s['ticker']}｜{mode}｜score {s.get('score')}｜${s.get('price')}｜{reason}")
+        lines.append("\n（提示：强信号/STRUCT 会单独推送）")
+        batch_msg = "\n".join(lines)
+
+        print(f"\nBUY_SIGNAL_BATCH:{len(normal_buy)}")
+        print(batch_msg)
+        print("---END---")
+        output_lines.append(f"BUY_SIGNAL_BATCH:{len(normal_buy)}")
+        output_lines.append(batch_msg)
+        output_lines.append("---END---")
+
+    # --- 3) Always save signals to Dashboard for all new buys
+    for sig in new_buy:
         # 自动保存到 Dashboard signals.json
         try:
             import sys as _sys
@@ -249,13 +286,14 @@ def main():
         except Exception as _e:
             print(f"  [Dashboard 同步失败] {_e}")
 
-        # 单条信号写入 push_history（保持与 Telegram 原文一致）
+    # --- 4) push_history: strong singles + one batch record
+    for sig in strong_buy:
         try:
             import sys as _sys
             _sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../dashboard'))
             from export_push_history import append_push_history
-
-            level = '🔥 强烈信号' if sig.get('score',0) >= 85 else '✅ 买入信号'
+            msg = format_signal_message(sig)
+            level = '🔥 强烈信号' if sig.get('score',0) >= 85 else ('🧱 STRUCT' if sig.get('exec_mode')=='STRUCT' else '✅ 买入信号')
             title = f"买入信号 {sig['ticker']} ({level})"
             summary = f"{sig['ticker']} {level}｜评分{sig.get('score')}｜触发1H收盘价 ${sig.get('price')}"
             append_push_history(
@@ -271,12 +309,13 @@ def main():
                     'bar_time': sig.get('bar_time'),
                     'bar_close': sig.get('bar_close'),
                     'price_source': sig.get('price_source','1H_bar_close'),
+                    'exec_mode': sig.get('exec_mode'),
+                    'exec_reason': sig.get('exec_reason'),
                 }
             )
         except Exception as _e:
             print(f"  [push_history 单条同步失败] {_e}")
-    
-    # 整批写入 push_history（1 条记录）
+
     if new_buy:
         try:
             import sys as _sys
@@ -289,7 +328,7 @@ def main():
                 raw=batch_raw,
                 time=datetime.now().strftime('%Y-%m-%d %H:%M'),
                 signal_count=len(new_buy),
-                strong_count=sum(1 for s in new_buy if s['score']>=85),
+                strong_count=len(strong_buy),
             )
         except Exception as _e:
             print(f"  [推送历史同步失败] {_e}")
