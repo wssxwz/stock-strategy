@@ -43,7 +43,9 @@
     "vol_ratio": 2.03,
     "ret_5d": -5.3,
     "above_ma200": false,
-    "above_ma50": false
+    "above_ma50": false,
+    "atr_pct14": 1.69,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1772121669.333331",
@@ -69,7 +71,9 @@
     "vol_ratio": 0.71,
     "ret_5d": -4.2,
     "above_ma200": false,
-    "above_ma50": false
+    "above_ma50": false,
+    "atr_pct14": 1.56,
+    "mr_bb_gap": 0.208
   },
   {
     "id": "sig_1772035335.134891",
@@ -115,7 +119,9 @@
     "vol_ratio": 1.49,
     "ret_5d": -1.1,
     "above_ma200": false,
-    "above_ma50": false
+    "above_ma50": false,
+    "atr_pct14": 1.56,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771952527.55702",
@@ -141,7 +147,9 @@
     "vol_ratio": 1.86,
     "ret_5d": -3.5,
     "above_ma200": false,
-    "above_ma50": false
+    "above_ma50": false,
+    "atr_pct14": 2.54,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771952527.553179",
@@ -167,7 +175,9 @@
     "vol_ratio": 0.83,
     "ret_5d": -0.6,
     "above_ma200": false,
-    "above_ma50": false
+    "above_ma50": false,
+    "atr_pct14": 1.33,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771952527.55013",
@@ -193,7 +203,9 @@
     "vol_ratio": 1.62,
     "ret_5d": -0.9,
     "above_ma200": false,
-    "above_ma50": false
+    "above_ma50": false,
+    "atr_pct14": 2.26,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771952527.546938",
@@ -219,7 +231,9 @@
     "vol_ratio": 1.33,
     "ret_5d": -1.4,
     "above_ma200": false,
-    "above_ma50": false
+    "above_ma50": false,
+    "atr_pct14": 3.09,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771952527.542508",
@@ -245,7 +259,9 @@
     "vol_ratio": 1.09,
     "ret_5d": 0.5,
     "above_ma200": false,
-    "above_ma50": false
+    "above_ma50": false,
+    "atr_pct14": 1.15,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771948884.921864",
@@ -291,7 +307,9 @@
     "vol_ratio": 1.49,
     "ret_5d": -1.1,
     "above_ma200": false,
-    "above_ma50": false
+    "above_ma50": false,
+    "atr_pct14": 1.56,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771948848.664369",
@@ -317,7 +335,9 @@
     "vol_ratio": 1.86,
     "ret_5d": -3.5,
     "above_ma200": false,
-    "above_ma50": false
+    "above_ma50": false,
+    "atr_pct14": 2.54,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771948848.662158",
@@ -343,7 +363,9 @@
     "vol_ratio": 0.67,
     "ret_5d": -0.3,
     "above_ma200": false,
-    "above_ma50": false
+    "above_ma50": false,
+    "atr_pct14": 1.81,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771948848.657718",
@@ -369,7 +391,9 @@
     "vol_ratio": 1.33,
     "ret_5d": -1.4,
     "above_ma200": false,
-    "above_ma50": false
+    "above_ma50": false,
+    "atr_pct14": 3.09,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771947248.408695",
@@ -395,7 +419,9 @@
     "vol_ratio": 1.49,
     "ret_5d": -1.1,
     "above_ma200": false,
-    "above_ma50": false
+    "above_ma50": false,
+    "atr_pct14": 1.56,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771947248.404289",
@@ -421,7 +447,9 @@
     "vol_ratio": 0.83,
     "ret_5d": -0.6,
     "above_ma200": false,
-    "above_ma50": false
+    "above_ma50": false,
+    "atr_pct14": 1.33,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771945245.752587",
@@ -446,7 +474,9 @@
     "above_ma200": false,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-24 20:30"
+    "bar_time": "2026-02-24 20:30",
+    "atr_pct14": 1.44,
+    "mr_bb_gap": 0.148
   },
   {
     "id": "sig_1771873234.292989",
@@ -471,7 +501,9 @@
     "above_ma200": false,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 1.81,
+    "mr_bb_gap": 0.066
   },
   {
     "id": "sig_1771873234.291709",
@@ -496,7 +528,9 @@
     "above_ma200": false,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 0.8,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771873234.290416",
@@ -521,7 +555,9 @@
     "above_ma200": false,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 1.33,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771873234.28875",
@@ -546,7 +582,9 @@
     "above_ma200": false,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 2.26,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771866575.535905",
@@ -588,7 +626,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 1.61,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771866264.437315",
@@ -613,7 +653,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 1.34,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771866264.435752",
@@ -638,7 +680,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 0.96,
+    "mr_bb_gap": 0.052
   },
   {
     "id": "sig_1771866264.434198",
@@ -663,7 +707,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 0.58,
+    "mr_bb_gap": 0.001
   },
   {
     "id": "sig_1771866264.432644",
@@ -688,7 +734,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 1.06,
+    "mr_bb_gap": 0.012
   },
   {
     "id": "sig_1771866264.431008",
@@ -713,7 +761,9 @@
     "above_ma200": false,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 1.98,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771866264.429336",
@@ -738,7 +788,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 0.84,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771866264.427599",
@@ -763,7 +815,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 0.91,
+    "mr_bb_gap": 0.087
   },
   {
     "id": "sig_1771866264.425859",
@@ -788,7 +842,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 1.26,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771866264.42416",
@@ -813,7 +869,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 1.14,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771866264.422511",
@@ -838,7 +896,9 @@
     "above_ma200": false,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 1.07,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771866264.420893",
@@ -863,7 +923,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 1.68,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771866264.41929",
@@ -888,7 +950,9 @@
     "above_ma200": false,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 1.68,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771866264.417388",
@@ -913,7 +977,9 @@
     "above_ma200": false,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 0.64,
+    "mr_bb_gap": 0.076
   },
   {
     "id": "sig_1771866264.414512",
@@ -938,7 +1004,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 1.08,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771862932.50104",
@@ -963,7 +1031,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 1.61,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771862932.499429",
@@ -988,7 +1058,9 @@
     "above_ma200": false,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 0.86,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771862932.498144",
@@ -1013,7 +1085,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 1.06,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771862932.496894",
@@ -1038,7 +1112,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 1.53,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771862932.495667",
@@ -1063,7 +1139,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 1.06,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771862932.494453",
@@ -1088,7 +1166,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 0.74,
+    "mr_bb_gap": 0.27
   },
   {
     "id": "sig_1771862932.49327",
@@ -1113,7 +1193,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 1.17,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771862932.492022",
@@ -1138,7 +1220,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 0.91,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771862932.490747",
@@ -1163,7 +1247,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 1.26,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771862932.489523",
@@ -1188,7 +1274,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 0.97,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771862932.488227",
@@ -1213,7 +1301,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 0.72,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771862932.48687",
@@ -1238,7 +1328,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 2.92,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771862932.485593",
@@ -1263,7 +1355,9 @@
     "above_ma200": false,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 1.07,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771862932.484365",
@@ -1288,7 +1382,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 1.08,
+    "mr_bb_gap": 0.02
   },
   {
     "id": "sig_1771862932.483161",
@@ -1313,7 +1409,9 @@
     "above_ma200": false,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 2.54,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771862932.481976",
@@ -1338,7 +1436,9 @@
     "above_ma200": false,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 1.47,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771862932.48082",
@@ -1363,7 +1463,9 @@
     "above_ma200": false,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 3.09,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771862932.479758",
@@ -1388,7 +1490,9 @@
     "above_ma200": false,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 0.8,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771862932.478658",
@@ -1413,7 +1517,9 @@
     "above_ma200": false,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 1.81,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771862932.476395",
@@ -1438,7 +1544,9 @@
     "above_ma200": false,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 1.15,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771859252.273216",
@@ -1463,7 +1571,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 1.06,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771859252.272792",
@@ -1488,7 +1598,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 1.63,
+    "mr_bb_gap": 0.001
   },
   {
     "id": "sig_1771859252.272362",
@@ -1513,7 +1625,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 0.67,
+    "mr_bb_gap": 0.174
   },
   {
     "id": "sig_1771859252.27197",
@@ -1538,7 +1652,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 0.58,
+    "mr_bb_gap": 0.077
   },
   {
     "id": "sig_1771859252.271571",
@@ -1563,7 +1679,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 0.89,
+    "mr_bb_gap": 0.089
   },
   {
     "id": "sig_1771859252.271196",
@@ -1588,7 +1706,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 0.84,
+    "mr_bb_gap": 0.03
   },
   {
     "id": "sig_1771859252.270821",
@@ -1613,7 +1733,9 @@
     "above_ma200": false,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 1.36,
+    "mr_bb_gap": 0.046
   },
   {
     "id": "sig_1771859252.270443",
@@ -1638,7 +1760,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 1.01,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771859252.270082",
@@ -1663,7 +1787,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 0.97,
+    "mr_bb_gap": 0.103
   },
   {
     "id": "sig_1771859252.269755",
@@ -1688,7 +1814,9 @@
     "above_ma200": false,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 2.04,
+    "mr_bb_gap": 0.229
   },
   {
     "id": "sig_1771859252.269406",
@@ -1713,7 +1841,9 @@
     "above_ma200": false,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 1.64,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771859252.268213",
@@ -1738,7 +1868,9 @@
     "above_ma200": false,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 1.56,
+    "mr_bb_gap": 0.148
   },
   {
     "id": "sig_1771855564.079649",
@@ -1780,7 +1912,9 @@
     "above_ma200": true,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 0.84,
+    "mr_bb_gap": 0.117
   },
   {
     "id": "sig_1771855553.301459",
@@ -1805,7 +1939,9 @@
     "above_ma200": true,
     "above_ma50": true,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 0.77,
+    "mr_bb_gap": 0.038
   },
   {
     "id": "sig_1771855553.301171",
@@ -1830,7 +1966,9 @@
     "above_ma200": false,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 2.54,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771855553.300802",
@@ -1855,7 +1993,9 @@
     "above_ma200": false,
     "above_ma50": false,
     "price_source": "1H_bar_close",
-    "bar_time": "2026-02-23 20:30"
+    "bar_time": "2026-02-23 20:30",
+    "atr_pct14": 3.09,
+    "mr_bb_gap": 0.0
   },
   {
     "id": "sig_1771693411.38789",
