@@ -154,8 +154,27 @@ def main():
         except Exception:
             continue
 
-    buy_signals = []
+    # BB% gate (more stable):
+    # - normal MR entries: require BB% < 0.10 (sweet spot)
+    # - strong trend entries: allow BB% < 0.25 but must be above MA200
+    buy_signals_bb = []
     for s in buy_signals_ret5:
+        try:
+            bb = float(s.get('bb_pct', 0.5))
+        except Exception:
+            bb = 0.5
+        strong = (float(s.get('score', 0) or 0) >= 85) and bool(s.get('above_ma200', False))
+        if strong:
+            if bb < 0.25:
+                s['bb_gate'] = 'relaxed'
+                buy_signals_bb.append(s)
+        else:
+            if bb < 0.10:
+                s['bb_gate'] = 'strict'
+                buy_signals_bb.append(s)
+
+    buy_signals = []
+    for s in buy_signals_bb:
         ticker_threshold = get_score_threshold(s['ticker'], regime)
         s['score_threshold'] = ticker_threshold  # 记录该股实际阈值
         s['ret5_entry_pct'] = ret5_entry_pct
@@ -165,7 +184,7 @@ def main():
             buy_signals.append(s)
 
     print(
-        f"[信号过滤] 原始触发 {len(buy_signals_raw)} 只 → ret5通过 {len(buy_signals_ret5)} 只 → 达到阈值 {len(buy_signals)} 只"
+        f"[信号过滤] 原始触发 {len(buy_signals_raw)} 只 → ret5通过 {len(buy_signals_ret5)} 只 → BB过滤 {len(buy_signals_bb)} 只 → 达到阈值 {len(buy_signals)} 只"
     )
 
     new_buy = []

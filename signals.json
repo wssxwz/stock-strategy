@@ -37,7 +37,13 @@
     "sl_price": 299.29,
     "time": "2026-02-27 00:01",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -1.2189,
+    "vol_ratio": 2.03,
+    "ret_5d": -5.3,
+    "above_ma200": false,
+    "above_ma50": false
   },
   {
     "id": "sig_1772121669.333331",
@@ -57,7 +63,13 @@
     "sl_price": 190.79,
     "time": "2026-02-27 00:00",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -1.0562,
+    "vol_ratio": 0.71,
+    "ret_5d": -4.2,
+    "above_ma200": false,
+    "above_ma50": false
   },
   {
     "id": "sig_1772035335.134891",
@@ -97,7 +109,13 @@
     "sl_price": 119.69,
     "time": "2026-02-25 01:02",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.6414,
+    "vol_ratio": 1.49,
+    "ret_5d": -1.1,
+    "above_ma200": false,
+    "above_ma50": false
   },
   {
     "id": "sig_1771952527.55702",
@@ -117,7 +135,13 @@
     "sl_price": 96.59,
     "time": "2026-02-25 01:02",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -1.4141,
+    "vol_ratio": 1.86,
+    "ret_5d": -3.5,
+    "above_ma200": false,
+    "above_ma50": false
   },
   {
     "id": "sig_1771952527.553179",
@@ -137,7 +161,13 @@
     "sl_price": 305.79,
     "time": "2026-02-25 01:02",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.5683,
+    "vol_ratio": 0.83,
+    "ret_5d": -0.6,
+    "above_ma200": false,
+    "above_ma50": false
   },
   {
     "id": "sig_1771952527.55013",
@@ -157,7 +187,13 @@
     "sl_price": 148.92,
     "time": "2026-02-25 01:01",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -1.8469,
+    "vol_ratio": 1.62,
+    "ret_5d": -0.9,
+    "above_ma200": false,
+    "above_ma50": false
   },
   {
     "id": "sig_1771952527.546938",
@@ -177,7 +213,13 @@
     "sl_price": 326.01,
     "time": "2026-02-25 01:01",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -5.5741,
+    "vol_ratio": 1.33,
+    "ret_5d": -1.4,
+    "above_ma200": false,
+    "above_ma50": false
   },
   {
     "id": "sig_1771952527.542508",
@@ -197,7 +239,13 @@
     "sl_price": 370.19,
     "time": "2026-02-25 01:01",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -1.0221,
+    "vol_ratio": 1.09,
+    "ret_5d": 0.5,
+    "above_ma200": false,
+    "above_ma50": false
   },
   {
     "id": "sig_1771948884.921864",
@@ -237,7 +285,13 @@
     "sl_price": 118.97,
     "time": "2026-02-25 00:00",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.6414,
+    "vol_ratio": 1.49,
+    "ret_5d": -1.1,
+    "above_ma200": false,
+    "above_ma50": false
   },
   {
     "id": "sig_1771948848.664369",
@@ -257,7 +311,13 @@
     "sl_price": 95.96,
     "time": "2026-02-25 00:00",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -1.4141,
+    "vol_ratio": 1.86,
+    "ret_5d": -3.5,
+    "above_ma200": false,
+    "above_ma50": false
   },
   {
     "id": "sig_1771948848.662158",
@@ -277,7 +337,13 @@
     "sl_price": 118.71,
     "time": "2026-02-25 00:00",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.3614,
+    "vol_ratio": 0.67,
+    "ret_5d": -0.3,
+    "above_ma200": false,
+    "above_ma50": false
   },
   {
     "id": "sig_1771948848.657718",
@@ -297,7 +363,13 @@
     "sl_price": 328.08,
     "time": "2026-02-25 00:00",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -5.5741,
+    "vol_ratio": 1.33,
+    "ret_5d": -1.4,
+    "above_ma200": false,
+    "above_ma50": false
   },
   {
     "id": "sig_1771947248.408695",
@@ -317,7 +389,13 @@
     "sl_price": 118.74,
     "time": "2026-02-24 23:34",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.6414,
+    "vol_ratio": 1.49,
+    "ret_5d": -1.1,
+    "above_ma200": false,
+    "above_ma50": false
   },
   {
     "id": "sig_1771947248.404289",
@@ -337,7 +415,13 @@
     "sl_price": 298.9,
     "time": "2026-02-24 23:34",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.5683,
+    "vol_ratio": 0.83,
+    "ret_5d": -0.6,
+    "above_ma200": false,
+    "above_ma50": false
   },
   {
     "id": "sig_1771945245.752587",
@@ -354,7 +438,15 @@
     "sl_price": 128.34,
     "time": "2026-02-24 23:00",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": 0.2939,
+    "vol_ratio": 0.85,
+    "ret_5d": -0.2,
+    "above_ma200": false,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-24 20:30"
   },
   {
     "id": "sig_1771873234.292989",
@@ -371,7 +463,15 @@
     "sl_price": 120.17,
     "time": "2026-02-24 03:00",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.3614,
+    "vol_ratio": 0.67,
+    "ret_5d": -0.3,
+    "above_ma200": false,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771873234.291709",
@@ -388,7 +488,15 @@
     "sl_price": 357.25,
     "time": "2026-02-24 03:00",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -1.0918,
+    "vol_ratio": 1.01,
+    "ret_5d": -0.5,
+    "above_ma200": false,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771873234.290416",
@@ -405,7 +513,15 @@
     "sl_price": 183.29,
     "time": "2026-02-24 03:00",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.2505,
+    "vol_ratio": 0.8,
+    "ret_5d": -0.0,
+    "above_ma200": false,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771873234.28875",
@@ -422,7 +538,15 @@
     "sl_price": 144.04,
     "time": "2026-02-24 03:00",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -1.8469,
+    "vol_ratio": 1.62,
+    "ret_5d": -0.9,
+    "above_ma200": false,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771866575.535905",
@@ -456,7 +580,15 @@
     "sl_price": 27.85,
     "time": "2026-02-24 01:04",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": 0.0378,
+    "vol_ratio": 1.07,
+    "ret_5d": -0.7,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771866264.437315",
@@ -473,7 +605,15 @@
     "sl_price": 207.59,
     "time": "2026-02-24 01:04",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": 0.0459,
+    "vol_ratio": 1.24,
+    "ret_5d": 1.0,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771866264.435752",
@@ -490,7 +630,15 @@
     "sl_price": 51.93,
     "time": "2026-02-24 01:04",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.0984,
+    "vol_ratio": 1.29,
+    "ret_5d": 0.9,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771866264.434198",
@@ -507,7 +655,15 @@
     "sl_price": 904.95,
     "time": "2026-02-24 01:04",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": 0.8602,
+    "vol_ratio": 1.26,
+    "ret_5d": 0.2,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771866264.432644",
@@ -524,7 +680,15 @@
     "sl_price": 188.89,
     "time": "2026-02-24 01:03",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.5353,
+    "vol_ratio": 1.67,
+    "ret_5d": -0.5,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771866264.431008",
@@ -541,7 +705,15 @@
     "sl_price": 103.79,
     "time": "2026-02-24 01:03",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.502,
+    "vol_ratio": 1.67,
+    "ret_5d": 1.1,
+    "above_ma200": false,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771866264.429336",
@@ -558,7 +730,15 @@
     "sl_price": 260.39,
     "time": "2026-02-24 01:03",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": 0.4899,
+    "vol_ratio": 1.67,
+    "ret_5d": 0.6,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771866264.427599",
@@ -575,7 +755,15 @@
     "sl_price": 282.63,
     "time": "2026-02-24 01:03",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": 0.1358,
+    "vol_ratio": 1.36,
+    "ret_5d": 1.8,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771866264.425859",
@@ -592,7 +780,15 @@
     "sl_price": 26.02,
     "time": "2026-02-24 01:03",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.0927,
+    "vol_ratio": 1.96,
+    "ret_5d": 1.1,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771866264.42416",
@@ -609,7 +805,15 @@
     "sl_price": 89.97,
     "time": "2026-02-24 01:03",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.1725,
+    "vol_ratio": 1.89,
+    "ret_5d": 1.0,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771866264.422511",
@@ -626,7 +830,15 @@
     "sl_price": 205.42,
     "time": "2026-02-24 01:02",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.8072,
+    "vol_ratio": 2.33,
+    "ret_5d": -1.1,
+    "above_ma200": false,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771866264.420893",
@@ -643,7 +855,15 @@
     "sl_price": 330.07,
     "time": "2026-02-24 01:02",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -1.8099,
+    "vol_ratio": 2.58,
+    "ret_5d": 0.6,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771866264.41929",
@@ -660,7 +880,15 @@
     "sl_price": 128.25,
     "time": "2026-02-24 01:02",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.7826,
+    "vol_ratio": 0.97,
+    "ret_5d": 1.2,
+    "above_ma200": false,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771866264.417388",
@@ -677,7 +905,15 @@
     "sl_price": 57.45,
     "time": "2026-02-24 01:02",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.1055,
+    "vol_ratio": 2.39,
+    "ret_5d": -0.4,
+    "above_ma200": false,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771866264.414512",
@@ -694,7 +930,15 @@
     "sl_price": 24.76,
     "time": "2026-02-24 01:02",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.0326,
+    "vol_ratio": 1.95,
+    "ret_5d": 0.7,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771862932.50104",
@@ -711,7 +955,15 @@
     "sl_price": 28.12,
     "time": "2026-02-24 00:08",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": 0.0378,
+    "vol_ratio": 1.07,
+    "ret_5d": -0.7,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771862932.499429",
@@ -728,7 +980,15 @@
     "sl_price": 34.25,
     "time": "2026-02-24 00:08",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": 0.0047,
+    "vol_ratio": 2.06,
+    "ret_5d": 0.1,
+    "above_ma200": false,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771862932.498144",
@@ -745,7 +1005,15 @@
     "sl_price": 46.69,
     "time": "2026-02-24 00:08",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.1034,
+    "vol_ratio": 1.66,
+    "ret_5d": 0.8,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771862932.496894",
@@ -762,7 +1030,15 @@
     "sl_price": 41.57,
     "time": "2026-02-24 00:08",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.245,
+    "vol_ratio": 1.14,
+    "ret_5d": 2.5,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771862932.495667",
@@ -779,7 +1055,15 @@
     "sl_price": 188.16,
     "time": "2026-02-24 00:07",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.5353,
+    "vol_ratio": 1.67,
+    "ret_5d": -0.5,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771862932.494453",
@@ -796,7 +1080,15 @@
     "sl_price": 328.98,
     "time": "2026-02-24 00:07",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": 0.8749,
+    "vol_ratio": 1.78,
+    "ret_5d": 0.8,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771862932.49327",
@@ -813,7 +1105,15 @@
     "sl_price": 41.36,
     "time": "2026-02-24 00:07",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.0452,
+    "vol_ratio": 1.45,
+    "ret_5d": -0.4,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771862932.492022",
@@ -830,7 +1130,15 @@
     "sl_price": 282.77,
     "time": "2026-02-24 00:07",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": 0.1358,
+    "vol_ratio": 1.36,
+    "ret_5d": 1.8,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771862932.490747",
@@ -847,7 +1155,15 @@
     "sl_price": 26.97,
     "time": "2026-02-24 00:07",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.0927,
+    "vol_ratio": 1.96,
+    "ret_5d": 1.1,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771862932.489523",
@@ -864,7 +1180,15 @@
     "sl_price": 333.94,
     "time": "2026-02-24 00:06",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.5461,
+    "vol_ratio": 1.48,
+    "ret_5d": 0.3,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771862932.488227",
@@ -881,7 +1205,15 @@
     "sl_price": 212.09,
     "time": "2026-02-24 00:06",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.1128,
+    "vol_ratio": 1.59,
+    "ret_5d": 0.6,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771862932.48687",
@@ -898,7 +1230,15 @@
     "sl_price": 91.61,
     "time": "2026-02-24 00:06",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": 0.0063,
+    "vol_ratio": 2.88,
+    "ret_5d": -0.4,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771862932.485593",
@@ -915,7 +1255,15 @@
     "sl_price": 205.99,
     "time": "2026-02-24 00:05",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.8072,
+    "vol_ratio": 2.33,
+    "ret_5d": -1.1,
+    "above_ma200": false,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771862932.484365",
@@ -932,7 +1280,15 @@
     "sl_price": 24.59,
     "time": "2026-02-24 00:04",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.0326,
+    "vol_ratio": 1.95,
+    "ret_5d": 0.7,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771862932.483161",
@@ -949,7 +1305,15 @@
     "sl_price": 98.38,
     "time": "2026-02-24 00:04",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -1.4141,
+    "vol_ratio": 1.86,
+    "ret_5d": -3.5,
+    "above_ma200": false,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771862932.481976",
@@ -966,7 +1330,15 @@
     "sl_price": 92.01,
     "time": "2026-02-24 00:04",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.4615,
+    "vol_ratio": 1.05,
+    "ret_5d": 0.9,
+    "above_ma200": false,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771862932.48082",
@@ -983,7 +1355,15 @@
     "sl_price": 324.11,
     "time": "2026-02-24 00:04",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -5.5741,
+    "vol_ratio": 1.33,
+    "ret_5d": -1.4,
+    "above_ma200": false,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771862932.479758",
@@ -1000,7 +1380,15 @@
     "sl_price": 356.44,
     "time": "2026-02-24 00:04",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -1.0918,
+    "vol_ratio": 1.01,
+    "ret_5d": -0.5,
+    "above_ma200": false,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771862932.478658",
@@ -1017,7 +1405,15 @@
     "sl_price": 118.55,
     "time": "2026-02-24 00:04",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.3614,
+    "vol_ratio": 0.67,
+    "ret_5d": -0.3,
+    "above_ma200": false,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771862932.476395",
@@ -1034,7 +1430,15 @@
     "sl_price": 366.38,
     "time": "2026-02-24 00:04",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -1.0221,
+    "vol_ratio": 1.09,
+    "ret_5d": 0.5,
+    "above_ma200": false,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771859252.273216",
@@ -1051,7 +1455,15 @@
     "sl_price": 47.67,
     "time": "2026-02-23 23:07",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.1034,
+    "vol_ratio": 1.66,
+    "ret_5d": 0.8,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771859252.272792",
@@ -1068,7 +1480,15 @@
     "sl_price": 43.33,
     "time": "2026-02-23 23:07",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.1489,
+    "vol_ratio": 1.37,
+    "ret_5d": 0.9,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771859252.272362",
@@ -1085,7 +1505,15 @@
     "sl_price": 25.13,
     "time": "2026-02-23 23:07",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": 0.0742,
+    "vol_ratio": 0.97,
+    "ret_5d": 0.1,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771859252.27197",
@@ -1102,7 +1530,15 @@
     "sl_price": 913.2,
     "time": "2026-02-23 23:07",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": 0.8602,
+    "vol_ratio": 1.26,
+    "ret_5d": 0.2,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771859252.271571",
@@ -1119,7 +1555,15 @@
     "sl_price": 201.62,
     "time": "2026-02-23 23:06",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": 0.3562,
+    "vol_ratio": 4.56,
+    "ret_5d": -0.0,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771859252.271196",
@@ -1136,7 +1580,15 @@
     "sl_price": 261.79,
     "time": "2026-02-23 23:06",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": 0.4899,
+    "vol_ratio": 1.67,
+    "ret_5d": 0.6,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771859252.270821",
@@ -1153,7 +1605,15 @@
     "sl_price": 117.36,
     "time": "2026-02-23 23:06",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.0975,
+    "vol_ratio": 1.61,
+    "ret_5d": 0.1,
+    "above_ma200": false,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771859252.270443",
@@ -1170,7 +1630,15 @@
     "sl_price": 118.45,
     "time": "2026-02-23 23:06",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": 0.5217,
+    "vol_ratio": 3.38,
+    "ret_5d": 0.1,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771859252.270082",
@@ -1187,7 +1655,15 @@
     "sl_price": 348.86,
     "time": "2026-02-23 23:06",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.5461,
+    "vol_ratio": 1.48,
+    "ret_5d": 0.3,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771859252.269755",
@@ -1204,7 +1680,15 @@
     "sl_price": 239.11,
     "time": "2026-02-23 23:05",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -1.8752,
+    "vol_ratio": 2.36,
+    "ret_5d": -3.7,
+    "above_ma200": false,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771859252.269406",
@@ -1221,7 +1705,15 @@
     "sl_price": 29.17,
     "time": "2026-02-23 23:05",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.1198,
+    "vol_ratio": 1.46,
+    "ret_5d": 0.8,
+    "above_ma200": false,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771859252.268213",
@@ -1238,7 +1730,15 @@
     "sl_price": 128.34,
     "time": "2026-02-23 23:05",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -0.6414,
+    "vol_ratio": 1.49,
+    "ret_5d": -1.1,
+    "above_ma200": false,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771855564.079649",
@@ -1272,7 +1772,15 @@
     "sl_price": 264.28,
     "time": "2026-02-23 22:05",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": 0.4899,
+    "vol_ratio": 1.67,
+    "ret_5d": 0.6,
+    "above_ma200": true,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771855553.301459",
@@ -1289,7 +1797,15 @@
     "sl_price": 57.3,
     "time": "2026-02-23 22:04",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": 0.042,
+    "vol_ratio": 1.65,
+    "ret_5d": -0.0,
+    "above_ma200": true,
+    "above_ma50": true,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771855553.301171",
@@ -1306,7 +1822,15 @@
     "sl_price": 106.95,
     "time": "2026-02-23 22:03",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -1.4141,
+    "vol_ratio": 1.86,
+    "ret_5d": -3.5,
+    "above_ma200": false,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771855553.300802",
@@ -1323,7 +1847,15 @@
     "sl_price": 359.35,
     "time": "2026-02-23 22:03",
     "archived": false,
-    "position_taken": false
+    "position_taken": false,
+    "schema_version": 2,
+    "macd_hist": -5.5741,
+    "vol_ratio": 1.33,
+    "ret_5d": -1.4,
+    "above_ma200": false,
+    "above_ma50": false,
+    "price_source": "1H_bar_close",
+    "bar_time": "2026-02-23 20:30"
   },
   {
     "id": "sig_1771693411.38789",
