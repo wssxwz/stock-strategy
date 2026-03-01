@@ -125,3 +125,14 @@ Manual stop-out marking (until we have full auto-sell reconciliation):
 ```bash
 python3 jobs/trade_stopout.py TSLA.US --hours 24 --reason "manual stop"
 ```
+
+## Live exit (sell) automation (hard-gated)
+
+When EXIT_SIGNAL triggers and you have a live position, the system can submit a SELL limit order (marketable).
+
+Guards:
+- TRADING_ENV=live
+- LIVE_TRADING=YES_I_KNOW
+- LIVE_SUBMIT=1 (otherwise prints LIVE_EXIT_DRYRUN)
+
+Stop-loss exits automatically set cooldown (rolling): COOLDOWN_HOURS (default 24).

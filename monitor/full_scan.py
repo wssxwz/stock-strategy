@@ -107,6 +107,54 @@ def main():
             output_lines.append(f"EXIT_SIGNAL:{alert['ticker']}:{alert['type']}")
             output_lines.append(msg)
             output_lines.append("---END---")
+
+            # Live exit execution (hard-gated). Stop-loss exits set cooldown.
+            try:
+                from broker.trading_env import is_live, live_trading_enabled
+                if is_live() and live_trading_enabled():
+                    from broker.symbol_map import to_longport_symbol
+                    from broker.longport_client import load_config, make_quote_ctx, get_quote
+                    from broker.positions import fetch_stock_positions
+                    from broker.exit_router import build_exit_intent
+                    from broker.live_executor import submit_live_order
+                    from broker.paper_executor import append_ledger
+                    from broker.state_store import remove_open_position, set_cooldown
+                    from broker.cooldown import iso_after_hours
+
+                    sym = to_longport_symbol(alert.get('ticker'))
+
+                    qty = 0
+                    for pos in fetch_stock_positions():
+                        if (pos.symbol or '').upper() == sym.upper():
+                            try:
+                                qty = int(float(pos.quantity or 0))
+                            except Exception:
+                                qty = 0
+                            break
+
+                    if qty > 0:
+                        qctx = make_quote_ctx(load_config())
+                        q = get_quote(qctx, sym)
+                        intent = build_exit_intent(sym, qty, quote={'last': q.last, 'bid': q.bid, 'ask': q.ask}, reason=alert.get('type','exit'))
+                        if intent:
+                            append_ledger(intent, fill_price=intent.limit_price, status='PENDING')
+                            dry_run = (os.environ.get('LIVE_SUBMIT', '0') != '1')
+                            r = submit_live_order(intent, dry_run=dry_run)
+                            if r.ok and r.dry_run:
+                                print(f"\nLIVE_EXIT_DRYRUN:{intent.symbol}:{intent.side}:{intent.qty}@{intent.limit_price}")
+                            elif r.ok:
+                                print(f"\nLIVE_EXIT_OK:{intent.symbol}:order_id={r.order_id}")
+                                try:
+                                    remove_open_position(intent.symbol)
+                                except Exception:
+                                    pass
+                                if alert.get('type') == '止损':
+                                    hours = float(os.environ.get('COOLDOWN_HOURS', '24'))
+                                    set_cooldown(intent.symbol, until_iso=iso_after_hours(hours), reason='stopout')
+                            else:
+                                print(f"\nLIVE_EXIT_FAIL:{intent.symbol}:{r.error}")
+            except Exception as _ex:
+                print(f"  [live-exit failed] {_ex}")
     else:
         print("[持仓检查] 无持仓记录，跳过")
 
