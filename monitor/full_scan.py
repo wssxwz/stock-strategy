@@ -1,3 +1,4 @@
+import os
 """
 完整扫描主程序（买入 + 卖出双向提醒）
 由 OpenClaw cron 每小时调用
@@ -260,7 +261,8 @@ def main():
             from broker.order_router import build_order_intent, PaperTradeConfig
             from broker.paper_executor import append_ledger
 
-            if os.environ.get('PAPER_TRADING', 'on') == 'on':
+            from broker.trading_env import is_paper
+            if is_paper() and os.environ.get('PAPER_TRADING', 'on') == 'on':
                 qctx = make_quote_ctx(load_config())
                 sym = to_longport_symbol(sig.get('ticker'))
                 q = get_quote(qctx, sym)

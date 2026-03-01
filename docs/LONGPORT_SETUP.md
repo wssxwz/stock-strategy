@@ -51,3 +51,28 @@ We start with **paper ledger** only. No real order submission is used by default
 
 Ledger file:
 - `data/trades/paper_ledger.jsonl`
+
+## Paper vs Live env switching (recommended)
+
+Create two local env files:
+
+- `~/.secrets/env/stock-strategy.paper.env`
+- `~/.secrets/env/stock-strategy.live.env`
+
+Templates are provided:
+
+- `~/.secrets/env/stock-strategy.paper.env.template`
+- `~/.secrets/env/stock-strategy.live.env.template`
+
+Load paper (safe default):
+
+```bash
+source ~/.secrets/env/stock-strategy.paper.env
+```
+
+Load live (read-only queries OK; trading requires explicit confirmation):
+
+```bash
+source ~/.secrets/env/stock-strategy.live.env
+export LIVE_TRADING=YES_I_KNOW
+```
