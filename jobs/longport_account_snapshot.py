@@ -1,13 +1,13 @@
 """Fetch LongPort account snapshot (read-only).
 
-Safety:
-- Reads credentials from env (Config.from_env)
-- Does NOT submit orders
-
 Usage:
   source ~/.secrets/env/stock-strategy.env
   source venv/bin/activate
   python3 jobs/longport_account_snapshot.py
+
+Notes:
+- LongPort returns balances by account channel (e.g. lb_papertrading / live).
+- If you see only cash and no positions, also run jobs/longport_positions_snapshot.py.
 """
 
 from __future__ import annotations
@@ -30,7 +30,6 @@ def _get(obj, name):
 def _fmt(v):
     if v is None:
         return '-'
-    # Decimal/float/int all fine
     try:
         return str(v)
     except Exception:
@@ -57,7 +56,11 @@ def print_balance_item(item, idx: int):
     cash_infos = _get(item, 'cash_infos')
     if cash_infos:
         for j, c in enumerate(cash_infos):
-            print(f"  cash_infos[{j}] currency={_fmt(_get(c,'currency'))} avail={_fmt(_get(c,'available_cash'))} withdraw={_fmt(_get(c,'withdraw_cash'))} frozen={_fmt(_get(c,'frozen_cash'))} settling={_fmt(_get(c,'settling_cash'))}")
+            print(
+                f"  cash_infos[{j}] currency={_fmt(_get(c,'currency'))} "
+                f"avail={_fmt(_get(c,'available_cash'))} withdraw={_fmt(_get(c,'withdraw_cash'))} "
+                f"frozen={_fmt(_get(c,'frozen_cash'))} settling={_fmt(_get(c,'settling_cash'))}"
+            )
 
 
 def main():
