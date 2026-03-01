@@ -553,10 +553,15 @@ def main():
                 # SKIP_SUMMARY (debug for dry-run verification)
                 try:
                     if skip_reasons:
-                        # show up to 10 reasons
-                        print(f"\n[EXEC_SKIP] {len(skip_reasons)} candidates skipped (top 10):")
-                        for sym, reason, k in skip_reasons[:10]:
-                            print(f"  - {sym}: {reason}")
+                        from collections import Counter, defaultdict
+                        cnt = Counter([r[1] for r in skip_reasons])
+                        print(f"\n[EXEC_SKIP] skipped={len(skip_reasons)} reasons={len(cnt)}")
+                        # show top 8 reasons
+                        for reason, n in cnt.most_common(8):
+                            # show up to 2 sample symbols for this reason
+                            samples = [sym for sym, rs, _k in skip_reasons if rs == reason][:2]
+                            sample_str = ','.join(samples) if samples else '-'
+                            print(f"  - {reason}: {n}  (e.g. {sample_str})")
                 except Exception:
                     pass
 
