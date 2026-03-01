@@ -1,0 +1,118 @@
+{
+  "morning_brief": {
+    "generated_at": "2026-03-02T07:51:06.155384",
+    "indices": {
+      "^GSPC": {
+        "price": 6878.88,
+        "change_pct": -0.43,
+        "change": -29.98
+      },
+      "^NDX": {
+        "price": 24960.04,
+        "change_pct": -0.3,
+        "change": -74.33
+      },
+      "^DJI": {
+        "price": 48977.92,
+        "change_pct": -1.05,
+        "change": -521.28
+      },
+      "^RUT": {
+        "price": 2632.36,
+        "change_pct": -1.68,
+        "change": -44.93
+      },
+      "^VIX": {
+        "price": 19.86,
+        "change_pct": 6.6,
+        "change": 1.23
+      }
+    },
+    "commodities": {
+      "GC=F": {
+        "price": 5391.7,
+        "change_pct": 3.08,
+        "change": 161.2
+      },
+      "CL=F": {
+        "price": 72.57,
+        "change_pct": 8.28,
+        "change": 5.55
+      },
+      "SI=F": {
+        "price": 96.42,
+        "change_pct": 4.03,
+        "change": 3.74
+      },
+      "NG=F": {
+        "price": 2.87,
+        "change_pct": 0.45,
+        "change": 0.01
+      }
+    },
+    "fear_greed": {
+      "value": 14,
+      "label": "Extreme Fear",
+      "label_zh": "\u6781\u5ea6\u6050\u60e7",
+      "emoji": "\ud83d\ude31"
+    },
+    "sectors": {
+      "XLV": {
+        "name": "\u533b\u7597",
+        "change_pct": 1.77,
+        "price": 160.2
+      },
+      "XLE": {
+        "name": "\u80fd\u6e90",
+        "change_pct": 1.58,
+        "price": 55.92
+      },
+      "XLP": {
+        "name": "\u5fc5\u9700\u6d88\u8d39",
+        "change_pct": 1.29,
+        "price": 90.01
+      },
+      "XLU": {
+        "name": "\u516c\u7528\u4e8b\u4e1a",
+        "change_pct": 1.17,
+        "price": 47.73
+      },
+      "XLC": {
+        "name": "\u901a\u4fe1",
+        "change_pct": 1.14,
+        "price": 118.05
+      },
+      "XLB": {
+        "name": "\u6750\u6599",
+        "change_pct": 0.77,
+        "price": 53.41
+      },
+      "XLRE": {
+        "name": "\u623f\u5730\u4ea7",
+        "change_pct": 0.48,
+        "price": 43.84
+      },
+      "XLI": {
+        "name": "\u5de5\u4e1a",
+        "change_pct": 0.25,
+        "price": 177.14
+      },
+      "XLY": {
+        "name": "\u975e\u5fc5\u9700\u6d88\u8d39",
+        "change_pct": -0.16,
+        "price": 116.86
+      },
+      "XLK": {
+        "name": "\u79d1\u6280",
+        "change_pct": -1.6,
+        "price": 138.76
+      },
+      "XLF": {
+        "name": "\u91d1\u878d",
+        "change_pct": -2.04,
+        "price": 51.43
+      }
+    }
+  },
+  "updated_at": "2026-03-02T07:51:28.148509"
+}

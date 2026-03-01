@@ -1,46 +1,6 @@
 {
-  "generated_at": "2026-02-27T09:58:03.382630",
+  "generated_at": "2026-03-02T07:50:35.699352",
   "this_week": [
-    {
-      "date": "2026-02-27",
-      "event": "PCE \u7269\u4ef7\u6307\u6570 Jan",
-      "category": "macro",
-      "importance": 5,
-      "impact": "bearish",
-      "emoji": "\ud83d\udcb0",
-      "note": "Fed\u6700\u5173\u6ce8\u901a\u80c0\u6307\u6807"
-    },
-    {
-      "date": "2026-02-27",
-      "event": "RKLB \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
-      "ticker": "RKLB",
-      "category": "earnings",
-      "importance": 4,
-      "impact": "neutral",
-      "emoji": "\ud83d\udccb",
-      "tag": "\ud83c\udfaf \u91cd\u70b9\u5173\u6ce8",
-      "timing": "AMC",
-      "timing_zh": "\u76d8\u540e\ud83c\udf19",
-      "eps_est": -0.052,
-      "eps_range": "$-0.06~$-0.05",
-      "note": "EPS\u9884\u671f $-0.05 \u00b7 \u76d8\u540e\ud83c\udf19"
-    },
-    {
-      "date": "2026-02-27",
-      "event": "\u521d\u8bf7\u5931\u4e1a\u91d1\u4eba\u6570",
-      "category": "macro",
-      "importance": 3,
-      "impact": "neutral",
-      "emoji": "\ud83d\udc77"
-    },
-    {
-      "date": "2026-02-28",
-      "event": "\u5bc6\u6b47\u6839\u6d88\u8d39\u8005\u4fe1\u5fc3\u7ec8\u503c",
-      "category": "macro",
-      "importance": 3,
-      "impact": "neutral",
-      "emoji": "\ud83d\ude0a"
-    },
     {
       "date": "2026-03-03",
       "event": "ASTS \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
@@ -160,60 +120,6 @@
     }
   ],
   "by_date": {
-    "2026-02-26": [
-      {
-        "date": "2026-02-26",
-        "event": "GDP Q4 \u7ec8\u503c",
-        "category": "macro",
-        "importance": 5,
-        "impact": "neutral",
-        "emoji": "\ud83d\udcca"
-      }
-    ],
-    "2026-02-27": [
-      {
-        "date": "2026-02-27",
-        "event": "PCE \u7269\u4ef7\u6307\u6570 Jan",
-        "category": "macro",
-        "importance": 5,
-        "impact": "bearish",
-        "emoji": "\ud83d\udcb0",
-        "note": "Fed\u6700\u5173\u6ce8\u901a\u80c0\u6307\u6807"
-      },
-      {
-        "date": "2026-02-27",
-        "event": "RKLB \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
-        "ticker": "RKLB",
-        "category": "earnings",
-        "importance": 4,
-        "impact": "neutral",
-        "emoji": "\ud83d\udccb",
-        "tag": "\ud83c\udfaf \u91cd\u70b9\u5173\u6ce8",
-        "timing": "AMC",
-        "timing_zh": "\u76d8\u540e\ud83c\udf19",
-        "eps_est": -0.052,
-        "eps_range": "$-0.06~$-0.05",
-        "note": "EPS\u9884\u671f $-0.05 \u00b7 \u76d8\u540e\ud83c\udf19"
-      },
-      {
-        "date": "2026-02-27",
-        "event": "\u521d\u8bf7\u5931\u4e1a\u91d1\u4eba\u6570",
-        "category": "macro",
-        "importance": 3,
-        "impact": "neutral",
-        "emoji": "\ud83d\udc77"
-      }
-    ],
-    "2026-02-28": [
-      {
-        "date": "2026-02-28",
-        "event": "\u5bc6\u6b47\u6839\u6d88\u8d39\u8005\u4fe1\u5fc3\u7ec8\u503c",
-        "category": "macro",
-        "importance": 3,
-        "impact": "neutral",
-        "emoji": "\ud83d\ude0a"
-      }
-    ],
     "2026-03-03": [
       {
         "date": "2026-03-03",
@@ -453,8 +359,8 @@
         "tag": "",
         "timing": "AMC",
         "timing_zh": "\u76d8\u540e\ud83c\udf19",
-        "eps_est": 0.763,
-        "eps_range": "$0.75~$0.79",
+        "eps_est": 0.761,
+        "eps_range": "$0.72~$0.79",
         "note": "EPS\u9884\u671f $0.76 \u00b7 \u76d8\u540e\ud83c\udf19"
       }
     ],
@@ -556,54 +462,6 @@
     ]
   },
   "all_events": [
-    {
-      "date": "2026-02-26",
-      "event": "GDP Q4 \u7ec8\u503c",
-      "category": "macro",
-      "importance": 5,
-      "impact": "neutral",
-      "emoji": "\ud83d\udcca"
-    },
-    {
-      "date": "2026-02-27",
-      "event": "PCE \u7269\u4ef7\u6307\u6570 Jan",
-      "category": "macro",
-      "importance": 5,
-      "impact": "bearish",
-      "emoji": "\ud83d\udcb0",
-      "note": "Fed\u6700\u5173\u6ce8\u901a\u80c0\u6307\u6807"
-    },
-    {
-      "date": "2026-02-27",
-      "event": "RKLB \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
-      "ticker": "RKLB",
-      "category": "earnings",
-      "importance": 4,
-      "impact": "neutral",
-      "emoji": "\ud83d\udccb",
-      "tag": "\ud83c\udfaf \u91cd\u70b9\u5173\u6ce8",
-      "timing": "AMC",
-      "timing_zh": "\u76d8\u540e\ud83c\udf19",
-      "eps_est": -0.052,
-      "eps_range": "$-0.06~$-0.05",
-      "note": "EPS\u9884\u671f $-0.05 \u00b7 \u76d8\u540e\ud83c\udf19"
-    },
-    {
-      "date": "2026-02-27",
-      "event": "\u521d\u8bf7\u5931\u4e1a\u91d1\u4eba\u6570",
-      "category": "macro",
-      "importance": 3,
-      "impact": "neutral",
-      "emoji": "\ud83d\udc77"
-    },
-    {
-      "date": "2026-02-28",
-      "event": "\u5bc6\u6b47\u6839\u6d88\u8d39\u8005\u4fe1\u5fc3\u7ec8\u503c",
-      "category": "macro",
-      "importance": 3,
-      "impact": "neutral",
-      "emoji": "\ud83d\ude0a"
-    },
     {
       "date": "2026-03-03",
       "event": "ASTS \u8d22\u62a5 [\u76d8\u540e\ud83c\udf19]",
@@ -812,8 +670,8 @@
       "tag": "",
       "timing": "AMC",
       "timing_zh": "\u76d8\u540e\ud83c\udf19",
-      "eps_est": 0.763,
-      "eps_range": "$0.75~$0.79",
+      "eps_est": 0.761,
+      "eps_range": "$0.72~$0.79",
       "note": "EPS\u9884\u671f $0.76 \u00b7 \u76d8\u540e\ud83c\udf19"
     },
     {
@@ -908,27 +766,11 @@
     }
   ],
   "earnings_details": {
-    "RKLB": {
-      "ticker": "RKLB",
-      "company_name": "Rocket Lab Corporation",
-      "sector": "Industrials",
-      "market_cap": 38806458368,
-      "earnings_date": "2026-02-27",
-      "timing": "AMC",
-      "eps_estimate": -0.052,
-      "eps_high": -0.05,
-      "eps_low": -0.06,
-      "rev_estimate": 178183230,
-      "rev_high": 185570700,
-      "rev_low": 174600000,
-      "eps_growth_yoy": null,
-      "rev_growth_yoy": 0.48
-    },
     "ASTS": {
       "ticker": "ASTS",
       "company_name": "AST SpaceMobile, Inc.",
       "sector": "Technology",
-      "market_cap": 32053364736,
+      "market_cap": 30099689472,
       "earnings_date": "2026-03-03",
       "timing": "AMC",
       "eps_estimate": null,
@@ -944,13 +786,13 @@
       "ticker": "CRWD",
       "company_name": "CrowdStrike Holdings, Inc.",
       "sector": "Technology",
-      "market_cap": 96074711040,
+      "market_cap": 93775577088,
       "earnings_date": "2026-03-04",
       "timing": "AMC",
       "eps_estimate": 1.10262,
       "eps_high": 1.12,
       "eps_low": 1.08,
-      "rev_estimate": 1297442450,
+      "rev_estimate": 1297442870,
       "rev_high": 1314400000,
       "rev_low": 1294698000,
       "eps_growth_yoy": null,
@@ -960,7 +802,7 @@
       "ticker": "AVGO",
       "company_name": "Broadcom Inc.",
       "sector": "Technology",
-      "market_cap": 1525267824640,
+      "market_cap": 1515073961984,
       "earnings_date": "2026-03-05",
       "timing": "AMC",
       "eps_estimate": 2.01879,
@@ -976,7 +818,7 @@
       "ticker": "MRVL",
       "company_name": "Marvell Technology, Inc.",
       "sector": "Technology",
-      "market_cap": 67245846528,
+      "market_cap": 69281292288,
       "earnings_date": "2026-03-06",
       "timing": "AMC",
       "eps_estimate": 0.79217,
@@ -992,7 +834,7 @@
       "ticker": "ADBE",
       "company_name": "Adobe Inc.",
       "sector": "Technology",
-      "market_cap": 108434145280,
+      "market_cap": 109844824064,
       "earnings_date": "2026-03-13",
       "timing": "AMC",
       "eps_estimate": 5.8741,
@@ -1008,7 +850,7 @@
       "ticker": "MU",
       "company_name": "Micron Technology, Inc.",
       "sector": "Technology",
-      "market_cap": 467716636672,
+      "market_cap": 464126246912,
       "earnings_date": "2026-03-19",
       "timing": "AMC",
       "eps_estimate": 8.50416,
@@ -1024,13 +866,13 @@
       "ticker": "NFLX",
       "company_name": "Netflix, Inc.",
       "sector": "Communication Services",
-      "market_cap": 358821429248,
+      "market_cap": 408239439872,
       "earnings_date": "2026-04-17",
       "timing": "AMC",
-      "eps_estimate": 0.76279,
+      "eps_estimate": 0.76072,
       "eps_high": 0.79,
-      "eps_low": 0.74722,
-      "rev_estimate": 12170332990,
+      "eps_low": 0.72,
+      "rev_estimate": 12167452350,
       "rev_high": 12282000000,
       "rev_low": 12038000000,
       "eps_growth_yoy": 0.327,
@@ -1040,7 +882,7 @@
       "ticker": "TSLA",
       "company_name": "Tesla, Inc.",
       "sector": "Consumer Cyclical",
-      "market_cap": 1533168582656,
+      "market_cap": 1510391414784,
       "earnings_date": "2026-04-22",
       "timing": "AMC",
       "eps_estimate": 0.41048,
@@ -1056,7 +898,7 @@
       "ticker": "NOW",
       "company_name": "ServiceNow, Inc.",
       "sector": "Technology",
-      "market_cap": 115327131648,
+      "market_cap": 113965998080,
       "earnings_date": "2026-04-23",
       "timing": "AMC",
       "eps_estimate": 0.96686,
@@ -1072,7 +914,7 @@
       "ticker": "NEM",
       "company_name": "Newmont Corporation",
       "sector": "Basic Materials",
-      "market_cap": 139103289344,
+      "market_cap": 141864189952,
       "earnings_date": "2026-04-23",
       "timing": "AMC",
       "eps_estimate": 2.03677,
@@ -1088,7 +930,7 @@
       "ticker": "LRCX",
       "company_name": "Lam Research Corporation",
       "sector": "Technology",
-      "market_cap": 300279103488,
+      "market_cap": 293772853248,
       "earnings_date": "2026-04-23",
       "timing": "AMC",
       "eps_estimate": 1.35091,
@@ -1104,7 +946,7 @@
       "ticker": "GOOGL",
       "company_name": "Alphabet Inc.",
       "sector": "Communication Services",
-      "market_cap": 3718376062976,
+      "market_cap": 3771360870400,
       "earnings_date": "2026-04-24",
       "timing": "AMC",
       "eps_estimate": 2.61534,
@@ -1120,7 +962,7 @@
       "ticker": "INTC",
       "company_name": "Intel Corporation",
       "sector": "Technology",
-      "market_cap": 227080814592,
+      "market_cap": 227830087680,
       "earnings_date": "2026-04-24",
       "timing": "AMC",
       "eps_estimate": 0.002,

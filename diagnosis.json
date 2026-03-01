@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-02-28T22:01:33.739225",
+  "generated_at": "2026-03-02T07:51:06.149463",
   "version": "2.0",
   "overview": {
-    "avg_score": 59.8,
+    "avg_score": 59.7,
     "health_label": "中性",
     "health_color": "neutral",
     "total_count": 17,
@@ -40,7 +40,7 @@
         "pnl_pct": 186.67
       }
     ],
-    "generated_at": "2026-02-28T22:01:33.739216"
+    "generated_at": "2026-03-02T07:51:06.149448"
   },
   "stocks": [
     {
@@ -50,7 +50,7 @@
       "shares": 32,
       "price": 402.51,
       "pnl_pct": 76.49,
-      "updated_at": "2026-02-28 22:01",
+      "updated_at": "2026-03-02 07:50",
       "tech": {
         "price": 402.51,
         "ma20": 413.85,
@@ -150,7 +150,7 @@
       "shares": 15,
       "price": 648.18,
       "pnl_pct": 1.42,
-      "updated_at": "2026-02-28 22:01",
+      "updated_at": "2026-03-02 07:50",
       "tech": {
         "price": 648.18,
         "ma20": 661.99,
@@ -248,7 +248,7 @@
       "shares": 22,
       "price": 371.98,
       "pnl_pct": -19.77,
-      "updated_at": "2026-02-28 22:01",
+      "updated_at": "2026-03-02 07:50",
       "tech": {
         "price": 371.98,
         "ma20": 401.31,
@@ -266,7 +266,7 @@
         "vol_ratio": 1.06
       },
       "fund": {
-        "forward_pe": 76.82522,
+        "forward_pe": 76.953636,
         "trailing_pe": null,
         "pb": 23.345049,
         "ps": 20.541538,
@@ -285,11 +285,11 @@
       "analyst": {
         "recommendation": "buy",
         "num_analysts": 47,
-        "target_mean": 525.5089,
+        "target_mean": 523.3813,
         "target_high": 706.0,
         "target_low": 353.0,
         "data_note": "分析师评级可能滞后数天到数周",
-        "upside": 41.3
+        "upside": 40.7
       },
       "trend": {
         "can_add": false,
@@ -351,7 +351,7 @@
       "shares": 56,
       "price": 148.92,
       "pnl_pct": -19.0,
-      "updated_at": "2026-02-28 22:01",
+      "updated_at": "2026-03-02 07:50",
       "tech": {
         "price": 148.92,
         "ma20": 158.53,
@@ -448,7 +448,7 @@
       "shares": 33,
       "price": 145.4,
       "pnl_pct": -21.97,
-      "updated_at": "2026-02-28 22:01",
+      "updated_at": "2026-03-02 07:50",
       "tech": {
         "price": 145.4,
         "ma20": 152.07,
@@ -551,7 +551,7 @@
       "shares": 65,
       "price": 69.1,
       "pnl_pct": -18.63,
-      "updated_at": "2026-02-28 22:01",
+      "updated_at": "2026-03-02 07:50",
       "tech": {
         "price": 69.1,
         "ma20": 72.1,
@@ -588,11 +588,11 @@
       "analyst": {
         "recommendation": "buy",
         "num_analysts": 12,
-        "target_mean": 85.2125,
+        "target_mean": 88.12917,
         "target_high": 120.0,
         "target_low": 55.0,
         "data_note": "分析师评级可能滞后数天到数周",
-        "upside": 23.3
+        "upside": 27.5
       },
       "trend": {
         "can_add": true,
@@ -648,7 +648,7 @@
       "shares": 65,
       "price": 62.95,
       "pnl_pct": -26.04,
-      "updated_at": "2026-02-28 22:01",
+      "updated_at": "2026-03-02 07:50",
       "tech": {
         "price": 62.95,
         "ma20": 68.3,
@@ -752,7 +752,7 @@
       "shares": 450,
       "price": 8.6,
       "pnl_pct": -25.58,
-      "updated_at": "2026-02-28 22:01",
+      "updated_at": "2026-03-02 07:50",
       "tech": {
         "price": 8.6,
         "ma20": 8.09,
@@ -770,18 +770,18 @@
         "vol_ratio": 1.67
       },
       "fund": {
-        "forward_pe": null,
+        "forward_pe": -860.14996,
         "trailing_pe": null,
-        "pb": 9.024135,
-        "ps": 24.344522,
-        "rev_growth": 0.676,
+        "pb": 7.8409295,
+        "ps": 21.391512,
+        "rev_growth": 0.594,
         "eps_growth": null,
-        "gross_margin": 0.39745998,
-        "op_margin": -1.08792,
-        "roe": -0.89946,
-        "debt_equity": 1.208,
-        "beta": 2.876,
-        "market_cap": 3612824576,
+        "gross_margin": 0.42358002,
+        "op_margin": -0.76387,
+        "roe": -0.043330003,
+        "debt_equity": 0.908,
+        "beta": null,
+        "market_cap": 3613454336,
         "sector": "Technology",
         "industry": "Software - Application",
         "data_note": "基本面数据来自最新财报（可能滞后 1-3 个月）"
@@ -789,11 +789,11 @@
       "analyst": {
         "recommendation": "strong_buy",
         "num_analysts": 7,
-        "target_mean": 16.07143,
+        "target_mean": 15.28571,
         "target_high": 26.0,
         "target_low": 9.0,
         "data_note": "分析师评级可能滞后数天到数周",
-        "upside": 86.9
+        "upside": 77.7
       },
       "trend": {
         "can_add": false,
@@ -813,7 +813,7 @@
           "MACD 金叉，动能向上",
           "远离 52 周高位，弱势",
           "技术面小计：0/40",
-          "营收高增长 +68%",
+          "营收高增长 +59%",
           "经营亏损",
           "基本面小计：13/35",
           "分析师小计：15/15",
@@ -853,7 +853,7 @@
       "shares": 20,
       "price": 168.41,
       "pnl_pct": -22.5,
-      "updated_at": "2026-02-28 22:01",
+      "updated_at": "2026-03-02 07:50",
       "tech": {
         "price": 168.41,
         "ma20": 173.69,
@@ -871,7 +871,7 @@
         "vol_ratio": 1.16
       },
       "fund": {
-        "forward_pe": 70.08673,
+        "forward_pe": 70.07799,
         "trailing_pe": null,
         "pb": 29.960863,
         "ps": 12.303708,
@@ -890,11 +890,11 @@
       "analyst": {
         "recommendation": "buy",
         "num_analysts": 47,
-        "target_mean": 243.61105,
+        "target_mean": 242.05788,
         "target_high": 500.0,
         "target_low": 170.0,
         "data_note": "分析师评级可能滞后数天到数周",
-        "upside": 44.7
+        "upside": 43.7
       },
       "trend": {
         "can_add": false,
@@ -956,7 +956,7 @@
       "shares": 25,
       "price": 127.45,
       "pnl_pct": 6.21,
-      "updated_at": "2026-02-28 22:01",
+      "updated_at": "2026-03-02 07:50",
       "tech": {
         "price": 127.45,
         "ma20": 121.33,
@@ -1057,7 +1057,7 @@
       "shares": 15,
       "price": 200.21,
       "pnl_pct": 2.92,
-      "updated_at": "2026-02-28 22:01",
+      "updated_at": "2026-03-02 07:51",
       "tech": {
         "price": 200.21,
         "ma20": 210.73,
@@ -1075,7 +1075,7 @@
         "vol_ratio": 0.73
       },
       "fund": {
-        "forward_pe": 18.394283,
+        "forward_pe": 18.467667,
         "trailing_pe": 77.00385,
         "pb": 5.1800776,
         "ps": 9.423614,
@@ -1154,7 +1154,7 @@
       "shares": 120,
       "price": 26.59,
       "pnl_pct": -11.37,
-      "updated_at": "2026-02-28 22:01",
+      "updated_at": "2026-03-02 07:51",
       "tech": {
         "price": 26.59,
         "ma20": 26.64,
@@ -1249,7 +1249,7 @@
       "shares": 150,
       "price": 17.76,
       "pnl_pct": -28.08,
-      "updated_at": "2026-02-28 22:01",
+      "updated_at": "2026-03-02 07:51",
       "tech": {
         "price": 17.76,
         "ma20": 20.01,
@@ -1355,7 +1355,7 @@
       "shares": 100,
       "price": 28.42,
       "pnl_pct": -5.58,
-      "updated_at": "2026-02-28 22:01",
+      "updated_at": "2026-03-02 07:51",
       "tech": {
         "price": 28.42,
         "ma20": 30.01,
@@ -1449,7 +1449,7 @@
       "shares": 30,
       "price": 79.19,
       "pnl_pct": -18.36,
-      "updated_at": "2026-02-28 22:01",
+      "updated_at": "2026-03-02 07:51",
       "tech": {
         "price": 79.19,
         "ma20": 92.06,
@@ -1484,7 +1484,7 @@
         "data_note": "基本面数据来自最新财报（可能滞后 1-3 个月）"
       },
       "analyst": {
-        "recommendation": "hold",
+        "recommendation": "none",
         "num_analysts": 8,
         "target_mean": 80.3875,
         "target_high": 137.0,
@@ -1501,10 +1501,10 @@
         ]
       },
       "quality": {
-        "score": 90.0,
+        "score": 87.0,
         "tech_score": 20,
         "fund_score": 17,
-        "analyst_score": 3,
+        "analyst_score": 0,
         "details": [
           "RSI 低位，反弹潜力",
           "MACD 死叉，动能偏弱",
@@ -1514,10 +1514,10 @@
           "毛利率69%，良好",
           "经营亏损",
           "基本面小计：17/35",
-          "分析师小计：3/15",
+          "分析师小计：0/15",
           "相对强度：N/A"
         ],
-        "raw_score": 90,
+        "raw_score": 87,
         "trend_multiplier": 1.0
       },
       "trailing_stop": {
@@ -1525,7 +1525,7 @@
         "note": "原始止损 -8%（成本 $97.00）"
       },
       "diagnosis": {
-        "score": 90.0,
+        "score": 87.0,
         "action": "hold_or_add",
         "action_text": "持有/可加仓",
         "action_color": "bullish",
@@ -1547,7 +1547,7 @@
       "shares": 15,
       "price": 91.19,
       "pnl_pct": 186.67,
-      "updated_at": "2026-02-28 22:01",
+      "updated_at": "2026-03-02 07:51",
       "tech": {
         "price": 91.19,
         "ma20": 93.85,
@@ -1649,7 +1649,7 @@
       "shares": 20,
       "price": 38.37,
       "pnl_pct": -14.73,
-      "updated_at": "2026-02-28 22:01",
+      "updated_at": "2026-03-02 07:51",
       "tech": {
         "price": 38.37,
         "ma20": 34.73,
