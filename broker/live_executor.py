@@ -40,7 +40,9 @@ def submit_live_order(intent: OrderIntent, *, dry_run: bool = True) -> LiveSubmi
     require_live_enabled()
 
     if dry_run:
-        return LiveSubmitResult(ok=True, dry_run=True, order_id=None)
+        # synthetic id to exercise the tracking pipeline
+        oid = f"DRYRUN-{intent.symbol}-{intent.side}-{intent.created_at}"
+        return LiveSubmitResult(ok=True, dry_run=True, order_id=oid)
 
     try:
         cfg = load_config()

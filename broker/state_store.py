@@ -29,6 +29,7 @@ def load_state() -> Dict[str, Any]:
             'daily': {},
             'cooldowns': {},
             'open_positions': {},
+            'pending_orders': {},
         }
 
 
@@ -125,3 +126,37 @@ def total_open_risk_usd() -> float:
         except Exception:
             continue
     return total
+
+
+# --- order tracking ---
+
+def add_pending_order(order_id: str, record: Dict[str, Any]):
+    st = load_state()
+    st.setdefault('pending_orders', {})[order_id] = {
+        **(record or {}),
+        'updated_at': _now_iso(),
+    }
+    save_state(st)
+
+
+def update_pending_order(order_id: str, patch: Dict[str, Any]):
+    st = load_state()
+    po = st.setdefault('pending_orders', {})
+    cur = po.get(order_id) or {}
+    cur.update(patch or {})
+    cur['updated_at'] = _now_iso()
+    po[order_id] = cur
+    save_state(st)
+
+
+def remove_pending_order(order_id: str):
+    st = load_state()
+    po = st.setdefault('pending_orders', {})
+    if order_id in po:
+        po.pop(order_id, None)
+        save_state(st)
+
+
+def list_pending_orders() -> Dict[str, Any]:
+    st = load_state()
+    return st.get('pending_orders') or {}

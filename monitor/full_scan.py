@@ -89,6 +89,18 @@ def main():
     state = load_state()
     output_lines = []
 
+    # Live order tracking reconciliation (dry-run fills / broker status)
+    try:
+        from broker.trading_env import is_live, live_trading_enabled
+        if is_live() and live_trading_enabled():
+            from broker.order_tracker import reconcile_pending_orders
+            hours = float(os.environ.get('COOLDOWN_HOURS', '24'))
+            rr = reconcile_pending_orders(cooldown_hours=hours)
+            if rr.get('updated') or rr.get('removed'):
+                print(f"\n[ORDER_RECONCILE] updated={rr.get('updated')} removed={rr.get('removed')}")
+    except Exception as _oe:
+        print(f"  [order-reconcile failed] {_oe}")
+
     # Live state-based exit monitor (preferred for automation)
     try:
         from broker.trading_env import is_live, live_trading_enabled
@@ -140,6 +152,19 @@ def main():
                     append_ledger(intent, fill_price=intent.limit_price, status='PENDING')
                     dry_run = (os.environ.get('LIVE_SUBMIT', '0') != '1')
                     r = submit_live_order(intent, dry_run=dry_run)
+                    try:
+                        from broker.state_store import add_pending_order
+                        if r.order_id:
+                            add_pending_order(r.order_id, {
+                                "symbol": intent.symbol,
+                                "side": intent.side,
+                                "qty": intent.qty,
+                                "limit_price": intent.limit_price,
+                                "reason": ev.kind,
+                                "status": "PENDING",
+                            })
+                    except Exception:
+                        pass
                     if r.ok and r.dry_run:
                         print(f"\nLIVE_EXIT_DRYRUN:{intent.symbol}:{intent.side}:{intent.qty}@{intent.limit_price}")
                     elif r.ok:
@@ -207,6 +232,20 @@ def main():
                             append_ledger(intent, fill_price=intent.limit_price, status='PENDING')
                             dry_run = (os.environ.get('LIVE_SUBMIT', '0') != '1')
                             r = submit_live_order(intent, dry_run=dry_run)
+                            try:
+                                from broker.state_store import add_pending_order
+                                if r.order_id:
+                                    add_pending_order(r.order_id, {
+                                        'symbol': intent.symbol,
+                                        'side': intent.side,
+                                        'qty': intent.qty,
+                                        'limit_price': intent.limit_price,
+                                        'reason': (alert.get('type') or 'EXIT'),
+                                        'status': 'PENDING',
+                                    })
+                            except Exception:
+                                pass
+                        
                             if r.ok and r.dry_run:
                                 print(f"\nLIVE_EXIT_DRYRUN:{intent.symbol}:{intent.side}:{intent.qty}@{intent.limit_price}")
                             elif r.ok:

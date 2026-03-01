@@ -178,3 +178,12 @@ python3 jobs/reconcile_trading_state.py
 ```
 
 This updates `data/trades/trading_state.json` (gitignored).
+
+## Order tracking (pending_orders)
+
+We track submitted (or dry-run) orders in `pending_orders` and reconcile on each scan.
+Manual run:
+
+```bash
+python3 jobs/reconcile_orders.py
+```
