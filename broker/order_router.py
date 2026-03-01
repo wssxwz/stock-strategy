@@ -10,7 +10,7 @@ No real order submission here.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional, Tuple
 
 from broker.symbol_map import to_longport_symbol
@@ -21,7 +21,7 @@ from broker.paper_executor import OrderIntent, make_intent
 @dataclass
 class PaperTradeConfig:
     equity: float = 100000.0
-    sizing: SizingConfig = SizingConfig()
+    sizing: SizingConfig = field(default_factory=SizingConfig)
 
     # only place paper orders for these exec modes
     allow_exec_modes: Tuple[str, ...] = ("STRUCT", "MR")
