@@ -113,7 +113,25 @@ def main():
                     max_attempts = int(os.environ.get('EXIT_ESCALATE_MAX_ATTEMPTS', '3'))
                     # EXIT_MANUAL_ALERT
                     if attempt >= max_attempts:
-                        _send_manual_alert(f'🚨 STOP_LOSS 卖出多次未完成，需要手动处理：{ev.symbol}（已升级{attempt}次）')
+                        # enrich context
+                        try:
+                            q_now = get_quote(qctx, ev.symbol)
+                            last_now = q_now.last
+                        except Exception:
+                            last_now = None
+                        try:
+                            sl_now = open_pos.get(ev.symbol, {}).get('sl')
+                        except Exception:
+                            sl_now = None
+                        _send_manual_alert(
+                            f"🚨 STOP_LOSS 未成功退出（需手动处理）\n"
+                            f"标的: {ev.symbol}\n"
+                            f"数量: {qty}\n"
+                            f"现价(last): {last_now}\n"
+                            f"止损(SL): {sl_now}\n"
+                            f"升级次数: {attempt}\n"
+                            f"挂单: {', '.join(pending_ids) if pending_ids else '-'}"
+                        )
                         print(f"\nLIVE_EXIT_MANUAL_REQUIRED:{ev.symbol}:attempt={attempt}")
                         continue
                     if attempt < max_attempts:
@@ -149,7 +167,24 @@ def main():
                             print(f"\nLIVE_EXIT_ESCALATE_{'DRYRUN' if dry_run else 'SUBMIT'}:{ev.symbol}:attempt={attempt}")
                         else:
                             print(f"\nLIVE_EXIT_ESCALATE_FAIL:{ev.symbol}:{msg}")
-                            _send_manual_alert(f"🚨 STOP_LOSS 卖出升级失败，需要手动处理：{ev.symbol}｜{msg}")
+                            try:
+                                q_now = get_quote(qctx, ev.symbol)
+                                last_now = q_now.last
+                            except Exception:
+                                last_now = None
+                            try:
+                                sl_now = open_pos.get(ev.symbol, {}).get('sl')
+                            except Exception:
+                                sl_now = None
+                            _send_manual_alert(
+                                f"🚨 STOP_LOSS 卖出升级失败（需手动处理）\n"
+                                f"标的: {ev.symbol}\n"
+                                f"数量: {qty}\n"
+                                f"现价(last): {last_now}\n"
+                                f"止损(SL): {sl_now}\n"
+                                f"原因: {msg}\n"
+                                f"挂单: {', '.join(pending_ids) if pending_ids else '-'}"
+                            )
                         continue  # do not place the normal exit order in same tick
             except Exception as e:
                 # escalation is best-effort; fall back to normal exit intent
