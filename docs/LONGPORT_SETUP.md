@@ -8,9 +8,18 @@ source venv/bin/activate
 pip install longport
 ```
 
-## 2) Configure environment variables
+## 2) Configure environment variables (recommended layout)
 
-Get values from Longbridge OpenAPI console.
+Create a dedicated local secrets file (NOT in git):
+
+```bash
+mkdir -p ~/.secrets/env
+cp ~/.secrets/env/stock-strategy.env.template ~/.secrets/env/stock-strategy.env
+nano ~/.secrets/env/stock-strategy.env
+chmod 600 ~/.secrets/env/stock-strategy.env
+```
+
+Fill values from Longbridge OpenAPI console:
 
 ```bash
 export LONGPORT_APP_KEY="..."
@@ -18,20 +27,10 @@ export LONGPORT_APP_SECRET="..."
 export LONGPORT_ACCESS_TOKEN="..."
 ```
 
-Recommended: put them in `~/.zshrc` or a dedicated `~/.longport.env` file.
-
-Example `~/.longport.env`:
+Load it before running:
 
 ```bash
-export LONGPORT_APP_KEY="..."
-export LONGPORT_APP_SECRET="..."
-export LONGPORT_ACCESS_TOKEN="..."
-```
-
-Load it:
-
-```bash
-source ~/.longport.env
+source ~/.secrets/env/stock-strategy.env
 ```
 
 ## 3) Test connectivity (no trading)
