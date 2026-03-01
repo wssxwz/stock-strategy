@@ -9,6 +9,9 @@ Usage:
   python3 jobs/test_longport_connection.py
 """
 
+import os, sys
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+
 from broker.longport_client import load_config, make_quote_ctx, make_trade_ctx, get_quote
 
 

@@ -6,3 +6,7 @@ __pycache__/
 *.pyc
 .DS_Store
 data/store/
+
+# secrets & trading ledgers
+data/trades/
+*.jsonl
