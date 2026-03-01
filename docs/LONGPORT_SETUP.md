@@ -102,3 +102,10 @@ export PRICE_DRIFT_MAX_PCT=0.015
 - MAX_OPEN_POS: max simultaneous open positions (live)
 - MAX_NEW_BUYS_PER_DAY: daily new buys cap
 - PRICE_DRIFT_MAX_PCT: if quote last drifts too far from signal price, skip execution
+
+## Small-capital guards (USD)
+
+```bash
+export MAX_PRICE_PCT_EQUITY=0.45   # skip if 1 share > 45% of equity
+export TOTAL_RISK_CAP=0.02         # portfolio risk cap (sum of (entry-SL)*qty)
+```

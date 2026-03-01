@@ -28,6 +28,7 @@ def load_state() -> Dict[str, Any]:
             'executed_keys': {},
             'daily': {},
             'cooldowns': {},
+            'open_positions': {},
         }
 
 
@@ -85,3 +86,42 @@ def cooldown_active(symbol: str) -> tuple[bool, str]:
     if datetime.now(timezone.utc) < t_until:
         return True, cd.get('reason') or ''
     return False, ''
+
+
+def add_open_position(symbol: str, qty: float, entry: float, sl: float | None, tp: float | None, meta: Dict[str, Any] | None = None):
+    st = load_state()
+    st.setdefault('open_positions', {})[symbol] = {
+        'qty': qty,
+        'entry': entry,
+        'sl': sl,
+        'tp': tp,
+        'at': _now_iso(),
+        'meta': meta or {},
+    }
+    save_state(st)
+
+
+def remove_open_position(symbol: str):
+    st = load_state()
+    ops = st.setdefault('open_positions', {})
+    if symbol in ops:
+        ops.pop(symbol, None)
+        save_state(st)
+
+
+def total_open_risk_usd() -> float:
+    st = load_state()
+    ops = st.get('open_positions') or {}
+    total = 0.0
+    for sym, rec in ops.items():
+        try:
+            qty = float(rec.get('qty') or 0)
+            entry = float(rec.get('entry') or 0)
+            sl = rec.get('sl')
+            if sl is None:
+                continue
+            sl = float(sl)
+            total += max(0.0, (entry - sl) * qty)
+        except Exception:
+            continue
+    return total

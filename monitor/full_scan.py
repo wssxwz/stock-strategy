@@ -265,11 +265,13 @@ def main():
             from broker.paper_executor import append_ledger
             from broker.intent_eval import compute_metrics
             from broker.trading_env import is_paper, is_live, live_trading_enabled
-            from broker.state_store import was_executed, mark_executed, daily_count, inc_daily, cooldown_active
+            from broker.state_store import was_executed, mark_executed, daily_count, inc_daily, cooldown_active, total_open_risk_usd, add_open_position
             from datetime import datetime
 
             # Switches / limits
             max_open_pos = int(os.environ.get('MAX_OPEN_POS', '1'))
+            max_price_pct_equity = float(os.environ.get('MAX_PRICE_PCT_EQUITY', '0.45'))
+            total_risk_cap_pct = float(os.environ.get('TOTAL_RISK_CAP', '0.02'))
             max_new_buys_per_day = int(os.environ.get('MAX_NEW_BUYS_PER_DAY', '1'))
             price_drift_max_pct = float(os.environ.get('PRICE_DRIFT_MAX_PCT', '0.015'))  # 1.5%
 
@@ -292,7 +294,15 @@ def main():
                 except Exception:
                     open_pos_count = 0
 
-            # daily limits key (UTC date)
+                        # portfolio risk cap (USD)
+            total_risk_cap_usd = equity * total_risk_cap_pct
+            cur_risk = 0.0
+            try:
+                cur_risk = float(total_open_risk_usd())
+            except Exception:
+                cur_risk = 0.0
+
+# daily limits key (UTC date)
             day_key = datetime.utcnow().strftime('%Y-%m-%d')
             if daily_count(day_key) >= max_new_buys_per_day:
                 # Already hit daily buy limit
@@ -313,6 +323,13 @@ def main():
                         continue
 
                     q = get_quote(qctx, lp_symbol)
+                    # High-price filter for small capital: 1 share cannot exceed a fraction of equity
+                    try:
+                        last = float(q.last or 0)
+                        if last > 0 and last > (equity * max_price_pct_equity):
+                            continue
+                    except Exception:
+                        pass
                     # execution price drift check (signal price vs quote last)
                     try:
                         sig_px = float(s.get('price') or s.get('bar_close') or 0)
@@ -340,6 +357,14 @@ def main():
                 if candidates and open_pos_count < max_open_pos:
                     best_score, best_intent, best_key = candidates[0]
 
+                    # portfolio risk cap check (based on known open positions from state)
+                    try:
+                        new_risk = max(0.0, (float(best_intent.limit_price) - float(best_intent.sl_price)) * float(best_intent.qty))
+                    except Exception:
+                        new_risk = 0.0
+                    if (cur_risk + new_risk) > total_risk_cap_usd:
+                        candidates = []
+
                     # Record paper ledger (always) for audit
                     if os.environ.get('PAPER_TRADING', 'on') == 'on':
                         append_ledger(best_intent, fill_price=best_intent.limit_price, status='FILLED')
@@ -358,6 +383,10 @@ def main():
                             print(f"\nLIVE_ORDER_FAIL:{best_intent.symbol}:{r.error}")
 
                     mark_executed(best_key, meta={'symbol': best_intent.symbol, 'qty': best_intent.qty})
+                    try:
+                        add_open_position(best_intent.symbol, best_intent.qty, float(best_intent.limit_price or 0), best_intent.sl_price, best_intent.tp_price, meta={'key': best_key})
+                    except Exception:
+                        pass
                     inc_daily(day_key)
 
         except Exception as _e:
