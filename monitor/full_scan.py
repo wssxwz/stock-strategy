@@ -417,7 +417,16 @@ def main():
             except Exception:
                 cur_risk = 0.0
 
-# daily limits key (UTC date)
+            # reconcile local open_positions with broker positions (prevents drift)
+            try:
+                from broker.reconcile import reconcile_open_positions
+                rrec = reconcile_open_positions()
+                if rrec.get('removed') or rrec.get('added'):
+                    print(f"\n[RECONCILE] added={len(rrec.get('added',[]))} removed={len(rrec.get('removed',[]))}")
+            except Exception as _re:
+                print(f"  [reconcile failed] {_re}")
+
+            # daily limits key (UTC date)
             day_key = datetime.utcnow().strftime('%Y-%m-%d')
             if daily_count(day_key) >= max_new_buys_per_day:
                 # Already hit daily buy limit

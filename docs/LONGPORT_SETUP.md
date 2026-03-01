@@ -168,3 +168,13 @@ export MIN_DOLLAR_VOL_20D=20000000
 ```
 
 We use `avg_dollar_vol_20d` computed from daily bars: mean(close*volume, 20d).
+
+## Reconcile (MUST before live submit)
+
+To prevent drift between local state and broker positions:
+
+```bash
+python3 jobs/reconcile_trading_state.py
+```
+
+This updates `data/trades/trading_state.json` (gitignored).
