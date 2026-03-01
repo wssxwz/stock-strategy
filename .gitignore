@@ -10,3 +10,6 @@ data/store/
 # secrets & trading ledgers
 data/trades/
 *.jsonl
+
+# local analytics outputs
+data/tmp/

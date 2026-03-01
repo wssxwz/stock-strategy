@@ -253,6 +253,26 @@ def main():
         output_lines.append(msg)
         output_lines.append("---END---")
 
+        # Paper trade (simulate) for strong signals
+        try:
+            from broker.longport_client import load_config, make_quote_ctx, get_quote
+            from broker.symbol_map import to_longport_symbol
+            from broker.order_router import build_order_intent, PaperTradeConfig
+            from broker.paper_executor import append_ledger
+
+            if os.environ.get('PAPER_TRADING', 'on') == 'on':
+                qctx = make_quote_ctx(load_config())
+                sym = to_longport_symbol(sig.get('ticker'))
+                q = get_quote(qctx, sym)
+
+                equity = float(os.environ.get('PAPER_EQUITY', '100000'))
+                intent = build_order_intent(sig, quote={'last': q.last, 'bid': q.bid, 'ask': q.ask}, cfg=PaperTradeConfig(equity=equity))
+                if intent:
+                    append_ledger(intent, fill_price=intent.limit_price, status='FILLED')
+                    print(f"\nPAPER_ORDER:{intent.symbol}:{intent.side}:{intent.qty}@{intent.limit_price}")
+        except Exception as _e:
+            print(f"  [paper-trade failed] {_e}")
+
     # --- 2) Send normal as one batch (top list)
     if normal_buy:
         lines = [
