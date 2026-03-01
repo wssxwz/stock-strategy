@@ -254,50 +254,114 @@ def main():
         output_lines.append(msg)
         output_lines.append("---END---")
 
-        # Paper trade (simulate) for strong signals
+        # Paper/Live execution selection (capital constrained)
+        # - Build intents for all strong signals
+        # - Apply idempotency, cooldown, daily limits, max open positions
+        # - Select Top1 intent by execution score
         try:
             from broker.longport_client import load_config, make_quote_ctx, get_quote
             from broker.symbol_map import to_longport_symbol
             from broker.order_router import build_order_intent, PaperTradeConfig
             from broker.paper_executor import append_ledger
+            from broker.intent_eval import compute_metrics
+            from broker.trading_env import is_paper, is_live, live_trading_enabled
+            from broker.state_store import was_executed, mark_executed, daily_count, inc_daily, cooldown_active
+            from datetime import datetime
 
-            from broker.trading_env import is_paper
-            if is_paper() and os.environ.get('PAPER_TRADING', 'on') == 'on':
-                qctx = make_quote_ctx(load_config())
-                sym = to_longport_symbol(sig.get('ticker'))
-                q = get_quote(qctx, sym)
+            # Switches / limits
+            max_open_pos = int(os.environ.get('MAX_OPEN_POS', '1'))
+            max_new_buys_per_day = int(os.environ.get('MAX_NEW_BUYS_PER_DAY', '1'))
+            price_drift_max_pct = float(os.environ.get('PRICE_DRIFT_MAX_PCT', '0.015'))  # 1.5%
 
-                # equity sizing base (USD). Prefer live/paper USD available cash if accessible.
+            # equity sizing base (USD) from broker
+            equity = None
+            try:
+                from broker.account import get_available_cash
+                equity = get_available_cash('USD')
+            except Exception:
                 equity = None
+            if equity is None:
+                equity = float(os.environ.get('PAPER_EQUITY', '100000'))
+
+            # current open positions count (live)
+            open_pos_count = 0
+            if is_live():
                 try:
-                    from broker.account import get_available_cash
-                    equity = get_available_cash('USD')
+                    from broker.positions import fetch_stock_positions
+                    open_pos_count = len(fetch_stock_positions())
                 except Exception:
-                    equity = None
-                if equity is None:
-                    equity = float(os.environ.get('PAPER_EQUITY', '100000'))
-                intent = build_order_intent(sig, quote={'last': q.last, 'bid': q.bid, 'ask': q.ask}, cfg=PaperTradeConfig(equity=equity))
-                if intent:
-                    append_ledger(intent, fill_price=intent.limit_price, status='FILLED')
-                    print(f"\nPAPER_ORDER:{intent.symbol}:{intent.side}:{intent.qty}@{intent.limit_price}")
+                    open_pos_count = 0
+
+            # daily limits key (UTC date)
+            day_key = datetime.utcnow().strftime('%Y-%m-%d')
+            if daily_count(day_key) >= max_new_buys_per_day:
+                # Already hit daily buy limit
+                pass
+            else:
+                qctx = make_quote_ctx(load_config())
+                candidates = []
+                for s in strong_buy:
+                    # cooldown / idempotency key
+                    exec_mode = (s.get('exec_mode') or '').upper()
+                    bar_time = s.get('bar_time') or s.get('bar_ts') or ''
+                    key = f"{s.get('ticker')}|{exec_mode}|{bar_time}"
+                    if was_executed(key):
+                        continue
+                    lp_symbol = to_longport_symbol(s.get('ticker'))
+                    cd_on, cd_reason = cooldown_active(lp_symbol)
+                    if cd_on:
+                        continue
+
+                    q = get_quote(qctx, lp_symbol)
+                    # execution price drift check (signal price vs quote last)
+                    try:
+                        sig_px = float(s.get('price') or s.get('bar_close') or 0)
+                        last = float(q.last or 0)
+                        if sig_px > 0 and last > 0:
+                            drift = abs(last - sig_px) / sig_px
+                            if drift > price_drift_max_pct:
+                                continue
+                    except Exception:
+                        pass
+
+                    intent = build_order_intent(
+                        s,
+                        quote={'last': q.last, 'bid': q.bid, 'ask': q.ask},
+                        cfg=PaperTradeConfig(equity=equity),
+                    )
+                    if not intent:
+                        continue
+
+                    metrics = compute_metrics(intent, signal_score=float(s.get('score') or 0))
+                    candidates.append((metrics.score, intent, key))
+
+                candidates.sort(key=lambda x: x[0], reverse=True)
+
+                if candidates and open_pos_count < max_open_pos:
+                    best_score, best_intent, best_key = candidates[0]
+
+                    # Record paper ledger (always) for audit
+                    if os.environ.get('PAPER_TRADING', 'on') == 'on':
+                        append_ledger(best_intent, fill_price=best_intent.limit_price, status='FILLED')
+                        print(f"\nPAPER_ORDER:{best_intent.symbol}:{best_intent.side}:{best_intent.qty}@{best_intent.limit_price}")
 
                     # Live submit path (hard-gated). Default is dry-run.
-                    try:
-                        from broker.trading_env import is_live, live_trading_enabled
-                        if is_live() and live_trading_enabled():
-                            from broker.live_executor import submit_live_order
-                            dry_run = (os.environ.get('LIVE_SUBMIT', '0') != '1')
-                            r = submit_live_order(intent, dry_run=dry_run)
-                            if r.ok and r.dry_run:
-                                print(f"\nLIVE_ORDER_DRYRUN:{intent.symbol}:{intent.side}:{intent.qty}@{intent.limit_price}")
-                            elif r.ok:
-                                print(f"\nLIVE_ORDER_OK:{intent.symbol}:order_id={r.order_id}")
-                            else:
-                                print(f"\nLIVE_ORDER_FAIL:{intent.symbol}:{r.error}")
-                    except Exception as _le:
-                        print(f"  [live-trade failed] {_le}")
+                    if is_live() and live_trading_enabled():
+                        from broker.live_executor import submit_live_order
+                        dry_run = (os.environ.get('LIVE_SUBMIT', '0') != '1')
+                        r = submit_live_order(best_intent, dry_run=dry_run)
+                        if r.ok and r.dry_run:
+                            print(f"\nLIVE_ORDER_DRYRUN:{best_intent.symbol}:{best_intent.side}:{best_intent.qty}@{best_intent.limit_price}")
+                        elif r.ok:
+                            print(f"\nLIVE_ORDER_OK:{best_intent.symbol}:order_id={r.order_id}")
+                        else:
+                            print(f"\nLIVE_ORDER_FAIL:{best_intent.symbol}:{r.error}")
+
+                    mark_executed(best_key, meta={'symbol': best_intent.symbol, 'qty': best_intent.qty})
+                    inc_daily(day_key)
+
         except Exception as _e:
-            print(f"  [paper-trade failed] {_e}")
+            print(f"  [execution-select failed] {_e}")
 
     # --- 2) Send normal as one batch (top list)
     if normal_buy:

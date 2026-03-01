@@ -88,3 +88,17 @@ export LIVE_SUBMIT=1
 ```
 
 If `LIVE_SUBMIT` is not `1`, the system will only print `LIVE_ORDER_DRYRUN` and will not submit.
+
+## Capital constraints (recommended for small accounts)
+
+Set in your env file:
+
+```bash
+export MAX_OPEN_POS=1
+export MAX_NEW_BUYS_PER_DAY=1
+export PRICE_DRIFT_MAX_PCT=0.015
+```
+
+- MAX_OPEN_POS: max simultaneous open positions (live)
+- MAX_NEW_BUYS_PER_DAY: daily new buys cap
+- PRICE_DRIFT_MAX_PCT: if quote last drifts too far from signal price, skip execution
