@@ -116,6 +116,16 @@ def phase1_filter(tickers: list, batch_size: int = 100) -> list:
 
                 ret_5d = (latest_close / close.iloc[-5] - 1) * 100 if len(close) >= 5 else 0
 
+                # Liquidity proxy: 20d average dollar volume (close*volume)
+                try:
+                    if 'volume' in df.columns:
+                        dv = (df['close'] * df['volume']).rolling(20).mean().iloc[-1]
+                        avg_dollar_vol_20d = float(dv) if dv == dv else 0.0
+                    else:
+                        avg_dollar_vol_20d = 0.0
+                except Exception:
+                    avg_dollar_vol_20d = 0.0
+
                 # 宽松过滤：RSI<58 + BB%<0.55 + 近期有回调
                 if latest_rsi < 58 and bb_pct < 0.55 and ret_5d < 5:
                     candidates.append({
@@ -124,6 +134,7 @@ def phase1_filter(tickers: list, batch_size: int = 100) -> list:
                         'bb_d':  round(bb_pct, 3),
                         'ret5d': round(ret_5d, 1),
                         'price': round(latest_close, 2),
+                        'avg_dollar_vol_20d': round(avg_dollar_vol_20d, 2),
                     })
             except Exception:
                 continue
@@ -165,6 +176,10 @@ def phase2_score(candidates: list) -> list:
             # 用“信号触发那根 1H K线的收盘价”作为价格口径（可复现）
             row = df.iloc[-1]
             sig = score_signal(row, ticker)
+            try:
+                sig.update(c)
+            except Exception:
+                pass
 
             # Structure signals (1buy/2buy) — grey mode: compute & attach only
             try:

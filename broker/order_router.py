@@ -28,6 +28,7 @@ class PaperTradeConfig:
     max_position_pct: float = 0.08
 
     min_price_usd: float = 5.0
+    min_dollar_vol_20d: float = 20000000.0
 
     # only place paper orders for these exec modes
     allow_exec_modes: Tuple[str, ...] = ("STRUCT", "MR")
@@ -89,11 +90,12 @@ def build_order_intent(
         # fallback: small premium over entry_ref
         limit_px = entry_ref * 1.002
 
-
     # Below min price filter (avoid penny/low-quality names)
+    # Scheme3: allow low price only if liquidity (20d avg dollar vol) is sufficient.
     try:
         px_check = float(last or limit_px or 0)
-        if px_check > 0 and px_check < cfg.min_price_usd:
+        avg_dv = float(sig.get('avg_dollar_vol_20d') or 0)
+        if px_check > 0 and px_check < cfg.min_price_usd and avg_dv < cfg.min_dollar_vol_20d:
             return None
     except Exception:
         pass

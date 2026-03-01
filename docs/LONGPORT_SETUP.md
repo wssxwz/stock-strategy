@@ -158,3 +158,13 @@ export MAX_PRICE_PCT_EQUITY=0.35
 ## MR trend filter
 
 For MR signals, execution requires: `above_ma50 == True` OR `ma50_slope >= 0` (best-effort fields from signal).
+
+## Liquidity filter (Scheme3)
+
+For low-priced names (< MIN_PRICE_USD), we only allow execution when liquidity is sufficient:
+
+```bash
+export MIN_DOLLAR_VOL_20D=20000000
+```
+
+We use `avg_dollar_vol_20d` computed from daily bars: mean(close*volume, 20d).

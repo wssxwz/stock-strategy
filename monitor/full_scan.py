@@ -461,7 +461,13 @@ def main():
                     intent = build_order_intent(
                         s,
                         quote={'last': q.last, 'bid': q.bid, 'ask': q.ask},
-                        cfg=PaperTradeConfig(equity=equity),
+                        cfg=PaperTradeConfig(
+                        equity=equity,
+                        max_sl_pct=float(os.environ.get('MAX_SL_PCT','0.10')),
+                        max_position_pct=float(os.environ.get('MAX_POSITION_PCT','0.08')),
+                        min_price_usd=float(os.environ.get('MIN_PRICE_USD','5')),
+                        min_dollar_vol_20d=float(os.environ.get('MIN_DOLLAR_VOL_20D','20000000')),
+                    ),
                     )
                     if not intent:
                         continue
