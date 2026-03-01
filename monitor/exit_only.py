@@ -82,6 +82,57 @@ def main():
                 pass
 
         for ev in events:
+            # EXIT_ESCALATE: if STOP_LOSS and we already have a pending SELL, cancel/replace more aggressively
+            try:
+                from broker.state_store import list_pending_orders, get_exit_escalation_attempt, inc_exit_escalation_attempt
+                pending = list_pending_orders()
+                has_pending_sell = False
+                pending_ids = []
+                for oid, rec in pending.items():
+                    if (rec.get('symbol') or '').upper() == ev.symbol.upper() and (rec.get('side') or '').lower() == 'sell':
+                        has_pending_sell = True
+                        pending_ids.append(oid)
+                if ev.kind == 'STOP_LOSS' and has_pending_sell:
+                    attempt = get_exit_escalation_attempt(ev.symbol)
+                    max_attempts = int(os.environ.get('EXIT_ESCALATE_MAX_ATTEMPTS', '3'))
+                    if attempt < max_attempts:
+                        # cancel all pending sell orders for this symbol
+                        try:
+                            from broker.exit_escalator import cancel_order, escalate_stop_loss_sell
+                            for oid in pending_ids:
+                                cancel_order(oid)
+                        except Exception:
+                            pass
+
+                        dry_run = (os.environ.get('LIVE_SUBMIT', '0') != '1')
+                        ok, msg, new_oid = (False, 'skip', None)
+                        try:
+                            ok, msg, new_oid = escalate_stop_loss_sell(ev.symbol, qty, attempt=attempt, dry_run=dry_run)
+                        except Exception as e:
+                            ok, msg, new_oid = (False, str(e), None)
+
+                        inc_exit_escalation_attempt(ev.symbol)
+                        if ok:
+                            if new_oid:
+                                try:
+                                    add_pending_order(new_oid, {
+                                        'symbol': ev.symbol,
+                                        'side': 'Sell',
+                                        'qty': qty,
+                                        'limit_price': None,
+                                        'reason': 'STOP_LOSS_ESCALATE',
+                                        'status': 'PENDING',
+                                    })
+                                except Exception:
+                                    pass
+                            print(f"\nLIVE_EXIT_ESCALATE_{'DRYRUN' if dry_run else 'SUBMIT'}:{ev.symbol}:attempt={attempt}")
+                        else:
+                            print(f"\nLIVE_EXIT_ESCALATE_FAIL:{ev.symbol}:{msg}")
+                        continue  # do not place the normal exit order in same tick
+            except Exception as e:
+                # escalation is best-effort; fall back to normal exit intent
+                pass
+
             qty = qty_map.get(ev.symbol.upper(), 0)
             if qty <= 0:
                 continue

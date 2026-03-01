@@ -198,3 +198,14 @@ python3 monitor/exit_only.py
 
 Suggested cron: every 10 minutes during US market hours (UTC 14-19).
 
+
+## Stop-loss sell escalation (A: exit first)
+
+If STOP_LOSS is triggered and a SELL is still pending, we cancel/replace with more aggressive marketable limits.
+
+```bash
+export EXIT_ESCALATE_MAX_ATTEMPTS=3
+```
+
+The exit-only monitor prints:
+- LIVE_EXIT_ESCALATE_DRYRUN / LIVE_EXIT_ESCALATE_SUBMIT

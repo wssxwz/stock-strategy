@@ -30,6 +30,7 @@ def load_state() -> Dict[str, Any]:
             'cooldowns': {},
             'open_positions': {},
             'pending_orders': {},
+            'exit_escalations': {},
         }
 
 
@@ -160,3 +161,26 @@ def remove_pending_order(order_id: str):
 def list_pending_orders() -> Dict[str, Any]:
     st = load_state()
     return st.get('pending_orders') or {}
+
+
+# --- exit escalation tracking ---
+
+def get_exit_escalation_attempt(symbol: str) -> int:
+    st = load_state()
+    return int((st.get('exit_escalations') or {}).get(symbol, 0) or 0)
+
+
+def inc_exit_escalation_attempt(symbol: str) -> int:
+    st = load_state()
+    m = st.setdefault('exit_escalations', {})
+    m[symbol] = int(m.get(symbol, 0) or 0) + 1
+    save_state(st)
+    return int(m[symbol])
+
+
+def reset_exit_escalation(symbol: str):
+    st = load_state()
+    m = st.setdefault('exit_escalations', {})
+    if symbol in m:
+        m.pop(symbol, None)
+        save_state(st)
