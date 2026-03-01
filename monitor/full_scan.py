@@ -267,7 +267,15 @@ def main():
                 sym = to_longport_symbol(sig.get('ticker'))
                 q = get_quote(qctx, sym)
 
-                equity = float(os.environ.get('PAPER_EQUITY', '100000'))
+                # equity sizing base (USD). Prefer live/paper USD available cash if accessible.
+                equity = None
+                try:
+                    from broker.account import get_available_cash
+                    equity = get_available_cash('USD')
+                except Exception:
+                    equity = None
+                if equity is None:
+                    equity = float(os.environ.get('PAPER_EQUITY', '100000'))
                 intent = build_order_intent(sig, quote={'last': q.last, 'bid': q.bid, 'ask': q.ask}, cfg=PaperTradeConfig(equity=equity))
                 if intent:
                     append_ledger(intent, fill_price=intent.limit_price, status='FILLED')

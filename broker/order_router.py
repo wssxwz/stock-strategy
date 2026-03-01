@@ -20,8 +20,12 @@ from broker.paper_executor import OrderIntent, make_intent
 
 @dataclass
 class PaperTradeConfig:
+    # equity in USD (we size US trading by USD available cash)
     equity: float = 100000.0
     sizing: SizingConfig = field(default_factory=SizingConfig)
+
+    max_sl_pct: float = 0.10
+    max_position_pct: float = 0.08
 
     # only place paper orders for these exec modes
     allow_exec_modes: Tuple[str, ...] = ("STRUCT", "MR")
@@ -74,7 +78,23 @@ def build_order_intent(
 
     # qty by risk
     qty = compute_qty(cfg.equity, entry=limit_px, sl=sl, cfg=cfg.sizing)
+
+    # Hard guard: do not allow too-wide SL for small accounts
+    sl_pct = (limit_px - sl) / limit_px if limit_px else 1.0
+    if sl_pct > cfg.max_sl_pct:
+        return None
+
+    # Allow min 1-share start (user choice B)
     if qty <= 0:
+        qty = 1  # min qty fallback
+
+    # Per-symbol notional cap (with a minimum floor so small accounts can start with 1 share)
+    cap_notional = max(cfg.equity * cfg.max_position_pct, cfg.sizing.min_notional)
+    if (qty * limit_px) > cap_notional:
+        return None
+
+    # Absolute notional cap
+    if (qty * limit_px) > cfg.sizing.max_notional:
         return None
 
     remark = (
