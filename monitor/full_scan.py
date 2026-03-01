@@ -492,6 +492,14 @@ def main():
                         skip_reasons.append((lp_symbol, "SKIP_IDEMPOTENT", key))
                         continue
                     lp_symbol = to_longport_symbol(s.get('ticker'))
+                    # prevent duplicate buys while a buy is pending
+                    try:
+                        from broker.state_store import has_pending_symbol_side
+                        if has_pending_symbol_side(lp_symbol, 'Buy'):
+                            skip_reasons.append((lp_symbol, 'SKIP_PENDING_BUY', key))
+                            continue
+                    except Exception:
+                        pass
                     cd_on, cd_reason = cooldown_active(lp_symbol)
                     if cd_on:
                         skip_reasons.append((lp_symbol, f"SKIP_COOLDOWN:{cd_reason}", key))

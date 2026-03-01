@@ -184,3 +184,29 @@ def reset_exit_escalation(symbol: str):
     if symbol in m:
         m.pop(symbol, None)
         save_state(st)
+
+
+def has_pending_symbol_side(symbol: str, side: str) -> bool:
+    sym = (symbol or '').upper()
+    sd = (side or '').lower()
+    st = load_state()
+    po = st.get('pending_orders') or {}
+    for oid, rec in po.items():
+        if (rec.get('symbol') or '').upper() == sym and (rec.get('side') or '').lower() == sd:
+            return True
+    return False
+
+
+def pending_order_ids(symbol: str, side: str | None = None):
+    sym = (symbol or '').upper()
+    sd = (side or '').lower() if side is not None else None
+    st = load_state()
+    po = st.get('pending_orders') or {}
+    out = []
+    for oid, rec in po.items():
+        if (rec.get('symbol') or '').upper() != sym:
+            continue
+        if sd is not None and (rec.get('side') or '').lower() != sd:
+            continue
+        out.append(oid)
+    return out

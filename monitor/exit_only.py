@@ -194,6 +194,13 @@ def main():
             if qty <= 0:
                 continue
 
+            # prevent duplicate sells while a sell is pending
+            try:
+                from broker.state_store import has_pending_symbol_side
+                if has_pending_symbol_side(ev.symbol, 'Sell') and ev.kind != 'STOP_LOSS':
+                    continue
+            except Exception:
+                pass
             q = get_quote(qctx, ev.symbol)
             intent = build_exit_intent(ev.symbol, qty, quote={'last': q.last, 'bid': q.bid, 'ask': q.ask}, reason=ev.kind)
             if not intent:
