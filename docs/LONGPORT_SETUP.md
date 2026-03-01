@@ -136,3 +136,11 @@ Guards:
 - LIVE_SUBMIT=1 (otherwise prints LIVE_EXIT_DRYRUN)
 
 Stop-loss exits automatically set cooldown (rolling): COOLDOWN_HOURS (default 24).
+
+## Automated exits (state-based)
+
+Preferred: exits are evaluated from `data/trades/trading_state.json` open_positions (entry/sl/tp), using LongPort quotes.
+This avoids relying on manual `monitor/portfolio.json`.
+
+When an SL/TP is hit, we submit a SELL (marketable limit) under the same hard guards.
+

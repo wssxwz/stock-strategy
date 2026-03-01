@@ -89,6 +89,72 @@ def main():
     state = load_state()
     output_lines = []
 
+    # Live state-based exit monitor (preferred for automation)
+    try:
+        from broker.trading_env import is_live, live_trading_enabled
+        if is_live() and live_trading_enabled():
+            from broker.state_store import load_state as _load_trading_state
+            from broker.exit_monitor import check_open_positions
+            from broker.longport_client import load_config, make_quote_ctx, get_quote
+            from broker.exit_router import build_exit_intent
+            from broker.live_executor import submit_live_order
+            from broker.paper_executor import append_ledger
+            from broker.positions import fetch_stock_positions
+            from broker.state_store import remove_open_position, set_cooldown
+            from broker.cooldown import iso_after_hours
+
+            tstate = _load_trading_state()
+            open_pos = (tstate.get('open_positions') or {})
+
+            if open_pos:
+                qctx = make_quote_ctx(load_config())
+                # fetch last quotes
+                quotes = {}
+                for sym in list(open_pos.keys()):
+                    q = get_quote(qctx, sym)
+                    if q.last is not None:
+                        quotes[sym] = q.last
+
+                events = check_open_positions(open_pos, quotes)
+
+                # map quantities from live positions
+                qty_map = {}
+                for pos in fetch_stock_positions():
+                    try:
+                        qty_map[pos.symbol.upper()] = int(float(pos.quantity or 0))
+                    except Exception:
+                        pass
+
+                for ev in events:
+                    qty = qty_map.get(ev.symbol.upper(), 0)
+                    if qty <= 0:
+                        continue
+
+                    # build & submit exit intent
+                    q = get_quote(qctx, ev.symbol)
+                    intent = build_exit_intent(ev.symbol, qty, quote={'last': q.last, 'bid': q.bid, 'ask': q.ask}, reason=ev.kind)
+                    if not intent:
+                        continue
+
+                    append_ledger(intent, fill_price=intent.limit_price, status='PENDING')
+                    dry_run = (os.environ.get('LIVE_SUBMIT', '0') != '1')
+                    r = submit_live_order(intent, dry_run=dry_run)
+                    if r.ok and r.dry_run:
+                        print(f"\nLIVE_EXIT_DRYRUN:{intent.symbol}:{intent.side}:{intent.qty}@{intent.limit_price}")
+                    elif r.ok:
+                        print(f"\nLIVE_EXIT_OK:{intent.symbol}:order_id={r.order_id}")
+                        try:
+                            remove_open_position(intent.symbol)
+                        except Exception:
+                            pass
+                        if ev.kind == 'STOP_LOSS':
+                            hours = float(os.environ.get('COOLDOWN_HOURS', '24'))
+                            set_cooldown(intent.symbol, until_iso=iso_after_hours(hours), reason='stopout')
+                    else:
+                        print(f"\nLIVE_EXIT_FAIL:{intent.symbol}:{r.error}")
+    except Exception as _e:
+        print(f"  [live-exit-monitor failed] {_e}")
+
     # ════════════════════════════════════
     # 第一部分：检查持仓止盈止损
     # ════════════════════════════════════
