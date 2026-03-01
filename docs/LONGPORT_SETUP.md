@@ -232,3 +232,15 @@ To avoid using up all cash (fees/settlement), we skip new buys if remaining cash
 ```bash
 export MIN_CASH_BUFFER_USD=50
 ```
+
+## Price freshness & execution guards
+
+```bash
+export QUOTE_STALE_SEC=60
+export DOUBLE_QUOTE_DRIFT_PCT=0.006
+export MAX_SPREAD_PCT=0.008
+```
+
+- QUOTE_STALE_SEC: skip if quote is too old
+- DOUBLE_QUOTE_DRIFT_PCT: skip if two consecutive quotes drift too much
+- MAX_SPREAD_PCT: skip if bid/ask spread too wide (when available)

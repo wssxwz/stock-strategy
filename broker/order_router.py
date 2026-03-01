@@ -85,6 +85,19 @@ def _build_order_intent_impl(
     bid = quote.get('bid')
     ask = quote.get('ask')
 
+    # Spread guard (best-effort). If bid/ask available and spread too wide, skip.
+    try:
+        max_spread_pct = float(sig.get('max_spread_pct') or 0)
+    except Exception:
+        max_spread_pct = 0.0
+    if max_spread_pct and bid and ask and ask > 0:
+        try:
+            spread_pct = (float(ask) - float(bid)) / float(ask)
+            if spread_pct > max_spread_pct:
+                return None, 'SKIP_SPREAD_TOO_WIDE'
+        except Exception:
+            pass
+
     limit_px = marketable_limit_price('buy', bid=bid, ask=ask, last=last)
     if limit_px is None:
         # fallback: small premium over entry_ref
@@ -192,6 +205,19 @@ def try_build_order_intent(sig: dict, quote: dict, cfg: Optional[PaperTradeConfi
     last = quote.get('last')
     bid = quote.get('bid')
     ask = quote.get('ask')
+
+    # Spread guard (best-effort). If bid/ask available and spread too wide, skip.
+    try:
+        max_spread_pct = float(sig.get('max_spread_pct') or 0)
+    except Exception:
+        max_spread_pct = 0.0
+    if max_spread_pct and bid and ask and ask > 0:
+        try:
+            spread_pct = (float(ask) - float(bid)) / float(ask)
+            if spread_pct > max_spread_pct:
+                return None, 'SKIP_SPREAD_TOO_WIDE'
+        except Exception:
+            pass
 
     limit_px = marketable_limit_price('buy', bid=bid, ask=ask, last=last)
     if limit_px is None:

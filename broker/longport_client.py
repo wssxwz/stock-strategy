@@ -67,3 +67,16 @@ def get_quote(ctx: QuoteContext, symbol: str) -> QuoteSnapshot:
         ask=f(ask),
         ts=datetime.now(timezone.utc),
     )
+
+
+def get_quote_twice(ctx: QuoteContext, symbol: str, *, max_drift_pct: float = 0.006):
+    # Fetch quote twice and return (q1, q2, drift_pct).
+    q1 = get_quote(ctx, symbol)
+    q2 = get_quote(ctx, symbol)
+    drift = 0.0
+    try:
+        if q1.last and q2.last and q1.last > 0:
+            drift = abs(q2.last - q1.last) / q1.last
+    except Exception:
+        drift = 0.0
+    return q1, q2, drift

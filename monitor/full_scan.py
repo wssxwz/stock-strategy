@@ -437,6 +437,9 @@ def main():
             total_risk_cap_pct = float(os.environ.get('TOTAL_RISK_CAP', '0.02'))
             max_new_buys_per_day = int(os.environ.get('MAX_NEW_BUYS_PER_DAY', '1'))
             price_drift_max_pct = float(os.environ.get('PRICE_DRIFT_MAX_PCT', '0.015'))  # 1.5%
+            max_spread_pct = float(os.environ.get('MAX_SPREAD_PCT', '0.008'))
+            double_quote_drift_pct = float(os.environ.get('DOUBLE_QUOTE_DRIFT_PCT', '0.006'))
+            quote_stale_sec = float(os.environ.get('QUOTE_STALE_SEC', '60'))
 
             # equity sizing base (USD) from broker
             equity = None
@@ -505,7 +508,25 @@ def main():
                         skip_reasons.append((lp_symbol, f"SKIP_COOLDOWN:{cd_reason}", key))
                         continue
 
-                    q = get_quote(qctx, lp_symbol)
+                    from broker.longport_client import get_quote_twice
+                    q1, q2, dq_drift = get_quote_twice(qctx, lp_symbol, max_drift_pct=double_quote_drift_pct)
+                    q = q2
+                    # quote staleness guard (best-effort): ts is local fetch time; if None skip
+                    try:
+                        from datetime import datetime, timezone
+                        if q.ts is not None:
+                            age = (datetime.now(timezone.utc) - q.ts).total_seconds()
+                            if age > quote_stale_sec:
+                                skip_reasons.append((lp_symbol, f'SKIP_QUOTE_STALE:{age:.0f}s', key))
+                                continue
+                    except Exception:
+                        pass
+                    # double-quote drift guard
+                    if dq_drift > double_quote_drift_pct:
+                        skip_reasons.append((lp_symbol, f'SKIP_DOUBLE_QUOTE_DRIFT:{dq_drift:.3f}', key))
+                        continue
+                    # attach spread threshold for router
+                    s['max_spread_pct'] = max_spread_pct
                     # High-price filter for small capital: 1 share cannot exceed a fraction of equity
                     try:
                         last = float(q.last or 0)
