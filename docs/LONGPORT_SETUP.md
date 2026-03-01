@@ -209,3 +209,13 @@ export EXIT_ESCALATE_MAX_ATTEMPTS=3
 
 The exit-only monitor prints:
 - LIVE_EXIT_ESCALATE_DRYRUN / LIVE_EXIT_ESCALATE_SUBMIT
+
+## Manual intervention alert
+
+When STOP_LOSS escalation reaches max attempts or fails, the system sends a strong Telegram alert via openclaw CLI.
+
+Env:
+
+```bash
+export ALERT_CHAT_ID=1041640995
+```

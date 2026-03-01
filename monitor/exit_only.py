@@ -20,6 +20,22 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from broker.trading_env import is_live, live_trading_enabled
 
 
+
+def _send_manual_alert(msg: str):
+    # Best-effort Telegram alert via openclaw CLI.
+    try:
+        import subprocess
+        chat = os.environ.get('ALERT_CHAT_ID', '1041640995')
+        subprocess.run(
+            ['openclaw','message','send','--channel','telegram','--accountId','main','--target', str(chat),'--message', msg],
+            check=False,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+    except Exception:
+        pass
+
+
 def main():
     if not (is_live() and live_trading_enabled()):
         print('EXIT_ONLY: live trading not enabled (TRADING_ENV=live & LIVE_TRADING=YES_I_KNOW required).')
@@ -95,6 +111,11 @@ def main():
                 if ev.kind == 'STOP_LOSS' and has_pending_sell:
                     attempt = get_exit_escalation_attempt(ev.symbol)
                     max_attempts = int(os.environ.get('EXIT_ESCALATE_MAX_ATTEMPTS', '3'))
+                    # EXIT_MANUAL_ALERT
+                    if attempt >= max_attempts:
+                        _send_manual_alert(f'🚨 STOP_LOSS 卖出多次未完成，需要手动处理：{ev.symbol}（已升级{attempt}次）')
+                        print(f"\nLIVE_EXIT_MANUAL_REQUIRED:{ev.symbol}:attempt={attempt}")
+                        continue
                     if attempt < max_attempts:
                         # cancel all pending sell orders for this symbol
                         try:
@@ -128,6 +149,7 @@ def main():
                             print(f"\nLIVE_EXIT_ESCALATE_{'DRYRUN' if dry_run else 'SUBMIT'}:{ev.symbol}:attempt={attempt}")
                         else:
                             print(f"\nLIVE_EXIT_ESCALATE_FAIL:{ev.symbol}:{msg}")
+                            _send_manual_alert(f"🚨 STOP_LOSS 卖出升级失败，需要手动处理：{ev.symbol}｜{msg}")
                         continue  # do not place the normal exit order in same tick
             except Exception as e:
                 # escalation is best-effort; fall back to normal exit intent
