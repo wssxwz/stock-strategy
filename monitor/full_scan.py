@@ -577,6 +577,23 @@ def main():
                         from collections import Counter, defaultdict
                         cnt = Counter([r[1] for r in skip_reasons])
                         print(f"\n[EXEC_SKIP] skipped={len(skip_reasons)} reasons={len(cnt)}")
+                        # persist last skip summary for post-close review
+                        try:
+                            from broker.state_store import load_state as _lst, save_state as _sst
+                            from datetime import datetime, timezone
+                            stt = _lst()
+                            reasons_list = []
+                            for reason, n in cnt.most_common(8):
+                                samples = [sym for sym, rs, _k in skip_reasons if rs == reason][:2]
+                                reasons_list.append({"reason": reason, "count": int(n), "samples": samples})
+                            stt['last_exec_skip'] = {
+                                'ts': datetime.now(timezone.utc).isoformat(timespec='seconds'),
+                                'skipped': int(len(skip_reasons)),
+                                'reasons': reasons_list,
+                            }
+                            _sst(stt)
+                        except Exception:
+                            pass
                         # show top 8 reasons
                         for reason, n in cnt.most_common(8):
                             # show up to 2 sample symbols for this reason
