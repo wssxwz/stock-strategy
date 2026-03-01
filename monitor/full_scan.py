@@ -184,7 +184,16 @@ def main():
     # ════════════════════════════════════
     # 第一部分：检查持仓止盈止损
     # ════════════════════════════════════
-    portfolio = load_portfolio()
+
+    # SKIP_LEGACY_PORTFOLIO: in live automation we rely on broker positions + open_positions state
+    try:
+        from broker.trading_env import is_live, live_trading_enabled
+        if is_live() and live_trading_enabled():
+            portfolio = {}
+        else:
+            portfolio = load_portfolio()
+    except Exception:
+        portfolio = load_portfolio()
     if portfolio:
         print(f"\n[持仓检查] {len(portfolio)} 只持仓...")
         held_tickers = list(portfolio.keys())
