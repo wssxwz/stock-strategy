@@ -134,6 +134,7 @@ def main():
                     q = get_quote(qctx, ev.symbol)
                     intent = build_exit_intent(ev.symbol, qty, quote={'last': q.last, 'bid': q.bid, 'ask': q.ask}, reason=ev.kind)
                     if not intent:
+                        skip_reasons.append((lp_symbol, "SKIP_INTENT_RULES", key))
                         continue
 
                     append_ledger(intent, fill_price=intent.limit_price, status='PENDING')
@@ -424,16 +425,19 @@ def main():
             else:
                 qctx = make_quote_ctx(load_config())
                 candidates = []
+                skip_reasons = []
                 for s in strong_buy:
                     # cooldown / idempotency key
                     exec_mode = (s.get('exec_mode') or '').upper()
                     bar_time = s.get('bar_time') or s.get('bar_ts') or ''
                     key = f"{s.get('ticker')}|{exec_mode}|{bar_time}"
                     if was_executed(key):
+                        skip_reasons.append((lp_symbol, "SKIP_IDEMPOTENT", key))
                         continue
                     lp_symbol = to_longport_symbol(s.get('ticker'))
                     cd_on, cd_reason = cooldown_active(lp_symbol)
                     if cd_on:
+                        skip_reasons.append((lp_symbol, f"SKIP_COOLDOWN:{cd_reason}", key))
                         continue
 
                     q = get_quote(qctx, lp_symbol)
@@ -441,9 +445,11 @@ def main():
                     try:
                         last = float(q.last or 0)
                         if last > 0 and last > (equity * max_price_pct_equity):
+                            skip_reasons.append((lp_symbol, f"SKIP_HIGH_PRICE:{last:.2f}", key))
                             continue
                         min_price = float(os.environ.get('MIN_PRICE_USD', '5'))
                         if last > 0 and last < min_price:
+                            skip_reasons.append((lp_symbol, f"SKIP_LOW_PRICE:{last:.2f}", key))
                             continue
                     except Exception:
                         pass
@@ -454,6 +460,7 @@ def main():
                         if sig_px > 0 and last > 0:
                             drift = abs(last - sig_px) / sig_px
                             if drift > price_drift_max_pct:
+                                skip_reasons.append((lp_symbol, f"SKIP_PRICE_DRIFT:{drift:.3f}", key))
                                 continue
                     except Exception:
                         pass
@@ -470,12 +477,24 @@ def main():
                     ),
                     )
                     if not intent:
+                        skip_reasons.append((lp_symbol, "SKIP_INTENT_RULES", key))
                         continue
 
                     metrics = compute_metrics(intent, signal_score=float(s.get('score') or 0))
                     candidates.append((metrics.score, intent, key))
 
                 candidates.sort(key=lambda x: x[0], reverse=True)
+
+                # SKIP_SUMMARY (debug for dry-run verification)
+                try:
+                    if skip_reasons:
+                        # show up to 10 reasons
+                        print(f"\n[EXEC_SKIP] {len(skip_reasons)} candidates skipped (top 10):")
+                        for sym, reason, k in skip_reasons[:10]:
+                            print(f"  - {sym}: {reason}")
+                except Exception:
+                    pass
+
 
                 if candidates and open_pos_count < max_open_pos:
                     best_score, best_intent, best_key = candidates[0]
