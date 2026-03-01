@@ -187,3 +187,14 @@ Manual run:
 ```bash
 python3 jobs/reconcile_orders.py
 ```
+
+## Exit-only high-frequency monitor (recommended)
+
+Run during market hours to reduce gap/flash-crash risk:
+
+```bash
+python3 monitor/exit_only.py
+```
+
+Suggested cron: every 10 minutes during US market hours (UTC 14-19).
+
