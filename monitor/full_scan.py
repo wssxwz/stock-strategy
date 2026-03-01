@@ -146,7 +146,7 @@ def main():
                     q = get_quote(qctx, ev.symbol)
                     intent = build_exit_intent(ev.symbol, qty, quote={'last': q.last, 'bid': q.bid, 'ask': q.ask}, reason=ev.kind)
                     if not intent:
-                        skip_reasons.append((lp_symbol, "SKIP_INTENT_RULES", key))
+                        skip_reasons.append((lp_symbol, f"{reason}", key))
                         continue
 
                     append_ledger(intent, fill_price=intent.limit_price, status='PENDING')
@@ -424,7 +424,7 @@ def main():
         try:
             from broker.longport_client import load_config, make_quote_ctx, get_quote
             from broker.symbol_map import to_longport_symbol
-            from broker.order_router import build_order_intent, PaperTradeConfig
+            from broker.order_router import try_build_order_intent, PaperTradeConfig
             from broker.paper_executor import append_ledger
             from broker.intent_eval import compute_metrics
             from broker.trading_env import is_paper, is_live, live_trading_enabled
@@ -530,7 +530,7 @@ def main():
                     except Exception:
                         pass
 
-                    intent = build_order_intent(
+                    intent, reason = try_build_order_intent(
                         s,
                         quote={'last': q.last, 'bid': q.bid, 'ask': q.ask},
                         cfg=PaperTradeConfig(
@@ -542,7 +542,7 @@ def main():
                     ),
                     )
                     if not intent:
-                        skip_reasons.append((lp_symbol, "SKIP_INTENT_RULES", key))
+                        skip_reasons.append((lp_symbol, f"{reason}", key))
                         continue
 
                     metrics = compute_metrics(intent, signal_score=float(s.get('score') or 0))
@@ -571,6 +571,16 @@ def main():
                         new_risk = 0.0
                     if (cur_risk + new_risk) > total_risk_cap_usd:
                         candidates = []
+
+                    # cash buffer guard
+                    try:
+                        min_cash_buf = float(os.environ.get('MIN_CASH_BUFFER_USD','50'))
+                        notional = float(best_intent.limit_price or 0) * float(best_intent.qty or 0)
+                        if (equity - notional) < min_cash_buf:
+                            candidates = []
+                            skip_reasons.append((best_intent.symbol, f"SKIP_CASH_BUFFER:{min_cash_buf}", best_key))
+                    except Exception:
+                        pass
 
                     # Record paper ledger (always) for audit
                     if os.environ.get('PAPER_TRADING', 'on') == 'on':

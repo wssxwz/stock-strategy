@@ -224,3 +224,11 @@ export ALERT_CHAT_ID=1041640995
 
 - If a BUY is pending for the same symbol, we skip new BUY intents (SKIP_PENDING_BUY).
 - If a SELL is pending for the same symbol, we skip new SELL intents (exit-only), except STOP_LOSS escalation which cancels/replaces.
+
+## Cash buffer
+
+To avoid using up all cash (fees/settlement), we skip new buys if remaining cash would be below:
+
+```bash
+export MIN_CASH_BUFFER_USD=50
+```

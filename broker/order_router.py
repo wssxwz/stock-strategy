@@ -34,7 +34,7 @@ class PaperTradeConfig:
     allow_exec_modes: Tuple[str, ...] = ("STRUCT", "MR")
 
 
-def build_order_intent(
+def _build_order_intent_impl(
     sig: dict,
     quote: dict,
     cfg: Optional[PaperTradeConfig] = None,
@@ -145,3 +145,109 @@ def build_order_intent(
             'scan_time': sig.get('scan_time'),
         },
     )
+
+
+REASON_OK = 'OK'
+
+
+def try_build_order_intent(sig: dict, quote: dict, cfg: Optional[PaperTradeConfig] = None):
+    """Return (intent, reason_code).
+
+    reason_code is stable for logging/skip attribution.
+    """
+    cfg = cfg or PaperTradeConfig()
+
+    exec_mode = (sig.get('exec_mode') or '').upper()
+    if exec_mode not in cfg.allow_exec_modes:
+        return None, 'SKIP_EXEC_MODE'
+
+    # MR trend filter
+    if exec_mode == 'MR':
+        try:
+            above_ma50 = bool(sig.get('above_ma50', False))
+            ma50_slope = float(sig.get('ma50_slope', 0) or 0)
+        except Exception:
+            above_ma50 = False
+            ma50_slope = 0.0
+        if not (above_ma50 or ma50_slope >= 0):
+            return None, 'SKIP_MR_TREND_FAIL'
+
+    ticker = sig.get('ticker')
+    if not ticker:
+        return None, 'SKIP_EMPTY_TICKER'
+
+    # side: buy for now
+    side = 'Buy'
+
+    entry_ref = sig.get('price') or sig.get('bar_close')
+    sl = sig.get('sl_price')
+    tp = sig.get('tp_price')
+    try:
+        entry_ref = float(entry_ref)
+        sl = float(sl)
+        tp = float(tp)
+    except Exception:
+        return None, 'SKIP_BAD_PRICE_FIELDS'
+
+    last = quote.get('last')
+    bid = quote.get('bid')
+    ask = quote.get('ask')
+
+    limit_px = marketable_limit_price('buy', bid=bid, ask=ask, last=last)
+    if limit_px is None:
+        limit_px = entry_ref * 1.002
+
+    # low price / liquidity gate (scheme3)
+    try:
+        px_check = float(last or limit_px or 0)
+        avg_dv = float(sig.get('avg_dollar_vol_20d') or 0)
+        if px_check > 0 and px_check < cfg.min_price_usd and avg_dv < cfg.min_dollar_vol_20d:
+            return None, 'SKIP_LOW_PRICE_LOW_LIQUIDITY'
+    except Exception:
+        pass
+
+    qty = compute_qty(cfg.equity, entry=limit_px, sl=sl, cfg=cfg.sizing)
+
+    sl_pct = (limit_px - sl) / limit_px if limit_px else 1.0
+    if sl_pct > cfg.max_sl_pct:
+        return None, 'SKIP_SL_TOO_WIDE'
+
+    if qty <= 0:
+        qty = 1
+
+    cap_notional = max(cfg.equity * cfg.max_position_pct, cfg.sizing.min_notional)
+    if (qty * limit_px) > cap_notional:
+        return None, 'SKIP_NOTIONAL_CAP'
+    if (qty * limit_px) > cfg.sizing.max_notional:
+        return None, 'SKIP_MAX_NOTIONAL'
+
+    remark = (
+        f"paper|{exec_mode}|score={sig.get('score')}|"
+        f"reason={sig.get('exec_reason','')}|"
+        f"bar={sig.get('bar_time','')}"
+    )
+
+    return make_intent(
+        symbol=to_longport_symbol(ticker),
+        side=side,
+        qty=int(qty),
+        order_type='LO',
+        limit_price=round(float(limit_px), 2),
+        sl_price=round(float(sl), 2),
+        tp_price=round(float(tp), 2),
+        remark=remark,
+        source={
+            'ticker': ticker,
+            'exec_mode': exec_mode,
+            'exec_reason': sig.get('exec_reason'),
+            'score': sig.get('score'),
+            'price_source': sig.get('price_source'),
+            'scan_time': sig.get('scan_time'),
+        },
+    ), REASON_OK
+
+
+# Backward-compatible alias
+def build_order_intent(sig: dict, quote: dict, cfg: Optional[PaperTradeConfig] = None):
+    intent, _ = try_build_order_intent(sig, quote, cfg)
+    return intent
