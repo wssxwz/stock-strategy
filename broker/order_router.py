@@ -27,6 +27,8 @@ class PaperTradeConfig:
     max_sl_pct: float = 0.10
     max_position_pct: float = 0.08
 
+    min_price_usd: float = 5.0
+
     # only place paper orders for these exec modes
     allow_exec_modes: Tuple[str, ...] = ("STRUCT", "MR")
 
@@ -45,6 +47,17 @@ def build_order_intent(
     exec_mode = (sig.get('exec_mode') or '').upper()
     if exec_mode not in cfg.allow_exec_modes:
         return None
+
+    # MR trend filter (avoid catching falling knives): require above_ma50 OR ma50 slope >= 0
+    if exec_mode == 'MR':
+        try:
+            above_ma50 = bool(sig.get('above_ma50', False))
+            ma50_slope = float(sig.get('ma50_slope', 0) or 0)
+        except Exception:
+            above_ma50 = False
+            ma50_slope = 0.0
+        if not (above_ma50 or ma50_slope >= 0):
+            return None
 
     ticker = sig.get('ticker')
     if not ticker:
@@ -75,6 +88,15 @@ def build_order_intent(
     if limit_px is None:
         # fallback: small premium over entry_ref
         limit_px = entry_ref * 1.002
+
+
+    # Below min price filter (avoid penny/low-quality names)
+    try:
+        px_check = float(last or limit_px or 0)
+        if px_check > 0 and px_check < cfg.min_price_usd:
+            return None
+    except Exception:
+        pass
 
     # qty by risk
     qty = compute_qty(cfg.equity, entry=limit_px, sl=sl, cfg=cfg.sizing)

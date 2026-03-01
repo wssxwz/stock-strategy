@@ -144,3 +144,17 @@ This avoids relying on manual `monitor/portfolio.json`.
 
 When an SL/TP is hit, we submit a SELL (marketable limit) under the same hard guards.
 
+
+## Price filters
+
+```bash
+export MIN_PRICE_USD=5
+export MAX_PRICE_PCT_EQUITY=0.35
+```
+
+- MIN_PRICE_USD: skip symbols with last price below this threshold
+- MAX_PRICE_PCT_EQUITY: skip symbols if 1 share exceeds this fraction of equity
+
+## MR trend filter
+
+For MR signals, execution requires: `above_ma50 == True` OR `ma50_slope >= 0` (best-effort fields from signal).

@@ -384,7 +384,7 @@ def main():
 
             # Switches / limits
             max_open_pos = int(os.environ.get('MAX_OPEN_POS', '1'))
-            max_price_pct_equity = float(os.environ.get('MAX_PRICE_PCT_EQUITY', '0.45'))
+            max_price_pct_equity = float(os.environ.get('MAX_PRICE_PCT_EQUITY', '0.35'))
             total_risk_cap_pct = float(os.environ.get('TOTAL_RISK_CAP', '0.02'))
             max_new_buys_per_day = int(os.environ.get('MAX_NEW_BUYS_PER_DAY', '1'))
             price_drift_max_pct = float(os.environ.get('PRICE_DRIFT_MAX_PCT', '0.015'))  # 1.5%
@@ -441,6 +441,9 @@ def main():
                     try:
                         last = float(q.last or 0)
                         if last > 0 and last > (equity * max_price_pct_equity):
+                            continue
+                        min_price = float(os.environ.get('MIN_PRICE_USD', '5'))
+                        if last > 0 and last < min_price:
                             continue
                     except Exception:
                         pass
