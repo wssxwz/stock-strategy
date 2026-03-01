@@ -109,3 +109,19 @@ export PRICE_DRIFT_MAX_PCT=0.015
 export MAX_PRICE_PCT_EQUITY=0.45   # skip if 1 share > 45% of equity
 export TOTAL_RISK_CAP=0.02         # portfolio risk cap (sum of (entry-SL)*qty)
 ```
+
+## Cooldown (rolling time)
+
+After a stop-out, we apply a rolling cooldown (wall-clock) to avoid re-buying the same symbol too soon.
+
+Env:
+
+```bash
+export COOLDOWN_HOURS=24
+```
+
+Manual stop-out marking (until we have full auto-sell reconciliation):
+
+```bash
+python3 jobs/trade_stopout.py TSLA.US --hours 24 --reason "manual stop"
+```
