@@ -280,6 +280,22 @@ def main():
                 if intent:
                     append_ledger(intent, fill_price=intent.limit_price, status='FILLED')
                     print(f"\nPAPER_ORDER:{intent.symbol}:{intent.side}:{intent.qty}@{intent.limit_price}")
+
+                    # Live submit path (hard-gated). Default is dry-run.
+                    try:
+                        from broker.trading_env import is_live, live_trading_enabled
+                        if is_live() and live_trading_enabled():
+                            from broker.live_executor import submit_live_order
+                            dry_run = (os.environ.get('LIVE_SUBMIT', '0') != '1')
+                            r = submit_live_order(intent, dry_run=dry_run)
+                            if r.ok and r.dry_run:
+                                print(f"\nLIVE_ORDER_DRYRUN:{intent.symbol}:{intent.side}:{intent.qty}@{intent.limit_price}")
+                            elif r.ok:
+                                print(f"\nLIVE_ORDER_OK:{intent.symbol}:order_id={r.order_id}")
+                            else:
+                                print(f"\nLIVE_ORDER_FAIL:{intent.symbol}:{r.error}")
+                    except Exception as _le:
+                        print(f"  [live-trade failed] {_le}")
         except Exception as _e:
             print(f"  [paper-trade failed] {_e}")
 

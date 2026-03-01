@@ -76,3 +76,15 @@ Load live (read-only queries OK; trading requires explicit confirmation):
 source ~/.secrets/env/stock-strategy.live.env
 export LIVE_TRADING=YES_I_KNOW
 ```
+
+## Live trading switch (HARD GUARDED)
+
+Live trading is disabled by default. To enable *actual* order submission you must set both:
+
+```bash
+export TRADING_ENV=live
+export LIVE_TRADING=YES_I_KNOW
+export LIVE_SUBMIT=1
+```
+
+If `LIVE_SUBMIT` is not `1`, the system will only print `LIVE_ORDER_DRYRUN` and will not submit.
