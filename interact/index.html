@@ -54,6 +54,16 @@
     .media .goods{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
     .goods button{cursor:pointer}
 
+    .dot{position:absolute;width:14px;height:14px;border-radius:999px;border:2px solid rgba(185,28,28,.95);
+      background:rgba(255,255,255,.88);cursor:pointer;box-shadow:0 10px 24px rgba(185,28,28,.14);}
+    .dot:before{content:'';position:absolute;inset:-10px;border-radius:999px;border:1px solid rgba(185,28,28,.25);
+      animation:pulse 1.8s ease-out infinite;}
+    @keyframes pulse{0%{transform:scale(.4);opacity:.0} 30%{opacity:.6} 100%{transform:scale(1.4);opacity:0}}
+    .media{position:relative}
+    .goods{position:absolute;inset:0}
+    .hint{position:absolute;right:10px;top:10px;font-size:12px;color:rgba(20,20,20,.70);
+      background:rgba(255,255,255,.82);border:1px solid var(--line);padding:6px 10px;border-radius:999px;}
+
     .pillRow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
     .pill{border:1px solid var(--line);background:rgba(255,255,255,.03);color:rgba(232,238,252,.9);
       padding:8px 10px;border-radius:999px;font-size:12px;cursor:pointer;transition:.15s transform,.15s background}
@@ -141,11 +151,14 @@
         <div class="bd">
           <div class="media" id="media">
             <div class="tag">视频：穿搭测评（占位）</div>
-            <div class="goods">
-              <button class="pill" data-goods="coat">商品点位：外套</button>
-              <button class="pill" data-goods="bag">商品点位：通勤包</button>
-              <button class="pill" data-goods="shoes">商品点位：鞋</button>
+            
+            <div class="goods" aria-label="hotspots">
+              <button class="dot" data-goods="coat" style="left:18%;top:38%" title="外套"></button>
+              <button class="dot" data-goods="bag" style="left:62%;top:48%" title="通勤包"></button>
+              <button class="dot" data-goods="shoes" style="left:40%;top:74%" title="鞋"></button>
+              <div class="hint">点红点看商品并触发互动</div>
             </div>
+
           </div>
           <div class="pillRow" id="metaRow">
             <button class="pill active" data-scene="通勤">通勤</button>
