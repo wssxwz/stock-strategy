@@ -634,6 +634,16 @@ def main():
                     if is_live() and live_trading_enabled():
                         from broker.live_executor import submit_live_order
                         dry_run = (os.environ.get('LIVE_SUBMIT', '0') != '1')
+                                                # PRE_SUBMIT_REQUOTE: refresh quote right before submit and adjust limit
+                        try:
+                            from broker.longport_client import get_quote
+                            qx = get_quote(qctx, best_intent.symbol)
+                            if qx.last is not None:
+                                # for Buy, use last*1.002 as aggressive limit when ask unavailable
+                                best_intent.limit_price = round(float(qx.last) * 1.002, 2)
+                        except Exception:
+                            pass
+
                         r = submit_live_order(best_intent, dry_run=dry_run)
                         if r.ok and r.dry_run:
                             print(f"\nLIVE_ORDER_DRYRUN:{best_intent.symbol}:{best_intent.side}:{best_intent.qty}@{best_intent.limit_price}")
