@@ -1,13 +1,13 @@
 {
-  "regime": "neutral",
-  "regime_zh": "\u9707\u8361",
-  "min_score": 80,
-  "spy_vs_ma50": -2.01,
+  "regime": "bull",
+  "regime_zh": "\u725b\u5e02",
+  "min_score": 70,
+  "spy_vs_ma50": -1.53,
   "spy_vs_ma200": 0.0,
-  "spy_ret20": -2.23,
-  "vix": 27.4,
-  "detail": "\u26a0\ufe0f SPY \u9707\u8361 | vs MA50=-2.0% | 20\u65e5=-2.2% | \u63d0\u9ad8\u81f3 score\u226580",
+  "spy_ret20": -1.74,
+  "vix": 24.0,
+  "detail": "\ud83d\udc02 SPY \u5065\u5eb7 | vs MA50=-1.5% vs MA200=0.0% | 20\u65e5=-1.7% | \u6807\u51c6\u9608\u503c score\u226570",
   "signal_allowed": true,
-  "generated_at": "2026-03-04 00:06",
-  "cached_at": "2026-03-04T00:06:54.719451"
+  "generated_at": "2026-03-04 02:00",
+  "cached_at": "2026-03-04T02:00:09.251538"
 }
