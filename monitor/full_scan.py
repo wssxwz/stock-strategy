@@ -429,7 +429,6 @@ def main():
             from broker.intent_eval import compute_metrics
             from broker.trading_env import is_paper, is_live, live_trading_enabled
             from broker.state_store import was_executed, mark_executed, daily_count, inc_daily, cooldown_active, total_open_risk_usd, add_open_position
-            from datetime import datetime
 
             # Switches / limits
             max_open_pos = int(os.environ.get('MAX_OPEN_POS', '1'))
