@@ -513,7 +513,7 @@ def main():
                     q = q2
                     # quote staleness guard (best-effort): ts is local fetch time; if None skip
                     try:
-                        from datetime import datetime, timezone
+                        from datetime import timezone
                         if q.ts is not None:
                             age = (datetime.now(timezone.utc) - q.ts).total_seconds()
                             if age > quote_stale_sec:
@@ -580,7 +580,7 @@ def main():
                         # persist last skip summary for post-close review
                         try:
                             from broker.state_store import load_state as _lst, save_state as _sst
-                            from datetime import datetime, timezone
+                            from datetime import timezone
                             stt = _lst()
                             reasons_list = []
                             for reason, n in cnt.most_common(8):
