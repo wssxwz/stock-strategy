@@ -25,6 +25,22 @@ from market_regime import get_market_regime, regime_header, get_score_threshold
 
 STATE_FILE = os.path.join(os.path.dirname(__file__), '.monitor_state.json')
 
+
+LEDGER_PATH = os.path.join(os.path.dirname(__file__), '..', 'data', 'trades', 'dryrun_scan_ledger.jsonl')
+
+def append_scan_ledger(record: dict):
+    """Append-only scan ledger for 3-day dry-run review (gitignored).
+
+    Keep it resilient: failures must not break scanning/push.
+    """
+    try:
+        os.makedirs(os.path.dirname(LEDGER_PATH), exist_ok=True)
+        import json
+        with open(LEDGER_PATH, 'a', encoding='utf-8') as f:
+            f.write(json.dumps(record, ensure_ascii=False, default=str) + "\n")
+    except Exception as _e:
+        print(f"[ledger append failed] {_e}")
+
 def load_state():
     if os.path.exists(STATE_FILE):
         with open(STATE_FILE) as f:
@@ -835,6 +851,20 @@ def main():
             }
             outp = Path(__file__).resolve().parent.parent / 'dashboard' / 'last_scan.json'
             outp.write_text(json.dumps(last, ensure_ascii=False, indent=2), encoding='utf-8')
+
+            # Append-only ledger (for 3-day review & later PnL validation)
+            try:
+                append_scan_ledger({
+                    'generated_at': last.get('generated_at'),
+                    'market_regime': last.get('market_regime'),
+                    'effective_min_score': last.get('effective_min_score'),
+                    'ret5_level': last.get('ret5_level'),
+                    'ret5_entry_pct': last.get('ret5_entry_pct'),
+                    'counts': last.get('counts'),
+                    'signals_threshold': last.get('signals_threshold'),
+                })
+            except Exception as _e:
+                print(f"[ledger write failed] {_e}")
         except Exception as _e:
             print(f"[last_scan write failed] {_e}")
 
