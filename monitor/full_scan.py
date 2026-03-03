@@ -795,4 +795,12 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except Exception as e:
+        # Ensure cron parser can see a segment even when crashed
+        print(f"
+ERROR_SIGNAL:full_scan:{type(e).__name__}")
+        print(str(e))
+        print("---END---")
+        raise
