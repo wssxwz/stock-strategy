@@ -798,8 +798,15 @@ if __name__ == '__main__':
     try:
         main()
     except Exception as e:
-        # Ensure cron parser can see a segment even when crashed
+        # Ensure cron parser can see a segment even when crashed.
+        # In cron mode we prefer *soft fail* (exit 0) so the scheduler doesn't accumulate consecutive errors,
+        # while still emitting a parsable ERROR_SIGNAL segment for alerting.
         print(f"\nERROR_SIGNAL:full_scan:{type(e).__name__}")
         print(str(e))
         print("---END---")
-        raise
+
+        import os, sys
+        strict = os.environ.get('STRICT_FAIL', '0') == '1'
+        if strict:
+            raise
+        sys.exit(0)
