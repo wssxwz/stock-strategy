@@ -2,12 +2,12 @@
   "regime": "neutral",
   "regime_zh": "\u9707\u8361",
   "min_score": 80,
-  "spy_vs_ma50": -2.24,
+  "spy_vs_ma50": -2.01,
   "spy_vs_ma200": 0.0,
-  "spy_ret20": -2.47,
-  "vix": 26.1,
-  "detail": "\u26a0\ufe0f SPY \u9707\u8361 | vs MA50=-2.2% | 20\u65e5=-2.5% | \u63d0\u9ad8\u81f3 score\u226580",
+  "spy_ret20": -2.23,
+  "vix": 27.4,
+  "detail": "\u26a0\ufe0f SPY \u9707\u8361 | vs MA50=-2.0% | 20\u65e5=-2.2% | \u63d0\u9ad8\u81f3 score\u226580",
   "signal_allowed": true,
-  "generated_at": "2026-03-03 23:00",
-  "cached_at": "2026-03-03T23:00:30.349471"
+  "generated_at": "2026-03-04 00:06",
+  "cached_at": "2026-03-04T00:06:54.719451"
 }
