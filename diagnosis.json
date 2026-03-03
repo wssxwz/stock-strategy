@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-03T07:51:09.488151",
+  "generated_at": "2026-03-03T22:01:49.020876",
   "version": "2.0",
   "overview": {
     "avg_score": 58.1,
@@ -39,7 +39,7 @@
         "pnl_pct": 186.11
       }
     ],
-    "generated_at": "2026-03-03T07:51:09.488141"
+    "generated_at": "2026-03-03T22:01:49.020866"
   },
   "stocks": [
     {
@@ -49,7 +49,7 @@
       "shares": 32,
       "price": 403.32,
       "pnl_pct": 76.85,
-      "updated_at": "2026-03-03 07:50",
+      "updated_at": "2026-03-03 22:01",
       "tech": {
         "price": 403.32,
         "ma20": 412.5,
@@ -64,7 +64,7 @@
         "vs_ma20": -2.2,
         "vs_ma50": -7.2,
         "vs_ma200": 3.1,
-        "vol_ratio": 0.9
+        "vol_ratio": 0.93
       },
       "fund": {
         "forward_pe": 143.62276,
@@ -77,7 +77,7 @@
         "op_margin": 0.047030002,
         "roe": 0.049250003,
         "debt_equity": 17.763,
-        "beta": 1.887,
+        "beta": 1.926,
         "market_cap": 1513430843392,
         "sector": "Consumer Cyclical",
         "industry": "Auto Manufacturers",
@@ -86,11 +86,11 @@
       "analyst": {
         "recommendation": "hold",
         "num_analysts": 40,
-        "target_mean": 421.729,
+        "target_mean": 420.904,
         "target_high": 600.0,
         "target_low": 125.0,
         "data_note": "分析师评级可能滞后数天到数周",
-        "upside": 4.6
+        "upside": 4.4
       },
       "trend": {
         "can_add": true,
@@ -149,7 +149,7 @@
       "shares": 15,
       "price": 653.56,
       "pnl_pct": 2.26,
-      "updated_at": "2026-03-03 07:50",
+      "updated_at": "2026-03-03 22:01",
       "tech": {
         "price": 653.56,
         "ma20": 658.85,
@@ -164,7 +164,7 @@
         "vs_ma20": -0.8,
         "vs_ma50": -0.5,
         "vs_ma200": -5.4,
-        "vol_ratio": 0.73
+        "vol_ratio": 0.74
       },
       "fund": {
         "forward_pe": 18.21516,
@@ -177,7 +177,7 @@
         "op_margin": 0.41314998,
         "roe": 0.30238,
         "debt_equity": 39.164,
-        "beta": 1.284,
+        "beta": 1.279,
         "market_cap": 1653216247808,
         "sector": "Communication Services",
         "industry": "Internet Content & Information",
@@ -247,7 +247,7 @@
       "shares": 22,
       "price": 384.86,
       "pnl_pct": -16.99,
-      "updated_at": "2026-03-03 07:50",
+      "updated_at": "2026-03-03 22:01",
       "tech": {
         "price": 384.86,
         "ma20": 398.48,
@@ -265,7 +265,7 @@
         "vol_ratio": 0.77
       },
       "fund": {
-        "forward_pe": 79.61819,
+        "forward_pe": 79.594475,
         "trailing_pe": null,
         "pb": 24.153381,
         "ps": 21.252798,
@@ -275,7 +275,7 @@
         "op_margin": -0.05589,
         "roe": -0.088149995,
         "debt_equity": 20.154,
-        "beta": 1.034,
+        "beta": 1.124,
         "market_cap": 97022599168,
         "sector": "Technology",
         "industry": "Software - Infrastructure",
@@ -345,7 +345,7 @@
       "shares": 56,
       "price": 150.15,
       "pnl_pct": -18.33,
-      "updated_at": "2026-03-03 07:50",
+      "updated_at": "2026-03-03 22:01",
       "tech": {
         "price": 150.15,
         "ma20": 157.18,
@@ -363,7 +363,7 @@
         "vol_ratio": 0.48
       },
       "fund": {
-        "forward_pe": 37.69913,
+        "forward_pe": 37.775673,
         "trailing_pe": 83.416664,
         "pb": 11.237931,
         "ps": 12.3841305,
@@ -373,7 +373,7 @@
         "op_margin": 0.1542,
         "roe": 0.16259001,
         "debt_equity": 4.887,
-        "beta": 0.75,
+        "beta": 0.822,
         "market_cap": 122522394624,
         "sector": "Technology",
         "industry": "Software - Infrastructure",
@@ -381,12 +381,12 @@
       },
       "analyst": {
         "recommendation": "buy",
-        "num_analysts": 47,
-        "target_mean": 208.8234,
+        "num_analysts": 48,
+        "target_mean": 208.63959,
         "target_high": 265.0,
         "target_low": 114.0,
         "data_note": "分析师评级可能滞后数天到数周",
-        "upside": 39.1
+        "upside": 39.0
       },
       "trend": {
         "can_add": false,
@@ -447,7 +447,7 @@
       "shares": 33,
       "price": 149.25,
       "pnl_pct": -19.9,
-      "updated_at": "2026-03-03 07:50",
+      "updated_at": "2026-03-03 22:01",
       "tech": {
         "price": 149.25,
         "ma20": 151.3,
@@ -462,11 +462,11 @@
         "vs_ma20": -1.4,
         "vs_ma50": -13.9,
         "vs_ma200": -32.1,
-        "vol_ratio": 0.73
+        "vol_ratio": 0.74
       },
       "fund": {
         "forward_pe": 18.815025,
-        "trailing_pe": 28.05451,
+        "trailing_pe": 28.107346,
         "pb": 14.316546,
         "ps": 7.030256,
         "rev_growth": 0.142,
@@ -475,7 +475,7 @@
         "op_margin": 0.31997,
         "roe": 0.69026,
         "debt_equity": 432.511,
-        "beta": 1.633,
+        "beta": 1.648,
         "market_cap": 428958089216,
         "sector": "Technology",
         "industry": "Software - Infrastructure",
@@ -545,7 +545,7 @@
       "shares": 65,
       "price": 70.97,
       "pnl_pct": -16.43,
-      "updated_at": "2026-03-03 07:51",
+      "updated_at": "2026-03-03 22:01",
       "tech": {
         "price": 70.97,
         "ma20": 71.65,
@@ -560,7 +560,7 @@
         "vs_ma20": -0.9,
         "vs_ma50": -7.9,
         "vs_ma200": 33.5,
-        "vol_ratio": 1.06
+        "vol_ratio": 1.07
       },
       "fund": {
         "forward_pe": 537.28516,
@@ -642,7 +642,7 @@
       "shares": 65,
       "price": 64.68,
       "pnl_pct": -24.0,
-      "updated_at": "2026-03-03 07:51",
+      "updated_at": "2026-03-03 22:01",
       "tech": {
         "price": 64.68,
         "ma20": 67.56,
@@ -670,7 +670,7 @@
         "op_margin": 0.0,
         "roe": -0.10425,
         "debt_equity": 0.138,
-        "beta": 0.774,
+        "beta": 0.819,
         "market_cap": 10106060800,
         "sector": "Utilities",
         "industry": "Utilities - Independent Power Producers",
@@ -742,7 +742,7 @@
       "shares": 450,
       "price": 8.62,
       "pnl_pct": -25.41,
-      "updated_at": "2026-03-03 07:51",
+      "updated_at": "2026-03-03 22:01",
       "tech": {
         "price": 8.62,
         "ma20": 8.1,
@@ -757,7 +757,7 @@
         "vs_ma20": 6.4,
         "vs_ma50": -10.4,
         "vs_ma200": -30.1,
-        "vol_ratio": 1.08
+        "vol_ratio": 1.1
       },
       "fund": {
         "forward_pe": -862.0,
@@ -778,12 +778,12 @@
       },
       "analyst": {
         "recommendation": "strong_buy",
-        "num_analysts": 7,
-        "target_mean": 14.42857,
+        "num_analysts": 8,
+        "target_mean": 14.625,
         "target_high": 20.0,
         "target_low": 9.0,
         "data_note": "分析师评级可能滞后数天到数周",
-        "upside": 67.4
+        "upside": 69.7
       },
       "trend": {
         "can_add": false,
@@ -843,7 +843,7 @@
       "shares": 20,
       "price": 170.33,
       "pnl_pct": -21.62,
-      "updated_at": "2026-03-03 07:51",
+      "updated_at": "2026-03-03 22:01",
       "tech": {
         "price": 170.33,
         "ma20": 172.57,
@@ -858,10 +858,10 @@
         "vs_ma20": -1.3,
         "vs_ma50": -14.4,
         "vs_ma200": -22.0,
-        "vol_ratio": 0.52
+        "vol_ratio": 0.54
       },
       "fund": {
-        "forward_pe": 70.78091,
+        "forward_pe": 70.617744,
         "trailing_pe": null,
         "pb": 30.302439,
         "ps": 12.443979,
@@ -871,7 +871,7 @@
         "op_margin": -0.24420999,
         "roe": -0.53908,
         "debt_equity": 142.462,
-        "beta": 1.147,
+        "beta": 1.212,
         "market_cap": 58286927872,
         "sector": "Technology",
         "industry": "Software - Application",
@@ -941,7 +941,7 @@
       "shares": 25,
       "price": 124.37,
       "pnl_pct": 3.64,
-      "updated_at": "2026-03-03 07:51",
+      "updated_at": "2026-03-03 22:01",
       "tech": {
         "price": 124.37,
         "ma20": 122.28,
@@ -969,7 +969,7 @@
         "op_margin": 0.15378,
         "roe": 0.112679996,
         "debt_equity": 5.912,
-        "beta": 4.374,
+        "beta": 4.132,
         "market_cap": 132080771072,
         "sector": "Technology",
         "industry": "Semiconductors",
@@ -1038,7 +1038,7 @@
       "shares": 15,
       "price": 198.62,
       "pnl_pct": 2.1,
-      "updated_at": "2026-03-03 07:51",
+      "updated_at": "2026-03-03 22:01",
       "tech": {
         "price": 198.62,
         "ma20": 208.82,
@@ -1056,7 +1056,7 @@
         "vol_ratio": 0.8
       },
       "fund": {
-        "forward_pe": 18.304117,
+        "forward_pe": 18.323368,
         "trailing_pe": 76.39231,
         "pb": 5.138939,
         "ps": 9.348774,
@@ -1066,7 +1066,7 @@
         "op_margin": 0.17059,
         "roe": 0.07082,
         "debt_equity": 6.359,
-        "beta": 1.949,
+        "beta": 2.022,
         "market_cap": 323832184832,
         "sector": "Technology",
         "industry": "Semiconductors",
@@ -1074,12 +1074,12 @@
       },
       "analyst": {
         "recommendation": "buy",
-        "num_analysts": 47,
-        "target_mean": 289.93616,
+        "num_analysts": 46,
+        "target_mean": 289.71738,
         "target_high": 365.0,
         "target_low": 220.0,
         "data_note": "分析师评级可能滞后数天到数周",
-        "upside": 46.0
+        "upside": 45.9
       },
       "trend": {
         "can_add": true,
@@ -1135,7 +1135,7 @@
       "shares": 120,
       "price": 27.57,
       "pnl_pct": -8.1,
-      "updated_at": "2026-03-03 07:51",
+      "updated_at": "2026-03-03 22:01",
       "tech": {
         "price": 27.57,
         "ma20": 26.55,
@@ -1164,7 +1164,7 @@
         "roe": -0.119160004,
         "debt_equity": 0.448,
         "beta": null,
-        "market_cap": 1435922560,
+        "market_cap": 1435933568,
         "sector": "Industrials",
         "industry": "Specialty Industrial Machinery",
         "data_note": "基本面数据来自最新财报（可能滞后 1-3 个月）"
@@ -1230,7 +1230,7 @@
       "shares": 150,
       "price": 18.39,
       "pnl_pct": -25.53,
-      "updated_at": "2026-03-03 07:51",
+      "updated_at": "2026-03-03 22:01",
       "tech": {
         "price": 18.39,
         "ma20": 19.78,
@@ -1245,7 +1245,7 @@
         "vs_ma20": -7.0,
         "vs_ma50": -22.6,
         "vs_ma200": -21.5,
-        "vol_ratio": 1.04
+        "vol_ratio": 1.08
       },
       "fund": {
         "forward_pe": 23.289976,
@@ -1258,7 +1258,7 @@
         "op_margin": 0.18176001,
         "roe": 0.05658,
         "debt_equity": 18.487,
-        "beta": 2.178,
+        "beta": 2.259,
         "market_cap": 23452102656,
         "sector": "Financial Services",
         "industry": "Credit Services",
@@ -1336,7 +1336,7 @@
       "shares": 100,
       "price": 28.12,
       "pnl_pct": -6.58,
-      "updated_at": "2026-03-03 07:51",
+      "updated_at": "2026-03-03 22:01",
       "tech": {
         "price": 28.12,
         "ma20": 29.7,
@@ -1430,7 +1430,7 @@
       "shares": 30,
       "price": 86.92,
       "pnl_pct": -10.39,
-      "updated_at": "2026-03-03 07:51",
+      "updated_at": "2026-03-03 22:01",
       "tech": {
         "price": 86.92,
         "ma20": 90.85,
@@ -1445,20 +1445,20 @@
         "vs_ma20": -4.3,
         "vs_ma50": -6.1,
         "vs_ma200": 37.7,
-        "vol_ratio": 0.92
+        "vol_ratio": 0.98
       },
       "fund": {
-        "forward_pe": -85.55118,
+        "forward_pe": 24.553673,
         "trailing_pe": null,
-        "pb": 19.057224,
-        "ps": 1782.8406,
-        "rev_growth": 12.399,
+        "pb": 13.473879,
+        "ps": 465.8594,
+        "rev_growth": 27.313,
         "eps_growth": null,
-        "gross_margin": 0.68684995,
-        "op_margin": -5.40579,
-        "roe": -0.39031,
-        "debt_equity": 44.433,
-        "beta": 2.708,
+        "gross_margin": 0.50343,
+        "op_margin": -1.33095,
+        "roe": -0.30117,
+        "debt_equity": 93.612,
+        "beta": null,
         "market_cap": 33037817856,
         "sector": "Technology",
         "industry": "Communication Equipment",
@@ -1491,8 +1491,8 @@
           "MACD 死叉，动能偏弱",
           "52 周中位",
           "技术面小计：20/40",
-          "营收高增长 +1240%",
-          "毛利率69%，良好",
+          "营收高增长 +2731%",
+          "毛利率50%，良好",
           "经营亏损",
           "基本面小计：17/35",
           "分析师小计：0/15",
@@ -1528,7 +1528,7 @@
       "shares": 15,
       "price": 91.01,
       "pnl_pct": 186.11,
-      "updated_at": "2026-03-03 07:51",
+      "updated_at": "2026-03-03 22:01",
       "tech": {
         "price": 91.01,
         "ma20": 94.14,
@@ -1556,7 +1556,7 @@
         "op_margin": -1.02986,
         "roe": 0.00737,
         "debt_equity": 105.961,
-        "beta": 1.154,
+        "beta": 1.16,
         "market_cap": 23027075072,
         "sector": "Communication Services",
         "industry": "Internet Content & Information",
@@ -1630,7 +1630,7 @@
       "shares": 20,
       "price": 38.34,
       "pnl_pct": -14.8,
-      "updated_at": "2026-03-03 07:51",
+      "updated_at": "2026-03-03 22:01",
       "tech": {
         "price": 38.34,
         "ma20": 34.65,
@@ -1645,7 +1645,7 @@
         "vs_ma20": 10.7,
         "vs_ma50": -9.9,
         "vs_ma200": -19.4,
-        "vol_ratio": 0.67
+        "vol_ratio": 0.73
       },
       "fund": {
         "forward_pe": -38.762512,
@@ -1658,7 +1658,7 @@
         "op_margin": -3.45663,
         "roe": -0.24400999,
         "debt_equity": 0.787,
-        "beta": 2.602,
+        "beta": 2.728,
         "market_cap": 14096615424,
         "sector": "Technology",
         "industry": "Computer Hardware",
