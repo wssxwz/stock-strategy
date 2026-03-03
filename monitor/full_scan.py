@@ -434,6 +434,49 @@ def main():
         is_strong = (float(s.get('score', 0) or 0) >= 85) or (s.get('exec_mode') == 'STRUCT')
         (strong_buy if is_strong else normal_buy).append(s)
 
+    # --- SCAN_LEDGER (append-only, gitignored)
+    try:
+        # buy_signals are those meeting threshold; dup_buy are already-sent today
+        raw_n = len(buy_signals_raw)
+        ret5_n = len(buy_signals_ret5)
+        routed_n = sum(1 for x in routed if x.get('exec_mode')!='SKIP')
+        thr_n = len(buy_signals)
+        new_n = len(new_buy)
+        dup_n = max(0, thr_n - new_n)
+
+        append_scan_ledger({
+            'kind': 'full_scan',
+            'generated_at': datetime.now().isoformat(),
+            'market_regime': regime.get('regime_zh') if isinstance(regime, dict) else None,
+            'effective_min_score': effective_min_score,
+            'ret5_level': ret5_level,
+            'ret5_entry_pct': ret5_entry_pct,
+            'counts': {
+                'raw': int(raw_n), 'ret5': int(ret5_n), 'routed': int(routed_n),
+                'threshold': int(thr_n), 'new': int(new_n), 'dup': int(dup_n)
+            },
+            'new_buy': [
+                {
+                    'ticker': s.get('ticker'), 'score': float(s.get('score',0) or 0),
+                    'exec_mode': s.get('exec_mode'), 'price': s.get('price'),
+                    'bb_pct': s.get('bb_pct'), 'rsi14': s.get('rsi14'), 'atr_pct14': s.get('atr_pct14'),
+                    'above_ma200': s.get('above_ma200'), 'ret_5d': s.get('ret_5d')
+                }
+                for s in (new_buy or [])
+            ],
+            'dup_buy': [
+                {
+                    'ticker': s.get('ticker'), 'score': float(s.get('score',0) or 0),
+                    'exec_mode': s.get('exec_mode'), 'price': s.get('price'),
+                    'bb_pct': s.get('bb_pct'), 'rsi14': s.get('rsi14'), 'atr_pct14': s.get('atr_pct14'),
+                    'above_ma200': s.get('above_ma200'), 'ret_5d': s.get('ret_5d')
+                }
+                for s in (dup_buy or [])
+            ],
+        })
+    except Exception as _e:
+        print(f"[scan ledger failed] {_e}")
+
     # Batch push_history raw includes full formatted messages for archival
     batch_raw = "\n\n".join([format_signal_message(sig) for sig in new_buy])
     if new_buy:
