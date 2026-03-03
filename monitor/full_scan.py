@@ -375,6 +375,26 @@ def main():
         f"[信号过滤] 原始触发 {len(buy_signals_raw)} 只 → ret5通过 {len(buy_signals_ret5)} 只 → 路由通过 {sum(1 for x in routed if x.get('exec_mode')!='SKIP')} 只 → 达到阈值 {len(buy_signals)} 只"
     )
 
+    # Dup accounting (signals that meet threshold but were already sent today)
+    dup_buy = []
+    for sig in buy_signals:
+        try:
+            if signal_key(sig) in state['sent_signals']:
+                dup_buy.append(sig)
+        except Exception:
+            pass
+
+    debug_show_dup = os.environ.get('DEBUG_SHOW_DUP', '0') == '1'
+    if debug_show_dup and dup_buy:
+        for sig in dup_buy[:20]:
+            print(f"\nDUP_SIGNAL:{sig['ticker']}:{sig.get('score')}")
+            try:
+                print(format_signal_message(sig))
+            except Exception as _e:
+                print(f"[dup format failed] {_e}")
+            print('---END---')
+
+
     new_buy = []
     for sig in buy_signals:
         # 附加市场环境信息到信号
@@ -776,6 +796,48 @@ def main():
     total_alerts = len(exit_alerts) + len(new_buy) if portfolio else len(new_buy)
     if total_alerts == 0:
         print("\nNO_SIGNAL")
+        # Explainable heartbeat summary for NO_SIGNAL runs
+        try:
+            raw_n = len(buy_signals_raw)
+            ret5_n = len(buy_signals_ret5)
+            routed_n = sum(1 for x in routed if x.get('exec_mode')!='SKIP')
+            thr_n = len(buy_signals)
+            new_n = len(new_buy)
+            dup_n = max(0, thr_n - new_n)
+            print(f"NO_SIGNAL_SUMMARY raw={raw_n} ret5={ret5_n} routed={routed_n} threshold={thr_n} new={new_n} dup={dup_n} minScore={effective_min_score} ret5_level={ret5_level} ret5_entry={ret5_entry_pct}")
+        except Exception as _e:
+            print(f"NO_SIGNAL_SUMMARY_ERROR {_e}")
+
+        # Persist last scan snapshot for 3-day dry-run review (overwrites each run)
+        try:
+            import json
+            from pathlib import Path
+            last = {
+                'generated_at': datetime.now().isoformat(),
+                'market_regime': regime.get('regime_zh') if isinstance(regime, dict) else None,
+                'effective_min_score': effective_min_score,
+                'ret5_level': ret5_level,
+                'ret5_entry_pct': ret5_entry_pct,
+                'counts': {
+                    'raw': int(raw_n), 'ret5': int(ret5_n), 'routed': int(routed_n),
+                    'threshold': int(thr_n), 'new': int(new_n), 'dup': int(dup_n)
+                },
+                'signals_threshold': [
+                    {
+                        'ticker': s.get('ticker'), 'score': float(s.get('score',0) or 0),
+                        'exec_mode': s.get('exec_mode'), 'bb_pct': s.get('bb_pct'),
+                        'rsi14': s.get('rsi14'), 'atr_pct14': s.get('atr_pct14'),
+                        'above_ma200': s.get('above_ma200'), 'ret_5d': s.get('ret_5d'),
+                        'is_new': (signal_key(s) not in state.get('sent_signals',{}))
+                    }
+                    for s in (buy_signals or [])
+                ]
+            }
+            outp = Path(__file__).resolve().parent.parent / 'dashboard' / 'last_scan.json'
+            outp.write_text(json.dumps(last, ensure_ascii=False, indent=2), encoding='utf-8')
+        except Exception as _e:
+            print(f"[last_scan write failed] {_e}")
+
         state['no_signal_streak'] = int(state.get('no_signal_streak', 0) or 0) + 1
     else:
         print(f"\n共触发 {total_alerts} 个提醒（卖出:{len(exit_alerts) if portfolio else 0} 买入:{len(new_buy)}）")
