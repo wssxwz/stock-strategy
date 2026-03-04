@@ -1,39 +1,16 @@
 {
-  "generated_at": "2026-03-04T03:00:46.307566",
+  "generated_at": "2026-03-04T22:01:06.608574",
   "market_regime": "牛市",
   "effective_min_score": 70,
   "ret5_level": "L0",
   "ret5_entry_pct": -3.0,
   "counts": {
-    "raw": 3,
-    "ret5": 2,
-    "routed": 2,
-    "threshold": 2,
+    "raw": 2,
+    "ret5": 0,
+    "routed": 0,
+    "threshold": 0,
     "new": 0,
-    "dup": 2
+    "dup": 0
   },
-  "signals_threshold": [
-    {
-      "ticker": "NEM",
-      "score": 85.0,
-      "exec_mode": "MR",
-      "bb_pct": 0.076,
-      "rsi14": 22.3,
-      "atr_pct14": 2.22,
-      "above_ma200": false,
-      "ret_5d": -8.6,
-      "is_new": false
-    },
-    {
-      "ticker": "GDX",
-      "score": 100.0,
-      "exec_mode": "MR",
-      "bb_pct": 0.082,
-      "rsi14": 28.2,
-      "atr_pct14": 2.34,
-      "above_ma200": true,
-      "ret_5d": -9.2,
-      "is_new": false
-    }
-  ]
+  "signals_threshold": []
 }
