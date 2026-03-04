@@ -113,9 +113,9 @@ def generate_evening_review() -> str:
 
     # 1) Tape read
     lines.append("\n📌 **今晚主线（1句话）**")
-    spy = idx.get('SPY',{}).get('change_pct',0)
-    qqq = idx.get('QQQ',{}).get('change_pct',0)
-    dia = idx.get('DIA',{}).get('change_pct',0)
+    spy = idx.get('^GSPC',{}).get('change_pct',0)
+    qqq = idx.get('^NDX',{}).get('change_pct',0)
+    dia = idx.get('^DJI',{}).get('change_pct',0)
     lines.append(f"  标普{fmt(spy)}｜纳指{fmt(qqq)}｜道指{fmt(dia)}｜{fg['emoji']} {fg['label_zh']} {fg['value']}")
 
     # 2) What changed for portfolio

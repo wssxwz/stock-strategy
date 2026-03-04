@@ -24,9 +24,9 @@ def get_market_overview() -> dict:
     fg    = get_fear_greed()
 
     # 市场整体方向
-    sp500_pct = idx.get('SPY', {}).get('change_pct', 0)
-    qqq_pct   = idx.get('QQQ', {}).get('change_pct', 0)
-    vix_val   = idx.get('VIX', {}).get('price', 20)
+    sp500_pct = idx.get('^GSPC', {}).get('change_pct', 0)
+    qqq_pct   = idx.get('^NDX', {}).get('change_pct', 0)
+    vix_val   = idx.get('^VIX', {}).get('price', 20)
 
     if sp500_pct > 0.5 and qqq_pct > 0.5:
         market_mood = '多头'
@@ -130,11 +130,11 @@ def generate_telegram_msg(overview: dict, advice: dict) -> str:
     idx = overview.get('indices', {}) or {}
     sects = overview.get('sectors', {}) or {}
 
-    spy = idx.get('SPY', {})
-    qqq = idx.get('QQQ', {})
-    dia = idx.get('DIA', {})
-    iwm = idx.get('IWM', {})
-    vix = idx.get('VIX', {})
+    spy = idx.get('^GSPC', {})
+    qqq = idx.get('^NDX', {})
+    dia = idx.get('^DJI', {})
+    iwm = idx.get('^RUT', {})
+    vix = idx.get('^VIX', {})
 
     fg = overview.get('fear_greed', {}) or {}
 
@@ -303,7 +303,7 @@ def generate_html_report(overview: dict, advice: dict, date_str: str) -> str:
     <!-- 指数 -->
     <div class="card">
       <h2>📈 美股指数 (昨夜)</h2>
-      {''.join(f'<div class="stat-row"><span>{name}</span><span class="{"green" if idx.get(t,{}).get("change_pct",0)>=0 else "red"}">{("+" if idx.get(t,{}).get("change_pct",0)>=0 else "")}{idx.get(t,{}).get("change_pct",0):.2f}%</span></div>' for t, name in [("SPY","标普500 SPY"),("QQQ","纳斯达克 QQQ"),("DIA","道琼斯 DIA"),("IWM","罗素2000 IWM"),("VIX","VIX恐慌指数")]  if t in idx)}
+      {''.join(f'<div class="stat-row"><span>{name}</span><span class="{"green" if idx.get(t,{}).get("change_pct",0)>=0 else "red"}">{("+" if idx.get(t,{}).get("change_pct",0)>=0 else "")}{idx.get(t,{}).get("change_pct",0):.2f}%</span></div>' for t, name in [("^GSPC","标普500"),("^NDX","纳斯达克100"),("^DJI","道琼斯"),("^RUT","罗素2000"),("^VIX","VIX恐慌指数")]  if t in idx)}
     </div>
 
     <!-- 大宗商品 -->
