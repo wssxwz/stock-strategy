@@ -18,8 +18,8 @@
     .stat-row:last-child { border:none; }
     .green { color:#22c55e; } .red { color:#ef4444; }
     .mood-badge { display:inline-block; padding:6px 18px; border-radius:30px; font-weight:700; font-size:20px;
-                   background:#3a3000;
-                   color:#eab308; }
+                   background:#4a1919;
+                   color:#ef4444; }
     .fg-bar { height:12px; border-radius:6px; background:linear-gradient(to right,#ef4444,#eab308,#22c55e);
                margin:10px 0; position:relative; }
     .fg-bar::after { content:''; position:absolute; top:-3px; width:18px; height:18px;
@@ -35,14 +35,14 @@
 <body>
 <div class="container">
   <h1>📊 深度早报</h1>
-  <div class="subtitle">2026-03-04 | 生成时间: 08:10 北京时间 | 数据延迟约15分钟</div>
+  <div class="subtitle">2026-03-04 | 生成时间: 09:17 北京时间 | 数据延迟约15分钟</div>
 
   <!-- 市场情绪 -->
   <div class="card" style="margin-bottom:20px">
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
       <div>
         <div style="color:#94a3b8;font-size:13px;margin-bottom:6px">市场方向</div>
-        <div class="mood-badge">🟡 震荡</div>
+        <div class="mood-badge">🔴 空头</div>
       </div>
       <div style="flex:1;min-width:200px;max-width:360px">
         <div style="color:#94a3b8;font-size:13px;margin-bottom:6px">
@@ -60,13 +60,13 @@
     <!-- 指数 -->
     <div class="card">
       <h2>📈 美股指数 (昨夜)</h2>
-      
+      <div class="stat-row"><span>标普500</span><span class="red">-0.94%</span></div><div class="stat-row"><span>纳斯达克100</span><span class="red">-1.09%</span></div><div class="stat-row"><span>道琼斯</span><span class="red">-0.83%</span></div><div class="stat-row"><span>罗素2000</span><span class="red">-1.79%</span></div><div class="stat-row"><span>VIX恐慌指数</span><span class="green">+9.93%</span></div>
     </div>
 
     <!-- 大宗商品 -->
     <div class="card">
       <h2>🛢️ 大宗商品</h2>
-      <div class="stat-row"><span>黄金</span><span class="red">-3.05%</span></div><div class="stat-row"><span>原油WTI</span><span class="green">+5.95%</span></div><div class="stat-row"><span>白银</span><span class="red">-5.74%</span></div><div class="stat-row"><span>天然气</span><span class="green">+2.97%</span></div>
+      <div class="stat-row"><span>黄金</span><span class="red">-2.50%</span></div><div class="stat-row"><span>原油WTI</span><span class="green">+5.19%</span></div><div class="stat-row"><span>白银</span><span class="red">-5.44%</span></div><div class="stat-row"><span>天然气</span><span class="green">+2.33%</span></div>
     </div>
   </div>
 
@@ -124,12 +124,12 @@
   <div class="grid">
     <div class="card">
       <h2>💡 今日操作建议</h2>
-      <ul class="advice-list"><li style="margin:8px 0">💎 市场极度恐惧，历史上是较好的买入窗口，可逐步加仓</li><li style="margin:8px 0">🏆 最强板块：通信 (+0.1%)，可关注相关个股</li></ul>
+      <ul class="advice-list"><li style="margin:8px 0">💎 市场极度恐惧，历史上是较好的买入窗口，可逐步加仓</li><li style="margin:8px 0">🏆 最强板块：通信 (+0.1%)，可关注相关个股</li><li style="margin:8px 0">🛡️ 整体偏空，降低仓位，以防守为主</li></ul>
     </div>
-    <div class="card"><h2>⚠️ 风险提示</h2><ul class="risk-list"><li style="margin:8px 0;color:#f59e0b">📉 材料 板块走弱 (-2.5%)，持仓注意</li></ul></div>
+    <div class="card"><h2>⚠️ 风险提示</h2><ul class="risk-list"><li style="margin:8px 0;color:#f59e0b">⚠️ VIX=23.6 偏高，注意止损执行</li><li style="margin:8px 0;color:#f59e0b">📉 材料 板块走弱 (-2.5%)，持仓注意</li></ul></div>
   </div>
 
-  <div class="report-time">报告生成于 2026-03-04 08:10 | 数据来源: Yahoo Finance / alternative.me</div>
+  <div class="report-time">报告生成于 2026-03-04 09:17 | 数据来源: Yahoo Finance / alternative.me</div>
 </div>
 </body>
 </html>
