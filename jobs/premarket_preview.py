@@ -168,8 +168,8 @@ def run():
     else:
         # fallback to last close
         try:
-            spy = idx.get('SPY', {}).get('change_pct', 0)
-            qqq = idx.get('QQQ', {}).get('change_pct', 0)
+            spy = idx.get('^GSPC', {}).get('change_pct', 0)
+            qqq = idx.get('^NDX', {}).get('change_pct', 0)
             dia = idx.get('DIA', {}).get('change_pct', 0)
             lines.append(f"• 参考昨夜：SPY {_fmt_pct(spy)}｜QQQ {_fmt_pct(qqq)}｜DIA {_fmt_pct(dia)}")
         except Exception:

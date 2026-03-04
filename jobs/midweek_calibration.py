@@ -33,8 +33,8 @@ def run():
             pct=0.0
         return f"{('+' if pct>=0 else '')}{pct:.2f}%"
 
-    spy = idx.get('SPY',{}).get('change_pct',0)
-    qqq = idx.get('QQQ',{}).get('change_pct',0)
+    spy = idx.get('^GSPC',{}).get('change_pct',0)
+    qqq = idx.get('^NDX',{}).get('change_pct',0)
     dia = idx.get('DIA',{}).get('change_pct',0)
 
     # simple style read

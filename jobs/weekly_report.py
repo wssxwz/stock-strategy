@@ -117,7 +117,7 @@ def analyze_headlines(headlines: list, market_data: dict) -> dict:
             })
 
     # 市场方向判断
-    sp500 = market_data.get('indices', {}).get('SPY', {}).get('change_pct', 0)
+    sp500 = market_data.get('indices', {}).get('^GSPC', {}).get('change_pct', 0)
     fg    = market_data.get('fear_greed', {}).get('value', 50)
     tariff_bear = len(tariff_news) > 0
 
