@@ -9,6 +9,29 @@ import yfinance as yf
 import json, os
 from datetime import datetime, timedelta
 
+
+
+# ── Ticker aliases (compat): allow ETF-like symbols in upper layers ──
+# Many jobs historically use SPY/QQQ/DIA/IWM/VIX while we fetch index bodies.
+INDEX_ALIASES = {
+    'SPY': '^GSPC',
+    'QQQ': '^NDX',
+    'DIA': '^DJI',
+    'IWM': '^RUT',
+    'VIX': '^VIX',
+}
+
+
+def normalize_tickers(tickers):
+    # Return (fetch_tickers, alias_map_original_to_fetch)
+    alias_map = {}
+    fetch = []
+    for t in tickers or []:
+        t2 = INDEX_ALIASES.get(t, t)
+        alias_map[t] = t2
+        if t2 not in fetch:
+            fetch.append(t2)
+    return fetch, alias_map
 # ── 核心指数（指数本体）──
 # 使用指数代码而非 ETF，避免价格口径混淆
 INDICES = {
@@ -52,6 +75,7 @@ SECTORS = {
 
 def get_quote(ticker: str) -> dict:
     """获取单只股票最新行情"""
+    ticker_fetch = INDEX_ALIASES.get(ticker, ticker)
     try:
         t = yf.Ticker(ticker)
         hist = t.history(period='5d', interval='1d')
@@ -77,17 +101,23 @@ def get_quote(ticker: str) -> dict:
 
 
 def get_batch_quotes(tickers: list) -> dict:
-    """批量获取行情"""
+    """批量获取行情
+
+    Supports aliases: SPY/QQQ/DIA/IWM/VIX will be mapped to index bodies.
+    Returns a dict keyed by the *original* tickers passed in.
+    """
     try:
-        raw = yf.download(tickers, period='5d', interval='1d',
+        fetch_tickers, alias_map = normalize_tickers(list(tickers or []))
+        raw = yf.download(fetch_tickers, period='5d', interval='1d',
                           auto_adjust=True, progress=False, threads=True)
         results = {}
-        for ticker in tickers:
+        for ticker in (tickers or []):
             try:
-                if len(tickers) == 1:
+                fetch = alias_map.get(ticker, ticker)
+                if len(fetch_tickers) == 1:
                     closes = raw['Close']
                 else:
-                    closes = raw['Close'][ticker]
+                    closes = raw['Close'][fetch]
                 closes = closes.dropna()
                 if len(closes) < 2:
                     continue
@@ -99,7 +129,7 @@ def get_batch_quotes(tickers: list) -> dict:
                     'change_pct': round(chg_pct, 2),
                     'change':     round(price - prev_p, 2),
                 }
-            except:
+            except Exception:
                 continue
         return results
     except Exception as e:
