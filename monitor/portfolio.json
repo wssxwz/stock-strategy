@@ -6,7 +6,9 @@
     "stop_loss": 94.76,
     "entry_time": "2026-02-26T00:00:00",
     "note": "manual add: 20 @103",
-    "alerted": []
+    "alerted": [
+      "\u6b62\u76c8"
+    ]
   },
   "RDDT": {
     "ticker": "RDDT",
