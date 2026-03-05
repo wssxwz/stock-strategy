@@ -55,9 +55,103 @@ def save_state(state):
     with open(STATE_FILE, 'w') as f:
         json.dump(state, f, indent=2, default=str)
 
+def _score_bucket(score: float) -> int:
+    try:
+        s = float(score or 0)
+    except Exception:
+        s = 0.0
+    return int(s // 10 * 10)
+
+
 def signal_key(sig):
+    """Legacy key (kept for backward compatibility)."""
     date_str = datetime.now().strftime('%Y-%m-%d')
-    return f"{sig['ticker']}_{date_str}_{sig['score']//10*10}"
+    return f"{sig['ticker']}_{date_str}_{_score_bucket(sig.get('score'))}"
+
+
+def dedupe_key(sig) -> str:
+    """New key: dedupe per (ticker, date, exec_mode).
+
+    We allow *upgrades* (score/strength/exec_mode changes) within the same day.
+    """
+    date_str = datetime.now().strftime('%Y-%m-%d')
+    mode = (sig.get('exec_mode') or 'UNKNOWN').upper()
+    return f"{sig.get('ticker')}_{date_str}_{mode}"
+
+
+def should_send_again(sig, prev: dict | None) -> tuple[bool, str]:
+    """Return (should_send, reason).
+
+    Rules:
+    - Always send if never sent today (no prev).
+    - Send if exec_mode changed (MR->STRUCT, etc.).
+    - Send if score bucket increased (e.g., 70->80).
+    - Send if score increased by UPGRADE_MIN_DELTA.
+    - Rate-limit upgrades by UPGRADE_MIN_INTERVAL_MIN.
+    """
+    if not prev:
+        return True, 'first'
+
+    # rate limit
+    try:
+        min_interval = int(os.environ.get('UPGRADE_MIN_INTERVAL_MIN', '120'))
+        last_iso = prev.get('time')
+        if last_iso:
+            last_dt = datetime.fromisoformat(last_iso)
+            if (datetime.now() - last_dt).total_seconds() < min_interval * 60:
+                return False, f'rate_limited<{min_interval}m'
+    except Exception:
+        pass
+
+    prev_mode = (prev.get('exec_mode') or '').upper()
+    cur_mode = (sig.get('exec_mode') or '').upper()
+    if prev_mode and cur_mode and prev_mode != cur_mode:
+        return True, f'mode:{prev_mode}->{cur_mode}'
+
+    prev_score = float(prev.get('score', 0) or 0)
+    cur_score = float(sig.get('score', 0) or 0)
+
+    if _score_bucket(cur_score) > _score_bucket(prev_score):
+        return True, f'bucket:{_score_bucket(prev_score)}->{_score_bucket(cur_score)}'
+
+    try:
+        delta = float(os.environ.get('UPGRADE_MIN_DELTA', '5'))
+        if (cur_score - prev_score) >= delta:
+            return True, f'delta:+{cur_score - prev_score:.1f}>={delta}'
+    except Exception:
+        pass
+
+    # strong-signal override: allow resend once rate-limit passes
+    try:
+        if cur_score >= float(os.environ.get('UPGRADE_STRONG_SCORE', '85')):
+            return True, 'strong'
+    except Exception:
+        pass
+
+    return False, 'no_change'
+
+
+def get_prev_sent(state: dict, sig: dict) -> tuple[str, dict | None]:
+    """Find previous sent record for today.
+
+    Returns (preferred_key_to_use, prev_record_or_None).
+    - Prefer new dedupe_key.
+    - Fallback to any legacy key for the same ticker+date.
+    """
+    sent = (state or {}).get('sent_signals') or {}
+    dk = dedupe_key(sig)
+    if dk in sent:
+        return dk, sent.get(dk)
+
+    # legacy: <ticker>_<date>_<bucket>
+    prefix = f"{sig.get('ticker')}_{datetime.now().strftime('%Y-%m-%d')}_"
+    for k, v in sent.items():
+        try:
+            if str(k).startswith(prefix):
+                return dk, (v or {})
+        except Exception:
+            pass
+    return dk, None
 
 def get_current_prices(tickers: list) -> dict:
     """批量获取当前价格
@@ -391,11 +485,14 @@ def main():
         f"[信号过滤] 原始触发 {len(buy_signals_raw)} 只 → ret5通过 {len(buy_signals_ret5)} 只 → 路由通过 {sum(1 for x in routed if x.get('exec_mode')!='SKIP')} 只 → 达到阈值 {len(buy_signals)} 只"
     )
 
-    # Dup accounting (signals that meet threshold but were already sent today)
+    # Dup accounting (signals that meet threshold but are NOT eligible for an upgrade resend)
     dup_buy = []
     for sig in buy_signals:
         try:
-            if signal_key(sig) in state['sent_signals']:
+            _, prev = get_prev_sent(state, sig)
+            ok, reason = should_send_again(sig, prev)
+            if not ok:
+                sig['_dedupe_reason'] = reason
                 dup_buy.append(sig)
         except Exception:
             pass
@@ -417,13 +514,22 @@ def main():
         sig['market_regime']   = regime['regime']
         sig['market_regime_zh']= regime['regime_zh']
         sig['effective_score_threshold'] = effective_min_score
-        key = signal_key(sig)
-        if key not in state['sent_signals']:
+
+        key, prev = get_prev_sent(state, sig)
+        ok, reason = should_send_again(sig, prev)
+        if ok:
             new_buy.append(sig)
             state['sent_signals'][key] = {
-                'ticker': sig['ticker'], 'score': sig['score'],
-                'price': sig['price'], 'time': datetime.now().isoformat()
+                'ticker': sig.get('ticker'),
+                'exec_mode': (sig.get('exec_mode') or 'UNKNOWN').upper(),
+                'score': float(sig.get('score', 0) or 0),
+                'score_bucket': int(float(sig.get('score', 0) or 0) // 10 * 10),
+                'price': sig.get('price'),
+                'time': datetime.now().isoformat(),
+                'reason': reason,
             }
+        else:
+            sig['_dedupe_reason'] = reason
 
     # -------- Push strategy (noise reduction)
     # - Strong or STRUCT: send immediately (single message)

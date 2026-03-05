@@ -208,7 +208,10 @@ def phase2_score(candidates: list) -> list:
                 signals.append(sig)
 
         except Exception as e:
-            print(f"    {ticker}: ✗ {e}")
+            et = type(e).__name__
+            print(f"    {ticker}: ✗ {et}: {e}")
+            # Make failures visible to cron/alerts while keeping scan resilient
+            print(f"ERROR_SIGNAL:phase2_score:{et}:{ticker}")
 
     return signals
 

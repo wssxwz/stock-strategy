@@ -13,11 +13,51 @@ from __future__ import annotations
 
 import os
 import sys
+from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(__file__))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from broker.trading_env import is_live, live_trading_enabled
+
+
+from datetime import datetime
+import json
+
+EXIT_ONLY_STATE_FILE = os.path.join(os.path.dirname(__file__), '.exit_only_state.json')
+
+
+def _load_exit_state() -> dict:
+    try:
+        if os.path.exists(EXIT_ONLY_STATE_FILE):
+            return json.loads(Path(EXIT_ONLY_STATE_FILE).read_text(encoding='utf-8'))
+    except Exception:
+        pass
+    return {}
+
+
+def _save_exit_state(s: dict) -> None:
+    try:
+        Path(EXIT_ONLY_STATE_FILE).write_text(json.dumps(s, indent=2, ensure_ascii=False), encoding='utf-8')
+    except Exception:
+        pass
+
+
+def _rate_limited_notice(key: str, every_min: int) -> bool:
+    """Return True if we should emit a notice now (i.e., NOT rate-limited)."""
+    st = _load_exit_state()
+    now = datetime.now()
+    last = st.get(key)
+    try:
+        if last:
+            dt = datetime.fromisoformat(last)
+            if (now - dt).total_seconds() < every_min * 60:
+                return False
+    except Exception:
+        pass
+    st[key] = now.isoformat()
+    _save_exit_state(st)
+    return True
 
 
 
@@ -38,7 +78,10 @@ def _send_manual_alert(msg: str):
 
 def main():
     if not (is_live() and live_trading_enabled()):
-        print('EXIT_ONLY: live trading not enabled (TRADING_ENV=live & LIVE_TRADING=YES_I_KNOW required).')
+        # Avoid cron spam: emit at most once per N minutes (default 360 = 6h).
+        every = int(os.environ.get('EXIT_ONLY_DISABLED_NOTICE_EVERY_MIN', '360'))
+        if _rate_limited_notice('disabled_notice', every):
+            print('EXIT_ONLY_DISABLED: live trading not enabled (need TRADING_ENV=live & LIVE_TRADING=YES_I_KNOW).')
         return
 
     # 0) reconcile pending orders (dry-run fills / broker updates)
