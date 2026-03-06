@@ -1,28 +1,16 @@
 {
-  "generated_at": "2026-03-06T03:01:00.842850",
+  "generated_at": "2026-03-06T10:57:50.996698",
   "market_regime": "牛市",
   "effective_min_score": 70,
   "ret5_level": "L0",
   "ret5_entry_pct": -3.0,
   "counts": {
     "raw": 1,
-    "ret5": 1,
-    "routed": 1,
-    "threshold": 1,
+    "ret5": 0,
+    "routed": 0,
+    "threshold": 0,
     "new": 0,
-    "dup": 1
+    "dup": 0
   },
-  "signals_threshold": [
-    {
-      "ticker": "LLY",
-      "score": 72.0,
-      "exec_mode": "MR",
-      "bb_pct": 0.055,
-      "rsi14": 21.5,
-      "atr_pct14": 0.97,
-      "above_ma200": false,
-      "ret_5d": -3.2,
-      "is_new": true
-    }
-  ]
+  "signals_threshold": []
 }

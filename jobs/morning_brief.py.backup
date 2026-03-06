@@ -1,6 +1,6 @@
 """
 早盘摘要 Job - 每天 7:50 北京时间 (UTC 23:50) 推送
-手机一屏看完的精华摘要（整合华尔街见闻早餐资讯）
+手机一屏看完的精华摘要
 """
 import sys, os, warnings
 warnings.filterwarnings('ignore')
@@ -17,47 +17,6 @@ import kb
 from datetime import datetime
 import json
 
-def get_breakfast_report() -> str:
-    """获取早餐资讯报告"""
-    try:
-        # 尝试导入早餐脚本
-        from wallstreet_breakfast import main as get_breakfast
-        print("获取早餐资讯...")
-        breakfast_report = get_breakfast()
-        return breakfast_report
-    except Exception as e:
-        print(f"早餐资讯获取失败: {e}")
-        # 返回默认的早餐报告
-        return """🌍 全球早餐 | {date}
-━━━━━━━━━━━━━━━━
-
-📊 宏观经济（美国重点）
-• CPI通胀: 3.2% (前值: 3.4%)
-• 失业率: 3.7% (前值: 3.7%)
-• GDP增长: 3.3% (年化)
-• 联邦基金利率: 5.25-5.50%
-
-📰 全球市场要闻
-**🇺🇸 美股市场**
-• 美股三大指数涨跌不一，纳指小幅收涨 - 周三美股收盘，道指跌1.61%，标普500跌0.57%，纳指微跌0.29%。科技股表现相对抗跌，能源板块领涨。
-
-**📈 美国经济**
-• 美国2月ISM服务业PMI超预期 - 美国2月ISM非制造业PMI录得53.4，高于预期的53.0，显示服务业持续扩张。
-
-**🌐 全球要闻**
-• 欧洲央行维持利率不变，下调通胀预期 - 欧洲央行将主要再融资利率维持在4.5%不变，符合市场预期。同时下调2024年通胀预期至2.3%。
-
-⏰ 今日关注
-• {today} 21:30 美国初请失业金人数
-• {today} 23:00 美国ISM非制造业PMI
-• {today} 次日02:00 美联储官员讲话
-
-_数据来源：Bloomberg、Reuters、CNBC等公开财经资讯_
-_更新时间：{now}_""".format(
-            date=datetime.now().strftime('%Y年%m月%d日'),
-            today=datetime.now().strftime('%Y-%m-%d'),
-            now=datetime.now().strftime('%Y-%m-%d %H:%M')
-        )
 
 def arrow(pct: float) -> str:
     if pct > 1:    return '🚀'
@@ -80,29 +39,20 @@ def generate_morning_brief() -> str:
 
     print("📡 采集市场数据...")
 
-    # 1. 获取早餐资讯
-    breakfast_report = get_breakfast_report()
-    
-    # 2. 指数行情
+    # 1. 指数行情
     idx_quotes = get_batch_quotes(list(INDICES.keys()))
 
-    # 3. 大宗商品
+    # 2. 大宗商品
     cmd_quotes = get_batch_quotes(list(COMMODITIES.keys()))
 
-    # 4. 恐惧贪婪
+    # 3. 恐惧贪婪
     fg = get_fear_greed()
 
-    # 5. 板块表现
+    # 4. 板块表现
     sectors = get_sector_performance()
 
-    # ── 构建整合消息 ──
+    # ── 构建摘要消息 ──
     lines = []
-    
-    # 加入早餐资讯
-    lines.append(breakfast_report)
-    lines.append("")  # 空行分隔
-    
-    # 原有早报内容
     lines.append(f"🌅 **早盘摘要** | {date_str} {weekday}")
     lines.append("━━━━━━━━━━━━━━━━")
 
@@ -183,7 +133,6 @@ def generate_morning_brief() -> str:
     save_daily_data({
         'morning_brief': {
             'generated_at': now.isoformat(),
-            'breakfast_report': breakfast_report,
             'indices':      idx_quotes,
             'commodities':  cmd_quotes,
             'fear_greed':   fg,
@@ -218,7 +167,7 @@ if __name__ == '__main__':
     except Exception as e:
         print(f"  持仓诊断更新失败: {e}")
 
-    print("生成整合早报（含早餐资讯）...")
+    print("生成早盘摘要...")
     msg = generate_morning_brief()
     print("\n" + "="*50)
     print(msg)
