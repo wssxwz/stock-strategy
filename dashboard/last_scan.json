@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-03-07T03:53:22.029065",
+  "generated_at": "2026-03-10T03:30:45.176061",
   "market_regime": "震荡",
   "effective_min_score": 80,
   "ret5_level": "L0",
   "ret5_entry_pct": -3.0,
   "counts": {
-    "raw": 2,
+    "raw": 0,
     "ret5": 0,
     "routed": 0,
     "threshold": 0,
