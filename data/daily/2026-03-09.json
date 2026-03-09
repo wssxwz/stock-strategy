@@ -1,0 +1,27 @@
+{
+  "deep_analysis": {
+    "generated_at": "2026-03-09T08:10:08.930994",
+    "market_mood": "\u7a7a\u5934",
+    "fear_greed": {
+      "value": 8,
+      "label": "Extreme Fear",
+      "label_zh": "\u6781\u5ea6\u6050\u60e7",
+      "emoji": "\ud83d\ude31"
+    },
+    "advice": {
+      "market_mood": "\u7a7a\u5934",
+      "advices": [
+        "\ud83d\udc8e \u5e02\u573a\u6781\u5ea6\u6050\u60e7\uff0c\u5386\u53f2\u4e0a\u662f\u8f83\u597d\u7684\u4e70\u5165\u7a97\u53e3\uff0c\u53ef\u9010\u6b65\u52a0\u4ed3",
+        "\ud83c\udfc6 \u6700\u5f3a\u677f\u5757\uff1a\u5fc5\u9700\u6d88\u8d39 (+0.4%)\uff0c\u53ef\u5173\u6ce8\u76f8\u5173\u4e2a\u80a1",
+        "\ud83d\udee1\ufe0f \u6574\u4f53\u504f\u7a7a\uff0c\u964d\u4f4e\u4ed3\u4f4d\uff0c\u4ee5\u9632\u5b88\u4e3a\u4e3b"
+      ],
+      "risks": [
+        "\u26a0\ufe0f VIX=29.5 \u504f\u9ad8\uff0c\u6ce8\u610f\u6b62\u635f\u6267\u884c",
+        "\ud83d\udcc9 \u79d1\u6280 \u677f\u5757\u8d70\u5f31 (-2.1%)\uff0c\u6301\u4ed3\u6ce8\u610f"
+      ],
+      "fg_value": 8,
+      "fg_label_zh": "\u6781\u5ea6\u6050\u60e7"
+    }
+  },
+  "updated_at": "2026-03-09T08:10:15.747930"
+}
