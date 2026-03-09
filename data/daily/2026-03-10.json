@@ -4,5 +4,121 @@
     "signals_count": 0,
     "positions_count": 0
   },
-  "updated_at": "2026-03-10T05:00:54.950214"
+  "updated_at": "2026-03-10T07:51:59.889804",
+  "morning_brief": {
+    "generated_at": "2026-03-10T07:51:36.402824",
+    "breakfast_report": "\ud83c\udf0d \u5168\u7403\u65e9\u9910 | 2026\u5e7403\u670810\u65e5\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\n\ud83d\udcca \u5b8f\u89c2\u7ecf\u6d4e\uff08\u7f8e\u56fd\u91cd\u70b9\uff09\n\u2022 CPI\u901a\u80c0: 3.2% (\u524d\u503c: 3.4%)\n\u2022 \u5931\u4e1a\u7387: 3.7% (\u524d\u503c: 3.7%)\n\u2022 GDP\u589e\u957f: 3.3% (\u5e74\u5316)\n\u2022 \u8054\u90a6\u57fa\u91d1\u5229\u7387: 5.25-5.50%\n\n\ud83d\udcf0 \u5168\u7403\u5e02\u573a\u8981\u95fb\n**\ud83c\udf10 \u5168\u7403\u8981\u95fb**\n\u2022 Trump says Iran war will end 'very soon,' predicts lower oil prices - U.S. stock market indexes rose earlier in the day after an initial report that P...\n\u2022 Oil tankers transiting Strait of Hormuz 'must be very careful,' Iran Foreign Ministry warns - The price of crude oil has sharply spiked as the Strait of Hormuz has been effec...\n\u2022 Oil prices decline after nearly hitting $120 as Trump says U.S. considering taking over Strait of Hormuz - Gulf Arab oil producers are cutting production as they run out of storage space ...\n\n\u23f0 \u4eca\u65e5\u5173\u6ce8\n\u2022 2026-03-10 21:30 \u7f8e\u56fd\u521d\u8bf7\u5931\u4e1a\u91d1\u4eba\u6570\n\u2022 2026-03-10 23:00 \u7f8e\u56fdISM\u975e\u5236\u9020\u4e1aPMI\n\u2022 2026-03-10 \u6b21\u65e502:00 \u7f8e\u8054\u50a8\u5b98\u5458\u8bb2\u8bdd\n\n_\u6570\u636e\u6765\u6e90\uff1aBloomberg\u3001Reuters\u3001CNBC\u7b49\u516c\u5f00\u8d22\u7ecf\u8d44\u8baf_\n_\u66f4\u65b0\u65f6\u95f4\uff1a2026-03-10 07:51_",
+    "indices": {
+      "^GSPC": {
+        "price": 6795.99,
+        "change_pct": 0.83,
+        "change": 55.97
+      },
+      "^NDX": {
+        "price": 24967.25,
+        "change_pct": 1.32,
+        "change": 324.23
+      },
+      "^DJI": {
+        "price": 47740.8,
+        "change_pct": 0.5,
+        "change": 239.25
+      },
+      "^RUT": {
+        "price": 2553.67,
+        "change_pct": 1.12,
+        "change": 28.37
+      },
+      "^VIX": {
+        "price": 25.5,
+        "change_pct": -13.53,
+        "change": -3.99
+      }
+    },
+    "commodities": {
+      "GC=F": {
+        "price": 5159.2,
+        "change_pct": 0.25,
+        "change": 13.1
+      },
+      "CL=F": {
+        "price": 89.75,
+        "change_pct": -1.27,
+        "change": -1.15
+      },
+      "SI=F": {
+        "price": 88.23,
+        "change_pct": 5.27,
+        "change": 4.41
+      },
+      "NG=F": {
+        "price": 3.11,
+        "change_pct": -2.48,
+        "change": -0.08
+      }
+    },
+    "fear_greed": {
+      "value": 8,
+      "label": "Extreme Fear",
+      "label_zh": "\u6781\u5ea6\u6050\u60e7",
+      "emoji": "\ud83d\ude31"
+    },
+    "sectors": {
+      "XLK": {
+        "name": "\u79d1\u6280",
+        "change_pct": 1.8,
+        "price": 139.76
+      },
+      "XLV": {
+        "name": "\u533b\u7597",
+        "change_pct": 1.02,
+        "price": 154.26
+      },
+      "XLI": {
+        "name": "\u5de5\u4e1a",
+        "change_pct": 0.59,
+        "price": 170.94
+      },
+      "XLB": {
+        "name": "\u6750\u6599",
+        "change_pct": 0.26,
+        "price": 49.99
+      },
+      "XLU": {
+        "name": "\u516c\u7528\u4e8b\u4e1a",
+        "change_pct": 0.24,
+        "price": 46.85
+      },
+      "XLP": {
+        "name": "\u5fc5\u9700\u6d88\u8d39",
+        "change_pct": 0.22,
+        "price": 85.97
+      },
+      "XLRE": {
+        "name": "\u623f\u5730\u4ea7",
+        "change_pct": 0.21,
+        "price": 42.98
+      },
+      "XLY": {
+        "name": "\u975e\u5fc5\u9700\u6d88\u8d39",
+        "change_pct": 0.13,
+        "price": 114.59
+      },
+      "XLC": {
+        "name": "\u901a\u4fe1",
+        "change_pct": 0.09,
+        "price": 117.56
+      },
+      "XLE": {
+        "name": "\u80fd\u6e90",
+        "change_pct": -0.44,
+        "price": 56.32
+      },
+      "XLF": {
+        "name": "\u91d1\u878d",
+        "change_pct": -0.47,
+        "price": 50.33
+      }
+    }
+  }
 }

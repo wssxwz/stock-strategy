@@ -1,126 +1,126 @@
 {
-  "generated_at": "2026-03-09T07:00:17.593435",
+  "generated_at": "2026-03-10T07:52:43.473619",
   "news_count": 15,
-  "report": "🌍 全球早餐 | 2026年03月09日\n━━━━━━━━━━━━━━━━\n\n📊 宏观经济（美国重点）\n• CPI通胀: 3.2% (前值: 3.4%)\n• 失业率: 3.7% (前值: 3.7%)\n• GDP增长: 3.3% (年化)\n• 联邦基金利率: 5.25-5.50%\n\n📰 全球市场要闻\n**🌐 全球要闻**\n• Oil prices top $100 per barrel as big Middle East producers cut output amid Iran war - Gulf Arab oil producers are cutting production as they run out of storage space ...\n• Iran names Ayatollah Khamenei's son, Mojtaba, as new supreme leader: Media reports - Bahrain and the United Arab Emirates report more strikes on civilian targets as ...\n• Trump vows legislative blockade until SAVE America voter-ID bill is passed - The SAVE America Act is all but certain to fail in the Senate, where Democrats w...\n\n⏰ 今日关注\n• 2026-03-09 21:30 美国初请失业金人数\n• 2026-03-09 23:00 美国ISM非制造业PMI\n• 2026-03-09 次日02:00 美联储官员讲话\n\n_数据来源：Bloomberg、Reuters、CNBC等公开财经资讯_\n_更新时间：2026-03-09 07:00_",
+  "report": "🌍 全球早餐 | 2026年03月10日\n━━━━━━━━━━━━━━━━\n\n📊 宏观经济（美国重点）\n• CPI通胀: 3.2% (前值: 3.4%)\n• 失业率: 3.7% (前值: 3.7%)\n• GDP增长: 3.3% (年化)\n• 联邦基金利率: 5.25-5.50%\n\n📰 全球市场要闻\n**🌐 全球要闻**\n• Trump says Iran war will end 'very soon,' predicts lower oil prices - U.S. stock market indexes rose earlier in the day after an initial report that P...\n• Oil tankers transiting Strait of Hormuz 'must be very careful,' Iran Foreign Ministry warns - The price of crude oil has sharply spiked as the Strait of Hormuz has been effec...\n• Oil prices decline after nearly hitting $120 as Trump says U.S. considering taking over Strait of Hormuz - Gulf Arab oil producers are cutting production as they run out of storage space ...\n\n⏰ 今日关注\n• 2026-03-10 21:30 美国初请失业金人数\n• 2026-03-10 23:00 美国ISM非制造业PMI\n• 2026-03-10 次日02:00 美联储官员讲话\n\n_数据来源：Bloomberg、Reuters、CNBC等公开财经资讯_\n_更新时间：2026-03-10 07:52_",
   "raw_news": [
     {
       "source": "US Top News and Analysis",
-      "title": "Oil prices top $100 per barrel as big Middle East producers cut output amid Iran war",
+      "title": "Trump says Iran war will end 'very soon,' predicts lower oil prices",
+      "summary": "U.S. stock market indexes rose earlier in the day after an initial report that President Donald Trump said he believed the Iran war was largely finished.",
+      "link": "https://www.cnbc.com/2026/03/09/trump-iran-war-end.html",
+      "published": "Mon, 09 Mar 2026 23:11:58 GMT",
+      "category": "global"
+    },
+    {
+      "source": "US Top News and Analysis",
+      "title": "Oil tankers transiting Strait of Hormuz 'must be very careful,' Iran Foreign Ministry warns",
+      "summary": "The price of crude oil has sharply spiked as the Strait of Hormuz has been effectively closed as the United States and Israel wage war on Iran.",
+      "link": "https://www.cnbc.com/2026/03/09/iran-war-oil-tankers-strait-of-hormuz.html",
+      "published": "Mon, 09 Mar 2026 17:32:44 GMT",
+      "category": "global"
+    },
+    {
+      "source": "US Top News and Analysis",
+      "title": "Oil prices decline after nearly hitting $120 as Trump says U.S. considering taking over Strait of Hormuz",
       "summary": "Gulf Arab oil producers are cutting production as they run out of storage space because they can't export through the Strait of Hormuz",
       "link": "https://www.cnbc.com/2026/03/08/crude-oil-prices-today-iran-war.html",
-      "published": "Sun, 08 Mar 2026 22:27:44 GMT",
+      "published": "Mon, 09 Mar 2026 20:45:40 GMT",
       "category": "global"
     },
     {
       "source": "US Top News and Analysis",
-      "title": "Iran names Ayatollah Khamenei's son, Mojtaba, as new supreme leader: Media reports",
-      "summary": "Bahrain and the United Arab Emirates report more strikes on civilian targets as U.S.-Israeli attacks on Iran continue.",
-      "link": "https://www.cnbc.com/2026/03/08/iranian-projectiles-continue-to-strike-gulf-countries-infrastructure.html",
-      "published": "Sun, 08 Mar 2026 22:52:04 GMT",
+      "title": "There's another energy market that may get hit harder than oil by Strait of Hormuz closure",
+      "summary": "Roughly 20% of global liquefied natural gas flows through the Strait.",
+      "link": "https://www.cnbc.com/2026/03/09/theres-another-energy-market-that-may-get-hit-harder-than-oil-by-strait-of-hormuz-closure.html",
+      "published": "Mon, 09 Mar 2026 20:51:55 GMT",
       "category": "global"
     },
     {
       "source": "US Top News and Analysis",
-      "title": "Trump vows legislative blockade until SAVE America voter-ID bill is passed",
-      "summary": "The SAVE America Act is all but certain to fail in the Senate, where Democrats will use the filibuster to sink it.",
-      "link": "https://www.cnbc.com/2026/03/08/trump-save-america-act-voter-id.html",
-      "published": "Sun, 08 Mar 2026 19:42:47 GMT",
-      "category": "global"
-    },
-    {
-      "source": "US Top News and Analysis",
-      "title": "China says 'thorough preparations' needed as Trump-Xi meeting hangs in the balance amid Iran war",
-      "summary": "China's top diplomat Wang Yi signaled preparations are underway for a planned meeting between the presidents of the U.S. and China.",
-      "link": "https://www.cnbc.com/2026/03/08/china-says-thorough-preparations-needed-ahead-of-trump-xi-meeting.html",
-      "published": "Sun, 08 Mar 2026 07:17:53 GMT",
-      "category": "global"
-    },
-    {
-      "source": "US Top News and Analysis",
-      "title": "Online age-verification tools spread across U.S. for child safety, but adults are being surveilled",
-      "summary": "New age-verification laws and tools are designed for child safety on social media and the internet, but adults are in the crosshairs, say privacy experts.",
-      "link": "https://www.cnbc.com/2026/03/08/social-media-child-safety-internet-ai-surveillance.html",
-      "published": "Sun, 08 Mar 2026 14:45:10 GMT",
+      "title": "Anthropic was the Pentagon's choice for AI. Now it's banned and experts are worried",
+      "summary": "Anthropic's partnerships with Amazon and Palantir helped it make inroads into the DOD, and its blacklisting is concerning to many industry experts.",
+      "link": "https://www.cnbc.com/2026/03/09/anthropic-was-the-pentagons-choice-for-ai-now-its-banned-and-experts-are-worried.html",
+      "published": "Mon, 09 Mar 2026 22:01:05 GMT",
       "category": "global"
     },
     {
       "source": "World",
-      "title": "FirstFT: Iran picks Khamenei’s son as supreme leader",
-      "summary": "Also in today’s newsletter: China signals it wants a summit with the US president and Switzerland votes to end ‘marriage penalty’",
-      "link": "https://www.ft.com/content/3aa9c351-f4a1-46a7-9433-76d873fec6d2",
-      "published": "Sun, 08 Mar 2026 21:43:31 GMT",
+      "title": "Concert promoter Live Nation settles US monopoly case over ticket sales",
+      "summary": "Justice department alleged company illegally dominates market and uses ‘exclusionary conduct’ to control venues",
+      "link": "https://www.ft.com/content/6c838116-59f6-41af-8451-57a70d3d98f8",
+      "published": "Mon, 09 Mar 2026 23:37:48 GMT",
       "category": "global"
     },
     {
       "source": "World",
-      "title": "Muscat airport limits private jet flights as wealthy leave the Gulf",
-      "summary": "Oman base seeks to prioritise government and commercial relief services as attempts to reopen other centres falter",
-      "link": "https://www.ft.com/content/7a97be0b-114c-40b9-a8b1-a675b6e0f27d",
-      "published": "Sun, 08 Mar 2026 21:26:53 GMT",
+      "title": "Anthropic sues Pentagon claiming supply chain risk label could cost billions in revenue",
+      "summary": "Start-up launches legal challenge against the decision to designate it a risk to US military supply chains",
+      "link": "https://www.ft.com/content/af404e0a-7abc-49bc-9584-cd4690152f86",
+      "published": "Mon, 09 Mar 2026 23:14:11 GMT",
       "category": "global"
     },
     {
       "source": "World",
-      "title": "German chancellor’s party heads for narrow defeat in key regional election",
-      "summary": "Greens projected to take lead in Baden-Württemberg state while AfD almost doubles vote share, according to projections",
-      "link": "https://www.ft.com/content/5e3630ee-8353-44b5-97f5-de6bba7e2a20",
-      "published": "Sun, 08 Mar 2026 21:23:59 GMT",
+      "title": "Trump family-linked financial group probed by congressional committee over Chinese stock scams",
+      "summary": "Republican-led House committee on China demands information from Dominari Securities and two other firms",
+      "link": "https://www.ft.com/content/49f541f8-c73d-4268-9621-f8604f1a8141",
+      "published": "Mon, 09 Mar 2026 23:00:03 GMT",
       "category": "global"
     },
     {
       "source": "World",
-      "title": "Trump raises the stakes in Iran by weighing deployment of US ground forces",
-      "summary": "Democrats and some Republicans fear a deepening involvement in the war with no clear exit strategy",
-      "link": "https://www.ft.com/content/8cc179e7-e674-44f4-9728-f8438564d072",
-      "published": "Sun, 08 Mar 2026 20:51:37 GMT",
+      "title": "FirstFT: Oil falls below $90 as Trump suggests Iran war could be over soon",
+      "summary": "Also in today’s newsletter: Chinese consumer prices bounce back and Anthropic sues the Pentagon",
+      "link": "https://www.ft.com/content/3fcf2e2a-fc8b-4d6c-99d5-9fee3eda9886",
+      "published": "Mon, 09 Mar 2026 21:42:53 GMT",
       "category": "global"
     },
     {
       "source": "World",
-      "title": "Yvette Cooper defends UK’s ‘cool-headed approach’ on Iran after Trump criticism",
-      "summary": "UK foreign secretary says people need to ‘focus on the substance and not social media posts’",
-      "link": "https://www.ft.com/content/48215964-a959-4d40-8726-01643fd21833",
-      "published": "Sun, 08 Mar 2026 18:52:45 GMT",
+      "title": "Goldman pitches hedge funds on strategies to bet against corporate loans",
+      "summary": "Fears that AI advances will upend the software industry have driven demand for new ways to place wagers",
+      "link": "https://www.ft.com/content/52c4f129-891f-4afe-9cf4-3934630a50ad",
+      "published": "Mon, 09 Mar 2026 21:00:01 GMT",
       "category": "global"
     },
     {
       "source": "MarketWatch.com - Top Stories",
-      "title": "U.S. stock futures sink after oil surges above $100 a barrel as Iran conflict rages",
-      "summary": "U.S. stock-market futures fell on Sunday as crude futures surged above $100 a barrel for the first time since 2022 amid growing fears about the economic effects of the conflict with Iran.",
-      "link": "https://www.marketwatch.com/story/u-s-stock-futures-sink-after-oil-surges-above-100-a-barrel-as-iran-conflict-rages-3f1fbfe7?mod=mw_rss_topstories",
-      "published": "Sun, 08 Mar 2026 22:58:00 GMT",
+      "title": "‘I don’t own a home’: I’m 62, unemployed and have $1.5 million for retirement. Can I afford to divorce my husband?",
+      "summary": "“He has no loyalty to me or our vows.”",
+      "link": "https://www.marketwatch.com/story/i-dont-own-a-home-im-62-unemployed-and-have-1-5-million-saved-can-i-afford-to-divorce-my-husband-f5887515?mod=mw_rss_topstories",
+      "published": "Mon, 09 Mar 2026 23:20:00 GMT",
       "category": "global"
     },
     {
       "source": "MarketWatch.com - Top Stories",
-      "title": "Oil prices are the No. 1 thing investors are watching right now. Here’s why.",
-      "summary": "Rising oil prices can affect the stock market in significant ways.",
-      "link": "https://www.marketwatch.com/story/oil-prices-are-the-no-1-thing-investors-are-watching-right-now-heres-why-171942dc?mod=mw_rss_topstories",
-      "published": "Sun, 08 Mar 2026 22:27:00 GMT",
+      "title": "Trump announces sanctions relief to ease oil prices, says Iran war to end ‘very soon’",
+      "summary": "President Donald Trump said the U.S. is waiving oil-related sanctions on certain countries in an effort to ease crude prices, as he estimated the war with Iran would end “very soon.”",
+      "link": "https://www.marketwatch.com/story/trump-announces-sanctions-relief-to-ease-oil-prices-says-iran-war-to-end-very-soon-ab0ee595?mod=mw_rss_topstories",
+      "published": "Mon, 09 Mar 2026 22:44:00 GMT",
       "category": "global"
     },
     {
       "source": "MarketWatch.com - Top Stories",
-      "title": "These 8 drugs could help fight dementia — and they’re already on the market",
-      "summary": "The findings have been tested in the real world.",
-      "link": "https://www.marketwatch.com/story/these-8-drugs-could-help-fight-dementia-and-theyre-already-on-the-market-f19aed04?mod=mw_rss_topstories",
-      "published": "Sun, 08 Mar 2026 20:49:00 GMT",
+      "title": "The NFL’s Dolphins are paying a record $99.2 million to get a player off their team",
+      "summary": "Here’s why some NFL teams are giving their players, including Tua Tagovailoa, staggering amounts of money to stop playing for them.",
+      "link": "https://www.marketwatch.com/story/the-nfls-dolphins-are-paying-a-record-99-2-million-to-get-a-player-off-their-team-872a1e8a?mod=mw_rss_topstories",
+      "published": "Mon, 09 Mar 2026 22:02:00 GMT",
       "category": "global"
     },
     {
       "source": "MarketWatch.com - Top Stories",
-      "title": "Medicare Advantage growth is being driven by these niche — and lucrative — plans",
-      "summary": "Growth in Medicare Advantage plans has slowed in the past year and would be almost nonexistent if not for specialty plans that cater to people with chronic conditions or to low-income subscribers — and that bring in much more money than individual plans.",
-      "link": "https://www.marketwatch.com/story/these-niche-plans-drove-83-of-medicare-advantage-sign-ups-in-the-past-year-436137c6?mod=mw_rss_topstories",
-      "published": "Sun, 08 Mar 2026 20:47:00 GMT",
+      "title": "An already chaotic spring travel season is colliding with effects of Iran conflict",
+      "summary": "Americans who thought spring break would offer rest and relaxation after a tough winter may be in for a rude awakening.",
+      "link": "https://www.marketwatch.com/story/an-already-chaotic-spring-travel-season-is-colliding-with-effects-of-iran-conflict-5201b5b4?mod=mw_rss_topstories",
+      "published": "Mon, 09 Mar 2026 21:45:00 GMT",
       "category": "global"
     },
     {
       "source": "MarketWatch.com - Top Stories",
-      "title": "My mother will live in her second husband’s house if he dies before her. Will his kids be hopping mad?",
-      "summary": "“She chose a lovely man whose family has a history of remarkable longevity.”",
-      "link": "https://www.marketwatch.com/story/his-children-might-resent-her-my-widowed-mother-has-a-life-estate-does-that-override-a-prenup-and-will-0e217484?mod=mw_rss_topstories",
-      "published": "Sun, 08 Mar 2026 19:26:00 GMT",
+      "title": "‘I am stuck in a low-income trap’: I’m a teacher and very good at my job. Will I ever earn six figures?",
+      "summary": "“My low salary requires me to have multiple other part-time jobs.”",
+      "link": "https://www.marketwatch.com/story/i-am-stuck-in-a-low-income-trap-im-a-teacher-will-i-ever-earn-six-figures-5f7dd2b9?mod=mw_rss_topstories",
+      "published": "Mon, 09 Mar 2026 21:15:00 GMT",
       "category": "global"
     }
   ],
@@ -139,9 +139,9 @@
       "uk_inflation": "4.0%"
     },
     "upcoming_events": [
-      "2026-03-09 21:30 美国初请失业金人数",
-      "2026-03-09 23:00 美国ISM非制造业PMI",
-      "2026-03-09 次日02:00 美联储官员讲话"
+      "2026-03-10 21:30 美国初请失业金人数",
+      "2026-03-10 23:00 美国ISM非制造业PMI",
+      "2026-03-10 次日02:00 美联储官员讲话"
     ]
   }
 }
