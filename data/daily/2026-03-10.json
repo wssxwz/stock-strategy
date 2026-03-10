@@ -4,7 +4,7 @@
     "signals_count": 0,
     "positions_count": 0
   },
-  "updated_at": "2026-03-10T07:51:59.889804",
+  "updated_at": "2026-03-10T08:11:02.857437",
   "morning_brief": {
     "generated_at": "2026-03-10T07:51:36.402824",
     "breakfast_report": "\ud83c\udf0d \u5168\u7403\u65e9\u9910 | 2026\u5e7403\u670810\u65e5\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\n\ud83d\udcca \u5b8f\u89c2\u7ecf\u6d4e\uff08\u7f8e\u56fd\u91cd\u70b9\uff09\n\u2022 CPI\u901a\u80c0: 3.2% (\u524d\u503c: 3.4%)\n\u2022 \u5931\u4e1a\u7387: 3.7% (\u524d\u503c: 3.7%)\n\u2022 GDP\u589e\u957f: 3.3% (\u5e74\u5316)\n\u2022 \u8054\u90a6\u57fa\u91d1\u5229\u7387: 5.25-5.50%\n\n\ud83d\udcf0 \u5168\u7403\u5e02\u573a\u8981\u95fb\n**\ud83c\udf10 \u5168\u7403\u8981\u95fb**\n\u2022 Trump says Iran war will end 'very soon,' predicts lower oil prices - U.S. stock market indexes rose earlier in the day after an initial report that P...\n\u2022 Oil tankers transiting Strait of Hormuz 'must be very careful,' Iran Foreign Ministry warns - The price of crude oil has sharply spiked as the Strait of Hormuz has been effec...\n\u2022 Oil prices decline after nearly hitting $120 as Trump says U.S. considering taking over Strait of Hormuz - Gulf Arab oil producers are cutting production as they run out of storage space ...\n\n\u23f0 \u4eca\u65e5\u5173\u6ce8\n\u2022 2026-03-10 21:30 \u7f8e\u56fd\u521d\u8bf7\u5931\u4e1a\u91d1\u4eba\u6570\n\u2022 2026-03-10 23:00 \u7f8e\u56fdISM\u975e\u5236\u9020\u4e1aPMI\n\u2022 2026-03-10 \u6b21\u65e502:00 \u7f8e\u8054\u50a8\u5b98\u5458\u8bb2\u8bdd\n\n_\u6570\u636e\u6765\u6e90\uff1aBloomberg\u3001Reuters\u3001CNBC\u7b49\u516c\u5f00\u8d22\u7ecf\u8d44\u8baf_\n_\u66f4\u65b0\u65f6\u95f4\uff1a2026-03-10 07:51_",
@@ -119,6 +119,29 @@
         "change_pct": -0.47,
         "price": 50.33
       }
+    }
+  },
+  "deep_analysis": {
+    "generated_at": "2026-03-10T08:10:55.780827",
+    "market_mood": "\u591a\u5934",
+    "fear_greed": {
+      "value": 13,
+      "label": "Extreme Fear",
+      "label_zh": "\u6781\u5ea6\u6050\u60e7",
+      "emoji": "\ud83d\ude31"
+    },
+    "advice": {
+      "market_mood": "\u591a\u5934",
+      "advices": [
+        "\ud83d\udc8e \u5e02\u573a\u6781\u5ea6\u6050\u60e7\uff0c\u5386\u53f2\u4e0a\u662f\u8f83\u597d\u7684\u4e70\u5165\u7a97\u53e3\uff0c\u53ef\u9010\u6b65\u52a0\u4ed3",
+        "\ud83c\udfc6 \u6700\u5f3a\u677f\u5757\uff1a\u79d1\u6280 (+1.8%)\uff0c\u53ef\u5173\u6ce8\u76f8\u5173\u4e2a\u80a1",
+        "\ud83d\ude80 \u6574\u4f53\u591a\u5934\u8d8b\u52bf\uff0c\u6301\u4ed3\u4e3a\u4e3b\uff0c\u4fe1\u53f7\u89e6\u53d1\u53ef\u52a0\u4ed3"
+      ],
+      "risks": [
+        "\u26a0\ufe0f VIX=25.5 \u504f\u9ad8\uff0c\u6ce8\u610f\u6b62\u635f\u6267\u884c"
+      ],
+      "fg_value": 13,
+      "fg_label_zh": "\u6781\u5ea6\u6050\u60e7"
     }
   }
 }
