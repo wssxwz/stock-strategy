@@ -1,126 +1,126 @@
 {
-  "generated_at": "2026-03-10T07:52:43.473619",
+  "generated_at": "2026-03-11T07:00:28.311758",
   "news_count": 15,
-  "report": "🌍 全球早餐 | 2026年03月10日\n━━━━━━━━━━━━━━━━\n\n📊 宏观经济（美国重点）\n• CPI通胀: 3.2% (前值: 3.4%)\n• 失业率: 3.7% (前值: 3.7%)\n• GDP增长: 3.3% (年化)\n• 联邦基金利率: 5.25-5.50%\n\n📰 全球市场要闻\n**🌐 全球要闻**\n• Trump says Iran war will end 'very soon,' predicts lower oil prices - U.S. stock market indexes rose earlier in the day after an initial report that P...\n• Oil tankers transiting Strait of Hormuz 'must be very careful,' Iran Foreign Ministry warns - The price of crude oil has sharply spiked as the Strait of Hormuz has been effec...\n• Oil prices decline after nearly hitting $120 as Trump says U.S. considering taking over Strait of Hormuz - Gulf Arab oil producers are cutting production as they run out of storage space ...\n\n⏰ 今日关注\n• 2026-03-10 21:30 美国初请失业金人数\n• 2026-03-10 23:00 美国ISM非制造业PMI\n• 2026-03-10 次日02:00 美联储官员讲话\n\n_数据来源：Bloomberg、Reuters、CNBC等公开财经资讯_\n_更新时间：2026-03-10 07:52_",
+  "report": "🌍 全球早餐 | 2026年03月11日\n━━━━━━━━━━━━━━━━\n\n📊 宏观经济（美国重点）\n• CPI通胀: 3.2% (前值: 3.4%)\n• 失业率: 3.7% (前值: 3.7%)\n• GDP增长: 3.3% (年化)\n• 联邦基金利率: 5.25-5.50%\n\n📰 全球市场要闻\n**🌐 全球要闻**\n• Oil retreats even after Energy Secretary wrongly claims Navy escorted tanker through Strait of Hormuz - The International Energy Agency will hold an extraordinary meeting on Tuesday to...\n• Tillis maintains blockade on Fed pick Kevin Warsh over Powell probe - Sen. Thom Tillis met with Federal Reserve chairman nominee Kevin Warsh, who Pres...\n• Oracle stock jumps 9% on earnings beat and increased guidance as cloud revenue climbs 44% - Oracle boosted its revenue backlog total by $30 billion during the February quarter.\n\n⏰ 今日关注\n• 2026-03-11 21:30 美国初请失业金人数\n• 2026-03-11 23:00 美国ISM非制造业PMI\n• 2026-03-11 次日02:00 美联储官员讲话\n\n_数据来源：Bloomberg、Reuters、CNBC等公开财经资讯_\n_更新时间：2026-03-11 07:00_",
   "raw_news": [
     {
       "source": "US Top News and Analysis",
-      "title": "Trump says Iran war will end 'very soon,' predicts lower oil prices",
-      "summary": "U.S. stock market indexes rose earlier in the day after an initial report that President Donald Trump said he believed the Iran war was largely finished.",
-      "link": "https://www.cnbc.com/2026/03/09/trump-iran-war-end.html",
-      "published": "Mon, 09 Mar 2026 23:11:58 GMT",
+      "title": "Oil retreats even after Energy Secretary wrongly claims Navy escorted tanker through Strait of Hormuz",
+      "summary": "The International Energy Agency will hold an extraordinary meeting on Tuesday to discuss a possible release of emergency stockpiles.",
+      "link": "https://www.cnbc.com/2026/03/10/crude-oil-prices-today-iran-war.html",
+      "published": "Tue, 10 Mar 2026 20:55:44 GMT",
       "category": "global"
     },
     {
       "source": "US Top News and Analysis",
-      "title": "Oil tankers transiting Strait of Hormuz 'must be very careful,' Iran Foreign Ministry warns",
-      "summary": "The price of crude oil has sharply spiked as the Strait of Hormuz has been effectively closed as the United States and Israel wage war on Iran.",
-      "link": "https://www.cnbc.com/2026/03/09/iran-war-oil-tankers-strait-of-hormuz.html",
-      "published": "Mon, 09 Mar 2026 17:32:44 GMT",
+      "title": "Tillis maintains blockade on Fed pick Kevin Warsh over Powell probe",
+      "summary": "Sen. Thom Tillis met with Federal Reserve chairman nominee Kevin Warsh, who President Donald Trump wants to replace Chair Jerome Powell.",
+      "link": "https://www.cnbc.com/2026/03/10/fed-kevin-warsh-thom-tillis-trump.html",
+      "published": "Tue, 10 Mar 2026 21:42:30 GMT",
       "category": "global"
     },
     {
       "source": "US Top News and Analysis",
-      "title": "Oil prices decline after nearly hitting $120 as Trump says U.S. considering taking over Strait of Hormuz",
-      "summary": "Gulf Arab oil producers are cutting production as they run out of storage space because they can't export through the Strait of Hormuz",
-      "link": "https://www.cnbc.com/2026/03/08/crude-oil-prices-today-iran-war.html",
-      "published": "Mon, 09 Mar 2026 20:45:40 GMT",
+      "title": "Oracle stock jumps 9% on earnings beat and increased guidance as cloud revenue climbs 44%",
+      "summary": "Oracle boosted its revenue backlog total by $30 billion during the February quarter.",
+      "link": "https://www.cnbc.com/2026/03/10/oracle-orcl-q3-earnings-report-2026.html",
+      "published": "Tue, 10 Mar 2026 22:07:11 GMT",
       "category": "global"
     },
     {
       "source": "US Top News and Analysis",
-      "title": "There's another energy market that may get hit harder than oil by Strait of Hormuz closure",
-      "summary": "Roughly 20% of global liquefied natural gas flows through the Strait.",
-      "link": "https://www.cnbc.com/2026/03/09/theres-another-energy-market-that-may-get-hit-harder-than-oil-by-strait-of-hormuz-closure.html",
-      "published": "Mon, 09 Mar 2026 20:51:55 GMT",
+      "title": "Microsoft backs Anthropic in Pentagon blacklist battle, urges temporary restraining order",
+      "summary": "Microsoft threw its support behind Anthropic and advocated for a temporary restraining order to the Pentagon's supply chain risk designation.",
+      "link": "https://www.cnbc.com/2026/03/10/microsoft-says-court-should-temporarily-block-pentagon-ban-anthropic.html",
+      "published": "Tue, 10 Mar 2026 21:47:16 GMT",
       "category": "global"
     },
     {
       "source": "US Top News and Analysis",
-      "title": "Anthropic was the Pentagon's choice for AI. Now it's banned and experts are worried",
-      "summary": "Anthropic's partnerships with Amazon and Palantir helped it make inroads into the DOD, and its blacklisting is concerning to many industry experts.",
-      "link": "https://www.cnbc.com/2026/03/09/anthropic-was-the-pentagons-choice-for-ai-now-its-banned-and-experts-are-worried.html",
-      "published": "Mon, 09 Mar 2026 22:01:05 GMT",
+      "title": "Kevin Warsh faces an economic 'perfect storm' as he waits to take over as Fed chair",
+      "summary": "Warsh faces a potential buzzsaw in the form of a Hobson's choice between fighting inflation and supporting the labor market.",
+      "link": "https://www.cnbc.com/2026/03/10/kevin-warsh-faces-economic-perfect-storm-as-he-waits-to-take-over-as-fed-chair.html",
+      "published": "Tue, 10 Mar 2026 18:56:36 GMT",
       "category": "global"
     },
     {
       "source": "World",
-      "title": "Concert promoter Live Nation settles US monopoly case over ticket sales",
-      "summary": "Justice department alleged company illegally dominates market and uses ‘exclusionary conduct’ to control venues",
-      "link": "https://www.ft.com/content/6c838116-59f6-41af-8451-57a70d3d98f8",
-      "published": "Mon, 09 Mar 2026 23:37:48 GMT",
+      "title": "FirstFT: Japan’s Sanae Takaichi confronts Iran war oil shock",
+      "summary": "Also in today’s newsletter: China warns Maersk and MSC over high freight rates, and Amazon leads record US corporate borrowing rush",
+      "link": "https://www.ft.com/content/32dc08c0-7d68-479e-b7e1-f58a3b4aa3f8",
+      "published": "Tue, 10 Mar 2026 21:40:13 GMT",
       "category": "global"
     },
     {
       "source": "World",
-      "title": "Anthropic sues Pentagon claiming supply chain risk label could cost billions in revenue",
-      "summary": "Start-up launches legal challenge against the decision to designate it a risk to US military supply chains",
-      "link": "https://www.ft.com/content/af404e0a-7abc-49bc-9584-cd4690152f86",
-      "published": "Mon, 09 Mar 2026 23:14:11 GMT",
+      "title": "Oracle shares rally 10 per cent on strong revenue forecast from AI data centres",
+      "summary": "Larry Ellison’s database group posted better than expected earnings from its cloud unit",
+      "link": "https://www.ft.com/content/fc6db12e-4518-4515-b278-22f37605bfff",
+      "published": "Tue, 10 Mar 2026 21:35:52 GMT",
       "category": "global"
     },
     {
       "source": "World",
-      "title": "Trump family-linked financial group probed by congressional committee over Chinese stock scams",
-      "summary": "Republican-led House committee on China demands information from Dominari Securities and two other firms",
-      "link": "https://www.ft.com/content/49f541f8-c73d-4268-9621-f8604f1a8141",
-      "published": "Mon, 09 Mar 2026 23:00:03 GMT",
+      "title": "Government overcomes backbench rebellion to pass jury plan",
+      "summary": "Ninety Labour MPs abstained while 10 joined Tories and Lib Dems in opposing Courts and Tribunals Bill",
+      "link": "https://www.ft.com/content/50803145-f863-4919-8ceb-c8a706be21ec",
+      "published": "Tue, 10 Mar 2026 21:26:07 GMT",
       "category": "global"
     },
     {
       "source": "World",
-      "title": "FirstFT: Oil falls below $90 as Trump suggests Iran war could be over soon",
-      "summary": "Also in today’s newsletter: Chinese consumer prices bounce back and Anthropic sues the Pentagon",
-      "link": "https://www.ft.com/content/3fcf2e2a-fc8b-4d6c-99d5-9fee3eda9886",
-      "published": "Mon, 09 Mar 2026 21:42:53 GMT",
+      "title": "Israel rejects Lebanon’s request for ‘cessation’ in fighting to allow for talks",
+      "summary": "Meeting between two longstanding enemies could take place in Cyprus",
+      "link": "https://www.ft.com/content/e6a01a17-1c56-487f-bcc0-c448edb87332",
+      "published": "Tue, 10 Mar 2026 21:02:14 GMT",
       "category": "global"
     },
     {
       "source": "World",
-      "title": "Goldman pitches hedge funds on strategies to bet against corporate loans",
-      "summary": "Fears that AI advances will upend the software industry have driven demand for new ways to place wagers",
-      "link": "https://www.ft.com/content/52c4f129-891f-4afe-9cf4-3934630a50ad",
-      "published": "Mon, 09 Mar 2026 21:00:01 GMT",
+      "title": "UK deploys first warship to Cyprus after scrutiny over delays",
+      "summary": "Departure of HMS Dragon comes amid wider criticism of Britain’s slowness to bolster support for allies in Iran war",
+      "link": "https://www.ft.com/content/64a7fecc-3671-4744-bad8-4b7385beb248",
+      "published": "Tue, 10 Mar 2026 21:00:06 GMT",
       "category": "global"
     },
     {
       "source": "MarketWatch.com - Top Stories",
-      "title": "‘I don’t own a home’: I’m 62, unemployed and have $1.5 million for retirement. Can I afford to divorce my husband?",
-      "summary": "“He has no loyalty to me or our vows.”",
-      "link": "https://www.marketwatch.com/story/i-dont-own-a-home-im-62-unemployed-and-have-1-5-million-saved-can-i-afford-to-divorce-my-husband-f5887515?mod=mw_rss_topstories",
-      "published": "Mon, 09 Mar 2026 23:20:00 GMT",
+      "title": "New Social Security whistleblower alleges DOGE worker improperly accessed data and planned to share it",
+      "summary": "According to a report, a former DOGE software engineer allegedly told co-workers that he had two databases of U.S. citizens’ information.",
+      "link": "https://www.marketwatch.com/story/new-social-security-whistleblower-alleges-doge-worker-improperly-accessed-data-and-planned-to-share-it-d6100479?mod=mw_rss_topstories",
+      "published": "Tue, 10 Mar 2026 22:12:00 GMT",
       "category": "global"
     },
     {
       "source": "MarketWatch.com - Top Stories",
-      "title": "Trump announces sanctions relief to ease oil prices, says Iran war to end ‘very soon’",
-      "summary": "President Donald Trump said the U.S. is waiving oil-related sanctions on certain countries in an effort to ease crude prices, as he estimated the war with Iran would end “very soon.”",
-      "link": "https://www.marketwatch.com/story/trump-announces-sanctions-relief-to-ease-oil-prices-says-iran-war-to-end-very-soon-ab0ee595?mod=mw_rss_topstories",
-      "published": "Mon, 09 Mar 2026 22:44:00 GMT",
+      "title": "Medicare Advantage insurers are overcharging taxpayers and seniors billions of dollars. Why is anyone surprised?",
+      "summary": "The big for-profit health insurers who run the Medicare Advantage program aren’t happy with the latest government watchdog report",
+      "link": "https://www.marketwatch.com/story/medicare-advantage-insurers-are-overcharging-taxpayers-and-seniors-billions-of-dollars-why-is-anyone-surprised-71ca5da4?mod=mw_rss_topstories",
+      "published": "Tue, 10 Mar 2026 22:06:00 GMT",
       "category": "global"
     },
     {
       "source": "MarketWatch.com - Top Stories",
-      "title": "The NFL’s Dolphins are paying a record $99.2 million to get a player off their team",
-      "summary": "Here’s why some NFL teams are giving their players, including Tua Tagovailoa, staggering amounts of money to stop playing for them.",
-      "link": "https://www.marketwatch.com/story/the-nfls-dolphins-are-paying-a-record-99-2-million-to-get-a-player-off-their-team-872a1e8a?mod=mw_rss_topstories",
-      "published": "Mon, 09 Mar 2026 22:02:00 GMT",
+      "title": "Trump’s Iran attack is saddling your portfolio with a costly ‘risk tax’ — and you can’t escape it",
+      "summary": "America’s use of ‘hard power’ is pricing a security risk premium into every asset class.",
+      "link": "https://www.marketwatch.com/story/trumps-new-world-order-is-taxing-your-portfolio-as-diplomacy-fades-and-uncertainty-reigns-268d48ae?mod=mw_rss_topstories",
+      "published": "Tue, 10 Mar 2026 22:04:00 GMT",
       "category": "global"
     },
     {
       "source": "MarketWatch.com - Top Stories",
-      "title": "An already chaotic spring travel season is colliding with effects of Iran conflict",
-      "summary": "Americans who thought spring break would offer rest and relaxation after a tough winter may be in for a rude awakening.",
-      "link": "https://www.marketwatch.com/story/an-already-chaotic-spring-travel-season-is-colliding-with-effects-of-iran-conflict-5201b5b4?mod=mw_rss_topstories",
-      "published": "Mon, 09 Mar 2026 21:45:00 GMT",
+      "title": "‘I didn’t ask a man to rear-end my car’: Social Security is replacing my disability benefits. Will the fund run out of money?",
+      "summary": "“I didn’t ask a man to rear-end my car at a red light.”",
+      "link": "https://www.marketwatch.com/story/i-didnt-ask-a-man-to-rear-end-my-car-social-security-is-replacing-my-disability-benefits-will-the-fund-run-out-of-money-794d81b0?mod=mw_rss_topstories",
+      "published": "Tue, 10 Mar 2026 22:01:00 GMT",
       "category": "global"
     },
     {
       "source": "MarketWatch.com - Top Stories",
-      "title": "‘I am stuck in a low-income trap’: I’m a teacher and very good at my job. Will I ever earn six figures?",
-      "summary": "“My low salary requires me to have multiple other part-time jobs.”",
-      "link": "https://www.marketwatch.com/story/i-am-stuck-in-a-low-income-trap-im-a-teacher-will-i-ever-earn-six-figures-5f7dd2b9?mod=mw_rss_topstories",
-      "published": "Mon, 09 Mar 2026 21:15:00 GMT",
+      "title": "My ex-boyfriend won’t pay me child support even though he earns $25,000 more than me. What can I do?",
+      "summary": "“I earn $100, 000 and I’m currently shouldering the mortgage, maintenance — specific to a co-op — and normal kid expenses.”",
+      "link": "https://www.marketwatch.com/story/my-boyfriend-and-i-broke-up-and-he-wont-communicate-with-me-about-child-support-what-can-i-do-2deb8346?mod=mw_rss_topstories",
+      "published": "Tue, 10 Mar 2026 22:00:00 GMT",
       "category": "global"
     }
   ],
@@ -139,9 +139,9 @@
       "uk_inflation": "4.0%"
     },
     "upcoming_events": [
-      "2026-03-10 21:30 美国初请失业金人数",
-      "2026-03-10 23:00 美国ISM非制造业PMI",
-      "2026-03-10 次日02:00 美联储官员讲话"
+      "2026-03-11 21:30 美国初请失业金人数",
+      "2026-03-11 23:00 美国ISM非制造业PMI",
+      "2026-03-11 次日02:00 美联储官员讲话"
     ]
   }
 }
